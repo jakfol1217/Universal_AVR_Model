@@ -1,1 +1,2 @@
-# Universal_AVR_Model
+# Universal AVR Model
+`Authors: Adrian Kamiński, Jakub Fołtyn`
