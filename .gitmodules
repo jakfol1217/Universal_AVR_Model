@@ -7,3 +7,6 @@
 [submodule "Extrapolation"]
 	path = Extrapolation
 	url = https://github.com/jakfol1217/learning_representations_that_support_extrapolation-fork
+[submodule "vasr"]
+	path = vasr
+	url = https://github.com/jakfol1217/vasr-fork
