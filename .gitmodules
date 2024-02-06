@@ -4,3 +4,6 @@
 [submodule "Duel-IQ"]
 	path = Duel-IQ
 	url = https://github.com/jakfol1217/Duel-IQ-fork
+[submodule "Extrapolation"]
+	path = Extrapolation
+	url = https://github.com/jakfol1217/learning_representations_that_support_extrapolation-fork
