@@ -1,0 +1,3 @@
+[submodule "MNS"]
+	path = MNS
+	url = https://github.com/jakfol1217/Machine-Number-Sense-Dataset
