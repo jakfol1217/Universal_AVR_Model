@@ -1,12 +1,12 @@
-[submodule "MNS"]
-	path = MNS
+[submodule "src/data/MNS"]
+	path = src/data/MNS
 	url = https://github.com/jakfol1217/Machine-Number-Sense-Dataset
-[submodule "Duel-IQ"]
-	path = Duel-IQ
+[submodule "src/data/Duel-IQ"]
+	path = src/data/Duel-IQ
 	url = https://github.com/jakfol1217/Duel-IQ-fork
-[submodule "Extrapolation"]
-	path = Extrapolation
+[submodule "src/data/Extrapolation"]
+	path = src/data/Extrapolation
 	url = https://github.com/jakfol1217/learning_representations_that_support_extrapolation-fork
-[submodule "vasr"]
-	path = vasr
+[submodule "src/data/vasr"]
+	path = src/data/vasr
 	url = https://github.com/jakfol1217/vasr-fork
