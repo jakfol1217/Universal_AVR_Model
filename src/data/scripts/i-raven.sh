@@ -3,13 +3,13 @@
 TARGET_DIR=${1:-"."}  # The directory where the data will be downloaded
 
 # Create the target directory if it doesn't exist
-mkdir -p $TARGET_DIR/bongard_logo
+mkdir -p $TARGET_DIR/i-raven
 
-URL=https://drive.google.com/file/d/1-1j7EBriRpxI-xIVqE6UEXt-SzoWvwLx/view
-ID=1-1j7EBriRpxI-xIVqE6UEXt-SzoWvwLx
+URL=https://drive.google.com/file/d/1SxhImd29PLtlvqXAhlkH-CVDfFRzcK7y/view
+ID=1SxhImd29PLtlvqXAhlkH-CVDfFRzcK7y
 
 echo "--------------------------------------------------------------------------------"
-echo "Downloading BongardLOGO dataset into $TARGET_DIR/bongard_logo"
+echo "Downloading I-RAVEN dataset into $TARGET_DIR/i-raven"
 echo -e "--------------------------------------------------------------------------------\n"
 
 # Check if unzip and gdown is installed if not install it
@@ -24,12 +24,11 @@ if ! [ -x "$(command -v gdown)" ]; then
     exit 1
 fi
 
-gdown $ID -c -O $TARGET_DIR/temp_bongard_logo.zip
+gdown $ID -c -O $TARGET_DIR/temp_i-raven.zip
 
-unzip -q $TARGET_DIR/temp_bongard_logo.zip -d $TARGET_DIR/bongard_logo
+unzip -q $TARGET_DIR/temp_i-raven.zip -d $TARGET_DIR/i-raven
 
 # if succefully unzipped remove temp file
 if [ $? -eq 0 ]; then
-    rm -rf $TARGET_DIR/bongard_logo/__MACOSX
-    rm $TARGET_DIR/temp_bongard_logo.zip
+    rm $TARGET_DIR/temp_i-raven.zip
 fi
