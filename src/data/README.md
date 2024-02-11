@@ -13,6 +13,8 @@ In this module we download/generate multiple data sources.
 6. dSprites-OOO
 7. g-set (not automated yet)
 8. i-Raven
+9. MNS (downloading script prepared, generation - not yet)
+10. PGM (requires google project to be created and GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET environment variables to be set before running) - before downloading verify (code) which dataset you want to download.
 
 ## Instruction
 
