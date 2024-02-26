@@ -78,10 +78,23 @@ import glob
 
 
 class HOIdataset(Dataset):
-    def __init__(self, data_path, img_size=None, dataset_type=None):
-        self.data_files = glob.glob(os.path.join(data_path, "*.json"))
-        if dataset_type:
-            self.data_files = [f for f in self.data_files if dataset_type in f]
+    def __init__(self, cfg):
+        # cfg - config from yaml file (Hydra https://hydra.cc)
+        # def __init__(self, data_path, img_size=None, dataset_type=None):
+        # Add dataset type parameter to all datasets, here (cfg.dataset_type) possible values are:
+        # bongard_hoi_test_seen_obj_seen_act.json
+        # bongard_hoi_test_seen_obj_unseen_act.json
+        # bongard_hoi_test_unseen_obj_seen_act.json
+        # bongard_hoi_test_unseen_obj_unseen_act.json
+        # bongard_hoi_train.json
+        # bongard_hoi_val_seen_obj_seen_act.json
+        # bongard_hoi_val_seen_obj_unseen_act.json
+        # bongard_hoi_val_unseen_obj_seen_act.json
+        # bongard_hoi_val_unseen_obj_unseen_act.json
+
+        self.data_files = [os.path.join(cfg.annotation_path, cfg.dataset_type)]
+        if cfg.dataset_type:
+            self.data_files = [f for f in self.data_files if cfg.dataset_type in f]
         self.file_sizes = []
         for file in self.data_files:
             with open(file) as f:
@@ -90,11 +103,11 @@ class HOIdataset(Dataset):
         
         self.idx_ranges = np.cumsum(self.file_sizes)
         
-        if img_size:
+        if cfg.img_size:
             self.transforms = transforms.Compose(
                     [
                         transforms.ToTensor(),
-                        transforms.Resize((img_size, img_size))
+                        transforms.Resize((cfg.img_size, cfg.img_size))
                     ]
             )
         else:
@@ -104,7 +117,7 @@ class HOIdataset(Dataset):
                     ]
             )
             
-        self.data_path = data_path
+        self.data_path = cfg.data_path
     
     def __len__(self):
         
@@ -124,7 +137,7 @@ class HOIdataset(Dataset):
         if idx == 0:
             file_hoi = files_hoi[item]
         else:
-            file_hoi = files_hoi[item-idx_ranges[idx-1]]
+            file_hoi = files_hoi[item-self.idx_ranges[idx-1]]
         
         context = file_hoi[0] + file_hoi[1]
         context = [os.path.join(self.data_path, c['im_path'][2:]) for c in context]
@@ -134,6 +147,7 @@ class HOIdataset(Dataset):
         answers.append(context.pop(random.randint(0, 6)))
         answers.append(context.pop(random.randint(6, 12)))
         
+        # why?
         # random answer flip
         if random.uniform(0,1) <= 0.5:
             target = np.asarray(1)
