@@ -13,3 +13,10 @@ echo "Downloading BongardHOI dataset into $TARGET_DIR/bongard_hoi"
 echo -e "--------------------------------------------------------------------------------\n"
 
 wget -c $URL -O - | tar -x -C $TARGET_DIR/bongard_hoi
+
+echo "--------------------------------------------------------------------------------"
+echo "Downloading BongardHOI dataset annotations into $TARGET_DIR/bongard_hoi"
+echo -e "--------------------------------------------------------------------------------\n"
+
+
+wget -c $URL_LABELS -O - | tar -x -C $TARGET_DIR/bongard_hoi
