@@ -1,15 +1,19 @@
 import copy
+import glob
 import os
-from PIL import Image
-from torch.utils.data import DataLoader, Dataset
-import torch
-import torchvision
-from torchvision.transforms import transforms
-import numpy as np
-import pandas as pd
-import ujson as json
 import random
 
+import h5py
+import hydra
+import numpy as np
+import pandas as pd
+import torch
+import torchvision
+import ujson as json
+from omegaconf import DictConfig, OmegaConf
+from PIL import Image
+from torch.utils.data import DataLoader, Dataset
+from torchvision.transforms import transforms
 
 
 class Dsprites_OOO():
@@ -74,7 +78,6 @@ class Dsprites_OOO():
         
         
         
-import glob
 
 
 class HOIdataset(Dataset):
@@ -465,8 +468,8 @@ class PGMdataset(Dataset):
         return img, target
 
     
-import h5py
-    
+
+
 class VAECdataset(Dataset):
     def __init__(self, data_path, img_size=None):
         
@@ -526,5 +529,19 @@ class VAECdataset(Dataset):
         
         return img, target
 
+@hydra.main(version_base=None, config_path="../conf", config_name="config")
+def _test(cfg: DictConfig) -> None:
+    # print(OmegaConf.to_yaml(cfg))
+    # print(cfg.dataset.bongard_hoi.data_path)
+    # Example of usage
+    train_dataset = HOIdataset(cfg.dataset.bongard_hoi.train)
+    img, target = train_dataset[0]
+    print(img.shape) # [14, 3, 256, 256] # wouldn't we prefer to have [2, 7, 3, 256, 256]? 2x7 matrix of 256x256 images (7th row is the answer?)
+    print(target) # 1
 
+    # for i in range(img.shape[0]):
+    #     img_pil = transforms.ToPILImage()(img[i])
+    #     img_pil.save(f"img_{i}.png")
 
+if __name__ == "__main__":
+    _test()

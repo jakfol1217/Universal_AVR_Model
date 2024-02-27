@@ -1,0 +1,5 @@
+defaults:
+  - dataset: [bongard_hoi]
+  - _self_
+dataset:
+  root: /home/kaminskia/studies/Universal_AVR_Model/src/data/samples
