@@ -81,7 +81,7 @@ class Dsprites_OOO():
 
 
 class HOIdataset(Dataset):
-    def __init__(self, cfg):
+    def __init__(self, cfg: DictConfig):
         # cfg - config from yaml file (Hydra https://hydra.cc)
         # def __init__(self, data_path, img_size=None, dataset_type=None):
         # Add dataset type parameter to all datasets, here (cfg.dataset_type) possible values are:
@@ -166,14 +166,17 @@ class HOIdataset(Dataset):
 
 
 class LOGOdataset(Dataset):
-    def __init__(self, data_path, img_size=None):
-        
-        self.data_files = os.listdir(data_path)
-        if img_size:
+    # def __init__(self, data_path, img_size=None):
+    def __init__(self, cfg: DictConfig):
+        with open(cfg.annotation_path, "r") as f:
+            annotations = json.load(f)
+        data_files = annotations[cfg.dataset_type]
+        self.data_files = [os.path.join(cfg.data_path, file[:2], "images", file) for file in data_files]
+        if cfg.img_size:
             self.transforms = transforms.Compose(
                     [
                         transforms.ToTensor(),
-                        transforms.Resize((img_size, img_size))
+                        transforms.Resize((cfg.img_size, cfg.img_size))
                     ]
             )
         else:
@@ -182,9 +185,7 @@ class LOGOdataset(Dataset):
                         transforms.ToTensor()
                     ]
             )
-            
-        self.data_path = data_path
-    
+
     def __len__(self):
         return len(self.data_files)
     
@@ -194,7 +195,7 @@ class LOGOdataset(Dataset):
         context = []
         answers = []
         ans_idx = random.randint(0,6)
-        path_0 = os.path.join(self.data_path, file, "0")
+        path_0 = os.path.join(file, "0")
         for i, file_0 in enumerate(os.listdir(path_0)):
             im = Image.open(os.path.join(path_0, file_0))
             if i == ans_idx:
@@ -203,7 +204,7 @@ class LOGOdataset(Dataset):
                 context.append(self.transforms(im))
 
         ans_idx = random.randint(0,6)
-        path_1 = os.path.join(self.data_path, file, "1")
+        path_1 = os.path.join(file, "1")
         for i, file_1 in enumerate(os.listdir(path_1)): 
             im = Image.open(os.path.join(path_1, file_1))
             if i == ans_idx:
@@ -529,6 +530,7 @@ class VAECdataset(Dataset):
         
         return img, target
 
+
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
 def _test(cfg: DictConfig) -> None:
     # print(OmegaConf.to_yaml(cfg))
@@ -536,12 +538,23 @@ def _test(cfg: DictConfig) -> None:
     # Example of usage
     train_dataset = HOIdataset(cfg.dataset.bongard_hoi.train)
     img, target = train_dataset[0]
-    print(img.shape) # [14, 3, 256, 256] # wouldn't we prefer to have [2, 7, 3, 256, 256]? 2x7 matrix of 256x256 images (7th row is the answer?)
-    print(target) # 1
+    print(img.shape) # [14, 3, 256, 256] # wouldn't we prefer to have [2, 7, 3, 256, 256]? 2(number of answers)x7(number of context images + answer image) matrix of 256x256 images (7th row is the answer?)
+    print(target) # 0
 
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
+
+    val_dataset_logo = LOGOdataset(cfg.dataset.bongard_logo.val)
+    img, target = val_dataset_logo[0]
+    print(img.shape) # torch.Size([14, 3, 512, 512]) # same as above
+    print(target) # 1
+
+    for i in range(img.shape[0]):
+        img_pil = transforms.ToPILImage()(img[i])
+        img_pil.save(f"img_{i}.png")
+    # TODO: Add config classes to make it easier to read and know what can be added https://hydra.cc/docs/tutorials/structured_config/schema/
+
 
 if __name__ == "__main__":
     _test()
