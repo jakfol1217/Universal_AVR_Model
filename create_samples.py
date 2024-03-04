@@ -1,6 +1,8 @@
 import json
 import os
 
+import numpy as np
+
 GLOBAL_ROOT = "/avr/datasets/"
 GLOBAL_TARGET_ROOT = "/home/kaminskia/studies/Universal_AVR_Model/src/data/samples/"
 
@@ -75,5 +77,25 @@ def copy_bongard_logo():
         f.write(json.dumps(annotations_sample))
 
 
+def copy_dopt():
+    DATA_ROOT = os.path.join(GLOBAL_ROOT, "dopt/")
+    TARGET_DATA_ROOT = os.path.join(GLOBAL_TARGET_ROOT, "dopt/")
+
+    files = os.listdir(DATA_ROOT)
+
+    for file in files:
+        os.makedirs(TARGET_DATA_ROOT, exist_ok=True)
+        data = np.load(os.path.join(DATA_ROOT, file), mmap_mode="r")
+        # print(data.shape) # (500, 20, 64, 64)
+        sample_data = data[0:10]
+        np.save(os.path.join(TARGET_DATA_ROOT, file), sample_data)
+
+    for file in files:
+        data = np.load(os.path.join(DATA_ROOT, file), mmap_mode="r")
+        data_copy = np.load(os.path.join(TARGET_DATA_ROOT, file), mmap_mode="r")
+        assert np.array_equal(data[0:10], data_copy)
+
+
 copy_bongard_hoi()
 copy_bongard_logo()
+copy_dopt()

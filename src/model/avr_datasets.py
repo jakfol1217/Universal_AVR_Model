@@ -269,47 +269,46 @@ class DEEPIQdataset(Dataset):
 
     
 class DOPTdataset(Dataset):
-    def __init__(self, data_path, img_size=None):
-        
-        self.data_files = glob.glob(os.path.join(data_path, "*.npy"))
-        self.file_size = len(np.load(self.data_files[0], mmap_mode='r'))
-        
-        
-        if img_size:
+    # def __init__(self, data_path, img_size=None):
+    def __init__(self, cfg: DictConfig):
+        self.data_file = os.path.join(cfg.data_path, cfg.dataset_type)
+        self.file = np.load(self.data_file, mmap_mode='r')
+        self.file_size = len(self.file)
+        if cfg.img_size:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.ToTensor(),
-                        transforms.Resize((img_size, img_size))
-                    ]
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((cfg.img_size, cfg.img_size))
+                ]
             )
         else:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.ToTensor()
-                    ]
+                [
+                    transforms.ToTensor()
+                ]
             )
-    
+
     def __len__(self):
-        return len(self.data_files) * self.file_size
-    
+        return self.file_size
+
     def __getitem__(self, item):
-        file = np.load(self.data_files[item//self.file_size], mmap_mode='r')
-        file = file[item % self.file_size]
-        images = file[:-4]
-        answers = file[-4:]
+        cur_file = self.file[item]
+        # FIXME: cur_file is in 20x64x64 shape so I guess we can choose how to shape the task, now 0-16 images, 16-20 answers
+        #        can possible create many tasks from these 20 images (different starting point/range between images).
+        images = cur_file[:-4]
+        answers = cur_file[-4:]
         idx = list(range(len(answers)))
         random.shuffle(idx)
         answers = answers[idx]
 
         images = np.concatenate([images, answers])
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
-        
-        target = np.asarray(idx.index(0))
-        
-        return img, target
-        
+        img = torch.stack([self.transforms(Image.fromarray((im*255).astype(np.uint8))) for im in images])
 
-    
+        target = np.asarray(idx.index(0))
+
+        return img, target
+
+
 class DSPRITESdataset(Dataset):
     def __init__(self, data_path, img_size=None, num_tasks=1000):
         
@@ -534,12 +533,13 @@ class VAECdataset(Dataset):
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
 def _test(cfg: DictConfig) -> None:
     # print(OmegaConf.to_yaml(cfg))
-    # print(cfg.dataset.bongard_hoi.data_path)
+    # print(cfg.dataset)
+
     # Example of usage
     train_dataset = HOIdataset(cfg.dataset.bongard_hoi.train)
     img, target = train_dataset[0]
-    print(img.shape) # [14, 3, 256, 256] # wouldn't we prefer to have [2, 7, 3, 256, 256]? 2(number of answers)x7(number of context images + answer image) matrix of 256x256 images (7th row is the answer?)
-    print(target) # 0
+    print(img.shape)  # [14, 3, 256, 256]
+    print(target)  # 0
 
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
@@ -547,12 +547,22 @@ def _test(cfg: DictConfig) -> None:
 
     val_dataset_logo = LOGOdataset(cfg.dataset.bongard_logo.val)
     img, target = val_dataset_logo[0]
-    print(img.shape) # torch.Size([14, 3, 512, 512]) # same as above
-    print(target) # 1
+    print(img.shape)  # torch.Size([14, 3, 512, 512])
+    print(target)  # 1
 
-    for i in range(img.shape[0]):
-        img_pil = transforms.ToPILImage()(img[i])
-        img_pil.save(f"img_{i}.png")
+    # for i in range(img.shape[0]):
+    #     img_pil = transforms.ToPILImage()(img[i])
+    #     img_pil.save(f"img_{i}.png")
+
+    test_dataset_dopt = DOPTdataset(cfg.dataset.dopt.test)
+    img, target = test_dataset_dopt[0]
+    print(img.shape)  # torch.Size([20, 1, 64, 64])
+    # BUG: This dataset is not working, it's not returning the correct images
+    print(target)  # 1
+
+    # for i in range(img.shape[0]):
+    #     img_pil = transforms.ToPILImage()(img[i])
+    #     img_pil.save(f"img_{i}.png")
     # TODO: Add config classes to make it easier to read and know what can be added https://hydra.cc/docs/tutorials/structured_config/schema/
 
 
