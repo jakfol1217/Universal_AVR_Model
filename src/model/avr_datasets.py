@@ -345,24 +345,17 @@ class DSPRITESdataset(Dataset):
         
     
 class IRAVENdataset(Dataset):
-    def __init__(self, data_path, img_size=None, dataset_type=None):
+    def __init__(self, cfg: DictConfig):
         
         self.data_files = []
-        regimes = os.listdir(data_path)
-        if dataset_type:
-            for regime in regimes:
-                files = [f for f in glob.glob(os.path.join(data_path, regime, "*.npz")) if dataset_type in f]
-                self.data_files += files
-        else:
-            for regime in regimes:
-                files = [f for f in glob.glob(os.path.join(data_path, regime, "*.npz"))]
-                self.data_files += files
-                
-        if img_size:
+        for regime in cfg.regimes:
+            files = [f for f in glob.glob(os.path.join(cfg.data_path, regime, "*.npz")) if cfg.dataset_type in f]
+            self.data_files += files
+        if cfg.img_size:
             self.transforms = transforms.Compose(
                     [
                         transforms.ToTensor(),
-                        transforms.Resize((img_size, img_size))
+                        transforms.Resize((cfg.img_size, cfg.img_size))
                     ]
             )
         else:
@@ -385,8 +378,7 @@ class IRAVENdataset(Dataset):
         
         return img, target
 
-    
-    
+
 class MNSdataset(Dataset):
     def __init__(self, data_path, img_size=None):
         self.data_files = glob.glob(os.path.join(data_path, "*.npz"))
@@ -553,6 +545,15 @@ def _test(cfg: DictConfig) -> None:
     img, target = test_dataset_vaec[0]
     print(img.shape)  # torch.Size([8, 3, 128, 128])
     print(target)  # 3
+
+    # for i in range(img.shape[0]):
+    #     img_pil = transforms.ToPILImage()(img[i])
+    #     img_pil.save(f"img_{i}.png")
+
+    test_dataset_iraven = IRAVENdataset(cfg.dataset.iraven.test)
+    img, target = test_dataset_iraven[0]
+    print(img.shape)  # torch.Size([16, 1, 160, 160])
+    print(target)  # 7
 
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])

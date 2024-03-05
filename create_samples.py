@@ -1,3 +1,4 @@
+import glob
 import json
 import os
 
@@ -126,7 +127,34 @@ def copy_vaec():
             # print(f["0"]["not_D"].shape)  # (6,)
 
 
+def copy_iraven():
+    DATA_ROOT = os.path.join(GLOBAL_ROOT, "i-raven/I-RAVEN/")
+    TARGET_DATA_ROOT = os.path.join(GLOBAL_TARGET_ROOT, "i-raven/I-RAVEN/")
+
+    os.makedirs(TARGET_DATA_ROOT, exist_ok=True)
+    regimes = os.listdir(DATA_ROOT)
+    types = ["train", "val", "test"]
+    limit = 10
+    for regime in regimes:
+        os.makedirs(os.path.join(TARGET_DATA_ROOT, regime), exist_ok=True)
+        for _type in types:
+            files = [
+                f
+                for f in glob.glob(os.path.join(DATA_ROOT, regime, "*.npz"))
+                if _type in f
+            ]
+            print(f"Regime: {regime}, Type: {_type}, Files: {len(files)}")
+            # Regime: center_single, Type: train, Files: 6000
+            # Regime: center_single, Type: val, Files: 2000
+            # Regime: center_single, Type: test, Files: 2000
+            copy_files = files[:limit]
+
+            for file in copy_files:
+                os.system(f"cp {file} {os.path.join(TARGET_DATA_ROOT, regime)}")
+
+
 copy_bongard_hoi()
 copy_bongard_logo()
 copy_dopt()
 copy_vaec()
+copy_iraven()
