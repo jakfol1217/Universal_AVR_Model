@@ -471,62 +471,47 @@ class PGMdataset(Dataset):
 
 
 class VAECdataset(Dataset):
-    def __init__(self, data_path, img_size=None):
-        
-        self.data_files = glob.glob(os.path.join(data_path, "*.hy"))
-        self.file_sizes = []
-        for file in self.data_files:
-            with h5py.File(file) as f:
-                self.file_sizes.append(len(f))
-                
-        self.idx_ranges = np.cumsum(self.file_sizes)
-        
-        
-        if img_size:
+    # def __init__(self, data_path, img_size=None):
+    def __init__(self, cfg: DictConfig):
+        self.data_file = os.path.join(cfg.data_path, cfg.dataset_type)
+        with h5py.File(self.data_file) as f:
+            self.file_size = len(f)
+
+        if cfg.img_size:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.ToTensor(),
-                        transforms.Resize((img_size, img_size))
-                    ]
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((cfg.img_size, cfg.img_size))
+                ]
             )
         else:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.ToTensor()
-                    ]
+                [
+                    transforms.ToTensor()
+                ]
             )
-        
-        self.data_path = data_path
-    
+
+        self.data_path = cfg.data_path
+
     def __len__(self):
-        return int(np.sum(self.file_sizes))
-    
+        return self.file_size
+
     def __getitem__(self, item):
-        
-        for i in range(len(self.idx_ranges)):
-            if item < self.idx_ranges[i]:
-                idx = i
-                break
-                
-        file = self.data_files[idx]
-        
-        if idx == 0:
-            local_item = item
-        else:
-            local_item = item - self.idx_ranges[idx-1]
-        
-        local_item = str(local_item)
+
+        file = self.data_file
+
+        local_item = str(item)
         
         with h5py.File(file) as f:
-            context = f[local_item]['imgs'][list(f[local_item]['ABCD'])[:3]]
-            idx_hy = [i for i in list(f[local_item]['not_D']) if i not in list(f[local_item]['ABCD'])] + [list(f['0']['ABCD'])[3]]
+            context = [f[local_item]['imgs'][_idx] for _idx in list(f[local_item]['ABCD'])[:3]]
+            idx_hy = [i for i in list(f[local_item]['not_D']) if i not in list(f[local_item]['ABCD'])] + [list(f[local_item]['ABCD'])[3]]
             random.shuffle(idx_hy)
             answers = np.asarray(f[local_item]['imgs'])[idx_hy]
-            target = np.asarray(idx_hy.index(list(f['0']['ABCD'])[3]))
-        
+            target = np.asarray(idx_hy.index(list(f[local_item]['ABCD'])[3]))
+
         images = np.concatenate([context, answers])
         img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
-        
+
         return img, target
 
 
@@ -559,6 +544,15 @@ def _test(cfg: DictConfig) -> None:
     print(img.shape)  # torch.Size([20, 1, 64, 64])
     # BUG: This dataset is not working, it's not returning the correct images
     print(target)  # 1
+
+    # for i in range(img.shape[0]):
+    #     img_pil = transforms.ToPILImage()(img[i])
+    #     img_pil.save(f"img_{i}.png")
+
+    test_dataset_vaec = VAECdataset(cfg.dataset.vaec.test)
+    img, target = test_dataset_vaec[0]
+    print(img.shape)  # torch.Size([8, 3, 128, 128])
+    print(target)  # 3
 
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])

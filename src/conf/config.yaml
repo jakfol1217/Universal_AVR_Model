@@ -1,5 +1,5 @@
 defaults:
-  - dataset: [bongard_hoi, bongard_logo, dopt]
+  - dataset: [bongard_hoi, bongard_logo, dopt, vaec]
   - _self_
 dataset:
   root: /home/kaminskia/studies/Universal_AVR_Model/src/data/samples

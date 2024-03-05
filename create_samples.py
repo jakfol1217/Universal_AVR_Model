@@ -1,6 +1,7 @@
 import json
 import os
 
+import h5py
 import numpy as np
 
 GLOBAL_ROOT = "/avr/datasets/"
@@ -96,6 +97,36 @@ def copy_dopt():
         assert np.array_equal(data[0:10], data_copy)
 
 
+def copy_vaec():
+    DATA_ROOT = os.path.join(GLOBAL_ROOT, "vaec/datasets/")
+    TARGET_DATA_ROOT = os.path.join(GLOBAL_TARGET_ROOT, "vaec/datasets/")
+    files = os.listdir(DATA_ROOT)
+
+    for file in files:
+        with h5py.File(os.path.join(DATA_ROOT, file)) as f:
+            os.makedirs(TARGET_DATA_ROOT, exist_ok=True)
+            with h5py.File(os.path.join(TARGET_DATA_ROOT, file), "w") as fout:
+                for i, obj in enumerate(f.keys()):
+                    if i >= 10:
+                        break
+                    # fout.create_group(key)
+                    f.copy(obj, fout)
+            # print(len(f))  # 19040
+            # print(
+            #     f["0"].keys()
+            # )  # <KeysViewHDF5 ['ABCD', 'analogy_dim', 'dist', 'imgs', 'latent_class', 'not_D']>
+            # print(f["0"]["ABCD"].shape)  # (4,)
+            # print(f["0"]["ABCD"].shape)  # (4,)
+            # print(
+            #     f["0"]["analogy_dim"]
+            # )  # <HDF5 dataset "analogy_dim": shape (), type "<i8">
+            # print(f["0"]["dist"])  # <HDF5 dataset "dist": shape (), type "<i8">
+            # print(f["0"]["imgs"].shape)  # 7, 128, 128, 3
+            # print(f["0"]["latent_class"].shape)  # (7, 4)
+            # print(f["0"]["not_D"].shape)  # (6,)
+
+
 copy_bongard_hoi()
 copy_bongard_logo()
 copy_dopt()
+copy_vaec()
