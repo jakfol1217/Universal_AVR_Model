@@ -411,41 +411,28 @@ class MNSdataset(Dataset):
     
     
 class PGMdataset(Dataset):
-    def __init__(self, data_path, img_size=None, dataset_type=None, whole_dataset=False):
-        
-        # if whole_dataset is false then we load just one regime
-        if whole_dataset:
-            self.data_files = []
-            regimes = os.listdir(data_path)
-            if dataset_type:
-                for regime in regimes:
-                    files = [f for f in glob.glob(os.path.join(data_path, regime, "*.npz")) if dataset_type in f]
-                    self.data_files += files
-            else:
-                for regime in regimes:
-                    files = [f for f in glob.glob(os.path.join(data_path, regime, "*.npz"))]
-                    self.data_files += files
-            
-        else:  
-            self.data_files = glob.glob(os.path.join(data_path, "*.npz"))
-            if dataset_type:
-                self.data_files = [f for f in self.data_files if dataset_type in f]
-        
-        if img_size:
+    def __init__(self, cfg: DictConfig):
+
+        self.data_files = []
+        for regime in cfg.regimes:
+            files = [f for f in glob.glob(os.path.join(cfg.data_path, regime, "*.npz")) if cfg.dataset_type in f]
+            self.data_files += files
+
+        if cfg.img_size:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.ToTensor(),
-                        transforms.Resize((img_size, img_size))
-                    ]
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((cfg.img_size, cfg.img_size))
+                ]
             )
         else:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.ToTensor()
-                    ]
+                [
+                    transforms.ToTensor()
+                ]
             )
             
-    
+
     def __len__(self):
         return len(self.data_files)
     
@@ -458,8 +445,6 @@ class PGMdataset(Dataset):
         img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
         
         return img, target
-
-    
 
 
 class VAECdataset(Dataset):
@@ -563,6 +548,15 @@ def _test(cfg: DictConfig) -> None:
     img, target = train_dataset_mns[0]
     print(img.shape)  # torch.Size([3, 1, 160, 160])
     print(target)  # 4
+
+    # for i in range(img.shape[0]):
+    #     img_pil = transforms.ToPILImage()(img[i])
+    #     img_pil.save(f"img_{i}.png")
+
+    train_dataset_pgm = PGMdataset(cfg.dataset.pgm.train)
+    img, target = train_dataset_pgm[0]
+    print(img.shape)  # torch.Size([16, 1, 160, 160])
+    print(target)  # 6
 
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])

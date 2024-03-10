@@ -1,0 +1,28 @@
+pgm:
+  className: PGMdataset
+  data_path: ${dataset.root}/pgm
+  regimes:
+    - attr.rel.pairs
+    # - attr.rels
+    # - attrs.line.type
+    # - attrs.pairs
+    # - attrs.shape.color
+    # - extrapolation
+    # - interpolation
+    # - neutral
+  img_size: null
+  train:
+    dataset_type: train
+    data_path: ${dataset.pgm.data_path}
+    img_size: ${dataset.pgm.img_size}
+    regimes: ${dataset.pgm.regimes}
+  val:
+    dataset_type: val
+    data_path: ${dataset.pgm.data_path}
+    img_size: ${dataset.pgm.img_size}
+    regimes: ${dataset.pgm.regimes}
+  test:
+    dataset_type: test
+    data_path: ${dataset.pgm.data_path}
+    img_size: ${dataset.pgm.img_size}
+    regimes: ${dataset.pgm.regimes}

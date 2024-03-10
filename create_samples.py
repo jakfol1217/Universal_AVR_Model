@@ -184,9 +184,41 @@ def copy_mns():
                 break
 
 
+def copy_pgm():
+    DATA_ROOT = os.path.join(GLOBAL_ROOT, "pgm/")
+    TARGET_DATA_ROOT = os.path.join(GLOBAL_TARGET_ROOT, "pgm/")
+
+    os.makedirs(TARGET_DATA_ROOT, exist_ok=True)
+    regimes = os.listdir(DATA_ROOT)
+    types = ["train", "val", "test"]
+    limit = 100
+    size_limit = 10 * 1024 * 1024  # 10MB
+    for regime in regimes:
+        os.makedirs(os.path.join(TARGET_DATA_ROOT, regime), exist_ok=True)
+        for _type in types:
+            files = [
+                f
+                for f in glob.glob(os.path.join(DATA_ROOT, regime, "*.npz"))
+                if _type in f
+            ]
+            print(f"Regime: {regime}, Type: {_type}, Files: {len(files)}")
+            # Regime: attr.rel.pairs, Type: train, Files: 1200000
+            # Regime: attr.rel.pairs, Type: val, Files: 20000
+            # Regime: attr.rel.pairs, Type: test, Files: 200000
+            copy_files = files[:limit]
+
+            size = 0
+            for file in copy_files:
+                size += os.path.getsize(file)
+                os.system(f"cp {file} {os.path.join(TARGET_DATA_ROOT, regime)}")
+                if size > size_limit:
+                    break
+
+
 copy_bongard_hoi()
 copy_bongard_logo()
 copy_dopt()
 copy_vaec()
 copy_iraven()
 copy_mns()
+copy_pgm()
