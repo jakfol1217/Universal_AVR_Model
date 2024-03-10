@@ -12,7 +12,7 @@ iraven:
   img_size: null
   train:
     dataset_type: train
-    data_path: analogy_train.hy
+    data_path: ${dataset.iraven.data_path}
     img_size: ${dataset.iraven.img_size}
     regimes: ${dataset.iraven.regimes}
   val:

@@ -4,8 +4,8 @@ vaec:
   # annotation_path: null
   img_size: null
   train:
-    dataset_type: train
-    data_path: analogy_train.hy
+    dataset_type: analogy_train.hy
+    data_path: ${dataset.vaec.data_path}
     # TODO: allow multiple or treat as separate datasets?
     # - analogy_scale_train.hy
     # annotation_path: ${dataset.vaec.annotation_path}
