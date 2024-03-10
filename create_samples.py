@@ -153,8 +153,40 @@ def copy_iraven():
                 os.system(f"cp {file} {os.path.join(TARGET_DATA_ROOT, regime)}")
 
 
+def copy_mns():
+    DATA_ROOT = os.path.join(GLOBAL_ROOT, "mns/IQMath/")
+    TARGET_DATA_ROOT = os.path.join(GLOBAL_TARGET_ROOT, "mns/IQMath/")
+
+    os.makedirs(TARGET_DATA_ROOT, exist_ok=True)
+
+    limit = 10
+    size_limit = 10 * 1024 * 1024  # 10MB
+
+    dataset_types = ["train_set", "val_set", "test_set"]
+
+    for dataset_type in dataset_types:
+        files = [f for f in glob.glob(os.path.join(DATA_ROOT, f"{dataset_type}/*.npz"))]
+        print(f"Type: {dataset_type}, Files: {len(files):_}")
+        # Type: train_set, Files: 168_000
+        # Type: val_set, Files: 56_000
+        # Type: test_set, Files: 56_000
+        copy_files = files[:limit]
+        # x = np.load(copy_files[0], mmap_mode="r")
+        # print(x.files)  # ['image', 'target']
+        # print(x["image"].shape)  # (3, 160, 160)
+        target = os.path.join(TARGET_DATA_ROOT, dataset_type)
+        os.makedirs(target, exist_ok=True)
+        size = 0
+        for file in copy_files:
+            size += os.path.getsize(file)
+            os.system(f"cp {file} {os.path.join(target, os.path.basename(file))}")
+            if size > size_limit:
+                break
+
+
 copy_bongard_hoi()
 copy_bongard_logo()
 copy_dopt()
 copy_vaec()
 copy_iraven()
+copy_mns()

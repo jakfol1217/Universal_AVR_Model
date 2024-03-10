@@ -1,0 +1,16 @@
+mns:
+  className: MNSdataset
+  data_path: ${dataset.root}/mns/IQMath/
+  img_size: null
+  train:
+    dataset_type: train_set
+    data_path: ${dataset.mns.data_path}
+    img_size: ${dataset.mns.img_size}
+  val:
+    dataset_type: val_set
+    data_path: ${dataset.mns.data_path}
+    img_size: ${dataset.mns.img_size}
+  test:
+    dataset_type: test_set
+    data_path: ${dataset.mns.data_path}
+    img_size: ${dataset.mns.img_size}
