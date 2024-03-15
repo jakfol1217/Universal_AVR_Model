@@ -1,6 +1,34 @@
 #!/bin/bash
 
-TARGET_DIR=${1:-"."}  # The directory where the data will be downloaded
+
+usage() {
+  echo "Usage: $0 [-r REGIME] [-h] [TARGET_DIR]"
+  echo ""
+  echo "Download VAP dataset"
+  echo "  -r REGIME  The regime of the VAP dataset. Options: extrapolation, interpolation, novel.domain.transfer, novel.target.domain.line.type, novel.target.domain.shape.color"
+  echo "  -h         Display this help and exit"
+}
+
+# read flags from the command line
+while getopts 'h:r:' opt; do
+case "${opt}" in
+    r) REGIME="${OPTARG}" ;;
+    h) usage ; exit 0 ;;
+    *) usage ; exit 1 ;;
+esac
+done
+
+if [[ ! $REGIME = @(extrapolation|interpolation|novel.domain.transfer|novel.target.domain.line.type|novel.target.domain.shape.color) ]]; then
+    echo "Invalid regime. Options: extrapolation, interpolation, novel.domain.transfer, novel.target.domain.line.type, novel.target.domain.shape.color"
+    exit 1
+fi
+
+
+TARGET_DIR=${@:$OPTIND:1:} # The directory where the data will be downloaded
+# Add default value to TARGET_DIR
+if [ -z "$TARGET_DIR" ]; then
+    TARGET_DIR="."
+fi
 
 # Create the target directory if it doesn't exist
 mkdir -p $TARGET_DIR/vap
@@ -11,14 +39,9 @@ echo "Downloading VAP dataset into $TARGET_DIR/vap"
 echo -e "--------------------------------------------------------------------------------\n"
 
 # https://console.cloud.google.com/storage/browser/ravens-matrices/analogies
-URL=https://storage.googleapis.com/storage/v1/b/ravens-matrices/o/extrapolation.tar.gz
-# URL=https://storage.googleapis.com/storage/v1/b/ravens-matrices/o/interpolation.tar.gz
-# URL=https://storage.googleapis.com/storage/v1/b/ravens-matrices/o/novel.domain.transfer.tar.gz
-# URL=https://storage.googleapis.com/storage/v1/b/ravens-matrices/o/novel.target.domain.line.type.tar.gz
-# URL=https://storage.googleapis.com/storage/v1/b/ravens-matrices/o/novel.target.domain.shape.color.tar.gz
+URL=https://storage.googleapis.com/ravens-matrices/analogies/${REGIME}.tar.gz
 
 # check if environment variables are set
-
 if [ -z "$GOOGLE_CLIENT_ID" ]; then
     echo "Please set the GOOGLE_CLIENT_ID environment variable"
     exit 1
@@ -48,4 +71,3 @@ ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token \
 echo $ACCESS_TOKEN
 
 wget -c --header="Authorization: Bearer $ACCESS_TOKEN" ${URL}?alt=media -O - | tar -xz -C $TARGET_DIR/vap
-# TODO: rest of urls (too much spaces required)

@@ -215,6 +215,43 @@ def copy_pgm():
                     break
 
 
+def copy_vap():
+    DATA_ROOT = os.path.join(GLOBAL_ROOT, "vap/")
+    TARGET_DATA_ROOT = os.path.join(GLOBAL_TARGET_ROOT, "vap/")
+
+    os.makedirs(TARGET_DATA_ROOT, exist_ok=True)
+    regimes = os.listdir(DATA_ROOT)
+    types = ["train", "val", "test"]
+    limit = 100
+    size_limit = 10 * 1024 * 1024  # 10MB
+    for regime in regimes:
+        os.makedirs(os.path.join(TARGET_DATA_ROOT, regime), exist_ok=True)
+        for _type in types:
+            files = [
+                f
+                for f in glob.glob(os.path.join(DATA_ROOT, regime, "*.npz"))
+                if _type in f
+            ]
+            print(f"Regime: {regime}, Type: {_type}, Files: {len(files):_}")
+            # Regime: interpolation, Type: train, Files: 1_200_000
+            # Regime: interpolation, Type: val, Files: 20_000
+            # Regime: interpolation, Type: test, Files: 195_003
+            copy_files = files[:limit]
+
+            # x = np.load(copy_files[0], mmap_mode="r")
+            # print(x.files)  # ['relation_structure_encoded', 'image', 'target', 'relation_structure']
+            # print(x["image"].shape)  # (3, 160, 160)
+            # print(x["relation_structure_encoded"]) # [[1 0 1 0 0 0 0 0 1 0 0 0]]
+            # print(x["relation_structure"]) # [[b'shape' b'color' b'XOR']]
+
+            size = 0
+            for file in copy_files:
+                size += os.path.getsize(file)
+                os.system(f"cp {file} {os.path.join(TARGET_DATA_ROOT, regime)}")
+                if size > size_limit:
+                    break
+
+
 copy_bongard_hoi()
 copy_bongard_logo()
 copy_dopt()
@@ -222,3 +259,4 @@ copy_vaec()
 copy_iraven()
 copy_mns()
 copy_pgm()
+copy_vap()
