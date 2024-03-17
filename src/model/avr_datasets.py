@@ -502,7 +502,7 @@ class VAECdataset(Dataset):
         
         with h5py.File(file) as f:
             context = [f[local_item]['imgs'][_idx] for _idx in list(f[local_item]['ABCD'])[:3]]
-            idx_hy = [i for i in list(f[local_item]['not_D']) if i not in list(f[local_item]['ABCD'])] + [list(f[local_item]['ABCD'])[3]]
+            idx_hy = [i for i in list(f[local_item]['not_D']) if i not in list(f[local_item]['ABCD'])][:3] + [list(f[local_item]['ABCD'])[3]]
             random.shuffle(idx_hy)
             answers = np.asarray(f[local_item]['imgs'])[idx_hy]
             target = np.asarray(idx_hy.index(list(f[local_item]['ABCD'])[3]))
