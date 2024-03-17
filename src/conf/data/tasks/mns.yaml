@@ -1,0 +1,37 @@
+defaults:
+  - mns/dataloader: ../../../../dataloader/default
+  - mns/optimizer: ../../../../optimizer/adam
+
+mns:
+  dataset:
+    target: model.avr_datasets.MNSdataset
+    data_path: ${data.root}/mns/IQMath/
+    img_size: null
+    train:
+      _target_: ${data.tasks.mns.dataset.target}
+      dataset_type: train_set
+      data_path: ${data.tasks.mns.dataset.data_path}
+      img_size: ${data.tasks.mns.dataset.img_size}
+    val:
+      _target_: ${data.tasks.mns.dataset.target}
+      dataset_type: val_set
+      data_path: ${data.tasks.mns.dataset.data_path}
+      img_size: ${data.tasks.mns.dataset.img_size}
+    test:
+      _target_: ${data.tasks.mns.dataset.target}
+      dataset_type: test_set
+      data_path: ${data.tasks.mns.dataset.data_path}
+      img_size: ${data.tasks.mns.dataset.img_size}
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8

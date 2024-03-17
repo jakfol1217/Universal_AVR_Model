@@ -1,0 +1,49 @@
+defaults:
+  - pgm/dataloader: ../../../../dataloader/default
+  - pgm/optimizer: ../../../../optimizer/adam
+
+pgm:
+  dataset:
+    target: model.avr_datasets.PGMdataset
+    data_path: ${data.root}/pgm
+    regimes:
+      - attr.rel.pairs
+      # - attr.rels
+      # - attrs.line.type
+      # - attrs.pairs
+      # - attrs.shape.color
+      # - extrapolation
+      # - interpolation
+      # - neutral
+    img_size: null
+    train:
+      _target_: ${data.tasks.pgm.dataset.target}
+      dataset_type: train
+      data_path: ${data.tasks.pgm.dataset.data_path}
+      img_size: ${data.tasks.pgm.dataset.img_size}
+      regimes: ${data.tasks.pgm.dataset.regimes}
+    val:
+      _target_: ${data.tasks.pgm.dataset.target}
+      dataset_type: val
+      data_path: ${data.tasks.pgm.dataset.data_path}
+      img_size: ${data.tasks.pgm.dataset.img_size}
+      regimes: ${data.tasks.pgm.dataset.regimes}
+    test:
+      _target_: ${data.tasks.pgm.dataset.target}
+      dataset_type: test
+      data_path: ${data.tasks.pgm.dataset.data_path}
+      img_size: ${data.tasks.pgm.dataset.img_size}
+      regimes: ${data.tasks.pgm.dataset.regimes}
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8

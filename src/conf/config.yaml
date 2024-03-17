@@ -1,5 +1,17 @@
 defaults:
-  - dataset: [bongard_hoi, bongard_logo, dopt, vaec, iraven, mns, pgm]
-  - _self_
-dataset:
+  - data/tasks: [bongard_logo, dopt, iraven, mns, pgm] # bongard_hoi vaec vap
+  - dataloader: default
+  - data/datamodule: combined_module_sequential # single_module # combined_module_min_size # combined_module_sequential
+  - optimizer: adam
+  - model: test
+  - trainer: base
+data:
   root: /home/kaminskia/studies/Universal_AVR_Model/src/data/samples
+batch_size: 3
+num_workers: 8
+lr: 0.001
+max_epochs: 1
+monitor: val_loss
+early_stopping_patience: 3
+torch:
+  matmul_precision: medium # medium high

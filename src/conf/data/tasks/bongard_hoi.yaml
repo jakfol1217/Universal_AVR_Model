@@ -1,0 +1,48 @@
+defaults:
+  - bongard_hoi/dataloader: ../../../../dataloader/default
+  - bongard_hoi/optimizer: ../../../../optimizer/adam
+
+bongard_hoi:
+  dataset:
+    target: model.avr_datasets.HOIdataset
+    data_path: ${data.root}/bongard_hoi/hake/
+    annotation_path: ${data.root}/bongard_hoi/bongard_hoi_release/
+    img_size: 256
+    train:
+      _target_: ${data.tasks.bongard_hoi.dataset.target}
+      dataset_type: bongard_hoi_train.json
+      data_path: ${data.tasks.bongard_hoi.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi.dataset.annotation_path}
+      img_size: ${data.tasks.bongard_hoi.dataset.img_size}
+    val:
+      _target_: ${data.tasks.bongard_hoi.dataset.target}
+      dataset_type: bongard_hoi_val_seen_obj_unseen_act.json
+        # TODO: allow multiple dataset types (requires change in dataset class)?
+        # - bongard_hoi_val_unseen_obj_unseen_act.json
+        # - bongard_hoi_val_seen_obj_seen_act.json
+        # - bongard_hoi_val_unseen_obj_seen_act.json
+      data_path: ${data.tasks.bongard_hoi.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi.dataset.annotation_path}
+      img_size: ${data.tasks.bongard_hoi.dataset.img_size}
+    test:
+      _target_: ${data.tasks.bongard_hoi.dataset.target}
+      dataset_type: bongard_hoi_test_seen_obj_seen_act.json
+        # - bongard_hoi_test_unseen_obj_seen_act.json
+        # - bongard_hoi_test_seen_obj_unseen_act.json
+        # - bongard_hoi_test_unseen_obj_unseen_act.json
+      data_path: ${data.tasks.bongard_hoi.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi.dataset.annotation_path}
+      img_size: ${data.tasks.bongard_hoi.dataset.img_size}
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8

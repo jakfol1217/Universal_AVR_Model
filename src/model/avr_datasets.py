@@ -81,23 +81,17 @@ class Dsprites_OOO():
 
 
 class HOIdataset(Dataset):
-    def __init__(self, cfg: DictConfig):
-        # cfg - config from yaml file (Hydra https://hydra.cc)
-        # def __init__(self, data_path, img_size=None, dataset_type=None):
-        # Add dataset type parameter to all datasets, here (cfg.dataset_type) possible values are:
-        # bongard_hoi_test_seen_obj_seen_act.json
-        # bongard_hoi_test_seen_obj_unseen_act.json
-        # bongard_hoi_test_unseen_obj_seen_act.json
-        # bongard_hoi_test_unseen_obj_unseen_act.json
-        # bongard_hoi_train.json
-        # bongard_hoi_val_seen_obj_seen_act.json
-        # bongard_hoi_val_seen_obj_unseen_act.json
-        # bongard_hoi_val_unseen_obj_seen_act.json
-        # bongard_hoi_val_unseen_obj_unseen_act.json
+    def __init__(
+        self,
+        data_path: str,
+        annotation_path: str,
+        dataset_type: str,
+        img_size: int | None,
+    ):
 
-        self.data_files = [os.path.join(cfg.annotation_path, cfg.dataset_type)]
-        if cfg.dataset_type:
-            self.data_files = [f for f in self.data_files if cfg.dataset_type in f]
+        self.data_files = [os.path.join(annotation_path, dataset_type)]
+        if dataset_type:
+            self.data_files = [f for f in self.data_files if dataset_type in f]
         self.file_sizes = []
         for file in self.data_files:
             with open(file) as f:
@@ -106,11 +100,11 @@ class HOIdataset(Dataset):
         
         self.idx_ranges = np.cumsum(self.file_sizes)
         
-        if cfg.img_size:
+        if img_size:
             self.transforms = transforms.Compose(
                     [
                         transforms.ToTensor(),
-                        transforms.Resize((cfg.img_size, cfg.img_size))
+                        transforms.Resize((img_size, img_size))
                     ]
             )
         else:
@@ -120,10 +114,9 @@ class HOIdataset(Dataset):
                     ]
             )
             
-        self.data_path = cfg.data_path
-    
+        self.data_path = data_path
+
     def __len__(self):
-        
         return int(np.sum(self.file_sizes))
     
     def __getitem__(self, item):
@@ -166,17 +159,22 @@ class HOIdataset(Dataset):
 
 
 class LOGOdataset(Dataset):
-    # def __init__(self, data_path, img_size=None):
-    def __init__(self, cfg: DictConfig):
-        with open(cfg.annotation_path, "r") as f:
+    def __init__(
+        self,
+        data_path: str,
+        annotation_path: str,
+        dataset_type: str,
+        img_size: int | None,
+    ):
+        with open(annotation_path, "r") as f:
             annotations = json.load(f)
-        data_files = annotations[cfg.dataset_type]
-        self.data_files = [os.path.join(cfg.data_path, file[:2], "images", file) for file in data_files]
-        if cfg.img_size:
+        data_files = annotations[dataset_type]
+        self.data_files = [os.path.join(data_path, file[:2], "images", file) for file in data_files]
+        if img_size:
             self.transforms = transforms.Compose(
                     [
                         transforms.ToTensor(),
-                        transforms.Resize((cfg.img_size, cfg.img_size))
+                        transforms.Resize((img_size, img_size))
                     ]
             )
         else:
@@ -269,16 +267,20 @@ class DEEPIQdataset(Dataset):
 
     
 class DOPTdataset(Dataset):
-    # def __init__(self, data_path, img_size=None):
-    def __init__(self, cfg: DictConfig):
-        self.data_file = os.path.join(cfg.data_path, cfg.dataset_type)
+    def __init__(
+        self,
+        data_path: str,
+        dataset_type: str,
+        img_size: int | None,
+    ):
+        self.data_file = os.path.join(data_path, dataset_type)
         self.file = np.load(self.data_file, mmap_mode='r')
         self.file_size = len(self.file)
-        if cfg.img_size:
+        if img_size:
             self.transforms = transforms.Compose(
                 [
                     transforms.ToTensor(),
-                    transforms.Resize((cfg.img_size, cfg.img_size))
+                    transforms.Resize((img_size, img_size))
                 ]
             )
         else:
@@ -345,17 +347,22 @@ class DSPRITESdataset(Dataset):
         
     
 class IRAVENdataset(Dataset):
-    def __init__(self, cfg: DictConfig):
-        
+    def __init__(
+        self,
+        data_path: str,
+        regimes: list[str],
+        dataset_type: str,
+        img_size: int | None,
+    ):
         self.data_files = []
-        for regime in cfg.regimes:
-            files = [f for f in glob.glob(os.path.join(cfg.data_path, regime, "*.npz")) if cfg.dataset_type in f]
+        for regime in regimes:
+            files = [f for f in glob.glob(os.path.join(data_path, regime, "*.npz")) if dataset_type in f]
             self.data_files += files
-        if cfg.img_size:
+        if img_size:
             self.transforms = transforms.Compose(
                     [
                         transforms.ToTensor(),
-                        transforms.Resize((cfg.img_size, cfg.img_size))
+                        transforms.Resize((img_size, img_size))
                     ]
             )
         else:
@@ -380,13 +387,18 @@ class IRAVENdataset(Dataset):
 
 
 class MNSdataset(Dataset):
-    def __init__(self, cfg: DictConfig):
-        self.data_files = glob.glob(os.path.join(os.path.join(cfg.data_path, cfg.dataset_type), "*.npz"))
-        if cfg.img_size:
+    def __init__(
+        self,
+        data_path: str,
+        dataset_type: str,
+        img_size: int | None,
+    ):
+        self.data_files = glob.glob(os.path.join(os.path.join(data_path, dataset_type), "*.npz"))
+        if img_size:
             self.transforms = transforms.Compose(
                 [
                     transforms.ToTensor(),
-                    transforms.Resize((cfg.img_size, cfg.img_size))
+                    transforms.Resize((img_size, img_size))
                 ]
             )
         else:
@@ -411,18 +423,23 @@ class MNSdataset(Dataset):
     
     
 class PGMdataset(Dataset):
-    def __init__(self, cfg: DictConfig):
-
+    def __init__(
+        self,
+        data_path: str,
+        regimes: list[str],
+        dataset_type: str,
+        img_size: int | None,
+    ):
         self.data_files = []
-        for regime in cfg.regimes:
-            files = [f for f in glob.glob(os.path.join(cfg.data_path, regime, "*.npz")) if cfg.dataset_type in f]
+        for regime in regimes:
+            files = [f for f in glob.glob(os.path.join(data_path, regime, "*.npz")) if dataset_type in f]
             self.data_files += files
 
-        if cfg.img_size:
+        if img_size:
             self.transforms = transforms.Compose(
                 [
                     transforms.ToTensor(),
-                    transforms.Resize((cfg.img_size, cfg.img_size))
+                    transforms.Resize((img_size, img_size))
                 ]
             )
         else:
@@ -448,17 +465,21 @@ class PGMdataset(Dataset):
 
 
 class VAECdataset(Dataset):
-    # def __init__(self, data_path, img_size=None):
-    def __init__(self, cfg: DictConfig):
-        self.data_file = os.path.join(cfg.data_path, cfg.dataset_type)
+    def __init__(
+        self,
+        data_path: str,
+        dataset_type: str,
+        img_size: int | None,
+    ):
+        self.data_file = os.path.join(data_path, dataset_type)
         with h5py.File(self.data_file) as f:
             self.file_size = len(f)
 
-        if cfg.img_size:
+        if img_size:
             self.transforms = transforms.Compose(
                 [
                     transforms.ToTensor(),
-                    transforms.Resize((cfg.img_size, cfg.img_size))
+                    transforms.Resize((img_size, img_size))
                 ]
             )
         else:
@@ -468,7 +489,7 @@ class VAECdataset(Dataset):
                 ]
             )
 
-        self.data_path = cfg.data_path
+        self.data_path = data_path
 
     def __len__(self):
         return self.file_size
@@ -498,7 +519,7 @@ def _test(cfg: DictConfig) -> None:
     # print(cfg.dataset)
 
     # Example of usage
-    train_dataset = HOIdataset(cfg.dataset.bongard_hoi.train)
+    train_dataset = HOIdataset(cfg.dataset.tasks.bongard_hoi.train)
     img, target = train_dataset[0]
     print(img.shape)  # [14, 3, 256, 256]
     print(target)  # 0
@@ -507,7 +528,7 @@ def _test(cfg: DictConfig) -> None:
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
 
-    val_dataset_logo = LOGOdataset(cfg.dataset.bongard_logo.val)
+    val_dataset_logo = LOGOdataset(cfg.dataset.tasks.bongard_logo.val)
     img, target = val_dataset_logo[0]
     print(img.shape)  # torch.Size([14, 3, 512, 512])
     print(target)  # 1
@@ -516,7 +537,7 @@ def _test(cfg: DictConfig) -> None:
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
 
-    test_dataset_dopt = DOPTdataset(cfg.dataset.dopt.test)
+    test_dataset_dopt = DOPTdataset(cfg.dataset.tasks.dopt.test)
     img, target = test_dataset_dopt[0]
     print(img.shape)  # torch.Size([20, 1, 64, 64])
     # BUG: This dataset is not working, it's not returning the correct images
@@ -526,7 +547,7 @@ def _test(cfg: DictConfig) -> None:
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
 
-    test_dataset_vaec = VAECdataset(cfg.dataset.vaec.test)
+    test_dataset_vaec = VAECdataset(cfg.dataset.tasks.vaec.test)
     img, target = test_dataset_vaec[0]
     print(img.shape)  # torch.Size([8, 3, 128, 128])
     print(target)  # 3
@@ -535,7 +556,7 @@ def _test(cfg: DictConfig) -> None:
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
 
-    test_dataset_iraven = IRAVENdataset(cfg.dataset.iraven.test)
+    test_dataset_iraven = IRAVENdataset(cfg.dataset.tasks.iraven.test)
     img, target = test_dataset_iraven[0]
     print(img.shape)  # torch.Size([16, 1, 160, 160])
     print(target)  # 7
@@ -544,7 +565,7 @@ def _test(cfg: DictConfig) -> None:
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
 
-    train_dataset_mns = MNSdataset(cfg.dataset.mns.train)
+    train_dataset_mns = MNSdataset(cfg.dataset.tasks.mns.train)
     img, target = train_dataset_mns[0]
     print(img.shape)  # torch.Size([3, 1, 160, 160])
     print(target)  # 4
@@ -553,7 +574,7 @@ def _test(cfg: DictConfig) -> None:
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
 
-    train_dataset_pgm = PGMdataset(cfg.dataset.pgm.train)
+    train_dataset_pgm = PGMdataset(cfg.dataset.tasks.pgm.train)
     img, target = train_dataset_pgm[0]
     print(img.shape)  # torch.Size([16, 1, 160, 160])
     print(target)  # 6

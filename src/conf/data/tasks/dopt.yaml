@@ -1,0 +1,37 @@
+defaults:
+  - dopt/dataloader: ../../../../dataloader/default
+  - dopt/optimizer: ../../../../optimizer/adam
+
+dopt:
+  dataset:
+    target: model.avr_datasets.DOPTdataset
+    data_path: ${data.root}/dopt
+    img_size: null
+    train:
+      _target_: ${data.tasks.dopt.dataset.target}
+      dataset_type: square_test_set_20_train.npy
+      data_path: ${data.tasks.dopt.dataset.data_path}
+      img_size: ${data.tasks.dopt.dataset.img_size}
+    val:
+      _target_: ${data.tasks.dopt.dataset.target}
+      dataset_type: square_test_set_20_2.npy
+      data_path: ${data.tasks.dopt.dataset.data_path}
+      img_size: ${data.tasks.dopt.dataset.img_size}
+    test:
+      _target_: ${data.tasks.dopt.dataset.target}
+      dataset_type: square_test_set_20.npy
+      data_path: ${data.tasks.dopt.dataset.data_path}
+      img_size: ${data.tasks.dopt.dataset.img_size}
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 4
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 4
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 4

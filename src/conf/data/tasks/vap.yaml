@@ -1,0 +1,46 @@
+defaults:
+  - vap/dataloader: ../../../../dataloader/default
+  - vap/optimizer: ../../../../optimizer/adam
+
+vap:
+  dataset:
+    target: model.avr_datasets.VAPdataset
+    data_path: ${data.root}/vap
+    regimes:
+      # - extrapolation
+      - interpolation
+      # - novel.domain.transfer
+      # - novel.target.domain.line.type
+      # - novel.target.domain.shape.color
+    img_size: null
+    train:
+      _target_: ${data.tasks.vap.dataset.target}
+      dataset_type: train
+      data_path: ${data.tasks.vap.dataset.data_path}
+      img_size: ${data.tasks.vap.dataset.img_size}
+      regimes: ${data.tasks.vap.dataset.regimes}
+    val:
+      _target_: ${data.tasks.vap.dataset.target}
+      dataset_type: val
+      data_path: ${data.tasks.vap.dataset.data_path}
+      img_size: ${data.tasks.vap.dataset.img_size}
+      regimes: ${data.tasks.vap.dataset.regimes}
+    test:
+      _target_: ${data.tasks.vap.dataset.target}
+      dataset_type: test
+      data_path: ${data.tasks.vap.dataset.data_path}
+      img_size: ${data.tasks.vap.dataset.img_size}
+      regimes: ${data.tasks.vap.dataset.regimes}
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8

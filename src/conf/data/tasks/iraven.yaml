@@ -1,0 +1,51 @@
+defaults:
+  - iraven/dataloader: ../../../../dataloader/default
+  - iraven/optimizer: ../../../../optimizer/adam
+
+iraven:
+  dataset:
+    target: model.avr_datasets.IRAVENdataset
+    data_path: ${data.root}/i-raven/I-RAVEN/
+    regimes:
+      - center_single
+      - distribute_four
+      - distribute_nine
+      - in_center_single_out_center_single
+      - in_distribute_four_out_center_single
+      - left_center_single_right_center_single
+      - up_center_single_down_center_single
+    img_size: null
+    train:
+      _target_: ${data.tasks.iraven.dataset.target}
+      dataset_type: train
+      data_path: ${data.tasks.iraven.dataset.data_path}
+      regimes: ${data.tasks.iraven.dataset.regimes}
+      img_size: ${data.tasks.iraven.dataset.img_size}
+    val:
+      _target_: ${data.tasks.iraven.dataset.target}
+      dataset_type: val
+      data_path: ${data.tasks.iraven.dataset.data_path}
+      regimes: ${data.tasks.iraven.dataset.regimes}
+      img_size: ${data.tasks.iraven.dataset.img_size}
+    test:
+      _target_: ${data.tasks.iraven.dataset.target}
+      dataset_type: test
+      data_path: ${data.tasks.iraven.dataset.data_path}
+      regimes: ${data.tasks.iraven.dataset.regimes}
+      img_size: ${data.tasks.iraven.dataset.img_size}
+  # dataloader:
+  #   val:
+  #     batch_size: 1
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
