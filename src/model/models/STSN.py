@@ -243,7 +243,7 @@ class Decoder(nn.Module):
 
 
 class SlotAttentionAutoEncoder(nn.Module):
-    def __init__(self, cfg: DictConfig): #resolution, num_slots, num_iterations, hid_dim):
+    def __init__(self, resolution: (int, int), num_slots: int, num_iterations:  int, hid_dim: int):
         """Builds the Slot Attention-based auto-encoder.
         Args:
         resolution: Tuple of integers specifying width and height of input image.
@@ -251,10 +251,10 @@ class SlotAttentionAutoEncoder(nn.Module):
         num_iterations: Number of iterations in Slot Attention.
         """
         super().__init__()
-        self.hid_dim = cfg.hid_dim
-        self.resolution = cfg.resolution
-        self.num_slots = cfg.num_slots
-        self.num_iterations = cfg.num_iterations
+        self.hid_dim = hid_dim
+        self.resolution = resolution
+        self.num_slots = num_slots
+        self.num_iterations = num_iterations
 
         self.device = DEVICE
 

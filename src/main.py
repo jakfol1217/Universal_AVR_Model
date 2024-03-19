@@ -26,7 +26,7 @@ def _test(cfg: DictConfig) -> None:
 
     # TODO: figure out training for slot transformer with pl
 
-    module = instantiate(cfg.model, cfg)
+    module = instantiate(cfg.model)#, cfg)
     print(module)
     print(cfg.trainer)
     trainer: pl.Trainer = instantiate(cfg.trainer)
