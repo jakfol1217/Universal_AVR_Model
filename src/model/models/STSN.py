@@ -256,6 +256,8 @@ class SlotAttentionAutoEncoder(nn.Module):
         self.num_slots = cfg.num_slots
         self.num_iterations = cfg.num_iterations
 
+        self.device = DEVICE
+
         self.encoder_cnn = Encoder(self.resolution, self.hid_dim)
         self.decoder_cnn = Decoder(self.hid_dim, self.resolution)
 
@@ -269,19 +271,19 @@ class SlotAttentionAutoEncoder(nn.Module):
             eps=1e-8,
             hidden_dim=128)
 
-    def forward(self, image, device):
+    def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
 
         # Convolutional encoder with position embedding.
         x = self.encoder_cnn(image)  # CNN Backbone.
-        x = nn.LayerNorm(x.shape[1:]).to(device)(x)
+        x = nn.LayerNorm(x.shape[1:]).to(self.device)(x)
         x = self.fc1(x)
         x = F.relu(x)
         x = self.fc2(x)  # Feedforward network on set.
         # `x` has shape: [batch_size, width*height, input_size].
 
         # Slot Attention module.
-        slots, attn = self.slot_attention(x, device)
+        slots, attn = self.slot_attention(x, self.device)
         # print("attention>>",attn.shape)
         # `slots` has shape: [batch_size, num_slots, slot_size].
 
