@@ -5,6 +5,8 @@ defaults:
   - optimizer: adam
   - model: test
   - trainer: base
+  - metrics: mse
+  - _self_
 data:
   root: /home/kaminskia/studies/Universal_AVR_Model/src/data/samples
 batch_size: 3

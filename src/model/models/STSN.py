@@ -43,14 +43,14 @@ class TestModel(pl.LightningModule):
         return torch.Tensor([0.1])[0]
 
     def validation_step(
-        self,
-        batch: (
-            tuple[
-                dict[str, list[torch.Tensor]], int, int
-            ]  # combined module, I guess it not what we need - this approach forces treating each batch of single task as single image
-            | list[torch.Tensor]  # single module
-        ),
-        batch_idx,
+            self,
+            batch: (
+                    tuple[
+                        dict[str, list[torch.Tensor]], int, int
+                    ]  # combined module, I guess it not what we need - this approach forces treating each batch of single task as single image
+                    | list[torch.Tensor]  # single module
+            ),
+            batch_idx,
     ):
         print(batch[0].keys())  # tasks name, step over both
         print(batch_idx)  # tasks name, step over both
@@ -78,9 +78,10 @@ class TestModel(pl.LightningModule):
         #     for task_name in self.task_names
         # ], []
 
+
 # ------------------------ STSN --------------------------------------
 
-class SlotAttention(nn.Module):
+class SlotAttention(pl.LightningModule):
     def __init__(self, num_slots, dim, iters=3, eps=1e-8, hidden_dim=128):
         super().__init__()
         self.num_slots = num_slots
@@ -106,7 +107,7 @@ class SlotAttention(nn.Module):
         self.norm_slots = nn.LayerNorm(dim)
         self.norm_pre_ff = nn.LayerNorm(dim)
 
-    def forward(self, inputs, device, num_slots=None):
+    def forward(self, inputs, num_slots=None):
         b, n, d = inputs.shape
         n_s = num_slots if num_slots is not None else self.num_slots
 
@@ -169,7 +170,7 @@ class SoftPositionEmbed(nn.Module):
         return inputs + grid
 
 
-class Encoder(nn.Module):
+class Encoder(pl.LightningModule):
     def __init__(self, resolution, hid_dim):
         super().__init__()
         self.conv1 = nn.Conv2d(3, hid_dim, 5, padding=2)
@@ -195,7 +196,7 @@ class Encoder(nn.Module):
         return x
 
 
-class Decoder(nn.Module):
+class Decoder(pl.LightningModule):
     def __init__(self, hid_dim, resolution):
         super().__init__()
         self.conv1 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
@@ -242,8 +243,8 @@ class Decoder(nn.Module):
 """Slot Attention-based auto-encoder for object discovery."""
 
 
-class SlotAttentionAutoEncoder(nn.Module):
-    def __init__(self, resolution: (int, int), num_slots: int, num_iterations:  int, hid_dim: int):
+class SlotAttentionAutoEncoder(pl.LightningModule):
+    def __init__(self, cfg: DictConfig):
         """Builds the Slot Attention-based auto-encoder.
         Args:
         resolution: Tuple of integers specifying width and height of input image.
@@ -251,12 +252,13 @@ class SlotAttentionAutoEncoder(nn.Module):
         num_iterations: Number of iterations in Slot Attention.
         """
         super().__init__()
-        self.hid_dim = hid_dim
-        self.resolution = resolution
-        self.num_slots = num_slots
-        self.num_iterations = num_iterations
+        self.cfg = cfg
+        self.hid_dim = cfg.hid_dim
+        self.resolution = cfg.resolution
+        self.num_slots = cfg.num_slots
+        self.num_iterations = cfg.num_iterations
 
-        self.device = DEVICE
+        self.mse_loss = cfg.metrics.mse
 
         self.encoder_cnn = Encoder(self.resolution, self.hid_dim)
         self.decoder_cnn = Decoder(self.hid_dim, self.resolution)
@@ -276,14 +278,14 @@ class SlotAttentionAutoEncoder(nn.Module):
 
         # Convolutional encoder with position embedding.
         x = self.encoder_cnn(image)  # CNN Backbone.
-        x = nn.LayerNorm(x.shape[1:]).to(self.device)(x)
+        x = nn.LayerNorm(x.shape[1:])(x)
         x = self.fc1(x)
         x = F.relu(x)
         x = self.fc2(x)  # Feedforward network on set.
         # `x` has shape: [batch_size, width*height, input_size].
 
         # Slot Attention module.
-        slots, attn = self.slot_attention(x, self.device)
+        slots, attn = self.slot_attention(x)
         # print("attention>>",attn.shape)
         # `slots` has shape: [batch_size, num_slots, slot_size].
 
@@ -313,3 +315,25 @@ class SlotAttentionAutoEncoder(nn.Module):
         # return slots
         return recon_combined, recons, masks, slots, attn.reshape(image.shape[0], -1, image.shape[2], image.shape[3], 1)
 
+    def training_step(self, batch, batch_idx):
+        img, target = batch
+        recon_combined_seq = []
+        for idx in range(img.shape[1]):
+            recon_combined, recons, masks, slots, attn = self(img[:, idx])
+            recon_combined_seq.append(recon_combined)
+
+            del recon_combined, recons, masks, slots, attn
+
+        loss = self.mse_loss(torch.stack(recon_combined_seq, dim=1), img)
+        return loss
+
+    def validation_step(self, batch, batch_idx):
+        # TODO
+        pass
+
+    def test_step(self, batch, batch_idx):
+        # TODO
+        pass
+
+    def configure_optimizers(self):
+        return instantiate(self.cfg.optimizer, params=self.parameters())

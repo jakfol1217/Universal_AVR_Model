@@ -1,6 +1,2 @@
 _target_: model.models.STSN.SlotAttentionAutoEncoder
 
-resolution: ${resolution}
-num_slots: ${num_slots}
-hid_dim: ${hid_dim}
-num_iterations: ${num_iterations}
