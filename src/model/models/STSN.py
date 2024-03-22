@@ -1,11 +1,12 @@
+import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
-import numpy as np
 import torch.nn.functional as F
 from hydra.utils import instantiate
 from omegaconf import DictConfig
 
+# TODO: remove it (see self.device in TestModel -- pl.LightningModule take care of it - probably better to change in case of distributed training)
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
@@ -30,46 +31,60 @@ class TestModel(pl.LightningModule):
     def forward(self, x):
         return self.layer(x)
 
-    def training_step(self, batch, batch_idx):
-        print(batch[0].keys())  # tasks name, step over both
-        # for x in batch:
-        #     print(x.__class__)
-        # x, y = batch
-        # print(x.shape, y.shape)
-        # # y_hat = self.layer(x)
-        # # loss = nn.functional.mse_loss(y_hat, y)
-        # # self.log("train_loss", loss)
-        # return loss
-        return torch.Tensor([0.1])[0]
+    # TODO: steps for different module types (propably better to implement it in abstract class and inherit from it)
+    def __step_multi_module(
+        self,
+        step_name: str,
+        batch: list[list[torch.Tensor]] | dict[str, list[list[torch.Tensor]]],
+        batch_idx: int,
+        dataloader_idx: int = 0,
+    ):
+        loss = torch.tensor(0.0)  # , device=self.device
+
+        def _step(batch, task_name):
+            x, y = batch
+            # print(x.shape, y.shape) # torch.Size([3, 16, 1, 160, 160]) torch.Size([3])
+            # y_hat = self.layer(x)
+            # loss = nn.functional.mse_loss(y_hat, y)
+            # self.log(f"{task_name}/{step_name}/loss", loss) # on_epoch=True, add_dataloader_idx=False
+            # TODO: add metrics calculation/logging (wandb/tensorboard/...)
+            return torch.tensor(data=0.1)  # , device=self.device
+
+        if step_name == "train":
+            for task_name in self.task_names:
+                target_loss = _step(batch[task_name], task_name)
+                loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
+            self.log(
+                f"{step_name}/loss", loss
+            )  # on_epoch=True, add_dataloader_idx=False
+        else:
+            task = self.task_names[dataloader_idx]
+            loss = _step(batch, task)
+        return loss
+
+    def training_step(
+        self,
+        batch: dict[str, list[list[torch.Tensor]]],
+        batch_idx: int,
+        dataloader_idx: int = 0,
+    ):
+        return self.__step_multi_module("train", batch, batch_idx, dataloader_idx)
 
     def validation_step(
-            self,
-            batch: (
-                    tuple[
-                        dict[str, list[torch.Tensor]], int, int
-                    ]  # combined module, I guess it not what we need - this approach forces treating each batch of single task as single image
-                    | list[torch.Tensor]  # single module
-            ),
-            batch_idx,
+        self,
+        batch: (
+            tuple[
+                dict[str, list[torch.Tensor]], int, int
+            ]  # combined module, I guess it not what we need - this approach forces treating each batch of single task as single image
+            | list[torch.Tensor]  # single module
+        ),
+        batch_idx,
+        dataloader_idx=0,
     ):
-        print(batch[0].keys())  # tasks name, step over both
-        print(batch_idx)  # tasks name, step over both
-        # x, y = batch
-        # print(x.shape, y.shape)
-        # # y_hat = self.layer(x)
-        # # loss = nn.functional.mse_loss(y_hat, y)
-        # # self.log("val_loss", loss)
-        # return loss
-        return torch.Tensor([0.1])[0]
+        return self.__step_multi_module("val", batch, batch_idx, dataloader_idx)
 
-    def test_step(self, batch, batch_idx):
-        # x, y = batch
-        # print(x.shape, y.shape)
-        # # y_hat = self.layer(x)
-        # # loss = nn.functional.mse_loss(y_hat, y)
-        # # self.log("test_loss", loss)
-        # return loss
-        return torch.Tensor([0.1])
+    def test_step(self, batch, batch_idx, dataloader_idx=0):
+        return self.__step_multi_module("test", batch, batch_idx, dataloader_idx)
 
     def configure_optimizers(self):
         return instantiate(self.cfg.optimizer, params=self.parameters())
@@ -81,13 +96,14 @@ class TestModel(pl.LightningModule):
 
 # ------------------------ STSN --------------------------------------
 
+
 class SlotAttention(pl.LightningModule):
     def __init__(self, num_slots, dim, iters=3, eps=1e-8, hidden_dim=128):
         super().__init__()
         self.num_slots = num_slots
         self.iters = iters
         self.eps = eps
-        self.scale = dim ** -0.5
+        self.scale = dim**-0.5
 
         self.slots_mu = nn.Parameter(torch.randn(1, 1, dim))
         self.slots_sigma = nn.Parameter(torch.abs(torch.randn(1, 1, dim)))
@@ -124,16 +140,13 @@ class SlotAttention(pl.LightningModule):
             slots = self.norm_slots(slots)
             q = self.to_q(slots)
 
-            dots = torch.einsum('bid,bjd->bij', q, k) * self.scale
+            dots = torch.einsum("bid,bjd->bij", q, k) * self.scale
             attn = dots.softmax(dim=1) + self.eps
             attn = attn / attn.sum(dim=-1, keepdim=True)
             # total_attn = torch.cat((total_attn,attn.unsqueeze(1)),dim=1)
-            updates = torch.einsum('bjd,bij->bid', v, attn)
+            updates = torch.einsum("bjd,bij->bid", v, attn)
 
-            slots = self.gru(
-                updates.reshape(-1, d),
-                slots_prev.reshape(-1, d)
-            )
+            slots = self.gru(updates.reshape(-1, d), slots_prev.reshape(-1, d))
 
             slots = slots.reshape(b, -1, d)
             slots = slots + self.fc2(F.relu(self.fc1(self.norm_pre_ff(slots))))
@@ -142,7 +155,7 @@ class SlotAttention(pl.LightningModule):
 
 
 def build_grid(resolution):
-    ranges = [np.linspace(0., 1., num=res) for res in resolution]
+    ranges = [np.linspace(0.0, 1.0, num=res) for res in resolution]
     grid = np.meshgrid(*ranges, sparse=False, indexing="ij")
     grid = np.stack(grid, axis=-1)
     grid = np.reshape(grid, [resolution[0], resolution[1], -1])
@@ -271,7 +284,8 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
             dim=self.hid_dim,
             iters=self.num_iterations,
             eps=1e-8,
-            hidden_dim=128)
+            hidden_dim=128,
+        )
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
@@ -301,7 +315,9 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
 
         # Undo combination of slot and batch dimension; split alpha masks.
         # recons, masks = x.reshape(image.shape[0], -1, x.shape[1], x.shape[2], x.shape[3]).split([3,1], dim=-1)
-        recons, masks = x.reshape(image.shape[0], -1, x.shape[1], x.shape[2], x.shape[3]).split([1, 1], dim=-1)
+        recons, masks = x.reshape(
+            image.shape[0], -1, x.shape[1], x.shape[2], x.shape[3]
+        ).split([1, 1], dim=-1)
 
         # `recons` has shape: [batch_size, num_slots, width, height, num_channels].
         # `masks` has shape: [batch_size, num_slots, width, height, 1].
@@ -313,7 +329,13 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
         # `recon_combined` has shape: [batch_size, width, height, num_channels].
 
         # return slots
-        return recon_combined, recons, masks, slots, attn.reshape(image.shape[0], -1, image.shape[2], image.shape[3], 1)
+        return (
+            recon_combined,
+            recons,
+            masks,
+            slots,
+            attn.reshape(image.shape[0], -1, image.shape[2], image.shape[3], 1),
+        )
 
     def training_step(self, batch, batch_idx):
         img, target = batch
