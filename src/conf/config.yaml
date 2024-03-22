@@ -1,7 +1,7 @@
 defaults:
   - data/tasks: [bongard_logo, dopt, iraven, mns, pgm] # bongard_hoi vaec vap
   - dataloader: default
-  - data/datamodule: combined_module_sequential # single_module # combined_module_min_size # combined_module_sequential
+  - data/datamodule: multi_module # single_module # combined_module_min_size # combined_module_sequential
   - optimizer: adam
   - model: test
   - trainer: base
@@ -20,6 +20,6 @@ resolution: [80,80]
 num_slots: 20
 hid_dim: 32
 num_iterations: 1
-
+target_loss_ratio: 0.3
 torch:
   matmul_precision: medium # medium high

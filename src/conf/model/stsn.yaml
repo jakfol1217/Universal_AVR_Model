@@ -1,2 +1,2 @@
 _target_: model.models.STSN.SlotAttentionAutoEncoder
-
+# TODO: Move params from config.yaml to here if possible (cleaner approach, otherwise our config.yaml will be huge)

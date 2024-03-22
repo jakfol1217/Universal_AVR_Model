@@ -35,3 +35,4 @@ dopt:
       - accuracy:
           _target_: torchmetrics.classification.MulticlassAccuracy
           num_classes: 4
+  target_loss_ratio: ${target_loss_ratio}

@@ -46,3 +46,4 @@ bongard_hoi:
       - accuracy:
           _target_: torchmetrics.classification.MulticlassAccuracy
           num_classes: 8
+  target_loss_ratio: ${target_loss_ratio}
