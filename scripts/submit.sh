@@ -24,12 +24,19 @@ echo "Enroot version: $(enroot version)"
 enroot start \
     --rw \
     -e CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
-    # TODO: Adjust paths, check dataset folder
-    # -m /home2/faculty/akaminski/config:/app/config \
-    # -m /home2/faculty/akaminski/avr:/app/avr \
-    # -m /home2/faculty/akaminski/datasets:/app/data \
-    # -m /home2/faculty/akaminski/models:/app/models \
+    -m /home2/faculty/akaminski/src:/app/src \
+    -m /home2/faculty/akaminski/.env:/app/.env \
     -m /etc/slurm:/etc/slurm \
     universal-avr-system-latest \
     python "${1}" "${@:2}"
 date
+    # -m /home2/faculty/akaminski/datasets:/app/data \
+    # -m /home2/faculty/akaminski/models:/app/models \
+
+docker run \
+    -v /home/kaminskia/studies/Universal_AVR_Model/src:/app/src \
+    -v /home/kaminskia/studies/Universal_AVR_Model/.env:/app/.env \
+    universalavrmodel:latest
+
+docker exec \
+    python "/app/src/main.py" "123 def 456"
