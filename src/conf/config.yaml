@@ -16,10 +16,8 @@ max_epochs: 1
 monitor: val_loss
 early_stopping_patience: 3
 
-resolution: [80,80]
-num_slots: 20
-hid_dim: 32
-num_iterations: 1
+
 target_loss_ratio: 0.3
+
 torch:
   matmul_precision: medium # medium high

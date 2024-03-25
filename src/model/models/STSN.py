@@ -7,7 +7,7 @@ from hydra.utils import instantiate
 from omegaconf import DictConfig
 
 # TODO: remove it (see self.device in TestModel -- pl.LightningModule take care of it - probably better to change in case of distributed training)
-DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+#DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 class TestModel(pl.LightningModule):
@@ -94,6 +94,8 @@ class TestModel(pl.LightningModule):
         # ], []
 
 
+
+
 # ------------------------ STSN --------------------------------------
 
 
@@ -161,7 +163,7 @@ def build_grid(resolution):
     grid = np.reshape(grid, [resolution[0], resolution[1], -1])
     grid = np.expand_dims(grid, axis=0)
     grid = grid.astype(np.float32)
-    return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1)).to(DEVICE)
+    return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1))#.to(DEVICE)
 
 
 """Adds soft positional embedding with learnable projection."""
@@ -257,7 +259,7 @@ class Decoder(pl.LightningModule):
 
 
 class SlotAttentionAutoEncoder(pl.LightningModule):
-    def __init__(self, cfg: DictConfig):
+    def __init__(self, cfg: DictConfig, resolution: (int, int), num_slots: int, hid_dim: int, num_iterations: int):#cfg: DictConfig):
         """Builds the Slot Attention-based auto-encoder.
         Args:
         resolution: Tuple of integers specifying width and height of input image.
@@ -266,12 +268,13 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
         """
         super().__init__()
         self.cfg = cfg
-        self.hid_dim = cfg.hid_dim
-        self.resolution = cfg.resolution
-        self.num_slots = cfg.num_slots
-        self.num_iterations = cfg.num_iterations
+        self.hid_dim = hid_dim
+        self.resolution = resolution
+        self.num_slots = num_slots
+        self.num_iterations = num_iterations
 
-        self.mse_loss = cfg.metrics.mse
+        self.mse_loss = instantiate(cfg.metrics.mse)
+        self.task_names = list(cfg.data.tasks.keys())
 
         self.encoder_cnn = Encoder(self.resolution, self.hid_dim)
         self.decoder_cnn = Decoder(self.hid_dim, self.resolution)
@@ -338,15 +341,17 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
         )
 
     def training_step(self, batch, batch_idx):
-        img, target = batch
-        recon_combined_seq = []
-        for idx in range(img.shape[1]):
-            recon_combined, recons, masks, slots, attn = self(img[:, idx])
-            recon_combined_seq.append(recon_combined)
+        loss = torch.tensor(0.0)
+        for task_name in self.task_names:
+            img, target = batch[task_name]
+            recon_combined_seq = []
+            for idx in range(img.shape[1]):
+                recon_combined, recons, masks, slots, attn = self(img[:, idx])
+                recon_combined_seq.append(recon_combined)
 
-            del recon_combined, recons, masks, slots, attn
-
-        loss = self.mse_loss(torch.stack(recon_combined_seq, dim=1), img)
+                del recon_combined, recons, masks, slots, attn
+            pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
+            loss += self.mse_loss(pred_img, img)
         return loss
 
     def validation_step(self, batch, batch_idx):
