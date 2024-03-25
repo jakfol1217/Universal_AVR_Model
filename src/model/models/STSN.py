@@ -8,6 +8,7 @@ from hydra.core.hydra_config import HydraConfig
 from omegaconf import DictConfig, OmegaConf
 
 
+
 # TODO: remove it (see self.device in TestModel -- pl.LightningModule take care of it - probably better to change in case of distributed training)
 # DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
@@ -95,6 +96,7 @@ class TestModel(pl.LightningModule):
         #     for task_name in self.task_names
         # ], []
 
+
 class ModuleTraining:
     def __init__(self, cfg):
         self.cfg = cfg
@@ -111,7 +113,9 @@ class ModuleTraining:
             return torch.tensor(0.0)
 
     def _single_module_step(self, step, batch, batch_id):
-        return step(batch[self.task_names[0]], batch_id)
+        if isinstance(batch, dict):
+            return step(batch[self.task_names[0]], batch_id)
+        return step(batch, batch_id)
 
     def _multi_module_step(self, step, batch, batch_id):
         loss = torch.tensor(0.0)
@@ -299,8 +303,7 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
         self.num_slots = num_slots
         self.num_iterations = num_iterations
 
-        self.mse_loss = instantiate(cfg.metrics.mse)
-        self.task_names = list(cfg.data.tasks.keys())
+        self.loss = instantiate(cfg.metrics.mse)
 
         self.module_training = ModuleTraining(self.cfg)
 
@@ -317,6 +320,7 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
             eps=1e-8,
             hidden_dim=128,
         )
+        self.save_hyperparameters()
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
@@ -377,31 +381,23 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
 
             del recon_combined, recons, masks, slots, attn
         pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
-        loss = self.mse_loss(pred_img, img)
+        loss = self.loss(pred_img, img)
         return loss
 
     def training_step(self, batch, batch_idx):
-        return self.module_training.module_step(self._step, batch, batch_idx)
-        #loss = torch.tensor(0.0)
-        #for task_name in self.task_names:
-        #    img, target = batch[task_name]
-        #    recon_combined_seq = []
-        #    for idx in range(img.shape[1]):
-        #        recon_combined, recons, masks, slots, attn = self(img[:, idx])
-        #        recon_combined_seq.append(recon_combined)
-
-        #        del recon_combined, recons, masks, slots, attn
-        #    pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
-        #    loss += self.mse_loss(pred_img, img)
-        #return loss
+        loss = self.module_training.module_step(self._step, batch, batch_idx)
+        self.log("train_loss", loss)
+        return loss
 
     def validation_step(self, batch, batch_idx):
-        # TODO
-        pass
+        loss = self.module_training.module_step(self._step, batch, batch_idx)
+        self.log("val_loss", loss)
+        return loss
 
     def test_step(self, batch, batch_idx):
-        # TODO
-        pass
+        loss = self.module_training.module_step(self._step, batch, batch_idx)
+        self.log("test_loss", loss)
+        return loss
 
     def configure_optimizers(self):
         return instantiate(self.cfg.optimizer, params=self.parameters())
