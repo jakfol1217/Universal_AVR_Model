@@ -1,5 +1,6 @@
 _target_: pytorch_lightning.Trainer
 max_epochs: ${max_epochs}
+log_every_n_steps: ${log_every_n_steps}
 # accelerator: gpu
 # devices: 1
 # num_sanity_val_steps: 0
