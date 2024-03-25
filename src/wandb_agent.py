@@ -10,10 +10,23 @@ class WandbAgent:
     def get_runs(self, **kwargs):
         return list(self.api.runs(self.project_name, **kwargs))
 
-    def get_best_run(self, key="val_loss", **kwargs):
+    def get_best_run_by_loss(self, key="val_loss", **kwargs):
         runs = self.get_runs(**kwargs)
+        runs = [r for r in runs if key in r.summary]
         min_loss_run = min(runs, key=lambda run: run.summary[key])
         return min_loss_run
+
+    def get_best_run_by_metric(self, key, **kwargs):
+        runs = self.get_runs(**kwargs)
+        runs = [r for r in runs if key in r.summary]
+        max_metric_run = max(runs, key=lambda run: run.summary[key])
+        return max_metric_run
+
+    def get_newest_run(self, **kwargs):
+        runs = self.get_runs(**kwargs)
+        runs = [r for r in runs if '_timestamp' in r.summary]
+        newest_run = max(runs, key=lambda run: run.summary['_timestamp'])
+        return newest_run
 
     def get_run_by_name(self, run_name):
         runs = self.api.runs(self.project_name, filters={"display_name": run_name})
@@ -57,9 +70,11 @@ class WandbAgent:
         checkpoint_path = os.path.join(checkpoint_path, "model.ckpt")
         return checkpoint_path
 
-
-agent = WandbAgent("AVR_universal")
-best_run = agent.get_best_run()
-checkpoint_path = agent.get_best_checkpoint_from_run(best_run.name)
-print(best_run.summary)
-print(checkpoint_path)
+if __name__ == "__main__":
+    agent = WandbAgent("AVR_universal")
+    runs = agent.get_runs()
+    #print(runs[0].summary)
+    best_run = agent.get_newest_run()
+    checkpoint_path = agent.get_best_checkpoint_from_run(best_run.name)
+    print(best_run.summary)
+    print(checkpoint_path)

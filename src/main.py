@@ -5,6 +5,10 @@ from hydra.utils import instantiate
 from omegaconf import DictConfig
 from lightning.pytorch.loggers import WandbLogger
 
+from src.model.models.STSN import SlotAttentionAutoEncoder
+from wandb_agent import WandbAgent
+
+
 # from config import register_resolvers
 from model.avr_datasets import IRAVENdataset
 
@@ -24,7 +28,7 @@ def _test(cfg: DictConfig) -> None:
     # TODO: checkpoint mechanism (param in config + loading from checkpoint)
     # TODO: datamodules (combination investiagtion)
 
-    wandb_logger = WandbLogger(project="AVR_universal", name="Test_model_checkpoint", log_model="all")
+    wandb_logger = WandbLogger(project="AVR_universal", log_model="all")
     module = instantiate(cfg.model, cfg)
     # print(module)
     # print(cfg.trainer)
@@ -32,7 +36,14 @@ def _test(cfg: DictConfig) -> None:
     trainer.logger = wandb_logger
     wandb_logger.watch(module)
     trainer.fit(module, data_module)
-    trainer.test(module, data_module)
+    #trainer.test(module, data_module)
+
+    # example loading best model from newest run
+    wandb_agent = WandbAgent("AVR_universal")
+    newest_run = wandb_agent.get_newest_run()
+    checkpoint_path = wandb_agent.get_best_checkpoint_from_run(newest_run.name)
+    new_model = SlotAttentionAutoEncoder.load_from_checkpoint(checkpoint_path)
+    print(new_model)
 
 
 if __name__ == "__main__":
