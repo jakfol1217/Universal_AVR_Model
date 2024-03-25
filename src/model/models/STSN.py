@@ -4,10 +4,12 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 from hydra.utils import instantiate
-from omegaconf import DictConfig
+from hydra.core.hydra_config import HydraConfig
+from omegaconf import DictConfig, OmegaConf
+
 
 # TODO: remove it (see self.device in TestModel -- pl.LightningModule take care of it - probably better to change in case of distributed training)
-#DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+# DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 
 class TestModel(pl.LightningModule):
@@ -33,11 +35,11 @@ class TestModel(pl.LightningModule):
 
     # TODO: steps for different module types (propably better to implement it in abstract class and inherit from it)
     def __step_multi_module(
-        self,
-        step_name: str,
-        batch: list[list[torch.Tensor]] | dict[str, list[list[torch.Tensor]]],
-        batch_idx: int,
-        dataloader_idx: int = 0,
+            self,
+            step_name: str,
+            batch: list[list[torch.Tensor]] | dict[str, list[list[torch.Tensor]]],
+            batch_idx: int,
+            dataloader_idx: int = 0,
     ):
         loss = torch.tensor(0.0)  # , device=self.device
 
@@ -63,23 +65,23 @@ class TestModel(pl.LightningModule):
         return loss
 
     def training_step(
-        self,
-        batch: dict[str, list[list[torch.Tensor]]],
-        batch_idx: int,
-        dataloader_idx: int = 0,
+            self,
+            batch: dict[str, list[list[torch.Tensor]]],
+            batch_idx: int,
+            dataloader_idx: int = 0,
     ):
         return self.__step_multi_module("train", batch, batch_idx, dataloader_idx)
 
     def validation_step(
-        self,
-        batch: (
-            tuple[
-                dict[str, list[torch.Tensor]], int, int
-            ]  # combined module, I guess it not what we need - this approach forces treating each batch of single task as single image
-            | list[torch.Tensor]  # single module
-        ),
-        batch_idx,
-        dataloader_idx=0,
+            self,
+            batch: (
+                    tuple[
+                        dict[str, list[torch.Tensor]], int, int
+                    ]  # combined module, I guess it not what we need - this approach forces treating each batch of single task as single image
+                    | list[torch.Tensor]  # single module
+            ),
+            batch_idx,
+            dataloader_idx=0,
     ):
         return self.__step_multi_module("val", batch, batch_idx, dataloader_idx)
 
@@ -93,7 +95,30 @@ class TestModel(pl.LightningModule):
         #     for task_name in self.task_names
         # ], []
 
+class ModuleTraining:
+    def __init__(self, cfg):
+        self.cfg = cfg
+        hydra_cfg = HydraConfig.get()
+        self.module_name = OmegaConf.to_container(hydra_cfg.runtime.choices)['data/datamodule']
+        self.task_names = list(self.cfg.data.tasks.keys())
 
+    def module_step(self, step, batch, batch_id):
+        if self.module_name == "multi_module":
+            return self._multi_module_step(step, batch, batch_id)
+        if self.module_name == "single_module":
+            return self._single_module_step(step, batch, batch_id)
+        if self.module_name == "combined_module":
+            return torch.tensor(0.0)
+
+    def _single_module_step(self, step, batch, batch_id):
+        return step(batch[self.task_names[0]], batch_id)
+
+    def _multi_module_step(self, step, batch, batch_id):
+        loss = torch.tensor(0.0)
+        for task_name in self.task_names:
+            target_loss = step(batch[task_name], batch, batch_id)
+            loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
+        return loss
 
 
 # ------------------------ STSN --------------------------------------
@@ -105,7 +130,7 @@ class SlotAttention(pl.LightningModule):
         self.num_slots = num_slots
         self.iters = iters
         self.eps = eps
-        self.scale = dim**-0.5
+        self.scale = dim ** -0.5
 
         self.slots_mu = nn.Parameter(torch.randn(1, 1, dim))
         self.slots_sigma = nn.Parameter(torch.abs(torch.randn(1, 1, dim)))
@@ -163,7 +188,7 @@ def build_grid(resolution):
     grid = np.reshape(grid, [resolution[0], resolution[1], -1])
     grid = np.expand_dims(grid, axis=0)
     grid = grid.astype(np.float32)
-    return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1))#.to(DEVICE)
+    return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1))  # .to(DEVICE)
 
 
 """Adds soft positional embedding with learnable projection."""
@@ -259,7 +284,8 @@ class Decoder(pl.LightningModule):
 
 
 class SlotAttentionAutoEncoder(pl.LightningModule):
-    def __init__(self, cfg: DictConfig, resolution: (int, int), num_slots: int, hid_dim: int, num_iterations: int):#cfg: DictConfig):
+    def __init__(self, cfg: DictConfig, resolution: (int, int), num_slots: int, hid_dim: int,
+                 num_iterations: int):
         """Builds the Slot Attention-based auto-encoder.
         Args:
         resolution: Tuple of integers specifying width and height of input image.
@@ -275,6 +301,8 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
 
         self.mse_loss = instantiate(cfg.metrics.mse)
         self.task_names = list(cfg.data.tasks.keys())
+
+        self.module_training = ModuleTraining(self.cfg)
 
         self.encoder_cnn = Encoder(self.resolution, self.hid_dim)
         self.decoder_cnn = Decoder(self.hid_dim, self.resolution)
@@ -340,19 +368,32 @@ class SlotAttentionAutoEncoder(pl.LightningModule):
             attn.reshape(image.shape[0], -1, image.shape[2], image.shape[3], 1),
         )
 
-    def training_step(self, batch, batch_idx):
-        loss = torch.tensor(0.0)
-        for task_name in self.task_names:
-            img, target = batch[task_name]
-            recon_combined_seq = []
-            for idx in range(img.shape[1]):
-                recon_combined, recons, masks, slots, attn = self(img[:, idx])
-                recon_combined_seq.append(recon_combined)
+    def _step(self, batch, batch_idx):
+        img, target = batch
+        recon_combined_seq = []
+        for idx in range(img.shape[1]):
+            recon_combined, recons, masks, slots, attn = self(img[:, idx])
+            recon_combined_seq.append(recon_combined)
 
-                del recon_combined, recons, masks, slots, attn
-            pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
-            loss += self.mse_loss(pred_img, img)
+            del recon_combined, recons, masks, slots, attn
+        pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
+        loss = self.mse_loss(pred_img, img)
         return loss
+
+    def training_step(self, batch, batch_idx):
+        return self.module_training.module_step(self._step, batch, batch_idx)
+        #loss = torch.tensor(0.0)
+        #for task_name in self.task_names:
+        #    img, target = batch[task_name]
+        #    recon_combined_seq = []
+        #    for idx in range(img.shape[1]):
+        #        recon_combined, recons, masks, slots, attn = self(img[:, idx])
+        #        recon_combined_seq.append(recon_combined)
+
+        #        del recon_combined, recons, masks, slots, attn
+        #    pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
+        #    loss += self.mse_loss(pred_img, img)
+        #return loss
 
     def validation_step(self, batch, batch_idx):
         # TODO
