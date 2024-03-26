@@ -1,5 +1,5 @@
 defaults:
-  - data/tasks: [bongard_logo, dopt, iraven, mns, pgm] # bongard_hoi vaec vap
+  - data/tasks: [bongard_hoi, bongard_logo, dopt, iraven, mns, pgm] # bongard_hoi vaec vap
   - dataloader: default
   - data/datamodule: multi_module # single_module # combined_module_min_size # combined_module_sequential
   - optimizer: adam
@@ -16,7 +16,7 @@ img_size: 80
 num_workers: 8
 lr: 0.001
 max_epochs: 1
-monitor: val_loss
+monitor: val/loss
 early_stopping_patience: 3
 log_every_n_steps: 50
 seed: 42

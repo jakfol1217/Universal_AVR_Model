@@ -63,13 +63,25 @@ class AVRModule(pl.LightningModule, ABC):
 
     def _single_module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
         if isinstance(batch, dict):
-            return self._step(
+            loss = self._step(
                 step_name, batch[self.task_names[0]], batch_idx, dataloader_idx
             )
-        return self._step(batch, batch_idx)
+            self.log(
+                f"{step_name}/{self.task_names[dataloader_idx]}/loss",
+                on_epoch=True,
+                add_dataloader_idx=False,
+            )
+        else:
+            loss = self._step(step_name, batch, batch_idx)
+            self.log(
+                f"{step_name}/{self.task_names[dataloader_idx]}/loss",
+                on_epoch=True,
+                add_dataloader_idx=False,
+            )
+        return loss
 
     def _multi_module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
-        loss = torch.tensor(0.0)
+        loss = torch.tensor(0.0, device=self.device)
 
         if step_name == "train":
             for task_name in self.task_names:
@@ -79,9 +91,21 @@ class AVRModule(pl.LightningModule, ABC):
                     batch_idx,
                     self.task_names.index(task_name),
                 )
+                self.log(
+                    f"{step_name}/{task_name}/loss",
+                    loss,
+                    on_epoch=True,
+                    add_dataloader_idx=False,
+                )
                 loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
         else:
             loss = self._step(step_name, batch, batch_idx, dataloader_idx)
+            self.log(
+                f"{step_name}/{self.task_names[dataloader_idx]}/loss",
+                loss,
+                on_epoch=True,
+                add_dataloader_idx=False,
+            )
         return loss
 
     def configure_optimizers(self):
@@ -275,6 +299,7 @@ class SlotAttentionAutoEncoder(AVRModule):
             iters=self.num_iterations,
             eps=1e-8,
         )
+        self.val_losses = []
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
@@ -342,15 +367,26 @@ class SlotAttentionAutoEncoder(AVRModule):
 
     def training_step(self, batch, batch_idx, dataloader_idx=0):
         loss = self.module_step("train", batch, batch_idx, dataloader_idx)
-        self.log("train_loss", loss)
         return loss
 
     def validation_step(self, batch, batch_idx, dataloader_idx=0):
         loss = self.module_step("val", batch, batch_idx, dataloader_idx)
-        self.log("val_loss", loss)
+        self.val_losses.append(loss)
         return loss
 
     def test_step(self, batch, batch_idx, dataloader_idx=0):
         loss = self.module_step("test", batch, batch_idx, dataloader_idx)
-        self.log("test_loss", loss)
         return loss
+
+    def on_validation_epoch_end(self) -> None:
+        val_losses = torch.tensor(self.val_losses)
+        val_loss = val_losses.mean()
+        self.log(
+            "val/loss",
+            val_loss,
+            on_epoch=True,
+            prog_bar=True,
+            logger=True,
+            add_dataloader_idx=False,
+        )
+        self.val_losses.clear()

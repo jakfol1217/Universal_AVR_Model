@@ -13,7 +13,7 @@ callbacks:
   - _target_: pytorch_lightning.callbacks.progress.TQDMProgressBar
     refresh_rate: 1
   - _target_: pytorch_lightning.callbacks.ModelCheckpoint
-    monitor: val_loss
+    monitor: val/loss
     mode: min
     dirpath: model_checkpoints
     every_n_train_steps: 1 # to be changed

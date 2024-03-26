@@ -103,6 +103,7 @@ class HOIdataset(Dataset):
         if img_size:
             self.transforms = transforms.Compose(
                     [
+                        transforms.Grayscale(num_output_channels=3),
                         transforms.ToTensor(),
                         transforms.Resize((img_size, img_size))
                     ]
@@ -136,7 +137,7 @@ class HOIdataset(Dataset):
             file_hoi = files_hoi[item-self.idx_ranges[idx-1]]
         
         context = file_hoi[0] + file_hoi[1]
-        context = [os.path.join(self.data_path, c['im_path'][2:]) for c in context]
+        context = [os.path.join(self.data_path, c['im_path']) for c in context]
         
         answers = []
         # adding random image as answer
