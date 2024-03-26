@@ -6,7 +6,7 @@ mns:
   dataset:
     target: model.avr_datasets.MNSdataset
     data_path: ${data.root}/mns/IQMath/
-    img_size: null
+    img_size: ${img_size}
     train:
       _target_: ${data.tasks.mns.dataset.target}
       dataset_type: train_set

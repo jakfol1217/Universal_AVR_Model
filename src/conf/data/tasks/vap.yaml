@@ -12,7 +12,7 @@ vap:
       # - novel.domain.transfer
       # - novel.target.domain.line.type
       # - novel.target.domain.shape.color
-    img_size: null
+    img_size: ${img_size}
     train:
       _target_: ${data.tasks.vap.dataset.target}
       dataset_type: train

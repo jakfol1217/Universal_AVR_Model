@@ -1,74 +1,91 @@
+from abc import ABC, abstractmethod
+
 import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from abc import ABC, abstractmethod
-from hydra.utils import instantiate
 from hydra.core.hydra_config import HydraConfig
+from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
-
-# TODO: remove it (see self.device in TestModel -- pl.LightningModule take care of it - probably better to change in case of distributed training)
-# DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 class AVRModule(pl.LightningModule, ABC):
     def __init__(self, cfg: DictConfig):
         super().__init__()
         self.cfg = cfg
-
         self.task_names = list(self.cfg.data.tasks.keys())
 
+        self.save_hyperparameters(
+            OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
+        )
+
     @abstractmethod
-    def _step(self, batch, batch_idx):
+    def _step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
         pass
 
-    def module_step(self, batch, batch_id):
+    @abstractmethod
+    def training_step(self, batch, batch_idx, dataloader_idx=0):
+        pass
+
+    @abstractmethod
+    def validation_step(self, batch, batch_idx, dataloader_idx=0):
+        pass
+
+    @abstractmethod
+    def test_step(self, batch, batch_idx, dataloader_idx=0):
+        pass
+
+    def module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
         # getting current configured module name -- I don't know if putting it into init
         # won't lock us out from e.g changing it after initializing new model from checkpoint
+        # * Extracting it from self.cfg won't work? (module_name = cfg.data.datamodule._target_.split(".")[-1])
+        # * or initializing it and checking, e.g. isinstance(module, MultiModule)
+
         hydra_cfg = HydraConfig.get()
-        module_name = OmegaConf.to_container(hydra_cfg.runtime.choices)['data/datamodule']
+        module_name = OmegaConf.to_container(hydra_cfg.runtime.choices)[
+            "data/datamodule"
+        ]
+        match module_name:
+            case "multi_module":
+                return self._multi_module_step(
+                    step_name, batch, batch_idx, dataloader_idx
+                )
+            case "single_module":
+                return self._single_module_step(
+                    step_name, batch, batch_idx, dataloader_idx
+                )
+            case _:
+                # TODO: additional steps for combined modules
+                raise NotImplementedError(
+                    f"Step function for {module_name} module not implemented yet"
+                )
 
-        if module_name == "multi_module":
-            return self._multi_module_step(batch, batch_id)
-        if module_name == "single_module":
-            return self._single_module_step(batch, batch_id)
-        if module_name == "combined_module":
-            return torch.tensor(0.0)
-
-    def _single_module_step(self, batch, batch_id):
+    def _single_module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
         if isinstance(batch, dict):
-            return self._step(batch[self.task_names[0]], batch_id)
-        return self._step(batch, batch_id)
+            return self._step(
+                step_name, batch[self.task_names[0]], batch_idx, dataloader_idx
+            )
+        return self._step(batch, batch_idx)
 
-    def _multi_module_step(self, batch, batch_id):
+    def _multi_module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
         loss = torch.tensor(0.0)
-        for task_name in self.task_names:
-            target_loss = self._step(batch[task_name], batch_id)
-            loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
-        return loss
 
-    # TODO: additional steps for combined modules
-
-    def training_step(self, batch, batch_idx):
-        loss = self.module_step(batch, batch_idx)
-        self.log("train_loss", loss)
-        return loss
-
-    def validation_step(self, batch, batch_idx):
-        loss = self.module_step(batch, batch_idx)
-        self.log("val_loss", loss)
-        return loss
-
-    def test_step(self, batch, batch_idx):
-        loss = self.module_step(batch, batch_idx)
-        self.log("test_loss", loss)
+        if step_name == "train":
+            for task_name in self.task_names:
+                target_loss = self._step(
+                    step_name,
+                    batch[task_name],
+                    batch_idx,
+                    self.task_names.index(task_name),
+                )
+                loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
+        else:
+            loss = self._step(step_name, batch, batch_idx, dataloader_idx)
         return loss
 
     def configure_optimizers(self):
         return instantiate(self.cfg.optimizer, params=self.parameters())
-
-
 
     # def set_module_name(self, module_name):
     #    self.module_name=module_name
@@ -83,7 +100,7 @@ class SlotAttention(pl.LightningModule):
         self.num_slots = num_slots
         self.iters = iters
         self.eps = eps
-        self.scale = dim ** -0.5
+        self.scale = dim**-0.5
 
         self.slots_mu = nn.Parameter(torch.randn(1, 1, dim))
         self.slots_sigma = nn.Parameter(torch.abs(torch.randn(1, 1, dim)))
@@ -202,21 +219,21 @@ class SoftPositionEmbed(pl.LightningModule):
         """
         super().__init__()
         self.embedding = nn.Linear(4, hidden_size, bias=True)
-        self.grid = build_grid(resolution, self.device)
+        self.register_buffer("grid", build_grid(resolution))
 
     def forward(self, inputs):
         grid = self.embedding(self.grid)
         return inputs + grid
 
 
-def build_grid(resolution, device):
+def build_grid(resolution):
     ranges = [np.linspace(0.0, 1.0, num=res) for res in resolution]
     grid = np.meshgrid(*ranges, sparse=False, indexing="ij")
     grid = np.stack(grid, axis=-1)
     grid = np.reshape(grid, [resolution[0], resolution[1], -1])
     grid = np.expand_dims(grid, axis=0)
     grid = grid.astype(np.float32)
-    return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1)).to(device)
+    return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1))
 
 
 # ------------------------ STSN --------------------------------------
@@ -224,8 +241,14 @@ def build_grid(resolution, device):
 
 
 class SlotAttentionAutoEncoder(AVRModule):
-    def __init__(self, cfg: DictConfig, resolution: (int, int), num_slots: int, hid_dim: int,
-                 num_iterations: int):
+    def __init__(
+        self,
+        cfg: DictConfig,
+        resolution: tuple[int, int],
+        num_slots: int,
+        hid_dim: int,
+        num_iterations: int,
+    ):
         """Builds the Slot Attention-based auto-encoder.
         Args:
         resolution: Tuple of integers specifying width and height of input image.
@@ -250,16 +273,15 @@ class SlotAttentionAutoEncoder(AVRModule):
             num_slots=self.num_slots,
             dim=self.hid_dim,
             iters=self.num_iterations,
-            eps=1e-8
+            eps=1e-8,
         )
-        self.save_hyperparameters()
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
 
         # Convolutional encoder with position embedding.
         x = self.encoder_cnn(image)  # CNN Backbone.
-        x = nn.LayerNorm(x.shape[1:])(x)
+        x = nn.LayerNorm(x.shape[1:], device=self.device)(x)
         x = self.fc1(x)
         x = F.relu(x)
         x = self.fc2(x)  # Feedforward network on set.
@@ -304,7 +326,7 @@ class SlotAttentionAutoEncoder(AVRModule):
             attn.reshape(image.shape[0], -1, image.shape[2], image.shape[3], 1),
         )
 
-    def _step(self, batch, batch_idx):
+    def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
         img, target = batch
         recon_combined_seq = []
         for idx in range(img.shape[1]):
@@ -314,4 +336,19 @@ class SlotAttentionAutoEncoder(AVRModule):
             del recon_combined, recons, masks, slots, attn
         pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
         loss = self.loss(pred_img, img)
+        return loss
+
+    def training_step(self, batch, batch_idx, dataloader_idx=0):
+        loss = self.module_step("train", batch, batch_idx, dataloader_idx)
+        self.log("train_loss", loss)
+        return loss
+
+    def validation_step(self, batch, batch_idx, dataloader_idx=0):
+        loss = self.module_step("val", batch, batch_idx, dataloader_idx)
+        self.log("val_loss", loss)
+        return loss
+
+    def test_step(self, batch, batch_idx, dataloader_idx=0):
+        loss = self.module_step("test", batch, batch_idx, dataloader_idx)
+        self.log("test_loss", loss)
         return loss

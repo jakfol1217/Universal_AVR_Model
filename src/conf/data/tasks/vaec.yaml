@@ -6,7 +6,7 @@ vaec:
   dataset:
     target: model.avr_datasets.VAECdataset
     data_path: ${data.root}/vaec/datasets/
-    img_size: null
+    img_size: ${img_size}
     train:
       _target_: ${data.tasks.vaec.dataset.target}
       dataset_type: analogy_train.hy

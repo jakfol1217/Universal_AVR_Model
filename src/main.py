@@ -1,6 +1,10 @@
+import logging
+import sys
+
 import hydra
 import pytorch_lightning as pl
 import torch
+from dotenv import load_dotenv
 from hydra.core.hydra_config import HydraConfig
 from hydra.utils import instantiate
 from lightning.pytorch.loggers import WandbLogger
@@ -11,11 +15,17 @@ from model.avr_datasets import IRAVENdataset
 from model.models.STSN import SlotAttentionAutoEncoder
 from wandb_agent import WandbAgent
 
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(stream=sys.stdout)
+logger.addHandler(handler)
+
 
 @hydra.main(version_base=None, config_path="./conf", config_name="config")
 def _test(cfg: DictConfig) -> None:
     torch.set_float32_matmul_precision(cfg.torch.matmul_precision)  # 'medium' | 'high'
     # https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
+
+    pl.seed_everything(cfg.seed)
 
     data_module = instantiate(cfg.data.datamodule, cfg)
 
@@ -44,4 +54,5 @@ def _test(cfg: DictConfig) -> None:
 
 
 if __name__ == "__main__":
+    load_dotenv()
     _test()

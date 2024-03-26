@@ -14,7 +14,7 @@ iraven:
       - in_distribute_four_out_center_single
       - left_center_single_right_center_single
       - up_center_single_down_center_single
-    img_size: null
+    img_size: ${img_size}
     train:
       _target_: ${data.tasks.iraven.dataset.target}
       dataset_type: train

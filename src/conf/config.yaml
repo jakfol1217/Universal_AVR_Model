@@ -3,22 +3,21 @@ defaults:
   - dataloader: default
   - data/datamodule: multi_module # single_module # combined_module_min_size # combined_module_sequential
   - optimizer: adam
-  - model: test
+  - model: stsn
   - trainer: base
   - metrics: mse
   - _self_
 data:
   root: /home/kaminskia/studies/Universal_AVR_Model/src/data/samples
+torch:
+  matmul_precision: medium # medium high
 batch_size: 3
+img_size: 80
 num_workers: 8
 lr: 0.001
 max_epochs: 1
 monitor: val_loss
 early_stopping_patience: 3
 log_every_n_steps: 50
-
-
+seed: 42
 target_loss_ratio: 0.3
-
-torch:
-  matmul_precision: medium # medium high

@@ -7,7 +7,7 @@ bongard_hoi:
     target: model.avr_datasets.HOIdataset
     data_path: ${data.root}/bongard_hoi/hake/
     annotation_path: ${data.root}/bongard_hoi/bongard_hoi_release/
-    img_size: 256
+    img_size: ${img_size}
     train:
       _target_: ${data.tasks.bongard_hoi.dataset.target}
       dataset_type: bongard_hoi_train.json

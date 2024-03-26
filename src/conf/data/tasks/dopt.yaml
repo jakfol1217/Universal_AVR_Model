@@ -6,7 +6,7 @@ dopt:
   dataset:
     target: model.avr_datasets.DOPTdataset
     data_path: ${data.root}/dopt
-    img_size: null
+    img_size: ${img_size}
     train:
       _target_: ${data.tasks.dopt.dataset.target}
       dataset_type: square_test_set_20_train.npy
