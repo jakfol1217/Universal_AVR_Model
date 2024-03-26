@@ -1,1 +1,1 @@
-_target_: model.models.STSN.TestModel
+_target_: model.models.test.TestModel

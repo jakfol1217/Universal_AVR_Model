@@ -22,11 +22,27 @@ class WandbAgent:
         max_metric_run = max(runs, key=lambda run: run.summary[key])
         return max_metric_run
 
-    def get_newest_run(self, **kwargs):
+    def get_newest_runs(self, **kwargs):
         runs = self.get_runs(**kwargs)
         runs = [r for r in runs if '_timestamp' in r.summary]
-        newest_run = max(runs, key=lambda run: run.summary['_timestamp'])
-        return newest_run
+        newest_runs = sorted(runs, key=lambda run: run.summary['_timestamp'], reverse=True)
+        return newest_runs
+
+    def get_newest_checkpoint(self, **kwargs):
+        runs = self.get_newest_runs(**kwargs)
+        checkpoint = None
+        for run in runs:
+            try:
+                checkpoint = self.get_best_checkpoint_from_run(run.name)
+                if checkpoint:
+                    break
+            except ValueError:
+                continue
+
+        if checkpoint:
+            return checkpoint
+        else:
+            raise ValueError(f"No run has viable model checkpoints")
 
     def get_run_by_name(self, run_name):
         runs = self.api.runs(self.project_name, filters={"display_name": run_name})
@@ -60,9 +76,6 @@ class WandbAgent:
         # if best not found, return latest
         return WandbAgent.download_checkpoint(model_artifacts[-1])
 
-
-
-
     @staticmethod
     def download_checkpoint(artifact):
         checkpoint_path = artifact.download()
@@ -70,11 +83,13 @@ class WandbAgent:
         checkpoint_path = os.path.join(checkpoint_path, "model.ckpt")
         return checkpoint_path
 
+
 if __name__ == "__main__":
     agent = WandbAgent("AVR_universal")
-    runs = agent.get_runs()
+    #runs = agent.get_runs()
     #print(runs[0].summary)
-    best_run = agent.get_newest_run()
-    checkpoint_path = agent.get_best_checkpoint_from_run(best_run.name)
-    print(best_run.summary)
-    print(checkpoint_path)
+    checkpoint_path = agent.get_newest_checkpoint()
+
+
+    #print(run.summary)
+   # print(checkpoint_path)
