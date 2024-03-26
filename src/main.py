@@ -40,8 +40,7 @@ def _test(cfg: DictConfig) -> None:
 
     # example loading best model from newest run
     wandb_agent = WandbAgent("AVR_universal")
-    newest_run = wandb_agent.get_newest_run()
-    checkpoint_path = wandb_agent.get_best_checkpoint_from_run(newest_run.name)
+    checkpoint_path = wandb_agent.get_newest_checkpoint()
     new_model = SlotAttentionAutoEncoder.load_from_checkpoint(checkpoint_path)
     print(new_model)
 
