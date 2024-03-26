@@ -2,4 +2,6 @@
 outputs/
 __pycache__/
 lightning_logs/
+multirun/
+wandb/
 .env
