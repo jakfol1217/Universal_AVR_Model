@@ -1,4 +1,3 @@
-
 import numpy as np
 import pytorch_lightning as pl
 import torch
@@ -14,12 +13,8 @@ from omegaconf import DictConfig, OmegaConf
 # DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 
 class AVRModule(pl.LightningModule, ABC):
-    def __init__(self, cfg: DictConfig, device: str = None):
+    def __init__(self, cfg: DictConfig):
         super().__init__()
-        if device:
-            self._device = device
-        else:
-            self._device = "cuda" if torch.cuda.is_available() else "cpu"
         self.cfg = cfg
 
         self.task_names = list(self.cfg.data.tasks.keys())
@@ -53,6 +48,8 @@ class AVRModule(pl.LightningModule, ABC):
             loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
         return loss
 
+    # TODO: additional steps for combined modules
+
     def training_step(self, batch, batch_idx):
         loss = self.module_step(batch, batch_idx)
         self.log("train_loss", loss)
@@ -72,174 +69,170 @@ class AVRModule(pl.LightningModule, ABC):
         return instantiate(self.cfg.optimizer, params=self.parameters())
 
 
-    # TODO: additional steps for combined modules
 
-    # ------------ HELPER CLASSES AND FUNCTIONS -------------------------
-    class SlotAttention(pl.LightningModule):
-        def __init__(self, num_slots, dim, iters=3, eps=1e-8):
-            super().__init__()
-            self.num_slots = num_slots
-            self.iters = iters
-            self.eps = eps
-            self.scale = dim ** -0.5
-
-            self.slots_mu = nn.Parameter(torch.randn(1, 1, dim))
-            self.slots_sigma = nn.Parameter(torch.abs(torch.randn(1, 1, dim)))
-
-            self.to_q = nn.Linear(dim, dim)
-            self.to_k = nn.Linear(dim, dim)
-            self.to_v = nn.Linear(dim, dim)
-
-            self.gru = nn.GRUCell(dim, dim)
-
-            self.fc1 = nn.Linear(dim, dim)
-            self.fc2 = nn.Linear(dim, dim)
-
-            self.norm_input = nn.LayerNorm(dim)
-            self.norm_slots = nn.LayerNorm(dim)
-            self.norm_pre_ff = nn.LayerNorm(dim)
-
-        def forward(self, inputs, num_slots=None):
-            b, n, d = inputs.shape
-            n_s = num_slots if num_slots is not None else self.num_slots
-
-            mu = self.slots_mu.expand(b, n_s, -1)
-            sigma = self.slots_sigma.expand(b, n_s, -1)
-            slots = torch.normal(mu, sigma)
-
-            inputs = self.norm_input(inputs)
-            k, v = self.to_k(inputs), self.to_v(inputs)
-
-            for _ in range(self.iters):
-                slots_prev = slots
-
-                slots = self.norm_slots(slots)
-                q = self.to_q(slots)
-
-                dots = torch.einsum("bid,bjd->bij", q, k) * self.scale
-                attn = dots.softmax(dim=1) + self.eps
-                attn = attn / attn.sum(dim=-1, keepdim=True)
-                # total_attn = torch.cat((total_attn,attn.unsqueeze(1)),dim=1)
-                updates = torch.einsum("bjd,bij->bid", v, attn)
-
-                slots = self.gru(updates.reshape(-1, d), slots_prev.reshape(-1, d))
-
-                slots = slots.reshape(b, -1, d)
-                slots = slots + self.fc2(F.relu(self.fc1(self.norm_pre_ff(slots))))
-
-            return slots, attn
-
-    class Encoder(pl.LightningModule):
-        def __init__(self, resolution, hid_dim, outer_self):
-            super().__init__()
-            self.conv1 = nn.Conv2d(3, hid_dim, 5, padding=2)
-            self.conv2 = nn.Conv2d(hid_dim, hid_dim, 5, padding=2)
-            self.conv3 = nn.Conv2d(hid_dim, hid_dim, 5, padding=2)
-            self.conv4 = nn.Conv2d(hid_dim, hid_dim, 5, padding=2)
-            self.encoder_pos = outer_self.SoftPositionEmbed(hid_dim, resolution, outer_self)
-
-        def forward(self, x):
-            if x.shape[1] == 1:
-                x = x.repeat(1, 3, 1, 1)
-            x = self.conv1(x)
-            x = F.relu(x)
-            x = self.conv2(x)
-            x = F.relu(x)
-            x = self.conv3(x)
-            x = F.relu(x)
-            x = self.conv4(x)
-            x = F.relu(x)
-            x = x.permute(0, 2, 3, 1)
-            x = self.encoder_pos(x)
-            x = torch.flatten(x, 1, 2)
-            return x
-
-    class Decoder(pl.LightningModule):
-        def __init__(self, hid_dim, resolution, outer_self):
-            super().__init__()
-            self.conv1 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
-            self.conv2 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
-            self.conv3 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
-            # self.conv4 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(2, 2), padding=2, output_padding=1)
-            # self.conv5 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
-            self.conv4 = nn.ConvTranspose2d(hid_dim, 2, 3, stride=(1, 1), padding=1)
-            self.decoder_initial_size = resolution
-            self.decoder_pos = outer_self.SoftPositionEmbed(hid_dim, self.decoder_initial_size, outer_self)
-            self.resolution = resolution
-
-        def forward(self, x):
-            x = self.decoder_pos(x)
-            x = x.permute(0, 3, 1, 2)
-            x = self.conv1(x)
-            x = F.relu(x)
-            x = self.conv2(x)
-            x = F.relu(x)
-            x = self.conv3(x)
-            x = F.relu(x)
-            # x = self.conv4(x)
-
-            # x = F.relu(x)
-            # x = self.conv5(x)
-
-            # x = F.relu(x)
-            x = self.conv4(x)
-
-            x = x.permute(0, 2, 3, 1)
-            return x
-
-    class SoftPositionEmbed(nn.Module):
-        def __init__(self, hidden_size, resolution, outer_self):
-            """Builds the soft position embedding layer.
-            Args:
-            hidden_size: Size of input feature dimension.
-            resolution: Tuple of integers specifying width and height of grid.
-            outer_self: outer class
-            """
-            super().__init__()
-            self.embedding = nn.Linear(4, hidden_size, bias=True)
-            self.grid = outer_self.build_grid(resolution)
-
-        def forward(self, inputs):
-            grid = self.embedding(self.grid)
-            return inputs + grid
-
-    def build_grid(self, resolution):
-        ranges = [np.linspace(0.0, 1.0, num=res) for res in resolution]
-        grid = np.meshgrid(*ranges, sparse=False, indexing="ij")
-        grid = np.stack(grid, axis=-1)
-        grid = np.reshape(grid, [resolution[0], resolution[1], -1])
-        grid = np.expand_dims(grid, axis=0)
-        grid = grid.astype(np.float32)
-        return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1)).to(self.device)
-
-    @property
-    def device(self):
-        return self._device
-
-    @device.setter
-    def device(self, value):
-        self._device = value
-
-    def set_module_name(self, module_name):
-        self.module_name=module_name
+    # def set_module_name(self, module_name):
+    #    self.module_name=module_name
 
 
-    # ------------------------ STSN --------------------------------------
+# ------------ HELPER CLASSES AND FUNCTIONS -------------------------
 
 
+class SlotAttention(pl.LightningModule):
+    def __init__(self, num_slots, dim, iters=3, eps=1e-8):
+        super().__init__()
+        self.num_slots = num_slots
+        self.iters = iters
+        self.eps = eps
+        self.scale = dim ** -0.5
+
+        self.slots_mu = nn.Parameter(torch.randn(1, 1, dim))
+        self.slots_sigma = nn.Parameter(torch.abs(torch.randn(1, 1, dim)))
+
+        self.to_q = nn.Linear(dim, dim)
+        self.to_k = nn.Linear(dim, dim)
+        self.to_v = nn.Linear(dim, dim)
+
+        self.gru = nn.GRUCell(dim, dim)
+
+        self.fc1 = nn.Linear(dim, dim)
+        self.fc2 = nn.Linear(dim, dim)
+
+        self.norm_input = nn.LayerNorm(dim)
+        self.norm_slots = nn.LayerNorm(dim)
+        self.norm_pre_ff = nn.LayerNorm(dim)
+
+    def forward(self, inputs, num_slots=None):
+        b, n, d = inputs.shape
+        n_s = num_slots if num_slots is not None else self.num_slots
+
+        mu = self.slots_mu.expand(b, n_s, -1)
+        sigma = self.slots_sigma.expand(b, n_s, -1)
+        slots = torch.normal(mu, sigma)
+
+        inputs = self.norm_input(inputs)
+        k, v = self.to_k(inputs), self.to_v(inputs)
+
+        for _ in range(self.iters):
+            slots_prev = slots
+
+            slots = self.norm_slots(slots)
+            q = self.to_q(slots)
+
+            dots = torch.einsum("bid,bjd->bij", q, k) * self.scale
+            attn = dots.softmax(dim=1) + self.eps
+            attn = attn / attn.sum(dim=-1, keepdim=True)
+            # total_attn = torch.cat((total_attn,attn.unsqueeze(1)),dim=1)
+            updates = torch.einsum("bjd,bij->bid", v, attn)
+
+            slots = self.gru(updates.reshape(-1, d), slots_prev.reshape(-1, d))
+
+            slots = slots.reshape(b, -1, d)
+            slots = slots + self.fc2(F.relu(self.fc1(self.norm_pre_ff(slots))))
+
+        return slots, attn
+
+
+class Encoder(pl.LightningModule):
+    def __init__(self, resolution, hid_dim):
+        super().__init__()
+        self.conv1 = nn.Conv2d(3, hid_dim, 5, padding=2)
+        self.conv2 = nn.Conv2d(hid_dim, hid_dim, 5, padding=2)
+        self.conv3 = nn.Conv2d(hid_dim, hid_dim, 5, padding=2)
+        self.conv4 = nn.Conv2d(hid_dim, hid_dim, 5, padding=2)
+        self.encoder_pos = SoftPositionEmbed(hid_dim, resolution)
+
+    def forward(self, x):
+        if x.shape[1] == 1:
+            x = x.repeat(1, 3, 1, 1)
+        x = self.conv1(x)
+        x = F.relu(x)
+        x = self.conv2(x)
+        x = F.relu(x)
+        x = self.conv3(x)
+        x = F.relu(x)
+        x = self.conv4(x)
+        x = F.relu(x)
+        x = x.permute(0, 2, 3, 1)
+        x = self.encoder_pos(x)
+        x = torch.flatten(x, 1, 2)
+        return x
+
+
+class Decoder(pl.LightningModule):
+    def __init__(self, hid_dim, resolution):
+        super().__init__()
+        self.conv1 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
+        self.conv2 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
+        self.conv3 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
+        # self.conv4 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(2, 2), padding=2, output_padding=1)
+        # self.conv5 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
+        self.conv4 = nn.ConvTranspose2d(hid_dim, 2, 3, stride=(1, 1), padding=1)
+        self.decoder_initial_size = resolution
+        self.decoder_pos = SoftPositionEmbed(hid_dim, self.decoder_initial_size)
+        self.resolution = resolution
+
+    def forward(self, x):
+        x = self.decoder_pos(x)
+        x = x.permute(0, 3, 1, 2)
+        x = self.conv1(x)
+        x = F.relu(x)
+        x = self.conv2(x)
+        x = F.relu(x)
+        x = self.conv3(x)
+        x = F.relu(x)
+        # x = self.conv4(x)
+
+        # x = F.relu(x)
+        # x = self.conv5(x)
+
+        # x = F.relu(x)
+        x = self.conv4(x)
+
+        x = x.permute(0, 2, 3, 1)
+        return x
+
+
+class SoftPositionEmbed(pl.LightningModule):
+    def __init__(self, hidden_size, resolution):
+        """Builds the soft position embedding layer.
+        Args:
+        hidden_size: Size of input feature dimension.
+        resolution: Tuple of integers specifying width and height of grid.
+        outer_self: outer class
+        """
+        super().__init__()
+        self.embedding = nn.Linear(4, hidden_size, bias=True)
+        self.grid = build_grid(resolution, self.device)
+
+    def forward(self, inputs):
+        grid = self.embedding(self.grid)
+        return inputs + grid
+
+
+def build_grid(resolution, device):
+    ranges = [np.linspace(0.0, 1.0, num=res) for res in resolution]
+    grid = np.meshgrid(*ranges, sparse=False, indexing="ij")
+    grid = np.stack(grid, axis=-1)
+    grid = np.reshape(grid, [resolution[0], resolution[1], -1])
+    grid = np.expand_dims(grid, axis=0)
+    grid = grid.astype(np.float32)
+    return torch.from_numpy(np.concatenate([grid, 1.0 - grid], axis=-1)).to(device)
+
+
+# ------------------------ STSN --------------------------------------
 """Slot Attention-based auto-encoder for object discovery."""
 
 
 class SlotAttentionAutoEncoder(AVRModule):
     def __init__(self, cfg: DictConfig, resolution: (int, int), num_slots: int, hid_dim: int,
-                 num_iterations: int, device: str = None):
+                 num_iterations: int):
         """Builds the Slot Attention-based auto-encoder.
         Args:
         resolution: Tuple of integers specifying width and height of input image.
         num_slots: Number of slots in Slot Attention.
         num_iterations: Number of iterations in Slot Attention.
         """
-        super().__init__(cfg, device)
+        super().__init__(cfg)
         self.hid_dim = hid_dim
         self.resolution = resolution
         self.num_slots = num_slots
@@ -247,13 +240,13 @@ class SlotAttentionAutoEncoder(AVRModule):
 
         self.loss = instantiate(cfg.metrics.mse)
 
-        self.encoder_cnn = self.Encoder(self.resolution, self.hid_dim, self)
-        self.decoder_cnn = self.Decoder(self.hid_dim, self.resolution, self)
+        self.encoder_cnn = Encoder(self.resolution, self.hid_dim)
+        self.decoder_cnn = Decoder(self.hid_dim, self.resolution)
 
         self.fc1 = nn.Linear(self.hid_dim, self.hid_dim)
         self.fc2 = nn.Linear(self.hid_dim, self.hid_dim)
 
-        self.slot_attention = self.SlotAttention(
+        self.slot_attention = SlotAttention(
             num_slots=self.num_slots,
             dim=self.hid_dim,
             iters=self.num_iterations,
@@ -322,5 +315,3 @@ class SlotAttentionAutoEncoder(AVRModule):
         pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
         loss = self.loss(pred_img, img)
         return loss
-
-
