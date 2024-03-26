@@ -335,6 +335,8 @@ class SlotAttentionAutoEncoder(AVRModule):
 
             del recon_combined, recons, masks, slots, attn
         pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
+        if pred_img.shape[2] != img.shape[2]:
+            pred_img = pred_img.repeat(1, 1, 3, 1, 1)
         loss = self.loss(pred_img, img)
         return loss
 
