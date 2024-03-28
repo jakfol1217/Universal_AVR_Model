@@ -66,6 +66,7 @@ def h5pyfy_bongard_logo(bongard_logo_path, h5py_path, compress=True):
 # Ill try to actually download it
 
 # DOPT
+# Its already 3 files
 
 # VAEC
 # already in HDF5
@@ -79,6 +80,43 @@ def h5pyfy_bongard_logo(bongard_logo_path, h5py_path, compress=True):
 # already in Eden
 
 # MNS
+
+def h5pyfy_mns(mns_path, h5py_path, compress=True):
+    """
+    Function for transforming the MNS dataset into h5py format. It creates 3 files:
+    MNS_val.hy, MNS_train.hy and MNS_test.hy, each containing different dataset split.
+    Each file contains problems indexed with integers as strings (0, 1, 2, etc.) Each problem contains "data" of size 3x160x160
+    and "target" os size 1.
+    Args:
+    mns_path -- path in which the MNS dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    compress -- whether to compress the underlying numpy arrays.
+    """
+
+    def create_mns_h5py(stage):
+        """
+        Function that transforms a given split into h5py
+        Args:
+        stage: val, train or test
+        """
+        full_path = os.path.join(mns_path, stage + "_set")
+        with h5py.File(os.path.join(h5py_path, "mns_" + stage + ".hy"), "w") as f:
+            for i, file in enumerate(tqdm(os.listdir(full_path))):
+                grp = f.create_group(str(i), track_order=True)
+                data = np.load(os.path.join(full_path, file))
+                if compress:
+                    grp.create_dataset("data", data=data['image'], compression="gzip")
+
+                else:
+                    grp.create_dataset("data", data=data['image'])
+                grp.create_dataset("target", data=data['target'])
+
+    print("Creating val dataset...")
+    create_mns_h5py("val")
+    print("Creating train dataset...")
+    create_mns_h5py("train")
+    print("Creating test dataset...")
+    create_mns_h5py("test")
 
 # PGM
 
