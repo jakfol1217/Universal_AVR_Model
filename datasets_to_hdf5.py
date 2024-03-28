@@ -3,6 +3,7 @@ import os
 import json
 from PIL import Image
 import numpy as np
+import pandas as pd
 from tqdm import tqdm
 import glob
 
@@ -93,7 +94,46 @@ def h5pyfy_bongard_logo(bongard_logo_path, h5py_path, compress=True):
     create_bongard_logo_h5py("test", test_files)
 
 # CLEVR
-# Ill try to actually download it
+def h5pyfy_clevr(clevr_path, h5py_path, compress=True):
+    """
+    Function for transforming the CLEVR dataset into h5py format. It creates 3 files:
+    CLEVR_val.hy, CLEVR_train.hy and CLEVR_test.hy, each containing different dataset split.
+    Each file contains problems indexed with integers as strings (0, 1, 2, etc.) Each problem contains "data" of size
+    16x240x320x3 and "target" os size 1.
+    Args:
+    clevr_path -- path in which the CLEVR dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    compress -- whether to compress the underlying numpy arrays.
+    """
+
+    def create_clevr_h5py(stage):
+        """
+        Function that transforms a given split into h5py
+        Args:
+        stage: val, train or test
+        """
+
+        with h5py.File(os.path.join(h5py_path, "clevr_" + stage + ".hy"), "w") as f:
+            files = []
+            for dr in os.listdir(clevr_path):
+                files.extend(glob.glob(os.path.join(clevr_path, dr, f"*{stage}*.npz")))
+
+            for i, file in enumerate(tqdm(files)):
+                grp = f.create_group(str(i), track_order=True)
+                data = np.load(file)
+                if compress:
+                    grp.create_dataset("data", data=data['image'], compression="gzip")
+
+                else:
+                    grp.create_dataset("data", data=data['image'])
+                grp.create_dataset("target", data=data['target'])
+
+    print("Creating test dataset...")
+    create_clevr_h5py("test")
+    print("Creating train dataset...")
+    create_clevr_h5py("train")
+    print("Creating val dataset...")
+    create_clevr_h5py("val")
 
 # DOPT
 # Its already 3 files
@@ -105,6 +145,62 @@ def h5pyfy_bongard_logo(bongard_logo_path, h5py_path, compress=True):
 # unnecessary since its already 1 file
 
 # g-set
+def h5pyfy_gset(gset_path, h5py_path, compress=True):
+    """
+    Function for transforming the G-set dataset into h5py format. It creates 1 file:
+    gset.hy.
+    This file contains problems indexed with integers as strings (0, 1, 2, etc.) Each problem contains "test" of size
+    8x50x50x4, "answers" of size 5x50x50x4  and "target" of size 1.
+    Args:
+    gset_path -- path in which the G-set dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    compress -- whether to compress the underlying numpy arrays.
+    """
+
+    def split_gset_answer(image):
+        """
+        Function for splitting the answers image into singular panels.
+        """
+        images = []
+        for window in range(0, image.size[0], 50):
+            images.append(np.array(image)[:, window:window + 50])
+        return images
+
+    def split_gset_context(image):
+        """
+        Function for splitting the context image into singular panels.
+        """
+
+        images = []
+        for window_w in range(0, image.size[0], 50):
+            for window_h in range(0, image.size[1], 50):
+                images.append(np.array(image)[window_w:window_w + 50, window_h:window_h + 50])
+        return images[:-1]
+
+    targets = pd.read_csv(os.path.join(gset_path, "answers.csv"), header=None)
+    with h5py.File(os.path.join(h5py_path, "gset.hy"), "w") as f:
+        for ext in ["answers", "test"]:
+            print(f"Creating {ext}...")
+            for file in tqdm(glob.glob(os.path.join(gset_path, "*" + ext + ".png"))):
+                idx = file.replace('\\', '/').rsplit('/', 1)[1][:5]
+                if idx == "00000":
+                    idx = "0"
+                else:
+                    idx = idx.lstrip("0")
+                grp = f.require_group(idx)
+                img = Image.open(file)
+                if ext == "answers":
+                    img_split = split_gset_answer(img)
+                else:
+                    img_split = split_gset_context(img)
+                    grp.create_dataset("target", data=targets[0][int(idx)])
+                    
+                if compress:
+                    grp.create_dataset(ext, data=np.array(img_split), compression="gzip")
+                else:
+                    grp.create_dataset(ext, data=np.array(img_split))
+
+
 
 # i-Raven
 # already in Eden
