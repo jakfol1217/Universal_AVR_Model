@@ -16,12 +16,11 @@ In this module we download/generate multiple data sources.
 10. MNS (downloading script prepared, generation - not yet) (21GB; 13/4.1/4.1)
 11. PGM (requires google project to be created and GOOGLE_CLIENT_ID, GOOGLE_CLIENT_SECRET environment variables to be set before running) - before downloading verify (code) which dataset you want to download.
 12. SVRT (https://fleuret.org/cgi-bin/gitweb/gitweb.cgi?p=svrt.git;a=tree - weird git client, hard to clone/download snapshot in cli, best to pass tar.gz repo snapshot)
-13. VAP (same as in PGM env variables are required) (46GB; 6.7GB, 12.7GB, 8.9GB, 8.9GB, 8.8GB - compressed)
+13. VAP/LABC (same as in PGM env variables are required) (46GB; 6.7GB, 12.7GB, 8.9GB, 8.9GB, 8.8GB - compressed)
 14. VASR (TODO looks big both generation (requires first downloading images and generating new ones - storing both may not be an option))
 15. Sandia
-16. LABC
-17. KiloGram
-18. ARC
+16. KiloGram
+17. ARC
 
 ## Instruction
 
