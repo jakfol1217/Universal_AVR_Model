@@ -13,3 +13,4 @@ wandb==0.16.4
 submitit==1.5.1
 hydra-submitit-launcher==1.2.0
 python-dotenv==1.0.1
+tqdm==4.65.0
