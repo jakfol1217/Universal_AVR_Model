@@ -4,10 +4,40 @@ import json
 from PIL import Image
 import numpy as np
 from tqdm import tqdm
+import glob
 
 # TODO: modify/add dataset classes that will process h5py versions of datasets
 
 # Bongard HOI
+# I decided not to go the 1 index 1 problem route due to possibly repeating images making the already
+# large dataset even bigger. Here is a simple translation of data folders into single hdf5 files
+def h5pyfy_bongard_hoi(bongard_hoi_path, h5py_path, compress = True):
+    """
+    Translates the Bongard HOI data folder into a h5py file. The resulting file recreates all the paths in the
+    original dataset, making it possible to still use the json files.
+    WARNING: the resulting files are extremely large in size to make it somewhat manageable,
+    the folders are split into separate files.
+    Args:
+    bongard_hoi_path -- path in which the Bongard_HOI dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    compress -- whether to compress the underlying numpy arrays.
+    """
+
+    for dr in os.listdir(bongard_hoi_path):
+        with h5py.File(os.path.join(h5py_path, "bongard_hoi_" + dr + ".hy"), "w") as f:
+            images = []
+            for ext in ["*.jpg", "*.png", "*.jpeg"]:
+                images.extend(glob.glob(os.path.join(bongard_hoi_path, dr, "**", ext), recursive=True))
+            print(f"Converting folder: {dr}")
+            for img in tqdm(images):
+                img_array = np.array(Image.open(img))
+                file_path = img.replace(bongard_hoi_path, "").replace("\\","/")[1:]
+                file_path_1, file_path_2 = file_path.rsplit("/", 1)
+                grp = f.require_group(file_path_1)
+                if compress:
+                    grp.create_dataset(file_path_2, data=img_array, compression="gzip")
+                else:
+                    grp.create_dataset(file_path_2, data=img_array)
 
 # Bongard LOGO
 def h5pyfy_bongard_logo(bongard_logo_path, h5py_path, compress=True):
