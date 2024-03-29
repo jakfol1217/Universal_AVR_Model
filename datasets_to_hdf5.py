@@ -194,7 +194,7 @@ def h5pyfy_gset(gset_path, h5py_path, compress=True):
                 else:
                     img_split = split_gset_context(img)
                     grp.create_dataset("target", data=targets[0][int(idx)])
-                    
+
                 if compress:
                     grp.create_dataset(ext, data=np.array(img_split), compression="gzip")
                 else:
@@ -246,6 +246,48 @@ def h5pyfy_mns(mns_path, h5py_path, compress=True):
 
 # PGM
 
+def h5pyfy_pgm(pgm_path, h5py_path, compress=True):
+    """
+    Function for transforming the PGM dataset into h5py format. It creates 3 files:
+    PGM_val.hy, PGM_train.hy and PGM_test.hy, each containing different dataset split.
+    Each file contains problems indexed with integers as strings (0, 1, 2, etc.) Each problem contains "image" of size
+    16x160x160 and "target" os size 1.
+    The function is intended to be used on 1 regime at a time (so 3 files per regime), as the regimes are quite large
+    and diverse.
+    Args:
+    pgm_path -- path in which the PGM dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    compress -- whether to compress the underlying numpy arrays.
+    """
+    regime = pgm_path.replace("\\", "/").rsplit('/', 1)[1]
+
+    def create_pgm_h5py(stage):
+        """
+        Function that transforms a given split into h5py
+        Args:
+        stage: val, train or test
+        """
+
+        with h5py.File(os.path.join(h5py_path, "_".join(["pgm", regime, stage]) + ".hy"), "w") as f:
+            files = glob.glob(os.path.join(pgm_path, f"*{stage}*.npz"))
+
+            for i, file in enumerate(tqdm(files)):
+                grp = f.create_group(str(i), track_order=True)
+                data = np.load(file)
+                image = data['image'].reshape(16, 160, 160)
+                if compress:
+                    grp.create_dataset("data", data=image, compression="gzip")
+
+                else:
+                    grp.create_dataset("data", data=image)
+                grp.create_dataset("target", data=data['target'])
+
+    print("Creating val dataset...")
+    create_pgm_h5py("val")
+    print("Creating train dataset...")
+    create_pgm_h5py("train")
+    print("Creating test dataset...")
+    create_pgm_h5py("test")
 # SVRT
 
 # VAP/LABC
