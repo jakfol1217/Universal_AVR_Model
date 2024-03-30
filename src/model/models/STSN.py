@@ -201,9 +201,9 @@ class Decoder(pl.LightningModule):
         self.conv1 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
         self.conv2 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
         self.conv3 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
-        # self.conv4 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(2, 2), padding=2, output_padding=1)
-        # self.conv5 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
-        self.conv4 = nn.ConvTranspose2d(hid_dim, 2, 3, stride=(1, 1), padding=1)
+        self.conv4 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
+        self.conv5 = nn.ConvTranspose2d(hid_dim, hid_dim, 5, stride=(1, 1), padding=2)
+        self.conv6 = nn.ConvTranspose2d(hid_dim, 2, 3, stride=(1, 1), padding=1)
         self.decoder_initial_size = resolution
         self.decoder_pos = SoftPositionEmbed(hid_dim, self.decoder_initial_size)
         self.resolution = resolution
@@ -217,15 +217,16 @@ class Decoder(pl.LightningModule):
         x = F.relu(x)
         x = self.conv3(x)
         x = F.relu(x)
-        # x = self.conv4(x)
-
-        # x = F.relu(x)
-        # x = self.conv5(x)
-
-        # x = F.relu(x)
         x = self.conv4(x)
 
+        x = F.relu(x)
+        x = self.conv5(x)
+
+        x = F.relu(x)
+        x = self.conv6(x)
+
         x = x.permute(0, 2, 3, 1)
+
         return x
 
 
