@@ -45,7 +45,7 @@ def _test(cfg: DictConfig) -> None:
     # example loading best model from newest run
     wandb_agent = WandbAgent("AVR_universal")
     checkpoint_path = wandb_agent.get_newest_checkpoint()
-    new_model = SlotAttentionAutoEncoder.load_from_checkpoint(checkpoint_path)
+    new_model = SlotAttentionAutoEncoder.load_from_checkpoint(checkpoint_path, cfg=cfg)
     print(new_model)
 
     # The way to access ``hydra.**`` configuration
