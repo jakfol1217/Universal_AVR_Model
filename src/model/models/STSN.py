@@ -66,18 +66,14 @@ class AVRModule(pl.LightningModule, ABC):
             loss = self._step(
                 step_name, batch[self.task_names[0]], batch_idx, dataloader_idx
             )
-            self.log(
-                f"{step_name}/{self.task_names[dataloader_idx]}/loss",
-                on_epoch=True,
-                add_dataloader_idx=False,
-            )
         else:
             loss = self._step(step_name, batch, batch_idx)
-            self.log(
-                f"{step_name}/{self.task_names[dataloader_idx]}/loss",
-                on_epoch=True,
-                add_dataloader_idx=False,
-            )
+        self.log(
+            f"{step_name}/{self.task_names[dataloader_idx]}/loss",
+            loss,
+            on_epoch=True,
+            add_dataloader_idx=False,
+        )
         return loss
 
     def _multi_module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
@@ -243,7 +239,7 @@ class SoftPositionEmbed(pl.LightningModule):
         """
         super().__init__()
         self.embedding = nn.Linear(4, hidden_size, bias=True)
-        self.register_buffer("grid", build_grid(resolution))
+        self.register_buffer("grid", build_grid(resolution), persistent=False)
 
     def forward(self, inputs):
         grid = self.embedding(self.grid)
