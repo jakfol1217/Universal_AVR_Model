@@ -290,6 +290,36 @@ def h5pyfy_pgm(pgm_path, h5py_path, compress=True):
     create_pgm_h5py("test")
 # SVRT
 
+def h5pyfy_svrt(svrt_path, h5py_path, compress = True):
+    """
+    Function for transforming the SVRT dataset into h5py format. It creates 1 file:
+    svrt.hy
+    This file contains the whole dataset, mimicking the way it is stored originally. It contains 23 class groups, and
+    each class group is further split into 2 additional groups, each containing 100 images -- so each group contains
+    a numpy array of size 100x128x128x3.
+    Args:
+    svrt_path -- path in which the SVRT dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    compress -- whether to compress the underlying numpy arrays.
+    """
+    with h5py.File(os.path.join(h5py_path, "svrt.hy"), "w") as f:
+        for fldr in os.listdir(svrt_path):
+            print(f"Converting folder: {fldr}")
+            grp = f.create_group(fldr)
+            photos_0 = []
+            photos_1 = []
+            for file in tqdm(glob.glob(os.path.join(svrt_path, fldr, "*.png"))):
+                if file.rsplit("_",2)[1] == "0":
+                    photos_0.append(np.array(Image.open(file)))
+                else:
+                    photos_1.append(np.array(Image.open(file)))
+            if compress:
+                grp.create_dataset("group_0", data=np.array(photos_0), compression="gzip")
+                grp.create_dataset("group_1", data=np.array(photos_1), compression="gzip")
+            else:
+                grp.create_dataset("group_0", data=np.array(photos_0))
+                grp.create_dataset("group_1", data=np.array(photos_1))
+
 # VAP/LABC
 
 def h5pyfy_labc(labc_path, h5py_path, compress=True):
