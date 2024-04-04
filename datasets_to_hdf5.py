@@ -292,6 +292,48 @@ def h5pyfy_pgm(pgm_path, h5py_path, compress=True):
 
 # VAP/LABC
 
+def h5pyfy_labc(labc_path, h5py_path, compress=True):
+    """
+    Function for transforming the LABC dataset into h5py format. It creates 3 files:
+    LABC_val.hy, LABC_train.hy and LABC_test.hy, each containing different dataset split.
+    Each file contains problems indexed with integers as strings (0, 1, 2, etc.) Each problem contains "image" of size
+    9x160x160 and "target" os size 1.
+    The function is intended to be used on 1 regime at a time (so 3 files per regime), as the regimes are quite large
+    and diverse.
+    Args:
+    labc_path -- path in which the LABC dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    compress -- whether to compress the underlying numpy arrays.
+    """
+    regime = labc_path.replace("\\", "/").rsplit('/', 1)[1]
+
+    def create_labc_h5py(stage):
+        """
+        Function that transforms a given split into h5py
+        Args:
+        stage: val, train or test
+        """
+
+        with h5py.File(os.path.join(h5py_path, "_".join(["labc", regime, stage]) + ".hy"), "w") as f:
+            files = glob.glob(os.path.join(labc_path, f"*{stage}*.npz"))
+
+            for i, file in enumerate(tqdm(files)):
+                grp = f.create_group(str(i), track_order=True)
+                data = np.load(file)
+                image = data['image'].reshape(-1, 160, 160)
+                if compress:
+                    grp.create_dataset("data", data=image, compression="gzip")
+
+                else:
+                    grp.create_dataset("data", data=image)
+                grp.create_dataset("target", data=data['target'])
+
+    print("Creating val dataset...")
+    create_labc_h5py("val")
+    print("Creating train dataset...")
+    create_labc_h5py("train")
+    print("Creating test dataset...")
+    create_labc_h5py("test")
 # VASR
 
 # Sandia
