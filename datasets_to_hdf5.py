@@ -280,6 +280,10 @@ def h5pyfy_pgm(pgm_path, h5py_path, compress=True):
 
                 else:
                     grp.create_dataset("data", data=image)
+                grp.create_dataset("meta_target", data=data['meta_target'])
+                grp.create_dataset("relation_structure", data=data['relation_structure'])
+                grp.create_dataset("relation_structure_encoded", data=data['relation_structure_encoded'])
+                grp.attrs['filename'] = file.replace("\\", "/").rsplit("/", 1)[1]
                 grp.create_dataset("target", data=data['target'])
 
     print("Creating val dataset...")
