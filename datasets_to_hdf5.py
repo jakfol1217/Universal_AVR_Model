@@ -8,6 +8,9 @@ from tqdm import tqdm
 import glob
 
 # TODO: modify/add dataset classes that will process h5py versions of datasets
+import random
+SEED = 12
+random.seed(SEED)
 
 # Bongard HOI
 # I decided not to go the 1 index 1 problem route due to possibly repeating images making the already
@@ -295,35 +298,67 @@ def h5pyfy_pgm(pgm_path, h5py_path, compress=True):
     create_pgm_h5py("test")
 # SVRT
 
-def h5pyfy_svrt(svrt_path, h5py_path, compress = True):
+def h5pyfy_svrt(svrt_path, h5py_path, splits=[10_000, 2_000, 2_000], n=5, compress=True):
     """
-    Function for transforming the SVRT dataset into h5py format. It creates 1 file:
-    svrt.hy
-    This file contains the whole dataset, mimicking the way it is stored originally. It contains 23 class groups, and
-    each class group is further split into 2 additional groups, each containing 100 images -- so each group contains
-    a numpy array of size 100x128x128x3.
+    Function for transforming the SVRT dataset into h5py format. It creates 3 files:
+    svrt_train.hy, svrt_val.hy, svrt_test.hy, each containing different dataset split.
+    Each file contains problems indexed with integers as strings (0, 1, 2, etc.) Each problem contains two groups
+    ("grp_1", "grp_2"), each of size nx128x128x3
+
     Args:
     svrt_path -- path in which the SVRT dataset is stored
     h5py_path -- path to which the new HDF5 files are to be saved.
+    splits -- list containg number of elements for each split (train, val, test)
+    n -- number of elements in each group problem
     compress -- whether to compress the underlying numpy arrays.
     """
-    with h5py.File(os.path.join(h5py_path, "svrt.hy"), "w") as f:
-        for fldr in os.listdir(svrt_path):
-            print(f"Converting folder: {fldr}")
-            grp = f.create_group(fldr)
-            photos_0 = []
-            photos_1 = []
-            for file in tqdm(glob.glob(os.path.join(svrt_path, fldr, "*.png"))):
-                if file.rsplit("_",2)[1] == "0":
-                    photos_0.append(np.array(Image.open(file)))
+    assert n < 20
+    folders = os.listdir(svrt_path)
+
+    STAGE_SPLIT = {
+        "train": list(range(0, 60)),
+        "test": list(range(60, 80)),
+        "val": list(range(80, 100))
+    }
+
+    def file_to_array(path):
+        # returns an image array from file path
+        return np.array(Image.open(path))
+
+    def sample_problems(stage):
+        """
+        Samples n problems for each group (there are 2 groups in each problem).
+        Each group comes from a different folder (classes) and from one of the groups inside folders (groups)
+        Args:
+        stage -- stage name (train, test, val)
+        Returns:
+        photos_0, photos_1 -- 2 arrays, each containg n+1 images
+        """
+        classes = random.sample(list(range(len(folders))), 2)
+        groups = random.choices(list(range(2)), k=2)
+        files_0 = np.array(glob.glob(os.path.join(svrt_path, folders[classes[0]], "*.png")))
+        files_1 = np.array(glob.glob(os.path.join(svrt_path, folders[classes[1]], "*.png")))
+        idxes_0 = [i + 100 * groups[0] for i in random.sample(STAGE_SPLIT[stage], n + 1)]
+        idxes_1 = [i + 100 * groups[1] for i in random.sample(STAGE_SPLIT[stage], n + 1)]
+        files_0 = files_0[idxes_0]
+        files_1 = files_1[idxes_1]
+        photos_0 = np.array(list(map(file_to_array, files_0)))
+        photos_1 = np.array(list(map(file_to_array, files_1)))
+        return photos_0, photos_1
+
+    for stage, split in zip(["train", "val", "test"], splits):
+        print(f"Creating {stage} set...")
+        with h5py.File(os.path.join(h5py_path, f"svrt_{stage}.hy"), "w") as f:
+            for i in tqdm(range(split)):
+                grp = f.create_group(str(i))
+                photos_0, photos_1 = sample_problems(stage)
+                if compress:
+                    grp.create_dataset("grp_1", data=photos_0, compression="gzip")
+                    grp.create_dataset("grp_2", data=photos_1, compression="gzip")
                 else:
-                    photos_1.append(np.array(Image.open(file)))
-            if compress:
-                grp.create_dataset("group_0", data=np.array(photos_0), compression="gzip")
-                grp.create_dataset("group_1", data=np.array(photos_1), compression="gzip")
-            else:
-                grp.create_dataset("group_0", data=np.array(photos_0))
-                grp.create_dataset("group_1", data=np.array(photos_1))
+                    grp.create_dataset("grp_1", data=photos_0)
+                    grp.create_dataset("grp_2", data=photos_1)
+
 
 # VAP/LABC
 
