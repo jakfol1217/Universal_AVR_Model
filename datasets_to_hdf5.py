@@ -226,8 +226,8 @@ def h5pyfy_mns(mns_path, h5py_path, compress=True):
         stage: val, train or test
         """
         full_path = os.path.join(mns_path, stage + "_set")
-        with h5py.File(os.path.join(h5py_path, "mns_" + stage + "_set.hy"), "w") as f:
-            for i, file in enumerate(tqdm(os.listdir(full_path))):
+        with h5py.File(os.path.join(h5py_path, "mns_" + stage + ".hy"), "w") as f:
+            for i, file in enumerate(tqdm(os.listdir(full_path)[:1000])):
                 grp = f.create_group(str(i), track_order=True)
                 data = np.load(os.path.join(full_path, file))
                 if compress:
@@ -236,6 +236,7 @@ def h5pyfy_mns(mns_path, h5py_path, compress=True):
                 else:
                     grp.create_dataset("data", data=data['image'])
                 grp.create_dataset("target", data=data['target'])
+                grp.attrs['filename'] = file
 
     print("Creating val dataset...")
     create_mns_h5py("val")
