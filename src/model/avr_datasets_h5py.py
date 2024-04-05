@@ -393,13 +393,13 @@ def _test():
 
     # Example of usage
     print("Bongard HOI")
-    #train_dataset = HOIdataset_h5py(data_path=r"D:\mcs",
-    #        annotation_path=r"D:\mcs\all_data\bongard_hoi\bongard_hoi_release",
-    #        dataset_type="bongard_hoi_val_seen_obj_seen_act.json",
-    #        img_size=80)
-    #img, target = train_dataset[0]
-    #print(img.shape)
-    #print(target)
+    train_dataset = HOIdataset_h5py(data_path=r"D:\mcs",
+            annotation_path=r"D:\mcs\all_data\bongard_hoi\bongard_hoi_release",
+            dataset_type="bongard_hoi_val_seen_obj_seen_act.json",
+            img_size=80)
+    img, target = train_dataset[0]
+    print(img.shape)
+    print(target)
 
 
     print("Bongard LOGO")
