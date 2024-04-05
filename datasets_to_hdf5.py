@@ -312,7 +312,7 @@ def h5pyfy_svrt(svrt_path, h5py_path, splits=[10_000, 2_000, 2_000], n=5, compre
     n -- number of elements in each group problem
     compress -- whether to compress the underlying numpy arrays.
     """
-    assert n < 20
+    assert 1 < n < 20
     folders = os.listdir(svrt_path)
 
     STAGE_SPLIT = {

@@ -147,9 +147,9 @@ class HOIdataset(Dataset):
         # why?
         # random answer flip
         if random.uniform(0,1) <= 0.5:
-            target = np.asarray(1)
-        else:
             target = np.asarray(0)
+        else:
+            target = np.asarray(1)
             answers = answers[::-1]
         
         images = context + answers
@@ -213,9 +213,9 @@ class LOGOdataset(Dataset):
 
         # random answer flip
         if random.uniform(0,1) <= 0.5:
-            target = np.asarray(1)
-        else:
             target = np.asarray(0)
+        else:
+            target = np.asarray(1)
             answers = answers[::-1]
         
         images = context + answers
