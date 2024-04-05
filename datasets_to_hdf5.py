@@ -354,9 +354,13 @@ def h5pyfy_labc(labc_path, h5py_path, compress=True):
                 if compress:
                     grp.create_dataset("data", data=image, compression="gzip")
 
+
                 else:
                     grp.create_dataset("data", data=image)
+                grp.create_dataset("relation_structure", data=data['relation_structure'])
+                grp.create_dataset("relation_structure_encoded", data=data['relation_structure_encoded'])
                 grp.create_dataset("target", data=data['target'])
+                grp.attrs['filename'] = file.replace("\\", "/").rsplit("/", 1)[1]
 
     print("Creating val dataset...")
     create_labc_h5py("val")
@@ -369,6 +373,7 @@ def h5pyfy_labc(labc_path, h5py_path, compress=True):
 # Sandia
 
 # KiloGram
+# I don't think we will use it
 
 # ARC
 
