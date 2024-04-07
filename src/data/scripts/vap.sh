@@ -2,17 +2,19 @@
 
 
 usage() {
-  echo "Usage: $0 [-r REGIME] [-h] [TARGET_DIR]"
+  echo "Usage: $0 [-h] [-r REGIME] [-p TARGET_DIR]"
   echo ""
   echo "Download VAP dataset"
   echo "  -r REGIME  The regime of the VAP dataset. Options: extrapolation, interpolation, novel.domain.transfer, novel.target.domain.line.type, novel.target.domain.shape.color"
+  echo "  -p TARGET_DIR  The directory where the data will be downloaded. By default current directory."
   echo "  -h         Display this help and exit"
 }
 
 # read flags from the command line
-while getopts 'h:r:' opt; do
+while getopts 'h:r:p:' opt; do
 case "${opt}" in
     r) REGIME="${OPTARG}" ;;
+    p) TARGET_DIR="${OPTARG}" ;;
     h) usage ; exit 0 ;;
     *) usage ; exit 1 ;;
 esac
