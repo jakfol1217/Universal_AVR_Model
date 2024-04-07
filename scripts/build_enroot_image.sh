@@ -9,6 +9,9 @@
 #SBATCH --export=ALL
 #SBATCH --account=mandziuk-lab
 
+set -ex
+
+export ENROOT_RUNTIME_PATH='/tmp/enroot-runtime'
 DOCKER_BUILD_DIR='/vagrant'
 DOCKER_FILE_PATH='/vagrant/docker/pytorch.Dockerfile'
 DOCKER_IMAGE_URI='kaminskia/universal-avr-system:latest'
@@ -17,8 +20,6 @@ OUTPUT_DIR_HOST='/raid/shared/akaminski'
 OUTPUT_DIR_GUEST='/output'
 OUTPUT_FILENAME="${ENROOT_IMAGE_NAME}_$(date +'%Y-%m-%d_%H-%M-%S').sqsh"
 
-set -e
-
 env \
   DOCKER_BUILD_DIR="${DOCKER_BUILD_DIR}" \
   DOCKER_FILE_PATH="${DOCKER_FILE_PATH}" \
@@ -26,6 +27,7 @@ env \
   OUTPUT_DIR_HOST="${OUTPUT_DIR_HOST}" \
   OUTPUT_DIR_GUEST="${OUTPUT_DIR_GUEST}" \
   OUTPUT_FILENAME="${OUTPUT_FILENAME}" \
+  ENROOT_RUNTIME_PATH="${ENROOT_RUNTIME_PATH}" \
   vagrant up --provision
 echo "Provisioned virtual machine and exported docker image to enroot image: ${OUTPUT_DIR_HOST}/${OUTPUT_FILENAME}"
 
