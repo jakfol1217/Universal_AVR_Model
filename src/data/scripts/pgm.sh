@@ -71,4 +71,4 @@ ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token \
 echo $ACCESS_TOKEN
 
 wget -c --header="Authorization: Bearer $ACCESS_TOKEN" ${URL}?alt=media -O ${TARGET_DIR}/raw/pgm_${REGIME}.tar.gz
-tar -xzf ${TARGET_DIR}/raw/pgm_${REGIME}.tar.gz ${TARGET_DIR}/pgm
+tar -xzf ${TARGET_DIR}/raw/pgm_${REGIME}.tar.gz -C ${TARGET_DIR}/pgm

@@ -14,7 +14,7 @@ echo "Downloading BongardHOI dataset into $TARGET_DIR/bongard_hoi"
 echo -e "--------------------------------------------------------------------------------\n"
 
 wget -c $URL -O $TARGET_DIR/raw/bongard_hoi_images.tar
-tar -xf $TARGET_DIR/raw/bongard_hoi_images.tar $TARGET_DIR/bongard_hoi
+tar -xf $TARGET_DIR/raw/bongard_hoi_images.tar -C $TARGET_DIR/bongard_hoi
 
 echo "--------------------------------------------------------------------------------"
 echo "Downloading BongardHOI dataset annotations into $TARGET_DIR/bongard_hoi"
@@ -22,4 +22,4 @@ echo -e "-----------------------------------------------------------------------
 
 
 wget -c $URL_LABELS -O $TARGET_DIR/raw/bongard_hoi_annotations.tar
-tar -xf $TARGET_DIR/raw/bongard_hoi_annotations.tar $TARGET_DIR/bongard_hoi
+tar -xf $TARGET_DIR/raw/bongard_hoi_annotations.tar -C $TARGET_DIR/bongard_hoi
