@@ -11,7 +11,6 @@
 
 set -ex
 
-export ENROOT_RUNTIME_PATH='/tmp/enroot-runtime'
 DOCKER_BUILD_DIR='/vagrant'
 DOCKER_FILE_PATH='/vagrant/docker/pytorch.Dockerfile'
 DOCKER_IMAGE_URI='kaminskia/universal-avr-system:latest'
@@ -27,7 +26,6 @@ env \
   OUTPUT_DIR_HOST="${OUTPUT_DIR_HOST}" \
   OUTPUT_DIR_GUEST="${OUTPUT_DIR_GUEST}" \
   OUTPUT_FILENAME="${OUTPUT_FILENAME}" \
-  ENROOT_RUNTIME_PATH="${ENROOT_RUNTIME_PATH}" \
   vagrant up --provision
 echo "Provisioned virtual machine and exported docker image to enroot image: ${OUTPUT_DIR_HOST}/${OUTPUT_FILENAME}"
 

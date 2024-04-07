@@ -14,7 +14,6 @@
 #SBATCH --account=mandziuk-lab
 
 # TODO: Setup submitit hydra plugin and check if it works
-export ENROOT_RUNTIME_PATH='/tmp/enroot-runtime'
 date "+%Y-%m-%d %H:%M:%S"
 echo "SLURMD_NODENAME: ${SLURMD_NODENAME}"
 echo "SLURM_JOB_ID: ${SLURM_JOB_ID}"
