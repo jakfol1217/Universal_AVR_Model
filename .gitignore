@@ -4,4 +4,6 @@ __pycache__/
 lightning_logs/
 multirun/
 wandb/
+artifacts/
+model_checkpoints/
 .env
