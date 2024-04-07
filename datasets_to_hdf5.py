@@ -1,14 +1,18 @@
-import h5py
-import os
-import json
-from PIL import Image
-import numpy as np
-import pandas as pd
-from tqdm import tqdm
 import glob
+import json
+import os
 
 # TODO: modify/add dataset classes that will process h5py versions of datasets
 import random
+import sys
+
+import h5py
+import numpy as np
+import pandas as pd
+from PIL import Image
+from tqdm import tqdm
+
+# TODO: modify/add dataset classes that will process h5py versions of datasets
 SEED = 12
 random.seed(SEED)
 
@@ -417,6 +421,9 @@ def h5pyfy_labc(labc_path, h5py_path, compress=True):
 
 # ARC
 
-
-
-
+if __name__ == "__main__":
+    args = sys.argv
+    # args[0] = current file
+    # args[1] = function name
+    # args[2:] = function args : (*unpacked)
+    globals()[args[1]](*args[2:])
