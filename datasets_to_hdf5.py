@@ -426,4 +426,6 @@ if __name__ == "__main__":
     # args[0] = current file
     # args[1] = function name
     # args[2:] = function args : (*unpacked)
+    # args[3] = h5py_path
+    os.makedirs(args[3], exist_ok=True)
     globals()[args[1]](*args[2:])
