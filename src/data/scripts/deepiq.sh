@@ -3,6 +3,7 @@
 TARGET_DIR=${1:-"."}  # The directory where the data will be downloaded
 
 # Create the target directory if it doesn't exist
+mkdir -p $TARGET_DIR/raw
 mkdir -p $TARGET_DIR/deepiq
 
 URL=https://github.com/deepiq/deepiq/raw/master/odd-one-out%20test%20examples.zip
@@ -19,14 +20,12 @@ echo "Downloading Deepiq OOO dataset into $TARGET_DIR/deepiq"
 echo -e "--------------------------------------------------------------------------------\n"
 
 
-wget -c $URL -O $TARGET_DIR/deepiq.zip
+wget -c $URL -O $TARGET_DIR/raw/deepiq.zip
 
-unzip -j -q $TARGET_DIR/deepiq.zip -d $TARGET_DIR/deepiq
+unzip -j -q $TARGET_DIR/raw/deepiq.zip -d $TARGET_DIR/deepiq
 
 # if succefully unzipped remove temp file
 
-if [ $? -eq 0 ]; then
-    rm $TARGET_DIR/deepiq.zip
-fi
-
-
+# if [ $? -eq 0 ]; then
+#     rm $TARGET_DIR/deepiq.zip
+# fi

@@ -31,6 +31,7 @@ if [ -z "$TARGET_DIR" ]; then
 fi
 
 # Create the target directory if it doesn't exist
+mkdir -p $TARGET_DIR/raw
 mkdir -p $TARGET_DIR/vap
 
 
@@ -70,4 +71,5 @@ ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token \
     | jq -r '.access_token')
 echo $ACCESS_TOKEN
 
-wget -c --header="Authorization: Bearer $ACCESS_TOKEN" ${URL}?alt=media -O - | tar -xz -C $TARGET_DIR/vap
+wget -c --header="Authorization: Bearer $ACCESS_TOKEN" ${URL}?alt=media -O ${TARGET_DIR}/raw/vap_${REGIME}.tar.gz
+tar -xzf ${TARGET_DIR}/raw/vap_${REGIME}.tar.gz ${TARGET_DIR}/vap

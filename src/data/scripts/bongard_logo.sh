@@ -3,6 +3,7 @@
 TARGET_DIR=${1:-"."}  # The directory where the data will be downloaded
 
 # Create the target directory if it doesn't exist
+mkdir -p $TARGET_DIR/raw
 mkdir -p $TARGET_DIR/bongard_logo
 
 URL=https://drive.google.com/file/d/1-1j7EBriRpxI-xIVqE6UEXt-SzoWvwLx/view
@@ -24,12 +25,12 @@ if ! [ -x "$(command -v gdown)" ]; then
     exit 1
 fi
 
-gdown $ID -c -O $TARGET_DIR/temp_bongard_logo.zip
+gdown $ID -c -O $TARGET_DIR/raw/bongard_logo.zip
 
-unzip -q $TARGET_DIR/temp_bongard_logo.zip -d $TARGET_DIR/bongard_logo
+unzip -q $TARGET_DIR/raw/bongard_logo.zip -d $TARGET_DIR/bongard_logo
 
 # if succefully unzipped remove temp file
 if [ $? -eq 0 ]; then
     rm -rf $TARGET_DIR/bongard_logo/__MACOSX
-    rm $TARGET_DIR/temp_bongard_logo.zip
+    # rm $TARGET_DIR/temp_bongard_logo.zip
 fi

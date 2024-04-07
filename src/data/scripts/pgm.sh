@@ -1,8 +1,36 @@
 #!/bin/bash
 
-TARGET_DIR=${1:-"."}  # The directory where the data will be downloaded
+
+usage() {
+  echo "Usage: $0 [-r REGIME] [-h] [TARGET_DIR]"
+  echo ""
+  echo "Download PGM dataset"
+  echo "  -r REGIME  The regime of the PGM dataset. Options: attr.rel.pairs, attr.rels, attrs.line.type, attrs.pairs, attrs.shape.color, extrapolation, interpolation, neutral"
+  echo "  -h         Display this help and exit"
+}
+
+# read flags from the command line
+while getopts 'h:r:' opt; do
+case "${opt}" in
+    r) REGIME="${OPTARG}" ;;
+    h) usage ; exit 0 ;;
+    *) usage ; exit 1 ;;
+esac
+done
+
+if [[ ! $REGIME = @(attr.rel.pairs|attr.rels|attrs.line.type|attrs.pairs|attrs.shape.color|extrapolation|interpolation|neutral) ]]; then
+    echo "Invalid regime. Options: attr.rel.pairs, attr.rels, attrs.line.type, attrs.pairs, attrs.shape.color, extrapolation, interpolation, neutral"
+    exit 1
+fi
+
+TARGET_DIR=${@:$OPTIND:1:}  # The directory where the data will be downloaded
+# Add default value to TARGET_DIR
+if [ -z "$TARGET_DIR" ]; then
+    TARGET_DIR="."
+fi
 
 # Create the target directory if it doesn't exist
+mkdir -p $TARGET_DIR/raw
 mkdir -p $TARGET_DIR/pgm
 
 
@@ -10,18 +38,9 @@ echo "--------------------------------------------------------------------------
 echo "Downloading PGM dataset into $TARGET_DIR/pgm"
 echo -e "--------------------------------------------------------------------------------\n"
 
-# URL=https://storage.cloud.google.com/ravens-matrices/attr.rel.pairs.tar.gz
-URL=https://storage.googleapis.com/storage/v1/b/ravens-matrices/o/attr.rel.pairs.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/attr.rels.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/attrs.line.type.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/attrs.pairs.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/attrs.shape.color.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/extrapolation.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/interpolation.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/neutral.tar.gz
+URL=https://storage.googleapis.com/storage/v1/b/ravens-matrices/o/${REGIME}.tar.gz
 
 # check if environment variables are set
-
 if [ -z "$GOOGLE_CLIENT_ID" ]; then
     echo "Please set the GOOGLE_CLIENT_ID environment variable"
     exit 1
@@ -50,11 +69,5 @@ ACCESS_TOKEN=$(curl -X POST https://oauth2.googleapis.com/token \
     | jq -r '.access_token')
 echo $ACCESS_TOKEN
 
-wget -c --header="Authorization: Bearer $ACCESS_TOKEN" ${URL}?alt=media -O - | tar -xz -C $TARGET_DIR/pgm
-# TODO: rest of urls (too much spaces required)
-## Analogies
-# https://storage.cloud.google.com/ravens-matrices/analogies/extrapolation.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/analogies/interpolation.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/analogies/novel.domain.transfer.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/analogies/novel.target.domain.line.type.tar.gz
-# https://storage.cloud.google.com/ravens-matrices/analogies/novel.target.domain.shape.color.tar.gz
+wget -c --header="Authorization: Bearer $ACCESS_TOKEN" ${URL}?alt=media -O ${TARGET_DIR}/raw/pgm_${REGIME}.tar.gz
+tar -xzf ${TARGET_DIR}/raw/pgm_${REGIME}.tar.gz ${TARGET_DIR}/pgm

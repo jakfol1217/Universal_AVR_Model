@@ -3,6 +3,7 @@
 TARGET_DIR=${1:-"."}  # The directory where the data will be downloaded
 
 # Create the target directory if it doesn't exist
+mkdir -p $TARGET_DIR/raw
 mkdir -p $TARGET_DIR/i-raven
 
 URL=https://drive.google.com/file/d/1SxhImd29PLtlvqXAhlkH-CVDfFRzcK7y/view
@@ -24,11 +25,11 @@ if ! [ -x "$(command -v gdown)" ]; then
     exit 1
 fi
 
-gdown $ID -c -O $TARGET_DIR/temp_i-raven.zip
+gdown $ID -c -O $TARGET_DIR/raw/i-raven.zip
 
-unzip -q $TARGET_DIR/temp_i-raven.zip -d $TARGET_DIR/i-raven
+unzip -q $TARGET_DIR/raw/i-raven.zip -d $TARGET_DIR/i-raven
 
 # if succefully unzipped remove temp file
-if [ $? -eq 0 ]; then
-    rm $TARGET_DIR/temp_i-raven.zip
-fi
+# if [ $? -eq 0 ]; then
+#     rm $TARGET_DIR/raw/i-raven.zip
+# fi

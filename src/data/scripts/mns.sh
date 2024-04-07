@@ -3,6 +3,7 @@
 TARGET_DIR=${1:-"."}  # The directory where the data will be downloaded
 
 # Create the target directory if it doesn't exist
+mkdir -p $TARGET_DIR/raw
 mkdir -p $TARGET_DIR/mns
 
 URL=https://drive.google.com/file/d/17KuL8KOIDAeRL-lD418oiDEm8bE6TEFb/view
@@ -24,11 +25,11 @@ if ! [ -x "$(command -v gdown)" ]; then
     exit 1
 fi
 
-gdown $ID -c -O $TARGET_DIR/temp_mns.zip
+gdown $ID -c -O $TARGET_DIR/raw/mns.zip
 
-unzip -q $TARGET_DIR/temp_mns.zip -d $TARGET_DIR/mns
+unzip -q $TARGET_DIR/raw/mns.zip -d $TARGET_DIR/mns
 
 # if succefully unzipped remove temp file
-if [ $? -eq 0 ]; then
-    rm $TARGET_DIR/temp_mns.zip
-fi
+# if [ $? -eq 0 ]; then
+#     rm $TARGET_DIR/raw/mns.zip
+# fi
