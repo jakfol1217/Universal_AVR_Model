@@ -14,8 +14,8 @@
 #SBATCH --account=mandziuk-lab
 
 # TODO: Setup submitit hydra plugin and check if it works
-
-date
+export ENROOT_RUNTIME_PATH='/tmp/enroot-runtime'
+date "+%Y-%m-%d %H:%M:%S"
 echo "SLURMD_NODENAME: ${SLURMD_NODENAME}"
 echo "SLURM_JOB_ID: ${SLURM_JOB_ID}"
 echo "CUDA_VISIBLE_DEVICES: ${CUDA_VISIBLE_DEVICES}"
@@ -24,19 +24,10 @@ echo "Enroot version: $(enroot version)"
 enroot start \
     --rw \
     -e CUDA_VISIBLE_DEVICES="${CUDA_VISIBLE_DEVICES}" \
-    -m /home2/faculty/akaminski/src:/app/src \
-    -m /home2/faculty/akaminski/.env:/app/.env \
+    -m /home2/faculty/akaminski/Universal_AVR_Model/src:/app/src:ro:x-create=dir,bind \
+    -m /home2/faculty/akaminski/Universal_AVR_Model/.env:/app/.env:ro:x-create=file,bind \
     -m /etc/slurm:/etc/slurm \
     universal-avr-system-latest \
-    python "${1}" "${@:2}"
-date
-    # -m /home2/faculty/akaminski/datasets:/app/data \
-    # -m /home2/faculty/akaminski/models:/app/models \
-
-docker run \
-    -v /home/kaminskia/studies/Universal_AVR_Model/src:/app/src \
-    -v /home/kaminskia/studies/Universal_AVR_Model/.env:/app/.env \
-    universalavrmodel:latest
-
-docker exec \
-    python "/app/src/main.py" "123 def 456"
+    "${1}" "${@:2}"
+echo "Enroot exited with code: $?"
+date "+%Y-%m-%d %H:%M:%S"
