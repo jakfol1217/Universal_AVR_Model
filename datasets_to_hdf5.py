@@ -11,6 +11,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 from tqdm import tqdm
+import multiprocessing as mp
 
 # TODO: modify/add dataset classes that will process h5py versions of datasets
 SEED = 12
@@ -253,6 +254,100 @@ def h5pyfy_mns(mns_path, h5py_path, compress=True):
     create_mns_h5py("test")
 
 # PGM
+
+def handle_output(output, path):
+    hdf = h5py.File(path, "w")
+    while True:
+        args = output.get()
+        if args:
+            method, args = args
+            getattr(hdf, method)(**args)
+        else:
+            break
+    hdf.close()
+
+def packing_process_pgm_compressed(inqueue, output):
+    for file in iter(inqueue.get, None):
+
+        i, photo, target = file
+        output.put(('create_group', {"name": str(i)}))
+        output.put(('create_dataset', {"name": f"{i}/data", "data": photo, "compression": "gzip"}))
+        output.put(('create_dataset', {"name": f"{i}/target", "data": target}))
+
+
+def packing_process_pgm(inqueue, output):
+    for file in iter(inqueue.get, None):
+
+        i, photo, target = file
+        output.put(('create_group', {"name": str(i)}))
+        output.put(('create_dataset', {"name": f"{i}/data", "data": photo}))
+        output.put(('create_dataset', {"name": f"{i}/target", "data": target}))
+
+
+
+
+def h5pyfy_pgm_mp(pgm_path, h5py_path, num_processes=None, compress=True):
+    """
+    Function for transforming the PGM dataset into h5py format. It creates 3 files:
+    PGM_val.hy, PGM_train.hy and PGM_test.hy, each containing different dataset split.
+    Each file contains problems indexed with integers as strings (0, 1, 2, etc.) Each problem contains "image" of size
+    16x160x160 and "target" os size 1.
+    The function is intended to be used on 1 regime at a time (so 3 files per regime), as the regimes are quite large
+    and diverse.
+    We introduce multiprocessing to speed up the process. We create processes that simultanously process the data. Unfortunately,
+    writing to filestill needs to be done by one process
+    Args:
+    pgm_path -- path in which the PGM dataset is stored
+    h5py_path -- path to which the new HDF5 files are to be saved.
+    num_processes -- number of processes to create. If None, it will use as many processes as CPUs available
+    compress -- whether to compress the underlying numpy arrays.
+    """
+    if not num_processes: # get maximum
+        num_processes = mp.cpu_count()
+    regime = pgm_path.replace("\\", "/").rsplit('/', 1)[1]
+
+    def create_pgm_h5py(stage):
+        """
+        Function that transforms a given split into h5py
+        Args:
+        stage: val, train or test
+        """
+        output = mp.Queue()
+        inqueue = mp.Queue()
+        path = os.path.join(h5py_path, "_".join(["pgm", regime, stage]) + ".hy")
+        # starting file writing process
+        proc = mp.Process(target=handle_output, args=(output, path))
+        proc.start()
+        files = glob.glob(os.path.join(pgm_path, f"*{stage}*.npz"))
+        jobs = []
+        # Starting data packaging processes
+        for i in range(num_processes):
+            if compress:
+                p = mp.Process(target=packing_process_pgm_compressed, args=(inqueue, output))
+            else:
+                p = mp.Process(target=packing_process_pgm, args=(inqueue, output))
+            jobs.append(p)
+            p.start()
+        for i, file in enumerate(tqdm(files)):
+            data = np.load(file)
+            photo = data['image'].reshape(16, 160, 160)
+            target = data['target']
+            inqueue.put((i, photo, target))
+        # Ending packing processes
+        for i in range(num_processes):
+            inqueue.put(None)
+        for p in jobs:
+            p.join()
+        output.put(None)
+        proc.join()
+
+
+    print("Creating val dataset...")
+    create_pgm_h5py("val")
+    print("Creating train dataset...")
+    create_pgm_h5py("train")
+    print("Creating test dataset...")
+    create_pgm_h5py("test")
 
 def h5pyfy_pgm(pgm_path, h5py_path, compress=True):
     """
