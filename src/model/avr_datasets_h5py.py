@@ -232,7 +232,7 @@ class PGMdataset_h5py(Dataset):
         self.data_files = []
         self.file_sizes = []
         for regime in regimes:
-            file = os.path.join(data_path, "_".join(["pgm", regime, dataset_type])+".hy")
+            file = os.path.join(data_path, regime, "_".join(["pgm", regime, dataset_type])+".hy")
             self.data_files.append(file)
             with h5py.File(file) as f:
                 self.file_sizes.append(len(f))
