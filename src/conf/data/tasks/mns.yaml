@@ -4,8 +4,8 @@ defaults:
 
 mns:
   dataset:
-    target: model.avr_datasets.MNSdataset
-    data_path: ${data.root}/mns/IQMath/
+    target: model.avr_datasets_h5py.MNSdataset_h5py
+    data_path: ${data.root}/h5py/mns
     img_size: ${img_size}
     train:
       _target_: ${data.tasks.mns.dataset.target}
