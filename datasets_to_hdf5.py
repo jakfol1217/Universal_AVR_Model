@@ -128,7 +128,7 @@ def h5pyfy_clevr(clevr_path, h5py_path, compress=True):
 
             for i, file in enumerate(tqdm(files)):
                 grp = f.create_group(str(i), track_order=True)
-                data = np.load(file)
+                data = np.load(file, mmap_mode='r')
                 if compress:
                     grp.create_dataset("data", data=data['image'], compression="gzip")
 
@@ -237,7 +237,7 @@ def h5pyfy_mns(mns_path, h5py_path, compress=True):
         with h5py.File(os.path.join(h5py_path, "mns_" + stage + "_set.hy"), "w") as f:
             for i, file in enumerate(tqdm(os.listdir(full_path))):
                 grp = f.create_group(str(i), track_order=True)
-                data = np.load(os.path.join(full_path, file))
+                data = np.load(os.path.join(full_path, file), mmap_mode='r')
                 if compress:
                     grp.create_dataset("data", data=data['image'], compression="gzip")
 
@@ -329,7 +329,7 @@ def h5pyfy_pgm_mp(pgm_path, h5py_path, num_processes=None, compress=True):
             jobs.append(p)
             p.start()
         for i, file in enumerate(tqdm(files)):
-            data = np.load(file)
+            data = np.load(file, mmap_mode='r')
             photo = data['image'].reshape(16, 160, 160)
             target = data['target']
             inqueue.put((i, photo, target))
@@ -376,7 +376,7 @@ def h5pyfy_pgm(pgm_path, h5py_path, compress=True):
 
             for i, file in enumerate(tqdm(files)):
                 grp = f.create_group(str(i), track_order=True)
-                data = np.load(file)
+                data = np.load(file, mmap_mode='r')
                 image = data['image'].reshape(16, 160, 160)
                 if compress:
                     grp.create_dataset("data", data=image, compression="gzip")
@@ -488,7 +488,7 @@ def h5pyfy_labc(labc_path, h5py_path, compress=True):
 
             for i, file in enumerate(tqdm(files)):
                 grp = f.create_group(str(i), track_order=True)
-                data = np.load(file)
+                data = np.load(file, mmap_mode='r')
                 image = data['image'].reshape(-1, 160, 160)
                 if compress:
                     grp.create_dataset("data", data=image, compression="gzip")
