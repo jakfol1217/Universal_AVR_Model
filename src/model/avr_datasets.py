@@ -2,6 +2,7 @@ import copy
 import glob
 import os
 import random
+import ast
 
 import h5py
 import hydra
@@ -14,6 +15,7 @@ from omegaconf import DictConfig, OmegaConf
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
 from torchvision.transforms import transforms
+
 
 
 class Dsprites_OOO():
@@ -75,9 +77,53 @@ class Dsprites_OOO():
         ooo_tasks = ooo_tasks[task_idxes]
         ooo_target = task_idxes.index(3)
         return ooo_tasks, ooo_target, latent_types
-        
-        
-        
+
+
+
+class VASRdataset(Dataset):
+    def __init__(
+            self,
+            data_path: str,
+            dataset_type: str,  # train, dev
+            img_size: int | None
+    ):
+        self.annotations = pd.read_csv(os.path.join(data_path, f"{dataset_type}.csv"))
+
+        if img_size:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((img_size, img_size))
+                ]
+            )
+        else:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor()
+                ]
+            )
+
+        self.data_path = data_path
+
+    def __len__(self):
+        return len(self.annotations)
+
+    def __getitem__(self, item):
+        task = self.annotations.iloc[item, :]
+        context = []
+        answers = []
+        img_names = ["A_img", "B_img", "C_img"]
+        for im in img_names:
+            context.append(os.path.join(self.data_path, 'images_512', task[im]))
+        for candidate in ast.literal_eval(task['candidates']):
+            answers.append(os.path.join(self.data_path, 'images_512', candidate))
+
+        target = task['label']
+        images = context + answers
+        img = [self.transforms(Image.open(im)) for im in images]
+        img = torch.stack(img)
+
+        return img, target
 
 
 class HOIdataset(Dataset):
@@ -520,66 +566,67 @@ def _test(cfg: DictConfig) -> None:
     # print(cfg.dataset)
 
     # Example of usage
+
     train_dataset = HOIdataset(cfg.dataset.tasks.bongard_hoi.train)
     img, target = train_dataset[0]
     print(img.shape)  # [14, 3, 256, 256]
     print(target)  # 0
-
+#
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
-
+#
     val_dataset_logo = LOGOdataset(cfg.dataset.tasks.bongard_logo.val)
     img, target = val_dataset_logo[0]
     print(img.shape)  # torch.Size([14, 3, 512, 512])
     print(target)  # 1
-
+#
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
-
+#
     test_dataset_dopt = DOPTdataset(cfg.dataset.tasks.dopt.test)
     img, target = test_dataset_dopt[0]
     print(img.shape)  # torch.Size([20, 1, 64, 64])
     # BUG: This dataset is not working, it's not returning the correct images
     print(target)  # 1
-
+#
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
-
+#
     test_dataset_vaec = VAECdataset(cfg.dataset.tasks.vaec.test)
     img, target = test_dataset_vaec[0]
     print(img.shape)  # torch.Size([8, 3, 128, 128])
     print(target)  # 3
-
+#
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
-
+#
     test_dataset_iraven = IRAVENdataset(cfg.dataset.tasks.iraven.test)
     img, target = test_dataset_iraven[0]
     print(img.shape)  # torch.Size([16, 1, 160, 160])
     print(target)  # 7
-
+#
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
-
+#
     train_dataset_mns = MNSdataset(cfg.dataset.tasks.mns.train)
     img, target = train_dataset_mns[0]
     print(img.shape)  # torch.Size([3, 1, 160, 160])
     print(target)  # 4
-
+#
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
-
+#
     train_dataset_pgm = PGMdataset(cfg.dataset.tasks.pgm.train)
     img, target = train_dataset_pgm[0]
     print(img.shape)  # torch.Size([16, 1, 160, 160])
     print(target)  # 6
-
+#
     # for i in range(img.shape[0]):
     #     img_pil = transforms.ToPILImage()(img[i])
     #     img_pil.save(f"img_{i}.png")
