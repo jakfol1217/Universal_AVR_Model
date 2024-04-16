@@ -296,7 +296,7 @@ class DEEPIQdataset(Dataset):
     def __getitem__(self, item):
         img_path = self.data[item]
         img_split = self.split_ooo_images(Image.open(img_path))
-        img = [self.transforms(Image.fromarray(split.astype(np.uint8))) for split in img_split]
+        img = [self.transforms(split) for split in img_split]
         img = torch.stack(img)
                                    
         target = np.asarray(self.answers[0][item])
@@ -383,7 +383,7 @@ class DSPRITESdataset(Dataset):
     def __getitem__(self, item):
         tasks = self.tasks[item]
         
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in tasks])
+        img = torch.stack([self.transforms(im) for im in tasks])
         
         target = np.asarray(self.targets[item])
         
@@ -426,7 +426,7 @@ class IRAVENdataset(Dataset):
 
         target = np.asarray(data['targ'])
         
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
         
         return img, target
 
