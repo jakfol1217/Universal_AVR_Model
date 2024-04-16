@@ -139,69 +139,67 @@ class HOIdataset(Dataset):
         if dataset_type:
             self.data_files = [f for f in self.data_files if dataset_type in f]
         self.file_sizes = []
+        self.annotations = []
         for file in self.data_files:
             with open(file) as f:
                 file_hoi = json.load(f)
                 self.file_sizes.append(len(file_hoi))
-        
+                self.annotations.append(file_hoi)
+
         self.idx_ranges = np.cumsum(self.file_sizes)
-        
+
         if img_size:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.Grayscale(num_output_channels=3),
-                        transforms.ToTensor(),
-                        transforms.Resize((img_size, img_size))
-                    ]
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((img_size, img_size))
+                ]
             )
         else:
             self.transforms = transforms.Compose(
-                    [
-                        transforms.ToTensor()
-                    ]
+                [
+                    transforms.ToTensor()
+                ]
             )
-            
+
         self.data_path = data_path
 
     def __len__(self):
         return int(np.sum(self.file_sizes))
-    
-    def __getitem__(self, item):
 
+    def __getitem__(self, item):
         for i in range(len(self.idx_ranges)):
             if item < self.idx_ranges[i]:
                 idx = i
                 break
-                
-        file = self.data_files[idx]
-        with open(file) as f:
-            files_hoi = json.load(f)
-            
+
+        files_hoi = self.annotations[idx]
+
         if idx == 0:
             file_hoi = files_hoi[item]
         else:
-            file_hoi = files_hoi[item-self.idx_ranges[idx-1]]
-        
+            file_hoi = files_hoi[item - self.idx_ranges[idx - 1]]
+
         context = file_hoi[0] + file_hoi[1]
         context = [os.path.join(self.data_path, c['im_path']) for c in context]
-        
+
         answers = []
         # adding random image as answer
         answers.append(context.pop(random.randint(0, 6)))
         answers.append(context.pop(random.randint(6, 12)))
-        
+
         # why?
         # random answer flip
-        if random.uniform(0,1) <= 0.5:
+        if random.uniform(0, 1) <= 0.5:
             target = np.asarray(0)
         else:
             target = np.asarray(1)
             answers = answers[::-1]
-        
+
         images = context + answers
-        img = [self.transforms(Image.open(im)) for im in images]
+        img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
         img = torch.stack(img)
-        
+
         return img, target
 
 
