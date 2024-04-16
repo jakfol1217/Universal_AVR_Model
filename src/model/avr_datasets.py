@@ -120,7 +120,7 @@ class VASRdataset(Dataset):
 
         target = task['label']
         images = context + answers
-        img = [self.transforms(Image.open(im)) for im in images]
+        img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
         img = torch.stack(img)
 
         return img, target
