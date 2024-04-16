@@ -89,7 +89,7 @@ class HOIdataset_h5py(Dataset):
             folder, im_path = im.split('/', 1)
             with h5py.File(os.path.join(self.data_path, "bongard_hoi_" + folder + ".hy")) as f:
                 images_data.append(np.array(f[im]))
-        img = [self.transforms(Image.fromarray(im)) for im in images_data]
+        img = [self.transforms(im) for im in images_data]
         img = torch.stack(img)
 
         return img, target
@@ -143,7 +143,7 @@ class LOGOdataset_h5py(Dataset):
 
         images = np.concatenate([context, answers])
 
-        images = [self.transforms(Image.fromarray(im)) for im in images]
+        images = [self.transforms(im) for im in images]
         img = torch.stack(images)
 
         return img, target
@@ -180,7 +180,7 @@ class CLEVRdataset_h5py(Dataset):
         with h5py.File(self.data_files) as f:
             images = np.asarray(f[str(item)]['data'])
             target = np.asarray(f[str(item)]['target'][()])
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
 
         return img, target
 
@@ -216,7 +216,7 @@ class MNSdataset_h5py(Dataset):
             images = np.asarray(f[str(item)]['data'])
             target = np.asarray(f[str(item)]['target'][()])
 
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
 
         return img, target
 
@@ -273,7 +273,7 @@ class PGMdataset_h5py(Dataset):
             target = np.asarray(f[str(item)]['target'][()])
 
 
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
 
         return img, target
 
@@ -326,7 +326,7 @@ class SVRTdataset_h5py(Dataset):
 
         images = np.concatenate([context, answers])
 
-        images = [self.transforms(Image.fromarray(im)) for im in images]
+        images = [self.transforms(im) for im in images]
         img = torch.stack(images)
 
         return img, target
@@ -383,7 +383,7 @@ class LABCdataset_h5py(Dataset):
             images = np.asarray(f[str(item)]['data'])
             target = np.asarray(f[str(item)]['target'][()])
 
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
 
         return img, target
 

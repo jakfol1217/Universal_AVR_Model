@@ -461,7 +461,7 @@ class MNSdataset(Dataset):
         images = data['image']
         target = np.asarray(data['target'])
         
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
         
         return img, target
 
@@ -504,7 +504,7 @@ class PGMdataset(Dataset):
         images = images.reshape(-1,160,160)
         target = np.asarray(data['target'])
         
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
         
         return img, target
 
@@ -553,7 +553,7 @@ class VAECdataset(Dataset):
             target = np.asarray(idx_hy.index(list(f[local_item]['ABCD'])[3]))
 
         images = np.concatenate([context, answers])
-        img = torch.stack([self.transforms(Image.fromarray(im.astype(np.uint8))) for im in images])
+        img = torch.stack([self.transforms(im) for im in images])
 
         return img, target
 
