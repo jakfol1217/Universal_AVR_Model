@@ -26,7 +26,6 @@ def _test(cfg: DictConfig) -> None:
     # https://pytorch.org/docs/stable/generated/torch.set_float32_matmul_precision.html#torch.set_float32_matmul_precision
 
     pl.seed_everything(cfg.seed)
-
     data_module = instantiate(cfg.data.datamodule, cfg)
 
     # TODO: checkpoint mechanism (param in config + loading from checkpoint)
@@ -43,10 +42,10 @@ def _test(cfg: DictConfig) -> None:
     # trainer.test(module, data_module)
 
     # example loading best model from newest run
-    wandb_agent = WandbAgent("AVR_universal")
-    checkpoint_path = wandb_agent.get_newest_checkpoint()
-    new_model = SlotAttentionAutoEncoder.load_from_checkpoint(checkpoint_path, cfg=cfg)
-    print(new_model)
+    #wandb_agent = WandbAgent("AVR_universal")
+    #checkpoint_path = wandb_agent.get_newest_checkpoint()
+    #new_model = SlotAttentionAutoEncoder.load_from_checkpoint(checkpoint_path, cfg=cfg)
+    #print(new_model)
 
     # The way to access ``hydra.**`` configuration
     # print(HydraConfig.get().launcher)

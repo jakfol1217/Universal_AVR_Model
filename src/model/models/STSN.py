@@ -73,8 +73,7 @@ class AVRModule(pl.LightningModule, ABC):
             f"{step_name}/{self.task_names[dataloader_idx]}/loss",
             loss,
             on_epoch=True,
-            add_dataloader_idx=False,
-            sync_dist=True,
+            add_dataloader_idx=False, # TODO: sync_dist throws "No backend type associated with device type cpu"
         )
         return loss
 
@@ -94,7 +93,6 @@ class AVRModule(pl.LightningModule, ABC):
                     loss,
                     on_epoch=True,
                     add_dataloader_idx=False,
-                    sync_dist=True,
                 )
                 loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
         else:
@@ -104,7 +102,6 @@ class AVRModule(pl.LightningModule, ABC):
                 loss,
                 on_epoch=True,
                 add_dataloader_idx=False,
-                sync_dist=True,
             )
         return loss
 
@@ -389,7 +386,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         f = os.path.join(self.slots_save_path, f"slots_{self.current_epoch}")
         pred_img_cp = pred_img.detach().cpu().numpy()
         img_cp = img.detach().cpu().numpy()
-        np.savez(f,
+        np.savez_compressed(f,
                  recons=torch.stack(recons_seq, dim=1).detach().cpu().numpy(),
                  masks=torch.stack(masks_seq, dim=1).detach().cpu().numpy(),
                  slots=torch.stack(slots_seq, dim=1).detach().cpu().numpy(),
@@ -425,6 +422,5 @@ class SlotAttentionAutoEncoder(AVRModule):
             prog_bar=True,
             logger=True,
             add_dataloader_idx=False,
-            sync_dist = True,
         )
         self.val_losses.clear()
