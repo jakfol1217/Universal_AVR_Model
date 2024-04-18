@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import os
 
 import numpy as np
 import pytorch_lightning as pl
@@ -290,6 +291,8 @@ class SlotAttentionAutoEncoder(AVRModule):
         self.fc1 = nn.Linear(self.hid_dim, self.hid_dim)
         self.fc2 = nn.Linear(self.hid_dim, self.hid_dim)
 
+        self.slots_save_path = cfg.slots_save_path
+
         self.slot_attention = SlotAttention(
             num_slots=self.num_slots,
             dim=self.hid_dim,
@@ -349,6 +352,9 @@ class SlotAttentionAutoEncoder(AVRModule):
         )
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
+        if step_name == "train" and batch_idx == self.trainer.num_training_batches - 1: #at the end of each training epoch
+            # TODO: add every n epochs, not every epoch
+            return self._step_with_slots_logging(batch)
         img, target = batch
         recon_combined_seq = []
         for idx in range(img.shape[1]):
@@ -357,6 +363,35 @@ class SlotAttentionAutoEncoder(AVRModule):
 
             del recon_combined, recons, masks, slots, attn
         pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
+        if pred_img.shape[2] != img.shape[2]:
+            pred_img = pred_img.repeat(1, 1, 3, 1, 1)
+        loss = self.loss(pred_img, img)
+        return loss
+
+    def _step_with_slots_logging(self, batch):
+        # slots saved locally, pl won't log tensors
+        img, target = batch
+        recon_combined_seq = []
+        recons_seq = []
+        masks_seq = []
+        slots_seq = []
+        for idx in range(img.shape[1]):
+            recon_combined, recons, masks, slots, attn = self(img[:, idx])
+            recons_seq.append(recons)
+            recon_combined_seq.append(recon_combined)
+            masks_seq.append(masks)
+            slots_seq.append(slots)
+            del recon_combined, recons, masks, slots, attn
+        pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
+        f = os.path.join(self.slots_save_path, f"slots_{self.current_epoch}")
+        np.savez(f,
+                 recons=torch.stack(recons_seq, dim=1).detach().numpy(),
+                 masks=torch.stack(masks_seq, dim=1).detach().numpy(),
+                 slots=torch.stack(slots_seq, dim=1).detach().numpy(),
+                 pred_img=pred_img.detach().numpy(),
+                 original_img=img.detach().numpy()
+                 )
+
         if pred_img.shape[2] != img.shape[2]:
             pred_img = pred_img.repeat(1, 1, 3, 1, 1)
         loss = self.loss(pred_img, img)
