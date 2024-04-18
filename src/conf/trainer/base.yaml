@@ -19,4 +19,4 @@ callbacks:
     save_last: true
     enable_version_counter: False
     dirpath: model_checkpoints
-    every_n_epochs: 1 # to be changed
+    every_n_epochs: ${every_n_epochs}

@@ -292,6 +292,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         self.fc2 = nn.Linear(self.hid_dim, self.hid_dim)
 
         self.slots_save_path = cfg.slots_save_path
+        self.every_n_epochs = cfg.every_n_epochs
 
         self.slot_attention = SlotAttention(
             num_slots=self.num_slots,
@@ -352,8 +353,9 @@ class SlotAttentionAutoEncoder(AVRModule):
         )
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
-        if step_name == "train" and batch_idx == self.trainer.num_training_batches - 1: #at the end of each training epoch
-            # TODO: add every n epochs, not every epoch
+        if step_name == "train" and batch_idx == self.trainer.num_training_batches - 1 and self.current_epoch % self.every_n_epochs == 0:
+            #at the end of each training epoch
+
             return self._step_with_slots_logging(batch)
         img, target = batch
         recon_combined_seq = []
