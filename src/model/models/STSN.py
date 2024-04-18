@@ -388,11 +388,11 @@ class SlotAttentionAutoEncoder(AVRModule):
         pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
         f = os.path.join(self.slots_save_path, f"slots_{self.current_epoch}")
         np.savez(f,
-                 recons=torch.stack(recons_seq, dim=1).detach().numpy(),
-                 masks=torch.stack(masks_seq, dim=1).detach().numpy(),
-                 slots=torch.stack(slots_seq, dim=1).detach().numpy(),
-                 pred_img=pred_img.detach().numpy(),
-                 original_img=img.detach().numpy()
+                 recons=torch.stack(recons_seq, dim=1).detach().cpu().numpy(),
+                 masks=torch.stack(masks_seq, dim=1).detach().cpu().numpy(),
+                 slots=torch.stack(slots_seq, dim=1).detach().cpu().numpy(),
+                 pred_img=pred_img.detach().cpu().numpy(),
+                 original_img=img.detach().cpu().numpy()
                  )
 
         if pred_img.shape[2] != img.shape[2]:
