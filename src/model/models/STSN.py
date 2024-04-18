@@ -74,6 +74,7 @@ class AVRModule(pl.LightningModule, ABC):
             loss,
             on_epoch=True,
             add_dataloader_idx=False,
+            sync_dist=True,
         )
         return loss
 
@@ -93,6 +94,7 @@ class AVRModule(pl.LightningModule, ABC):
                     loss,
                     on_epoch=True,
                     add_dataloader_idx=False,
+                    sync_dist=True,
                 )
                 loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
         else:
@@ -102,6 +104,7 @@ class AVRModule(pl.LightningModule, ABC):
                 loss,
                 on_epoch=True,
                 add_dataloader_idx=False,
+                sync_dist=True,
             )
         return loss
 
@@ -420,5 +423,6 @@ class SlotAttentionAutoEncoder(AVRModule):
             prog_bar=True,
             logger=True,
             add_dataloader_idx=False,
+            sync_dist = True,
         )
         self.val_losses.clear()
