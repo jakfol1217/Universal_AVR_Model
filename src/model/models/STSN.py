@@ -71,9 +71,10 @@ class AVRModule(pl.LightningModule, ABC):
             loss = self._step(step_name, batch, batch_idx)
         self.log(
             f"{step_name}/{self.task_names[dataloader_idx]}/loss",
-            loss,
+            loss.to(self.device),
             on_epoch=True,
-            add_dataloader_idx=False, # TODO: sync_dist throws "No backend type associated with device type cpu"
+            add_dataloader_idx=False,
+            sync_dist=True
         )
         return loss
 
@@ -90,18 +91,20 @@ class AVRModule(pl.LightningModule, ABC):
                 )
                 self.log(
                     f"{step_name}/{task_name}/loss",
-                    loss,
+                    loss.to(self.device),
                     on_epoch=True,
                     add_dataloader_idx=False,
+                    sync_dist=True
                 )
                 loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
         else:
             loss = self._step(step_name, batch, batch_idx, dataloader_idx)
             self.log(
                 f"{step_name}/{self.task_names[dataloader_idx]}/loss",
-                loss,
+                loss.to(self.device),
                 on_epoch=True,
                 add_dataloader_idx=False,
+                sync_dist=True
             )
         return loss
 
@@ -419,10 +422,11 @@ class SlotAttentionAutoEncoder(AVRModule):
         val_loss = val_losses.mean()
         self.log(
             "val/loss",
-            val_loss,
+            val_loss.to(self.device),
             on_epoch=True,
             prog_bar=True,
             logger=True,
             add_dataloader_idx=False,
+            sync_dist=True
         )
         self.val_losses.clear()
