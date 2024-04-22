@@ -391,7 +391,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         f = os.path.join(self.slots_save_path, f"slots_{self.current_epoch}")
         pred_img_cp = pred_img.detach().cpu().numpy()
         img_cp = img.detach().cpu().numpy()
-        np.savez_compressed(f,
+        np.savez(f,
                  recons=torch.stack(recons_seq, dim=1).detach().cpu().numpy(),
                  masks=torch.stack(masks_seq, dim=1).detach().cpu().numpy(),
                  slots=torch.stack(slots_seq, dim=1).detach().cpu().numpy(),
