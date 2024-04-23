@@ -32,7 +32,11 @@ def _test(cfg: DictConfig) -> None:
     # TODO: datamodules (combination investiagtion)
 
     wandb_logger = WandbLogger(project="AVR_universal", log_model="all")
+
     module = instantiate(cfg.model, cfg)
+    if cfg.checkpoint_path is not None:
+        module = module.__class__.load_from_checkpoint(cfg.checkpoint_path, cfg=cfg)
+
     # print(module)
     # print(cfg.trainer)
     trainer: pl.Trainer = instantiate(cfg.trainer)
