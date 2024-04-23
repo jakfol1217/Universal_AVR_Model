@@ -1,5 +1,5 @@
-from abc import ABC, abstractmethod
 import os
+from abc import ABC, abstractmethod
 
 import numpy as np
 import pytorch_lightning as pl
@@ -18,7 +18,7 @@ class AVRModule(pl.LightningModule, ABC):
         self.task_names = list(self.cfg.data.tasks.keys())
 
         self.save_hyperparameters(
-            OmegaConf.to_container(cfg.model, resolve=True, throw_on_missing=True)
+            OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
         )
 
     @abstractmethod
