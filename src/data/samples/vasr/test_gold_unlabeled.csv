@@ -1,0 +1,6 @@
+A_img,B_img,C_img,D_img,candidates,label
+towing_60.jpg,towing_64.jpg,hauling_11.jpg,? (hidden),"[""towing_0.jpg"", ""towing_188.jpg"", ""hauling_199.jpg"", ""hauling_35.jpg""]",-1
+squeezing_218.jpg,squeezing_212.jpg,smelling_117.jpg,? (hidden),"[""squeezing_57.jpg"", ""squeezing_248.jpg"", ""smelling_253.jpg"", ""smelling_20.jpg""]",-1
+prowling_115.jpg,prowling_112.jpg,pouncing_23.jpg,? (hidden),"[""pouncing_185.jpg"", ""pouncing_127.jpg"", ""pouncing_240.jpg"", ""prowling_141.jpg""]",-1
+bandaging_115.jpg,distracting_126.jpg,bandaging_181.jpg,? (hidden),"[""distracting_162.jpg"", ""distracting_44.jpg"", ""bandaging_83.jpg"", ""distracting_71.jpg""]",-1
+commuting_106.jpg,commuting_184.jpg,boarding_47.jpg,? (hidden),"[""boarding_68.jpg"", ""steering_100.jpg"", ""commuting_11.jpg"", ""commuting_55.jpg""]",-1

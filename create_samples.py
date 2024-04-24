@@ -8,6 +8,9 @@ import numpy as np
 GLOBAL_ROOT = "/avr/datasets/"
 GLOBAL_TARGET_ROOT = "/home/kaminskia/studies/Universal_AVR_Model/src/data/samples/"
 
+GLOBAL_ROOT_JF = r"D:\mcs\all_data"
+GLOBAL_TARGET_ROOT_JF = r"D:\universal_AVR\Universal_AVR_Model\src\data\samples"
+
 
 def copy_bongard_hoi():
     ROOT = os.path.join(GLOBAL_ROOT, "bongard_hoi/bongard_hoi_release/")
@@ -250,13 +253,34 @@ def copy_vap():
                 os.system(f"cp {file} {os.path.join(TARGET_DATA_ROOT, regime)}")
                 if size > size_limit:
                     break
+import pandas as pd
+import ast
+def copy_vasr():
+    DATA_ROOT = os.path.join(GLOBAL_ROOT_JF, r"VASR\vasr_images")
+    ANNOTATION_ROOT = os.path.join(GLOBAL_ROOT_JF, "VASR")
+    TARGET_DATA_ROOT = os.path.join(GLOBAL_TARGET_ROOT_JF, r"vasr\images_512")
+    TARGET_ANNOTATION_ROOT = os.path.join(GLOBAL_TARGET_ROOT_JF, "vasr")
+
+    os.makedirs(TARGET_DATA_ROOT, exist_ok=True)
+    task_images = ["A_img", "B_img", "C_img"]
+    limit = 5
+    for annotation_file_name in glob.glob(os.path.join(ANNOTATION_ROOT, "*.csv")):
+        annotation_file = pd.read_csv(annotation_file_name)
+        annotation_file.iloc[:limit, :].to_csv(os.path.join(TARGET_ANNOTATION_ROOT, os.path.basename(annotation_file_name)), index=False)
+        print(f"Copied {os.path.basename(annotation_file_name)}")
+        for task in annotation_file.iloc[:limit,:].iterrows():
+            for task_img in task_images:
+                os.system(f'copy {os.path.join(DATA_ROOT, task[1][task_img])} {os.path.join(TARGET_DATA_ROOT, task[1][task_img])}')
+            for answer in ast.literal_eval(task[1]['candidates']):
+                os.system(f'copy {os.path.join(DATA_ROOT, answer)} {os.path.join(TARGET_DATA_ROOT, answer)}')
 
 
-copy_bongard_hoi()
-copy_bongard_logo()
-copy_dopt()
-copy_vaec()
-copy_iraven()
-copy_mns()
-copy_pgm()
-copy_vap()
+#copy_bongard_hoi()
+#copy_bongard_logo()
+#copy_dopt()
+#copy_vaec()
+#copy_iraven()
+#copy_mns()
+#copy_pgm()
+#copy_vap()
+copy_vasr()
