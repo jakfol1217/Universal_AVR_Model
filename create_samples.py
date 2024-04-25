@@ -253,8 +253,10 @@ def copy_vap():
                 os.system(f"cp {file} {os.path.join(TARGET_DATA_ROOT, regime)}")
                 if size > size_limit:
                     break
+
 import pandas as pd
 import ast
+
 def copy_vasr():
     DATA_ROOT = os.path.join(GLOBAL_ROOT_JF, r"VASR\vasr_images")
     ANNOTATION_ROOT = os.path.join(GLOBAL_ROOT_JF, "VASR")

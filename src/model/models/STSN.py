@@ -2,6 +2,7 @@ import os
 from abc import ABC, abstractmethod
 
 import numpy as np
+import h5py
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
@@ -304,6 +305,7 @@ class SlotAttentionAutoEncoder(AVRModule):
             eps=1e-8,
         )
         self.val_losses = []
+        self.example_slots = []
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
@@ -391,18 +393,21 @@ class SlotAttentionAutoEncoder(AVRModule):
         f = os.path.join(self.slots_save_path, f"slots_{self.current_epoch}")
         pred_img_cp = pred_img.detach().cpu().numpy()
         img_cp = img.detach().cpu().numpy()
-        np.savez(f,
-                 recons=torch.stack(recons_seq, dim=1).detach().cpu().numpy(),
-                 masks=torch.stack(masks_seq, dim=1).detach().cpu().numpy(),
-                 slots=torch.stack(slots_seq, dim=1).detach().cpu().numpy(),
-                 pred_img=pred_img_cp,
-                 original_img=img_cp
-                 )
+        slots_dict = {
+            "recons":torch.stack(recons_seq, dim=1).detach().cpu().numpy(),
+                 "masks":torch.stack(masks_seq, dim=1).detach().cpu().numpy(),
+                 "slots":torch.stack(slots_seq, dim=1).detach().cpu().numpy(),
+                 "pred_img":pred_img_cp,
+                 "original_img":img_cp
+        }
+        self.example_slots.append(slots_dict)
 
         if pred_img.shape[2] != img.shape[2]:
             pred_img = pred_img.repeat(1, 1, 3, 1, 1)
         loss = self.loss(pred_img, img)
         return loss
+
+
 
     def training_step(self, batch, batch_idx, dataloader_idx=0):
         loss = self.module_step("train", batch, batch_idx, dataloader_idx)
@@ -416,6 +421,18 @@ class SlotAttentionAutoEncoder(AVRModule):
     def test_step(self, batch, batch_idx, dataloader_idx=0):
         loss = self.module_step("test", batch, batch_idx, dataloader_idx)
         return loss
+
+    def on_train_epoch_end(self) -> None:
+        if len(self.example_slots) == 0:
+            return
+        with h5py.File(os.path.join(self.slots_save_path, f"slots_{self.current_epoch}.hy"), "w") as f:
+            for i, slot_dict in enumerate(self.example_slots):
+                grp = f.create_group(str(i))
+                for key, val in zip(slot_dict.keys(), slot_dict.values()):
+                    grp.create_dataset(key, data=val)
+        print("Example slots saved")
+        self.example_slots.clear()
+
 
     def on_validation_epoch_end(self) -> None:
         val_losses = torch.tensor(self.val_losses)
