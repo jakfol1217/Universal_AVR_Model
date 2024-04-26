@@ -10,6 +10,7 @@ import torch.nn.functional as F
 from hydra.core.hydra_config import HydraConfig
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
+from torch.utils.checkpoint import checkpoint
 
 
 JOB_ID = "SLURM_JOB_ID"
@@ -314,7 +315,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         # `image` has shape: [batch_size, num_channels, width, height].
 
         # Convolutional encoder with position embedding.
-        x = self.encoder_cnn(image)  # CNN Backbone.
+        x = checkpoint(self.encoder_cnn, image)  # CNN Backbone.
         x = nn.LayerNorm(x.shape[1:], device=self.device)(x)
         x = self.fc1(x)
         x = F.relu(x)
@@ -322,7 +323,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         # `x` has shape: [batch_size, width*height, input_size].
 
         # Slot Attention module.
-        slots, attn = self.slot_attention(x)
+        slots, attn = checkpoint(self.slot_attention, x)
         # print("attention>>",attn.shape)
         # `slots` has shape: [batch_size, num_slots, slot_size].
 
@@ -332,7 +333,7 @@ class SlotAttentionAutoEncoder(AVRModule):
 
         # `slots` has shape: [batch_size*num_slots, width_init, height_init, slot_size].
 
-        x = self.decoder_cnn(slots_reshaped)
+        x = checkpoint(self.decoder_cnn, slots_reshaped)
 
         # `x` has shape: [batch_size*num_slots, width, height, num_channels+1].
 
