@@ -12,6 +12,9 @@ from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 
 
+JOB_ID = "SLURM_JOB_ID"
+
+
 class AVRModule(pl.LightningModule, ABC):
     def __init__(self, cfg: DictConfig):
         super().__init__()
@@ -305,7 +308,7 @@ class SlotAttentionAutoEncoder(AVRModule):
             eps=1e-8,
         )
         self.val_losses = []
-        self.example_slots = []
+        self.example_slots = dict()
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
@@ -361,7 +364,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         if step_name == "train" and batch_idx == self.trainer.num_training_batches - 1 and self.current_epoch % self.every_n_epochs == 0:
             #at the end of each training epoch
 
-            return self._step_with_slots_logging(batch)
+            return self._step_with_slots_logging(batch, dataloader_idx)
         img, target = batch
         recon_combined_seq = []
         for idx in range(img.shape[1]):
@@ -375,7 +378,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         loss = self.loss(pred_img, img)
         return loss
 
-    def _step_with_slots_logging(self, batch):
+    def _step_with_slots_logging(self, batch, dataloader_idx):
         # slots saved locally, pl won't log tensors
         img, target = batch
         recon_combined_seq = []
@@ -400,7 +403,7 @@ class SlotAttentionAutoEncoder(AVRModule):
                  "pred_img":pred_img_cp,
                  "original_img":img_cp
         }
-        self.example_slots.append(slots_dict)
+        self.example_slots[self.task_names[dataloader_idx]]=slots_dict
 
         if pred_img.shape[2] != img.shape[2]:
             pred_img = pred_img.repeat(1, 1, 3, 1, 1)
@@ -423,11 +426,12 @@ class SlotAttentionAutoEncoder(AVRModule):
         return loss
 
     def on_train_epoch_end(self) -> None:
-        if len(self.example_slots) == 0:
+        if len(self.example_slots) == 0 or self.global_rank != 0:
             return
-        with h5py.File(os.path.join(self.slots_save_path, f"slots_{self.current_epoch}.hy"), "w") as f:
-            for i, slot_dict in enumerate(self.example_slots):
-                grp = f.create_group(str(i))
+
+        with h5py.File(os.path.join(self.slots_save_path, f"{os.getenv(JOB_ID)}_slots_{self.current_epoch}.hy"), "w") as f:
+            for key_out, slot_dict in zip(self.example_slots.keys(), self.example_slots.values()):
+                grp = f.create_group(f"{key_out}")
                 for key, val in zip(slot_dict.keys(), slot_dict.values()):
                     grp.create_dataset(key, data=val)
         print("Example slots saved")
