@@ -1,0 +1,39 @@
+defaults:
+  - vasr_images/dataloader: ../../../../dataloader/default
+  - vasr_images/optimizer: ../../../../optimizer/adam
+  
+  
+vasr_images:
+  dataset:
+    target: model.avr_datasets.VASRSamplesDataset
+    data_path: ${data.root}/vasr/images_512
+    img_size: ${img_size}
+    train:
+      _target_: ${data.tasks.vasr_images.dataset.target}
+      dataset_type: train
+      data_path: ${data.tasks.vasr_images.dataset.data_path}
+      img_size: ${data.tasks.vasr_images.dataset.img_size}
+    val:
+      _target_: ${data.tasks.vasr_images.dataset.target}
+      dataset_type: dev
+      data_path: ${data.tasks.vasr_images.dataset.data_path}
+      img_size: ${data.tasks.vasr_images.dataset.img_size}
+    test:
+      _target_: ${data.tasks.vasr_images.dataset.target}
+      dataset_type: dev
+      data_path: ${data.tasks.vasr_images.dataset.data_path}
+      img_size: ${data.tasks.vasr_images.dataset.img_size}
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+  target_loss_ratio: ${target_loss_ratio}

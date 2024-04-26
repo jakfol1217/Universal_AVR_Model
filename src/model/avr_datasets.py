@@ -202,6 +202,108 @@ class HOIdataset(Dataset):
 
         return img, target
 
+class VASRSamplesDataset(Dataset):
+    def __init__(
+            self,
+            data_path: str,
+            dataset_type: str,  # train, dev
+            img_size: int | None
+    ):
+
+        self.files = os.listdir(data_path)
+        if dataset_type == "train":
+            self.files = self.files[:int(0.8*len(self.files))]
+        else:
+            self.files = self.files[int(0.8 * len(self.files)):]
+        if img_size:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((img_size, img_size))
+                ]
+            )
+        else:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor()
+                ]
+            )
+
+        self.data_path = data_path
+
+    def __len__(self):
+        return len(self.files)
+
+    def __getitem__(self, item):
+        img = self.transforms(Image.open(os.path.join(self.data_path, self.files[item])).convert('RGB'))
+        img = torch.unsqueeze(img, 0)
+        target = np.asarray(-1)
+        return img, target
+
+
+class HOISamplesDataset(Dataset):
+    def __init__(
+            self,
+            data_path: str,
+            dataset_type: str,
+            img_size: int | None,
+    ):
+        self.dataset_dirs = os.listdir(data_path)
+        self.dir_sizes = []
+        if dataset_type == "train":
+            self.dataset_dirs.remove("pic")
+
+        else:
+            dataset_dirs = ["pic"]
+        for dir in self.dataset_dirs:
+            images = []
+            for ext in ["*.jpg", "*.png", "*.jpeg"]:
+                images.extend(glob.glob(os.path.join(data_path, dir, "**", ext), recursive=True))
+            self.dir_sizes.append(len(images))
+
+        self.idx_ranges = np.cumsum(self.dir_sizes)
+
+        if img_size:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((img_size, img_size))
+                ]
+            )
+        else:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor()
+                ]
+            )
+
+        self.data_path = data_path
+
+    def __len__(self):
+        return int(np.sum(self.dir_sizes))
+
+    def _return_file_idx(self, item):
+        idx = 0
+        for i in range(len(self.idx_ranges)):
+            if item < self.idx_ranges[i]:
+                idx = i
+                break
+        chosen_dir = self.dataset_dirs[idx]
+        if idx != 0:
+            item = item - self.idx_ranges[idx - 1]
+        return chosen_dir, item
+
+    def __getitem__(self, item):
+        dir, item = self._return_file_idx(item)
+        images = []
+        for ext in ["*.jpg", "*.png", "*.jpeg"]:
+            images.extend(glob.glob(os.path.join(self.data_path, dir, "**", ext), recursive=True))
+
+        img = self.transforms(Image.open(os.path.join(self.data_path, images[item])).convert('RGB'))
+        img = torch.unsqueeze(img, 0)
+        target = np.asarray(-1)
+        return img, target
+
 
 class LOGOdataset(Dataset):
     def __init__(

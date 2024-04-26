@@ -1,0 +1,45 @@
+defaults:
+  - bongard_hoi_images/dataloader: ../../../../dataloader/default
+  - bongard_hoi_images/optimizer: ../../../../optimizer/adam
+  
+bongard_hoi_images:
+  dataset:
+    target: model.avr_datasets.HOISamplesDataset
+    data_path: ${data.root}/bongard_hoi/hake/
+    img_size: ${img_size}
+    train:
+      _target_: ${data.tasks.bongard_hoi_images.dataset.target}
+      dataset_type: train
+      data_path: ${data.tasks.bongard_hoi_images.dataset.data_path}
+      img_size: ${data.tasks.bongard_hoi_images.dataset.img_size}
+    val:
+      _target_: ${data.tasks.bongard_hoi_images.dataset.target}
+      dataset_type: val
+        # TODO: allow multiple dataset types (requires change in dataset class)?
+        # - bongard_hoi_val_unseen_obj_unseen_act.json
+        # - bongard_hoi_val_seen_obj_seen_act.json
+        # - bongard_hoi_val_unseen_obj_seen_act.json
+      data_path: ${data.tasks.bongard_hoi_images.dataset.data_path}
+      img_size: ${data.tasks.bongard_hoi_images.dataset.img_size}
+    test:
+      _target_: ${data.tasks.bongard_hoi_images.dataset.target}
+      dataset_type: test
+        # - bongard_hoi_test_unseen_obj_seen_act.json
+        # - bongard_hoi_test_seen_obj_unseen_act.json
+        # - bongard_hoi_test_unseen_obj_unseen_act.json
+      data_path: ${data.tasks.bongard_hoi_images.dataset.data_path}
+      img_size: ${data.tasks.bongard_hoi_images.dataset.img_size}
+  metrics:
+    train:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    val:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+    test:
+      - accuracy:
+          _target_: torchmetrics.classification.MulticlassAccuracy
+          num_classes: 8
+  target_loss_ratio: ${target_loss_ratio}
