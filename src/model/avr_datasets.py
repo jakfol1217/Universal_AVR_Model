@@ -207,14 +207,14 @@ class VASRSamplesDataset(Dataset):
             self,
             data_path: str,
             dataset_type: str,  # train, dev
-            img_size: int | None
+            img_size: int | None,
+            dev_ratio: int = 0.8
     ):
-
         self.files = os.listdir(data_path)
         if dataset_type == "train":
-            self.files = self.files[:int(0.8*len(self.files))]
+            self.files = self.files[:int(dev_ratio * len(self.files))]
         else:
-            self.files = self.files[int(0.8 * len(self.files)):]
+            self.files = self.files[int(dev_ratio * len(self.files)):]
         if img_size:
             self.transforms = transforms.Compose(
                 [
@@ -252,9 +252,11 @@ class HOISamplesDataset(Dataset):
         self.dir_sizes = []
         if dataset_type == "train":
             self.dataset_dirs.remove("pic")
+            self.dataset_dirs.append("pic/image/train")
 
         else:
-            dataset_dirs = ["pic"]
+            self.dataset_dirs = ["pic/image/val"]
+            
         for dir in self.dataset_dirs:
             images = []
             for ext in ["*.jpg", "*.png", "*.jpeg"]:

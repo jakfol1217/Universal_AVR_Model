@@ -8,21 +8,25 @@ vasr_images:
     target: model.avr_datasets.VASRSamplesDataset
     data_path: ${data.root}/vasr/images_512
     img_size: ${img_size}
+    dev_ratio: 0.9
     train:
       _target_: ${data.tasks.vasr_images.dataset.target}
       dataset_type: train
       data_path: ${data.tasks.vasr_images.dataset.data_path}
       img_size: ${data.tasks.vasr_images.dataset.img_size}
+      dev_ratio: ${data.tasks.vasr_images.dataset.dev_ratio}
     val:
       _target_: ${data.tasks.vasr_images.dataset.target}
       dataset_type: dev
       data_path: ${data.tasks.vasr_images.dataset.data_path}
       img_size: ${data.tasks.vasr_images.dataset.img_size}
+      dev_ratio: ${data.tasks.vasr_images.dataset.dev_ratio}
     test:
       _target_: ${data.tasks.vasr_images.dataset.target}
       dataset_type: dev
       data_path: ${data.tasks.vasr_images.dataset.data_path}
       img_size: ${data.tasks.vasr_images.dataset.img_size}
+      dev_ratio: ${data.tasks.vasr_images.dataset.dev_ratio} 
   metrics:
     train:
       - accuracy:
