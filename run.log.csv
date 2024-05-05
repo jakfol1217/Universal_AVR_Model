@@ -1,0 +1,46 @@
+830630 (not finished);830633,normal STSN,batch_size=10,image_size=256,,67% GPU Memory Allocated,4:27:55 - 1.47it/s
+830634,3xAC STSN,batch_size=10,image_size=256,use_reentrant=True,48% GPU Memory Allocated,5:35:12 - 1.17it/s
+830637,3xAC STSN,batch_size=10,image_size=256,use_reentrant=False,48% GPU Memory Allocated,5:55:42 - 1.10it/s
+
+830649 (ERROR: OOM),normal STSN,batch_size=4,image_size=512,,,
+830650,3xAC STSN,batch_size=4,image_size=512,use_reentrant=False,75% GPU Memory Allocated,26:34:10 - 0.61it/s
+830882 (ERROR: OOM),3xAC STSN,batch_size=8,image_size=512,use_reentrant=False,75% GPU Memory Allocated,
+
+830957,2xAC (decoder/encoder) STSN,batch_size=4,image_size=512,use_reentrant=False,81% GPU Memory Allocated,26:19:44 - 0.62it/s
+830962,1xAC (decoder) STSN,batch_size=4,image_size=512,use_reentrant=False,81% GPU Memory Allocated,26:48:20 - 0.61it/s
+
+830963,1xAC (decoder) STSN,batch_size=16,image_size=256,use_reentrant=False,80.5% GPU Memory Allocated,5:35:07 - 0.73it/s
+830964 (ERROR: OOM),1xAC (decoder) STSN,batch_size=32,image_size=256,use_reentrant=False,,
+830965 (ERROR: OOM),3xAC STSN,batch_size=32,image_size=256,use_reentrant=False,,
+TODO:
+# 3 GPU test new functionality to save slots every n steps
+830967,1xAC (decoder) STSN,batch_size=16,image_size=256,use_reentrant=False,80.5% GPU Memory Allocated,5:35:07 - 0.73it/s
+#// Check different strategy FSDS
+
+### Change to singularity and nvidia image (should be better adjusted to the eniviroment)
+# 16-mixed bf16 (1xgpu)
+831286,1xAC (decoder) STSN,batch_size=16,image_size=256,use_reentrant=False,80.5% GPU Memory Allocated,7:43:30 - 0.53it/s
+# 16-true f16 (1xgpu)
+831290 (RuntimeError: normal expects all elements of std >= 0.0) ,1xAC (decoder) STSN,batch_size=16,image_size=256,use_reentrant=False,,
+#3x GPU (16-mixed bf16)
+831230,1xAC (decoder) STSN,batch_size=16,image_size=256,use_reentrant=False,81% GPU Memory Allocated,2:33:38 - 0.53it/s
+### 16-true runs when only on CPU
+
+# TODO: Other combination
+
+
+# Training - 1 day:
+
+831320 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images
+831348 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_128hd batch_size=8
+831352 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_40slots128hd batch_size=4
+831350 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_40slots_5iter batch_size=8
+831351 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_40slots batch_size=8
+# smth wrong with h5py (after checking predictions - everything seems the same) - changed stsn to run validation more frequently and store predictions from validation set (not tested - waiting for GPU to free)
+
+## Test runs:
+831911 sbatch --time=0-00:30:00 --gpus=0 --mem=100GB scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10 +trainer/num_sanity_val_steps=0
+831902 sbatch --time=0-00:30:00 --gpus=0 --mem=100GB scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images_v3 +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10 +trainer/num_sanity_val_steps=0
+
+831903 sbatch --time=0-00:30:00 --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
+831904 sbatch --time=0-00:30:00 --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images_v3 +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
