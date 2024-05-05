@@ -6,22 +6,23 @@ OUTPUT_DIR_HOST = ENV['OUTPUT_DIR_HOST']
 OUTPUT_DIR_GUEST = ENV['OUTPUT_DIR_GUEST']
 OUTPUT_FILENAME = ENV['OUTPUT_FILENAME']
 
-OUTPUT_TMP_HOST = ENV['OUTPUT_TMP_HOST']
 
 Vagrant.configure("2") do |config|
   config.vm.box = "hashicorp/bionic64"
-  config.vm.synced_folder "#{OUTPUT_DIR_HOST}", "#{OUTPUT_DIR_GUEST}", id: "core"
-  config.vm.synced_folder "#{OUTPUT_TMP_HOST}", "/var/lib/docker/tmp", id: "temp"
+  config.vm.synced_folder "#{OUTPUT_DIR_HOST}", "#{OUTPUT_DIR_GUEST}"
   config.vm.provider "virtualbox" do |v|
-    v.memory = 32384
+    v.memory = 8096
     v.cpus = 8
   end
 
+  config.vm.provision "shell",
+    path: "scripts/install_enroot.sh"
+
   config.vm.provision "docker" do |d|
-    d.build_image "--rm -t #{DOCKER_IMAGE_URI} -f #{DOCKER_FILE_PATH} #{DOCKER_BUILD_DIR}"
+    d.build_image "-t #{DOCKER_IMAGE_URI} -f #{DOCKER_FILE_PATH} #{DOCKER_BUILD_DIR}"
   end
 
   config.vm.provision "shell",
-    inline: "docker save #{DOCKER_IMAGE_URI} | gzip > #{OUTPUT_DIR_GUEST}/#{OUTPUT_FILENAME}"
+    inline: "enroot import --output #{OUTPUT_DIR_GUEST}/#{OUTPUT_FILENAME} dockerd://#{DOCKER_IMAGE_URI}"
 
 end
