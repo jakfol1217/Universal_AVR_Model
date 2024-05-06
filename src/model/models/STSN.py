@@ -10,6 +10,7 @@ import torch.nn.functional as F
 from hydra.core.hydra_config import HydraConfig
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
+from torch.utils.checkpoint import checkpoint
 
 
 JOB_ID = "SLURM_JOB_ID"
@@ -299,7 +300,8 @@ class SlotAttentionAutoEncoder(AVRModule):
         self.fc2 = nn.Linear(self.hid_dim, self.hid_dim)
 
         self.slots_save_path = cfg.slots_save_path
-        self.every_n_epochs = cfg.every_n_epochs
+        # self.slots_every_n_epochs = cfg.get('slots_every_n_epochs')
+        # self.slots_every_n_steps = cfg.get('slots_every_n_steps')
 
         self.slot_attention = SlotAttention(
             num_slots=self.num_slots,
@@ -314,7 +316,8 @@ class SlotAttentionAutoEncoder(AVRModule):
         # `image` has shape: [batch_size, num_channels, width, height].
 
         # Convolutional encoder with position embedding.
-        x = self.encoder_cnn(image)  # CNN Backbone.
+        #x = checkpoint(self.encoder_cnn, image, use_reentrant=False)  # CNN Backbone.
+        x = self.encoder_cnn(image) # CNN Backbone.
         x = nn.LayerNorm(x.shape[1:], device=self.device)(x)
         x = self.fc1(x)
         x = F.relu(x)
@@ -322,6 +325,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         # `x` has shape: [batch_size, width*height, input_size].
 
         # Slot Attention module.
+        #slots, attn = checkpoint(self.slot_attention, x, use_reentrant=False)
         slots, attn = self.slot_attention(x)
         # print("attention>>",attn.shape)
         # `slots` has shape: [batch_size, num_slots, slot_size].
@@ -332,8 +336,7 @@ class SlotAttentionAutoEncoder(AVRModule):
 
         # `slots` has shape: [batch_size*num_slots, width_init, height_init, slot_size].
 
-        x = self.decoder_cnn(slots_reshaped)
-
+        x = checkpoint(self.decoder_cnn, slots_reshaped, use_reentrant=False)
         # `x` has shape: [batch_size*num_slots, width, height, num_channels+1].
 
         # Undo combination of slot and batch dimension; split alpha masks.
@@ -361,9 +364,14 @@ class SlotAttentionAutoEncoder(AVRModule):
         )
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
-        if step_name == "train" and batch_idx == self.trainer.num_training_batches - 1 and self.current_epoch % self.every_n_epochs == 0:
-            #at the end of each training epoch
-
+        # if (
+        #     step_name == "train" and (
+        #         (self.slots_every_n_steps is not None and self.global_step % self.slots_every_n_steps == 0) or
+        #         (self.slots_every_n_epochs is not None and batch_idx == self.trainer.num_training_batches - 1 and self.current_epoch % self.slots_every_n_epochs == 0)
+        #     )
+        # ):
+        if step_name == "val" and batch_idx == 0:#self.trainer.num_val_batches - 1:
+            #at the start of each validation epoch
             return self._step_with_slots_logging(batch, dataloader_idx)
         img, target = batch
         recon_combined_seq = []
@@ -393,24 +401,32 @@ class SlotAttentionAutoEncoder(AVRModule):
             slots_seq.append(slots)
             del recon_combined, recons, masks, slots, attn
         pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
-        f = os.path.join(self.slots_save_path, f"slots_{self.current_epoch}")
-        pred_img_cp = pred_img.detach().cpu().numpy()
-        img_cp = img.detach().cpu().numpy()
+        # f = os.path.join(self.slots_save_path, f"slots_{self.current_epoch}")
+        pred_img_cp = pred_img.detach().float().cpu().numpy()
+        img_cp = img.detach().float().cpu().numpy()
         slots_dict = {
-            "recons":torch.stack(recons_seq, dim=1).detach().cpu().numpy(),
-                 "masks":torch.stack(masks_seq, dim=1).detach().cpu().numpy(),
-                 "slots":torch.stack(slots_seq, dim=1).detach().cpu().numpy(),
-                 "pred_img":pred_img_cp,
-                 "original_img":img_cp
+            "recons":torch.stack(recons_seq, dim=1).detach().float().cpu().numpy(),
+            "masks":torch.stack(masks_seq, dim=1).detach().float().cpu().numpy(),
+            "slots":torch.stack(slots_seq, dim=1).detach().float().cpu().numpy(),
+            "pred_img":pred_img_cp,
+            "original_img":img_cp
         }
-        self.example_slots[self.task_names[dataloader_idx]]=slots_dict
+        self.example_slots[f"{self.task_names[dataloader_idx]}__epoch={self.current_epoch}__step={self.global_step}"]=slots_dict
+
+        if len(self.example_slots) != 0 and self.global_rank == 0:
+            os.makedirs(self.slots_save_path, exist_ok=True)
+            with h5py.File(os.path.join(self.slots_save_path, f"{os.getenv(JOB_ID)}_slots.hy"), "a") as f:
+                for key_out, slot_dict in self.example_slots.items():
+                    grp = f.create_group(f"{key_out}")
+                    for key, val in slot_dict.items():
+                        grp.create_dataset(key, data=val, compression="gzip", compression_opts=9)
+        # print("Example slots saved")
+        self.example_slots.clear()
 
         if pred_img.shape[2] != img.shape[2]:
-            pred_img = pred_img.repeat(1, 1, 3, 1, 1)
+            pred_img = pred_img.repeat(1, 1, 3, 1, 1) # TODO: that is odd - we compare 3 channel image with 1 channel
         loss = self.loss(pred_img, img)
         return loss
-
-
 
     def training_step(self, batch, batch_idx, dataloader_idx=0):
         loss = self.module_step("train", batch, batch_idx, dataloader_idx)
@@ -424,19 +440,6 @@ class SlotAttentionAutoEncoder(AVRModule):
     def test_step(self, batch, batch_idx, dataloader_idx=0):
         loss = self.module_step("test", batch, batch_idx, dataloader_idx)
         return loss
-
-    def on_train_epoch_end(self) -> None:
-        if len(self.example_slots) == 0 or self.global_rank != 0:
-            return
-
-        with h5py.File(os.path.join(self.slots_save_path, f"{os.getenv(JOB_ID)}_slots_{self.current_epoch}.hy"), "w") as f:
-            for key_out, slot_dict in zip(self.example_slots.keys(), self.example_slots.values()):
-                grp = f.create_group(f"{key_out}")
-                for key, val in zip(slot_dict.keys(), slot_dict.values()):
-                    grp.create_dataset(key, data=val)
-        print("Example slots saved")
-        self.example_slots.clear()
-
 
     def on_validation_epoch_end(self) -> None:
         val_losses = torch.tensor(self.val_losses)
