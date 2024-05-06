@@ -23,4 +23,5 @@ log_every_n_steps: 50
 seed: 42
 target_loss_ratio: 0.3
 slots_save_path: /app/out/slots
-every_n_epochs: null  # to be changed
+every_n_epochs: 1  # to be changed
+every_n_train_steps: null
