@@ -29,13 +29,15 @@ TODO:
 # TODO: Other combination
 
 
-# Training - 1 day:
+### Training - 1 day:
 
 831320 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images
 831348 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_128hd batch_size=8
 831352 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_40slots128hd batch_size=4
 831350 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_40slots_5iter batch_size=8
 831351 sbatch scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsn_40slots batch_size=8
+
+
 # smth wrong with h5py (after checking predictions - everything seems the same) - changed stsn to run validation more frequently and store predictions from validation set (not tested - waiting for GPU to free)
 
 ## Test runs:
@@ -44,3 +46,27 @@ TODO:
 
 831903 sbatch --time=0-00:30:00 --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
 831904 sbatch --time=0-00:30:00 --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images_v3 +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
+
+832433 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
+832434 sbatch --time=0-00:30:00 --mem=10GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
+
+832436 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
+832450 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images +trainer/max_time=00:00:10:00 +trainer/limit_val_batches=10 +trainer/limit_test_batches=10
+
+832452 sbatch --time=0-00:30:00 --mem=12GB --gpus=0 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer/max_time=00:00:10:00 trainer/limit_val_batches=10 trainer/limit_test_batches=10
+832453 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test
+832462 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test
+# check validation every 0.5 epoch
+832465 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test
+# check trainer without top 2 best
+832467 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50
+
+
+### Valid runs:
+
+832505 sbatch --time=1-00:00:00 --mem=10GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images lr=0.001
+832506 sbatch --time=1-00:00:00 --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images img_size=128 batch_size=32
+832509 sbatch --time=1-00:00:00 --mem=9GB --gpus=2 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images lr=0.00005
+
+832510 sbatch --time=1-00:00:00 --mem=16GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsnv3
+832511 sbatch --time=1-00:00:00 --mem=16GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsnv3 model.num_slots=40 batch_size=8
