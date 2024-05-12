@@ -70,3 +70,33 @@ TODO:
 
 832510 sbatch --time=1-00:00:00 --mem=16GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsnv3
 832511 sbatch --time=1-00:00:00 --mem=16GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images model=stsnv3 model.num_slots=40 batch_size=8
+
+
+### Run bulk tests
+
+./scripts/run_bulk.sh 3 "--time=0-00:30:00 --mem=12GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50
+#First job id: 835729
+#Job id 2: 835730
+#Job id 3: 835731
+
+### Test 128x128
+
+# ~1:28:46 epoch, 0.72it/s, 80.5% GPU Memory Allocated
+835722 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64
+# ~1:28:46 epoch, 0.72it/s, 80.5% GPU Memory Allocated
+835723 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 model=stsnv3 img_size=128 batch_size=64
+# torch.cuda.OutOfMemoryError: CUDA out of memory
+835724 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=128
+# torch.cuda.OutOfMemoryError: CUDA out of memory
+835725 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 model=stsnv3 img_size=128 batch_size=128
+
+835732 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=128 model.num_slots=10
+835733 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=30
+835734 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=40
+835735 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=50
+835736 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=60
+
+# Long day scenarios (5 - days) (not yet runned
+
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images img_size=128 batch_size=64 trainer.val_check_interval=null
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images img_size=128 batch_size=64 trainer.val_check_interval=null model=stsnv3
