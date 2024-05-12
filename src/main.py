@@ -44,7 +44,7 @@ def _test(cfg: DictConfig) -> None:
     trainer: pl.Trainer = instantiate(cfg.trainer)
     trainer.logger = wandb_logger
     wandb_logger.watch(module)
-    trainer.fit(module, data_module)
+    trainer.fit(module, data_module, ckpt_path=cfg.checkpoint_path)
     # trainer.test(module, data_module)
 
     # example loading best model from newest run
