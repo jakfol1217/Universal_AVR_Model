@@ -74,29 +74,116 @@ TODO:
 
 ### Run bulk tests
 
-./scripts/run_bulk.sh 3 "--time=0-00:30:00 --mem=12GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50
+./scripts/run_bulk.sh 3 "--time=0-00:05:00 --mem=6GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50
 #First job id: 835729
 #Job id 2: 835730
 #Job id 3: 835731
+#First job id: 835763
+#Job id 2: 835764
+#Job id 3: 835765
+#First job id: 835769
+#Job id 2: 835770
+#Job id 3: 835771
 
 ### Test 128x128
 
-# ~1:28:46 epoch, 0.72it/s, 80.5% GPU Memory Allocated
+# ~1:28:46, 0.72it/s, 80.5% GPU Memory Allocated
 835722 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64
-# ~1:28:46 epoch, 0.72it/s, 80.5% GPU Memory Allocated
+# ~1:28:46, 0.72it/s, 80.5% GPU Memory Allocated
 835723 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 model=stsnv3 img_size=128 batch_size=64
 # torch.cuda.OutOfMemoryError: CUDA out of memory
 835724 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=128
 # torch.cuda.OutOfMemoryError: CUDA out of memory
 835725 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 model=stsnv3 img_size=128 batch_size=128
 
+# ~1:17:05, 0.41it/s, 89.28% GPU Memory Allocated
 835732 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=128 model.num_slots=10
-835733 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=30
-835734 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=40
-835735 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=50
-835736 sbatch --time=0-00:30:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_slots=60
+# ~2:06:19,  1.01it/s, 60.6% GPU Memory Allocated
+835742 sbatch --time=0-00:05:00 --mem=12GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=32 model.num_slots=30
 
-# Long day scenarios (5 - days) (not yet runned
+# ~2:45:00, 0.77it/s, 79.8% GPU Memory Allocated
+835747 sbatch --time=0-00:05:00 --mem=7GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=32 model.num_slots=40
+# ~3:24:43, 0.62it/s, 98.71% GPU Memory Allocated
+835748 sbatch --time=0-00:05:00 --mem=7GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=32 model.num_slots=50
+# torch.cuda.OutOfMemoryError: CUDA out of memory
+835749 sbatch --time=0-00:05:00 --mem=7GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=32 model.num_slots=60
+# ~4:03:25,  1.05it/s, 55% GPU Memory Allocated
+835750 sbatch --time=0-00:05:00 --mem=7GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=16 model.num_slots=60
 
-./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images img_size=128 batch_size=64 trainer.val_check_interval=null
-./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images img_size=128 batch_size=64 trainer.val_check_interval=null model=stsnv3
+# torch.cuda.OutOfMemoryError: CUDA out of memory
+835755 sbatch --time=0-00:05:00 --mem=10GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=128 model.num_iterations=1
+# ~1:25:05, 0.75it/s, 80.47% GPU Memory Allocated
+835792 sbatch --time=0-00:05:00 --mem=6GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_iterations=1
+# ~1:28:14, 0.72it/s, 86.79% GPU Memory Allocated
+835756 sbatch --time=0-00:05:00 --mem=10GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.num_iterations=5
+
+# ~1:05:55, 0.49it/s, 87.92% GPU Memory Allocated
+835793 sbatch --time=0-00:05:00 --mem=6GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=128 model.hid_dim=32
+# torch.cuda.OutOfMemoryError: CUDA out of memory
+835794 sbatch --time=0-00:05:00 --mem=6GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=64 model.hid_dim=128
+# ~4:15:09, 0.50it/s, 80.50% GPU Memory Allocated
+835795 sbatch --time=0-00:05:00 --mem=6GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images trainer=test every_n_train_steps=50 img_size=128 batch_size=32 model.hid_dim=128
+
+# Longer scenarios 
+
+# 1-channel
+# 20 slots 3 iteration 64 hidden dim - DEFAULT ~1:28:46
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=64 trainer.val_check_interval=null
+
+## Slots:
+### 10 slots
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=128 trainer.val_check_interval=null model.num_slots=10
+### 30 slots
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model.num_slots=30
+### 40 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model.num_slots=40
+### 50 slots
+./scripts/run_bulk.sh 6 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model.num_slots=50
+### 60 slots
+./scripts/run_bulk.sh 6 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=16 trainer.val_check_interval=null model.num_slots=60
+
+## Iteration
+### Iteration 1
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=64 trainer.val_check_interval=null model.num_iterations=1
+### Iteration 5
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=64 trainer.val_check_interval=null model.num_iterations=5
+
+## Hidden dimention
+### hid_dim 32
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=128 trainer.val_check_interval=null model.hid_dim=32
+### hid_dim 128
+./scripts/run_bulk.sh 6 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model.hid_dim=128
+
+# 3-channel
+# 20 slots 3 iteration 64 hidden dim - DEFAULT
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=64 trainer.val_check_interval=null model=stsnv3
+First job id: 835796,Job id 2: 835797,Job id 3: 835798
+
+## Slots:
+### 10 slots
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=128 trainer.val_check_interval=null model=stsnv3 model.num_slots=10
+First job id: 835799,Job id 2: 835800,Job id 3: 835801
+### 30 slots
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model=stsnv3 model.num_slots=30
+First job id: 835802,Job id 2: 835803,Job id 3: 835804,Job id 4: 835805
+### 40 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model=stsnv3 model.num_slots=40
+First job id: 835806,Job id 2: 835807,Job id 3: 835808,Job id 4: 835809,Job id 5: 835810
+### 50 slots
+./scripts/run_bulk.sh 6 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model=stsnv3 model.num_slots=50
+First job id: 835811,Job id 2: 835812,Job id 3: 835813,Job id 4: 835814,Job id 5: 835815,Job id 6: 835816
+### 60 slots
+./scripts/run_bulk.sh 6 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=16 trainer.val_check_interval=null model=stsnv3 model.num_slots=60
+First job id: 835817,Job id 2: 835818,Job id 3: 835819,Job id 4: 835820,Job id 5: 835821,Job id 6: 835822
+
+## Iteration
+### Iteration 1
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=64 trainer.val_check_interval=null model=stsnv3 model.num_iterations=1
+### Iteration 5
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=64 trainer.val_check_interval=null model=stsnv3 model.num_iterations=5
+
+## Hidden dimention
+### hid_dim 32
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=128 trainer.val_check_interval=null model=stsnv3 model.hid_dim=32
+### hid_dim 128
+./scripts/run_bulk.sh 6 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_images max_epochs=100 every_n_epochs=1 every_n_train_steps=null early_stopping_patience=10 img_size=128 batch_size=32 trainer.val_check_interval=null model=stsnv3 model.hid_dim=128
