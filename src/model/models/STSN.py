@@ -94,6 +94,7 @@ class AVRModule(pl.LightningModule, ABC):
                     batch_idx,
                     self.task_names.index(task_name),
                 )
+                loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
                 self.log(
                     f"{step_name}/{task_name}/loss",
                     loss.to(self.device),
@@ -101,7 +102,7 @@ class AVRModule(pl.LightningModule, ABC):
                     add_dataloader_idx=False,
                     sync_dist=True
                 )
-                loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
+
         else:
             loss = self._step(step_name, batch, batch_idx, dataloader_idx)
             self.log(
