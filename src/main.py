@@ -33,7 +33,18 @@ def _test(cfg: DictConfig) -> None:
 
     wandb_logger = WandbLogger(project="AVR_universal", log_model="all")
 
-    module = instantiate(cfg.model, cfg)
+    # module = instantiate(cfg.model, cfg)
+    module_kwargs = {}
+    # print(cfg.model._target_)
+    for k in cfg.model.keys():
+        # print(k)
+        if isinstance(cfg.model[k], DictConfig) and cfg.model.get(k).get("_target_") is not None:
+            module_kwargs[k] = instantiate(cfg.model[k], cfg)
+        else:
+            module_kwargs[k] = cfg.model[k]
+    print(cfg.model)
+    module = instantiate(cfg.model, cfg, **module_kwargs, _recursive_=False)
+
     if cfg.checkpoint_path is not None:
         cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
         model_cfg = {k: v for k, v in cfg_dict["model"].items() if k != "_target_"}

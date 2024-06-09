@@ -14,3 +14,4 @@ wandb==0.16.6
 # hydra-submitit-launcher==1.2.0
 python-dotenv==1.0.1
 tqdm==4.66.2
+einops==0.8.0

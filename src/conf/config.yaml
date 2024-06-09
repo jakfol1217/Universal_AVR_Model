@@ -1,7 +1,7 @@
 defaults:
-  - data/tasks: [bongard_hoi, bongard_logo, dopt, iraven, mns, pgm, vasr] # bongard_hoi vaec vap
+  - data/tasks: [bongard_hoi] # bongard_hoi vaec vap
   - dataloader: default
-  - data/datamodule: multi_module # single_module # combined_module_min_size # combined_module_sequential
+  - data/datamodule: single_module # single_module # combined_module_min_size # combined_module_sequential
   - optimizer: adam
   - model: stsn
   - trainer: base
@@ -11,8 +11,8 @@ data:
   root: /app/data
 torch:
   matmul_precision: medium # medium high
-batch_size: 3
-img_size: 80
+batch_size: 4
+img_size: 32
 num_workers: 8
 lr: 0.001
 max_epochs: 1

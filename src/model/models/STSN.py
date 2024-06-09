@@ -1,125 +1,18 @@
 import os
-from abc import ABC, abstractmethod
 
-import numpy as np
 import h5py
+import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from hydra.core.hydra_config import HydraConfig
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 from torch.utils.checkpoint import checkpoint
 
+from .base import AVRModule
 
 JOB_ID = "SLURM_JOB_ID"
-
-
-class AVRModule(pl.LightningModule, ABC):
-    def __init__(self, cfg: DictConfig):
-        super().__init__()
-        self.cfg = cfg
-        self.task_names = list(self.cfg.data.tasks.keys())
-
-        self.save_hyperparameters(
-            OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
-        )
-
-    @abstractmethod
-    def _step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
-        pass
-
-    @abstractmethod
-    def training_step(self, batch, batch_idx, dataloader_idx=0):
-        pass
-
-    @abstractmethod
-    def validation_step(self, batch, batch_idx, dataloader_idx=0):
-        pass
-
-    @abstractmethod
-    def test_step(self, batch, batch_idx, dataloader_idx=0):
-        pass
-
-    def module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
-        # getting current configured module name -- I don't know if putting it into init
-        # won't lock us out from e.g changing it after initializing new model from checkpoint
-        # * Extracting it from self.cfg won't work? (module_name = cfg.data.datamodule._target_.split(".")[-1])
-        # * or initializing it and checking, e.g. isinstance(module, MultiModule)
-
-        hydra_cfg = HydraConfig.get()
-        module_name = OmegaConf.to_container(hydra_cfg.runtime.choices)[
-            "data/datamodule"
-        ]
-        match module_name:
-            case "multi_module":
-                return self._multi_module_step(
-                    step_name, batch, batch_idx, dataloader_idx
-                )
-            case "single_module":
-                return self._single_module_step(
-                    step_name, batch, batch_idx, dataloader_idx
-                )
-            case _:
-                # TODO: additional steps for combined modules
-                raise NotImplementedError(
-                    f"Step function for {module_name} module not implemented yet"
-                )
-
-    def _single_module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
-        if isinstance(batch, dict):
-            loss = self._step(
-                step_name, batch[self.task_names[0]], batch_idx, dataloader_idx
-            )
-        else:
-            loss = self._step(step_name, batch, batch_idx)
-        self.log(
-            f"{step_name}/{self.task_names[dataloader_idx]}/loss",
-            loss.to(self.device),
-            on_epoch=True,
-            add_dataloader_idx=False,
-            sync_dist=True
-        )
-        return loss
-
-    def _multi_module_step(self, step_name: str, batch, batch_idx, dataloader_idx=0):
-        loss = torch.tensor(0.0, device=self.device)
-
-        if step_name == "train":
-            for task_name in self.task_names:
-                target_loss = self._step(
-                    step_name,
-                    batch[task_name],
-                    batch_idx,
-                    self.task_names.index(task_name),
-                )
-                loss += self.cfg.data.tasks[task_name].target_loss_ratio * target_loss
-                self.log(
-                    f"{step_name}/{task_name}/loss",
-                    loss.to(self.device),
-                    on_epoch=True,
-                    add_dataloader_idx=False,
-                    sync_dist=True
-                )
-
-        else:
-            loss = self._step(step_name, batch, batch_idx, dataloader_idx)
-            self.log(
-                f"{step_name}/{self.task_names[dataloader_idx]}/loss",
-                loss.to(self.device),
-                on_epoch=True,
-                add_dataloader_idx=False,
-                sync_dist=True
-            )
-        return loss
-
-    def configure_optimizers(self):
-        return instantiate(self.cfg.optimizer, params=self.parameters())
-
-    # def set_module_name(self, module_name):
-    #    self.module_name=module_name
-
 
 # ------------ HELPER CLASSES AND FUNCTIONS -------------------------
 
@@ -279,6 +172,9 @@ class SlotAttentionAutoEncoder(AVRModule):
         num_slots: int,
         hid_dim: int,
         num_iterations: int,
+        checkpoint_path: str | None = None,
+        save_hyperparameters: bool = True,
+        save_slots: bool = True,
     ):
         """Builds the Slot Attention-based auto-encoder.
         Args:
@@ -287,6 +183,12 @@ class SlotAttentionAutoEncoder(AVRModule):
         num_iterations: Number of iterations in Slot Attention.
         """
         super().__init__(cfg)
+
+        if save_hyperparameters:
+            self.save_hyperparameters(
+                OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
+            )
+
         self.hid_dim = hid_dim
         self.resolution = resolution
         self.num_slots = num_slots
@@ -301,6 +203,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         self.fc2 = nn.Linear(self.hid_dim, self.hid_dim)
 
         self.slots_save_path = cfg.slots_save_path
+        self.save_slots = save_slots
         # self.slots_every_n_epochs = cfg.get('slots_every_n_epochs')
         # self.slots_every_n_steps = cfg.get('slots_every_n_steps')
 
@@ -312,6 +215,20 @@ class SlotAttentionAutoEncoder(AVRModule):
         )
         self.val_losses = []
         self.example_slots = dict()
+
+        if checkpoint_path is not None:
+            self = SlotAttentionAutoEncoder.load_from_checkpoint(
+                checkpoint_path,
+                cfg=cfg,
+                resolution=resolution,
+                num_slots=num_slots,
+                hid_dim=hid_dim,
+                num_iterations=num_iterations,
+                checkpoint_path=None,
+                save_hyperparameters=save_hyperparameters,
+                save_slots=save_slots,
+            )
+            return
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].
@@ -338,6 +255,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         # `slots` has shape: [batch_size*num_slots, width_init, height_init, slot_size].
 
         x = checkpoint(self.decoder_cnn, slots_reshaped, use_reentrant=False)
+        # x = self.decoder_cnn(slots_reshaped)
         # `x` has shape: [batch_size*num_slots, width, height, num_channels+1].
 
         # Undo combination of slot and batch dimension; split alpha masks.
@@ -371,7 +289,7 @@ class SlotAttentionAutoEncoder(AVRModule):
         #         (self.slots_every_n_epochs is not None and batch_idx == self.trainer.num_training_batches - 1 and self.current_epoch % self.slots_every_n_epochs == 0)
         #     )
         # ):
-        if step_name == "val" and batch_idx == 0:#self.trainer.num_val_batches - 1:
+        if self.save_slots and step_name == "val" and batch_idx == 0:#self.trainer.num_val_batches - 1:
             #at the start of each validation epoch
             return self._step_with_slots_logging(batch, dataloader_idx)
         img, target = batch
