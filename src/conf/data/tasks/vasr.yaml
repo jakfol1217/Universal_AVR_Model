@@ -3,6 +3,7 @@ defaults:
   - vasr/optimizer: ../../../../optimizer/adam
   
 vasr:
+  num_context_panels: 3
   dataset:
     target: model.avr_datasets.VASRdataset
     data_path: ${data.root}/vasr
@@ -22,17 +23,4 @@ vasr:
       dataset_type: dev
       data_path: ${data.tasks.vasr.dataset.data_path}
       img_size: ${data.tasks.vasr.dataset.img_size}
-  metrics:
-    train:
-      - accuracy:
-          _target_: torchmetrics.classification.MulticlassAccuracy
-          num_classes: 8
-    val:
-      - accuracy:
-          _target_: torchmetrics.classification.MulticlassAccuracy
-          num_classes: 8
-    test:
-      - accuracy:
-          _target_: torchmetrics.classification.MulticlassAccuracy
-          num_classes: 8
   target_loss_ratio: ${target_loss_ratio}

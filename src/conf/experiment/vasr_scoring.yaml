@@ -1,6 +1,6 @@
 # @package _global_
 defaults:
-  - override /data/tasks: [bongard_hoi]
+  - override /data/tasks: [vasr]
   - override /model: scoring_model_v1
   - override /data/datamodule: single_module
 
@@ -16,7 +16,7 @@ early_stopping_patience: 20
 # slots_every_n_epochs: null # depricated - better to check on validation set
 # slots_save_path: /app/out/slots
 model:
-  num_correct: 2 # depends on dataset
+  num_correct: 1 # depends on dataset
   slot_model:
     num_slots: 20
     hid_dim: 64
@@ -25,11 +25,12 @@ model:
   pos_emb:
     _target_: model.models.pos_emb.PositionalEmbedding
     out_dim: 64 # same as in_dim
-    nrows: 7
+    nrows: 2
     ncols: 2
     # ndim: null
     row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
   additional_metrics:
     accuracy:
-      _target_: torchmetrics.classification.BinaryAccuracy
-      threshold: 0.5
+      _target_: torchmetrics.classification.MulticlassAccuracy
+      num_classes: 4
+      average: macro

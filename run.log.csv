@@ -205,7 +205,15 @@ sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 # 845230 OK 36.22% GPU MEM usage
 sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring trainer=test every_n_train_steps=50 img_size=128 batch_size=16 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
 # 845231; 845256; 845258 OK 68.84%/77.66%/68.85% GPU MEM usage
+## VASR
+sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring trainer=test every_n_train_steps=50 every_n_epochs=null img_size=128 batch_size=32 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 845330 68.84% GPU MEM usage
 
 # Scoring
-sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 model.num_correct=2 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
-# 845261
+## BONGARD_HOI
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# ~845261~  845333 # 10GB memory looks good
+
+## VASR
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring img_size=128 batch_size=32 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 845347 # 10GB memory looks good

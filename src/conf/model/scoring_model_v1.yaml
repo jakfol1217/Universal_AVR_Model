@@ -34,7 +34,7 @@ pos_emb:
 save_hyperparameters: true
 
 # Carefully select for specific with respect to the task
-additional_metrics:
-  accuracy:
-    _target_: torchmetrics.classification.BinaryAccuracy
-    threshold: 0.5
+# additional_metrics:
+#   accuracy:
+#     _target_: torchmetrics.classification.BinaryAccuracy
+#     threshold: 0.5
