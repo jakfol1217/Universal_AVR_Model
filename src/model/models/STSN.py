@@ -172,9 +172,9 @@ class SlotAttentionAutoEncoder(AVRModule):
         num_slots: int,
         hid_dim: int,
         num_iterations: int,
-        checkpoint_path: str | None = None,
         save_hyperparameters: bool = True,
         save_slots: bool = True,
+        **kwargs,
     ):
         """Builds the Slot Attention-based auto-encoder.
         Args:
@@ -215,20 +215,6 @@ class SlotAttentionAutoEncoder(AVRModule):
         )
         self.val_losses = []
         self.example_slots = dict()
-
-        if checkpoint_path is not None:
-            self = SlotAttentionAutoEncoder.load_from_checkpoint(
-                checkpoint_path,
-                cfg=cfg,
-                resolution=resolution,
-                num_slots=num_slots,
-                hid_dim=hid_dim,
-                num_iterations=num_iterations,
-                checkpoint_path=None,
-                save_hyperparameters=save_hyperparameters,
-                save_slots=save_slots,
-            )
-            return
 
     def forward(self, image):
         # `image` has shape: [batch_size, num_channels, width, height].

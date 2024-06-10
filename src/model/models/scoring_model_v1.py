@@ -49,8 +49,14 @@ class ScoringModel(AVRModule):
         else:
             self.contextnorm = False
 
-        slot_model.freeze()  # TODO: Add option to train slot_model as well (may require configuring multiple optimizers)
+        # TODO: Add option to train slot_model as well (may require configuring multiple optimizers)
         self.slot_model = slot_model
+        if (slot_ckpt_path := cfg.model.slot_model.ckpt_path) is not None:
+            cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
+            model_cfg = {k: v for k, v in cfg_dict["model"]["slot_model"].items() if k != "_target_"}
+            self.slot_model = slot_model.__class__.load_from_checkpoint(slot_ckpt_path, cfg=cfg, **model_cfg)
+        slot_model.freeze()
+
         self.transformer = transformer
         self.pos_emb = pos_emb
 
@@ -112,8 +118,8 @@ class ScoringModel(AVRModule):
         return scores
 
     # TODO: Separate optimizers for different modules
-    # def configure_optimizers(self):
-    #     return instantiate(self.cfg.optimizer, params=self.parameters())
+    def configure_optimizers(self):
+        return instantiate(self.cfg.optimizer, params=self.parameters())
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
         img, target = batch
