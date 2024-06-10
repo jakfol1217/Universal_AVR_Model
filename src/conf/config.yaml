@@ -5,7 +5,7 @@ defaults:
   - optimizer: adam
   - model: stsn
   - trainer: base
-  - metrics: mse
+  - metrics: [mse, cross_entropy]
   - _self_
 data:
   root: /app/data
