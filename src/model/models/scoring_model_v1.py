@@ -55,7 +55,7 @@ class ScoringModel(AVRModule):
             cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
             model_cfg = {k: v for k, v in cfg_dict["model"]["slot_model"].items() if k != "_target_"}
             self.slot_model = slot_model.__class__.load_from_checkpoint(slot_ckpt_path, cfg=cfg, **model_cfg)
-        slot_model.freeze()
+        self.slot_model.freeze()
 
         self.transformer = transformer
         self.pos_emb = pos_emb
