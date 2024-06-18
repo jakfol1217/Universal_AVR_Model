@@ -220,12 +220,13 @@ sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 ### 20 slots - Slot model frozen
 sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
 # ~845261~  845333 # 10GB memory looks good # Increase early stopping
-./scripts/run_bulk_2_0.sh 3 845333 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20
-Job based on: 845333,Job id 1: 850836,Job id 2: 850837,Job id 3: 850838
+./scripts/run_bulk_2_0.sh 3 845333 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 early_stopping_patience=100 max_epochs=500
+Job based on: 845333,Job id 1: 850857,Job id 2: 850858,Job id 3: 850859
 
 ### 60 slots - Slot model frozen
-./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=8 model.slot_model.num_slots=60 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
-First job id: 850839,Job id 2: 850840,Job id 3: 850841,Job id 4: 850842
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=8 model.slot_model.num_slots=60 early_stopping_patience=100 max_epochs=500 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+First job id: 850860,Job id 2: 850861,Job id 3: 850862,Job id 4: 850863
+
 
 ## VASR (SLOT=BONGARD_HOI+VASR)
 ### 20 slots - Slot model frozen
