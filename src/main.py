@@ -46,10 +46,7 @@ def _test(cfg: DictConfig) -> None:
     module = instantiate(cfg.model, cfg, **module_kwargs, _recursive_=False)
 
     if cfg.checkpoint_path is not None:
-        # TODO: make it work for scoring model (might not work right now - needs module_kwargs workaround)
-        cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
-        model_cfg = {k: v for k, v in cfg_dict["model"].items() if k != "_target_"}
-        module = module.__class__.load_from_checkpoint(cfg.checkpoint_path, cfg=cfg, **model_cfg)
+        module = module.__class__.load_from_checkpoint(cfg.checkpoint_path, cfg=cfg, **module_kwargs, _recursive_=False)
 
     # print(module)
     # print(cfg.trainer)
