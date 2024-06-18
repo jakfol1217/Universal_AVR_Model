@@ -209,11 +209,89 @@ sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring trainer=test every_n_train_steps=50 every_n_epochs=null img_size=128 batch_size=32 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
 # 845330 68.84% GPU MEM usage
 
-# Scoring
-## BONGARD_HOI
-sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
-# ~845261~  845333 # 10GB memory looks good
+### 60 slots - Slot model frozen
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring trainer=test every_n_epochs=null every_n_train_steps=50 img_size=128 batch_size=8 model.slot_model.num_slots=60 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+# 850830 128 OOM, 850831 64 OOM, 850832 32 OOM, 850833 16 OOM, 850834 8: 88.92% GPU MEM usage
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring trainer=test every_n_epochs=null every_n_train_steps=50 img_size=128 batch_size=16 model.slot_model.num_slots=60 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+# 850835 16 99.73% GPU MEM usage
 
-## VASR
+# Scoring
+## BONGARD_HOI (SLOT=BONGARD_HOI+VASR)
+### 20 slots - Slot model frozen
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# ~845261~  845333 # 10GB memory looks good # Increase early stopping
+./scripts/run_bulk_2_0.sh 3 845333 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20
+Job based on: 845333,Job id 1: 850836,Job id 2: 850837,Job id 3: 850838
+
+### 60 slots - Slot model frozen
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=8 model.slot_model.num_slots=60 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+First job id: 850839,Job id 2: 850840,Job id 3: 850841,Job id 4: 850842
+
+## VASR (SLOT=BONGARD_HOI+VASR)
+### 20 slots - Slot model frozen
 sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring img_size=128 batch_size=32 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
 # 845347 # 10GB memory looks good
+./scripts/run_bulk_2_0.sh 3 845347 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring img_size=128 batch_size=32 model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
+Job based on: 845347,Job id 1: 850850,Job id 2: 850851,Job id 3: 850852
+
+### 60 slots - Slot model frozen
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring img_size=128 batch_size=16 model.slot_model.num_slots=60 +trainer.val_check_interval=0.5 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+First job id: 850853,Job id 2: 850854,Job id 3: 850855,Job id 4: 850856
+
+# Images single
+## BONGARD_HOI
+## Test run
+#850767 sbatch --time=0-00:05:00 --mem=32GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_images trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=64 model.num_slots=20
+
+### 20 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_images early_stopping_patience=20 batch_size=128 model=stsnv3 model.num_slots=20
+First job id: 850769,Job id 2: 850770,Job id 3: 850771,Job id 4: 850772,Job id 5: 850773
+
+### 10 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_images early_stopping_patience=20 batch_size=128 model=stsnv3 model.num_slots=10
+First job id: 850774,Job id 2: 850775,Job id 3: 850776,Job id 4: 850777,Job id 5: 850778
+
+### 30 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_images early_stopping_patience=20 batch_size=32 model=stsnv3 model.num_slots=30
+First job id: 850779,Job id 2: 850780,Job id 3: 850781,Job id 4: 850782,Job id 5: 850783
+
+### 40 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_images early_stopping_patience=20 batch_size=32 model=stsnv3 model.num_slots=40
+First job id: 850784,Job id 2: 850785,Job id 3: 850786,Job id 4: 850787,Job id 5: 850788
+
+### 50 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_images early_stopping_patience=20 batch_size=32 model=stsnv3 model.num_slots=50
+First job id: 850789,Job id 2: 850790,Job id 3: 850791,Job id 4: 850792,Job id 5: 850793
+
+### 60 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_images early_stopping_patience=20 batch_size=16 model=stsnv3 model.num_slots=60
+First job id: 850794,Job id 2: 850795,Job id 3: 850796,Job id 4: 850797,Job id 5: 850798
+
+
+## Test run
+#850768 sbatch --time=0-00:05:00 --mem=32GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_images trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=64 model.num_slots=20
+
+### 20 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_images early_stopping_patience=40 batch_size=128 model=stsnv3 model.num_slots=20
+First job id: 850799,Job id 2: 850800,Job id 3: 850801,Job id 4: 850802,Job id 5: 850803
+
+### 10 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_images early_stopping_patience=40 batch_size=128 model=stsnv3 model.num_slots=10
+First job id: 850804,Job id 2: 850805,Job id 3: 850806,Job id 4: 850807,Job id 5: 850808
+
+### 30 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_images early_stopping_patience=40 batch_size=32 model=stsnv3 model.num_slots=30
+First job id: 850809,Job id 2: 850810,Job id 3: 850811,Job id 4: 850812,Job id 5: 850813
+
+### 40 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_images early_stopping_patience=40 batch_size=32 model=stsnv3 model.num_slots=40
+First job id: 850814,Job id 2: 850815,Job id 3: 850816,Job id 4: 850817,Job id 5: 850818
+
+### 50 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_images early_stopping_patience=40 batch_size=32 model=stsnv3 model.num_slots=50
+First job id: 850819,Job id 2: 850820,Job id 3: 850821,Job id 4: 850822,Job id 5: 850823
+
+### 60 slots
+./scripts/run_bulk.sh 5 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_images early_stopping_patience=40 batch_size=16 model=stsnv3 model.num_slots=60
+First job id: 850824,Job id 2: 850825,Job id 3: 850826,Job id 4: 850827,Job id 5: 850828
+
