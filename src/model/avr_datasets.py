@@ -118,7 +118,7 @@ class VASRdataset(Dataset):
         for candidate in ast.literal_eval(task['candidates']):
             answers.append(os.path.join(self.data_path, 'images_512', candidate))
 
-        target = task['label']
+        target = int(task['label'])
         images = context + answers
         img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
         img = torch.stack(img)
