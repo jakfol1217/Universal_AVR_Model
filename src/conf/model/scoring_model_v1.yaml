@@ -10,9 +10,10 @@ slot_model:
   num_slots: 40
   hid_dim: 64
   num_iterations: 1
-  ckpt_path: /home/kaminskia/studies/Universal_AVR_Model/model_checkpoints/839939/last.ckpt
+  ckpt_path: null
   save_hyperparameters: false
   save_slots: false
+  freeze_slot_model: true
 transformer:
   _target_: model.models.vit.ViT
   dim: 64 # hidden dimension size

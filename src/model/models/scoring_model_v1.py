@@ -28,6 +28,7 @@ class ScoringModel(AVRModule):
         pos_emb: pl.LightningModule | None = None,
         additional_metrics: dict = {},
         save_hyperparameters=True,
+        freeze_slot_model=True,
         **kwargs,
     ):
         super().__init__(cfg)
@@ -51,11 +52,13 @@ class ScoringModel(AVRModule):
 
         # TODO: Add option to train slot_model as well (may require configuring multiple optimizers)
         self.slot_model = slot_model
-        if (slot_ckpt_path := cfg.model.slot_model.ckpt_path) is not None:
+        if (slot_ckpt_path := cfg.model.slot_model.ckpt_path) is not None and cfg.checkpoint_path is None:
             cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
             model_cfg = {k: v for k, v in cfg_dict["model"]["slot_model"].items() if k != "_target_"}
             self.slot_model = slot_model.__class__.load_from_checkpoint(slot_ckpt_path, cfg=cfg, **model_cfg)
-        self.slot_model.freeze()
+
+        if freeze_slot_model:
+            self.slot_model.freeze()
 
         self.transformer = transformer
         self.pos_emb = pos_emb
@@ -73,8 +76,6 @@ class ScoringModel(AVRModule):
             }
         )
 
-    # TODO: overwrite load_from_checkpoint to load slot_model and transformer (and pos_emb if exists)
-    # TODO: does it work GPU vs CPU?
     def apply_context_norm(self, z_seq):
         eps = 1e-8
         z_mu = z_seq.mean(1)
