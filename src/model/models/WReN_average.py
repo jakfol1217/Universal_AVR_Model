@@ -45,10 +45,12 @@ class WReN_average(pl.LightningModule):
     def forward(self, context: torch.Tensor, answers: torch.Tensor) -> torch.Tensor:
         """
         Forward pass of the WReN model.
-        :param x: a tensor with shape (batch_size, num_panels, height, width). num_panels is assumed
-        to be 16, as the model was designed to solve RPMs from the PGM dataset.
-        :return: a tensor with shape (batch_size, num_answers). num_answers is always equal to 8,
-        which is the number of answers for each RPM in PGM.
+        :param context: a tensor with shape (batch_size, num_context_images, height, width). num_context_images vary between tasks,
+        e.g. in case of the Bongard task it is 12.
+        :param answers: a tensor with shape (batch_size, num_answer_images, height, width). num_answer_images vary between tasks,
+        e.g. in case of the Bongard task it is 2. height, width, batch_size is the same as in the case of context parameters.
+        :return: a tensor with shape (batch_size, num_answers). num_answers is dependent on the task given,
+        e.g. for Bongard problems it is 2.
         """
         batch_context_size, num_context_images, height_context, width_context = context.size()
         batch_answers_size, num_answer_images, height_answers, width_answers = answers.size()
