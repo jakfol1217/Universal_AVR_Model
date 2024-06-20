@@ -47,36 +47,28 @@ class WReN_each(pl.LightningModule):
     def forward(self, context: torch.Tensor, answers: torch.Tensor) -> torch.Tensor:
         """
         Forward pass of the WReN model.
-        :param context: a tensor with shape (batch_size, num_context_images, num_context_panels, height, width). num_context_images vary between tasks,
+        :param context: a tensor with shape (batch_size, num_context_images, num_context_panels, size_context). num_context_images vary between tasks,
         e.g. in case of the Bongard task it is 12. num_context_panels is the number of slots into which the images are divided.
-        :param answers: a tensor with shape (batch_size, num_answer_images, num_answers_panels, height, width). num_answer_images vary between tasks,
-        e.g. in case of the Bongard task it is 2. height, width, batch_size is the same as in the case of context parameters. num_answer_panelds
+        :param answers: a tensor with shape (batch_size, num_answer_images, num_answers_panels, size_answers). num_answer_images vary between tasks,
+        e.g. in case of the Bongard task it is 2. size_answers, batch_size is the same as in the case of context parameters. num_answer_panelds
         is the same as num_context_panels.
         :return: a tensor with shape (batch_size, num_answers). num_answers is dependent on the task given,
         e.g. for Bongard problems it is 2.
         """
-        batch_context_size, num_context_images, num_context_panels, height_context, width_context = context.size()
-        batch_answers_size, num_answer_images, num_answers_panels, height_answers, width_answers = answers.size()
-        context = context.flatten(3, -1)
-        answers = answers.flatten(3, -1)
-        context_g_out = torch.zeros(batch_context_size, height_context * width_context * 2,
-                                    device=context.device).type_as(context)
-        for i in range(context.size()[1]):
-            chosen_panel = context[:, i].unsqueeze(1).repeat(1, context.size()[1], 1, 1)
-            pairs = self.group_objects(context, chosen_panel)
-
-            context_g_out += self.g(pairs).sum(1)
-            del pairs
-            gc.collect()
-
+        batch_context_size, num_context_images, num_context_panels, size_context = context.size()
+        batch_answers_size, num_answer_images, num_answers_panels, size_answers = answers.size()
+        context_g_out = torch.zeros(batch_context_size, size_context*2, device=context.device).type_as(context)
+        pairs = self.group_objects(context, context)
+        context_g_out = self.g(pairs)
+        del pairs      
         f_out = torch.zeros(batch_answers_size, num_answer_images, device=context.device).type_as(context)
         for i in range(num_answer_images):
-            chosen_answer = answers[:, i, :, :].unsqueeze(1).repeat(1, context.size()[1], 1, 1)
-            context_choice_pairs = self.group_objects(context, chosen_answer)
+            chosen_answer = answers[:, i, :, :].unsqueeze(1).repeat(1,context.size()[1],1,1)
+            context_choice_pairs = self.group_objects(context,  chosen_answer)
             context_choice_g_out = self.g(context_choice_pairs)
             del context_choice_pairs
             relations = context_g_out + context_choice_g_out
-            relations = relations / (num_context_panels ** 2)
+            relations = relations.mean(1)
             relations = self.norm(relations)
             f_out[:, i] = self.f(relations).squeeze()
             del relations

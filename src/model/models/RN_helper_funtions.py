@@ -44,7 +44,7 @@ class DeepLinearBNReLU(pl.LightningModule):
 
 
 class MLP(pl.LightningModule):
-    def __init__(self, in_dim: int, hidden_dims: List[int], out_dim: int):
+    def __init__(self, in_dim: int, hidden_dims: list[int], out_dim: int):
         super(MLP, self).__init__()
         self.layers = nn.Sequential(*[
             LinearBNReLU(d1, d2)

@@ -45,17 +45,15 @@ class WReN_average(pl.LightningModule):
     def forward(self, context: torch.Tensor, answers: torch.Tensor) -> torch.Tensor:
         """
         Forward pass of the WReN model.
-        :param context: a tensor with shape (batch_size, num_context_images, height, width). num_context_images vary between tasks,
+        :param context: a tensor with shape (batch_size, num_context_images, size_context). num_context_images vary between tasks,
         e.g. in case of the Bongard task it is 12.
-        :param answers: a tensor with shape (batch_size, num_answer_images, height, width). num_answer_images vary between tasks,
-        e.g. in case of the Bongard task it is 2. height, width, batch_size is the same as in the case of context parameters.
+        :param answers: a tensor with shape (batch_size, num_answer_images, size_answers). num_answer_images vary between tasks,
+        e.g. in case of the Bongard task it is 2. size_answers and batch_size is the same as in the case of context parameters.
         :return: a tensor with shape (batch_size, num_answers). num_answers is dependent on the task given,
         e.g. for Bongard problems it is 2.
         """
-        batch_context_size, num_context_images, height_context, width_context = context.size()
-        batch_answers_size, num_answer_images, height_answers, width_answers = answers.size()
-        context = context.flatten(2, -1)
-        answers = answers.flatten(2, -1)
+        batch_context_size, num_context_images, size_context = context.size()
+        batch_answers_size, num_answer_images, size_answers = answers.size()
         pair = self.group_objects(context, context)
         context_g_out = self.g(pair)
         del pair
