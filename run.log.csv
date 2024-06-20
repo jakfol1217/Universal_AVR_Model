@@ -239,6 +239,47 @@ Job based on: 845347,Job id 1: 850850,Job id 2: 850851,Job id 3: 850852
 ./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring img_size=128 batch_size=16 model.slot_model.num_slots=60 +trainer.val_check_interval=0.5 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
 First job id: 850853,Job id 2: 850854,Job id 3: 850855,Job id 4: 850856
 
+# Scoring -- WReN
+## BONGARD_HOI (SLOT=BONGARD_HOI+VASR)
+
+### 20 slots - Slot model frozen -- averaged
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 853551
+./scripts/run_bulk_2_0.sh 3 853551 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
+Job based on: 853551,Job id 1: 853552,Job id 2: 853553,Job id 3: 853554
+
+### 20 slots - Slot model frozen -- order
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring img_size=128 batch_size=16 model.wren_type=order model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 853555
+./scripts/run_bulk_2_0.sh 3 853555 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring img_size=128 batch_size=16 wren_type=order model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
+Job based on: 853555,Job id 1: 853556,Job id 2: 853557,Job id 3: 853558
+
+### 20 slots - Slot model frozen -- each
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring img_size=128 batch_size=16 model.wren_type=each model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 853559
+./scripts/run_bulk_2_0.sh 3 853559 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring img_size=128 batch_size=16 model.wren_type=each model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
+Job based on: 853559,Job id 1: 853560,Job id 2: 853561,Job id 3: 853562
+
+## VASR (SLOT=BONGARD_HOI+VASR)
+
+### 20 slots - Slot model frozen -- averaged
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_wren_scoring img_size=128 batch_size=32 model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 853563
+./scripts/run_bulk_2_0.sh 3 853563 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_wren_scoring img_size=128 batch_size=32 model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
+Job based on: 853563,Job id 1: 853564,Job id 2: 853565,Job id 3: 853566
+
+### 20 slots - Slot model frozen -- order
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_wren_scoring img_size=128 batch_size=32 model.wren_type=order model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 853567
+./scripts/run_bulk_2_0.sh 3 853567 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_wren_scoring img_size=128 batch_size=32 model.wren_type=order model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
+Job based on: 853567,Job id 1: 853568,Job id 2: 853569,Job id 3: 853570
+
+### 20 slots - Slot model frozen -- each
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_wren_scoring img_size=128 batch_size=32 model.wren_type=each model.slot_model.num_slots=20 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 853571
+./scripts/run_bulk_2_0.sh 3 853571 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_wren_scoring img_size=128 batch_size=32 model.wren_type=each model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
+Job based on: 853571,Job id 1: 853572,Job id 2: 853573,Job id 3: 853574
+
 # Images single
 ## BONGARD_HOI
 ## Test run
