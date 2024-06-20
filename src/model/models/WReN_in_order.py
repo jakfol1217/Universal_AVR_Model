@@ -43,7 +43,7 @@ class WReN_in_order(pl.LightningModule):
         self.softmax = nn.Softmax(dim=1)
 
     def forward(self, context: torch.Tensor, answers: torch.Tensor) -> torch.Tensor:
-    """
+        """
         Forward pass of the WReN model.
         :param context: a tensor with shape (batch_size, num_context_images, num_context_panels, size_context). num_context_images vary between tasks,
         e.g. in case of the Bongard task it is 12. num_context_panels is the number of slots into which the images are divided.
@@ -52,7 +52,7 @@ class WReN_in_order(pl.LightningModule):
         is the same as num_context_panels.
         :return: a tensor with shape (batch_size, num_answers). num_answers is dependent on the task given,
         e.g. for Bongard problems it is 2.
-    """
+        """
         batch_context_size, num_context_images, num_context_panels, size_context = context.size()
         batch_answers_size, num_answer_images, num_answers_panels, size_answers = answers.size()
         pair = self.group_objects(context, context)
