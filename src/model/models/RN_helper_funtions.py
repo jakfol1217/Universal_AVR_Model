@@ -11,7 +11,7 @@ class Identity(pl.LightningModule):
 class LinearBNReLU(pl.LightningModule):
     def __init__(self, in_dim: int, out_dim: int):
         super(LinearBNReLU, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim).to(torch.float16)
+        self.linear = nn.Linear(in_dim, out_dim)
         self.bn = nn.BatchNorm1d(out_dim)
         self.relu = nn.ReLU()
 
@@ -120,3 +120,31 @@ class GroupImagesIntoPairsWithWithPanels(pl.LightningModule):
             objects,
             object.unsqueeze(1).repeat(1, num_images, 1, 1)
         ], dim=2).view(batch_size, num_images, num_panels, object_size * 2)
+
+
+class G(pl.LightningModule):
+    def __init__(self, depth: int, in_size: int, out_size: int, use_layer_norm: bool = False):
+        super(G, self).__init__()
+        self.mlp = DeepLinearBNReLU(depth, in_size, out_size, change_dim_first=False)
+        self.norm = nn.LayerNorm(out_size) if use_layer_norm else Identity()
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.mlp(x)
+        x = x.sum(dim=1)
+        x = self.norm(x)
+        return x
+
+
+class F(pl.LightningModule):
+    def __init__(self, depth: int, object_size: int, out_size: int, dropout_probability: float = 0.5):
+        super(F, self).__init__()
+        self.mlp = nn.Sequential(
+            DeepLinearBNReLU(depth, object_size, object_size),
+            nn.Dropout(dropout_probability),
+            nn.Linear(object_size, out_size)
+        )
+
+    def forward(self, x: torch.Tensor) -> torch.Tensor:
+        x = self.mlp(x)
+        return x
+

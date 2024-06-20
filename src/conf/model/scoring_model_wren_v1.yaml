@@ -1,6 +1,6 @@
 _target_: model.models.scoring_model_wren_v1.ScoringModelWReN
 context_norm: true
-object_size: ${img_size} * ${img_size}
+in_dim: 64
 slot_model:
   _target_: model.models.STSNv3.SlotAttentionAutoEncoder
   resolution:

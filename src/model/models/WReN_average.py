@@ -20,7 +20,7 @@ class WReN_average(pl.LightningModule):
          :param object_size: size of the object (panel) vector
          :param use_layer_norm: flag indicating whether layer normalization should be applied after
          the G submodule of RN.
-         """
+        """
         super(WReN_average, self).__init__()
 
         self.group_objects = GroupImagesIntoPairs()

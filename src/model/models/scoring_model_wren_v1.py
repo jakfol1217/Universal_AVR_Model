@@ -19,7 +19,7 @@ class ScoringModelWReN(ScoringModel):
         self,
         cfg: DictConfig,
         context_norm: bool,
-        object_size: int,
+        in_dim: int,
         slot_model: pl.LightningModule,
         wren_type: str,
         additional_metrics: dict = {},
@@ -31,7 +31,7 @@ class ScoringModelWReN(ScoringModel):
             cfg, 
             context_norm=context_norm, 
             num_correct=1, 
-            in_dim=-1, 
+            in_dim=in_dim, 
             slot_model=slot_model,
             transformer=None, 
             pos_emb=None, 
@@ -42,17 +42,17 @@ class ScoringModelWReN(ScoringModel):
         self.wren_type = wren_type
         if self.wren_type == "averaged":
             self.wren_model = WReN_average(
-                object_size=object_size,
+                object_size=in_dim,
                 use_layer_norm=context_norm
             )
         elif self.wren_type == "order":
             self.wren_model = WReN_in_order(
-                object_size=object_size,
+                object_size=in_dim,
                 use_layer_norm=context_norm
             )
         elif self.wren_type == "each":
             self.wren_model = WReN_each(
-                object_size=object_size,
+                object_size=in_dim,
                 use_layer_norm=context_norm
             )
 
