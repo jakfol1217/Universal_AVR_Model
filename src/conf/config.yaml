@@ -18,6 +18,7 @@ lr: 0.001
 max_epochs: 1
 checkpoint_path: null
 monitor: val/loss
+transformer_name: vit_large_patch32_384
 early_stopping_patience: 3
 log_every_n_steps: 50
 seed: 42

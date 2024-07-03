@@ -123,9 +123,9 @@ class GroupImagesIntoPairsWithWithPanels(pl.LightningModule):
 
 
 class G(pl.LightningModule):
-    def __init__(self, depth: int, in_size: int, out_size: int, use_layer_norm: bool = False):
+    def __init__(self, depth: int, in_size: int, out_size: int, use_layer_norm: bool = False, change_dim_first: bool = False):
         super(G, self).__init__()
-        self.mlp = DeepLinearBNReLU(depth, in_size, out_size, change_dim_first=False)
+        self.mlp = DeepLinearBNReLU(depth, in_size, out_size, change_dim_first=change_dim_first)
         self.norm = nn.LayerNorm(out_size) if use_layer_norm else Identity()
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:

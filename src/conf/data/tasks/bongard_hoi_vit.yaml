@@ -1,0 +1,37 @@
+defaults:
+  - bongard_hoi_vit/dataloader: ../../../../dataloader/default
+  - bongard_hoi_vit/optimizer: ../../../../optimizer/adam
+
+bongard_hoi_vit:
+  num_context_panels: 12
+  dataset:
+    target: model.avr_datasets.HOI_VITdataset
+    data_path: ${data.root}/bongard_hoi/hake/
+    annotation_path: ${data.root}/bongard_hoi/bongard_hoi_release/
+    model_name: ${transformer_name}
+    train:
+      _target_: ${data.tasks.bongard_hoi_vit.dataset.target}
+      dataset_type: bongard_hoi_train.json
+      data_path: ${data.tasks.bongard_hoi_vit.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi_vit.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_hoi_vit.dataset.model_name}
+    val:
+      _target_: ${data.tasks.bongard_hoi_vit.dataset.target}
+      dataset_type: bongard_hoi_val_seen_obj_unseen_act.json
+        # TODO: allow multiple dataset types (requires change in dataset class)?
+        # - bongard_hoi_val_unseen_obj_unseen_act.json
+        # - bongard_hoi_val_seen_obj_seen_act.json
+        # - bongard_hoi_val_unseen_obj_seen_act.json
+      data_path: ${data.tasks.bongard_hoi_vit.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi_vit.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_hoi_vit.dataset.model_name}
+    test:
+      _target_: ${data.tasks.bongard_hoi_vit.dataset.target}
+      dataset_type: bongard_hoi_test_seen_obj_seen_act.json
+        # - bongard_hoi_test_unseen_obj_seen_act.json
+        # - bongard_hoi_test_seen_obj_unseen_act.json
+        # - bongard_hoi_test_unseen_obj_unseen_act.json
+      data_path: ${data.tasks.bongard_hoi_vit.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi_vit.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_hoi_vit.dataset.model_name}
+  target_loss_ratio: ${target_loss_ratio}

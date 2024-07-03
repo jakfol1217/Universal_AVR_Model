@@ -11,6 +11,8 @@ import pandas as pd
 import torch
 import torchvision
 import ujson as json
+import timm
+from timm.data.transforms_factory import create_transform
 from omegaconf import DictConfig, OmegaConf
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
@@ -305,6 +307,54 @@ class HOISamplesDataset(Dataset):
         img = torch.unsqueeze(img, 0)
         target = np.asarray(-1)
         return img, target
+
+
+
+class HOI_VITdataset(HOIdataset):
+    def __init__(
+        self,
+        data_path: str,
+        annotation_path: str,
+        dataset_type: str,
+        model_name: str,
+    ):
+
+        self.data_files = [os.path.join(annotation_path, dataset_type)]
+        if dataset_type:
+            self.data_files = [f for f in self.data_files if dataset_type in f]
+        self.file_sizes = []
+        self.annotations = []
+        for file in self.data_files:
+            with open(file) as f:
+                file_hoi = json.load(f)
+                self.file_sizes.append(len(file_hoi))
+                self.annotations.append(file_hoi)
+
+        self.idx_ranges = np.cumsum(self.file_sizes)
+
+        model = timm.create_model(model_name)
+        model_conf = timm.data.resolve_data_config({}, model=model)
+        self.transforms = create_transform(**model_conf)
+
+
+        self.data_path = data_path
+
+
+class VASR_VITdataset(VASRdataset):
+    def __init__(
+            self,
+            data_path: str,
+            dataset_type: str,  # train, dev
+            model_name: str,
+    ):
+        self.annotations = pd.read_csv(os.path.join(data_path, f"{dataset_type}.csv"))
+
+        model = timm.create_model(model_name)
+        model_conf = timm.data.resolve_data_config({}, model=model)
+        self.transforms = create_transform(**model_conf)
+
+
+        self.data_path = data_path
 
 
 class LOGOdataset(Dataset):

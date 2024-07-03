@@ -1,6 +1,8 @@
 _target_: model.models.scoring_model_wren_v1.ScoringModelWReN
 context_norm: true
 in_dim: 64
+hidden_dim: 512
+transformer_name: ${transformer_name}
 slot_model:
   _target_: model.models.STSNv3.SlotAttentionAutoEncoder
   resolution:
