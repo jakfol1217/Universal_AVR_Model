@@ -13,6 +13,7 @@ every_n_train_steps: null
 early_stopping_patience: 20
 
 model:
+  wren_type: 'vit_pooled'
   slot_model:
     num_slots: 20
     hid_dim: 64
