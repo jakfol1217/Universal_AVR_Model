@@ -5,7 +5,6 @@ defaults:
   - override /data/datamodule: single_module
 
 img_size: 128
-in_dim: 1024
 max_epochs: 200
 batch_size: 8
 lr: 0.0001
@@ -15,6 +14,7 @@ early_stopping_patience: 20
 
 model:
   wren_type: 'vit_pooled'
+  in_dim: 1024
   slot_model:
     num_slots: 20
     hid_dim: 64
