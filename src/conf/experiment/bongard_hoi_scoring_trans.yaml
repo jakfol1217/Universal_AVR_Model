@@ -17,6 +17,7 @@ early_stopping_patience: 20
 # slots_save_path: /app/out/slots
 model:
   num_correct: 2 # depends on dataset
+  in_dim: 1024
   pos_emb:
     _target_: model.models.pos_emb.PositionalEmbedding
     out_dim: 64 # same as in_dim
