@@ -33,9 +33,28 @@ pos_emb:
 #   ndim: null
   row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
 save_hyperparameters: true
+auxiliary_loss_ratio: 0.0
 
 # Carefully select for specific with respect to the task
 # additional_metrics:
 #   accuracy:
 #     _target_: torchmetrics.classification.BinaryAccuracy
 #     threshold: 0.5
+
+# Example of usage with more datasets (different scoring layers for them) but the same backbone
+# Models for second dataset
+# transformer_1: ...
+# pos_emb_1: ...
+# additional_metrics_1: ...
+# num_correct_1: ...
+
+# Models for third dataset
+
+# transformer_2: ...
+# pos_emb_2: ...
+# additional_metrics_2: ...
+# num_correct_2: ...
+
+# slots_every_n_steps: null # depricated - better to check on validation set
+# slots_every_n_epochs: null # depricated - better to check on validation set
+# slots_save_path: /app/out/slots
