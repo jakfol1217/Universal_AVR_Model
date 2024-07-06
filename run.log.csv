@@ -215,6 +215,17 @@ sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring trainer=test every_n_epochs=null every_n_train_steps=50 img_size=128 batch_size=16 model.slot_model.num_slots=60 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
 # 850835 16 99.73% GPU MEM usage
 
+### 20 slots - Slot model trained (aux loss ratio = 10)
+## BONGARD_HOI
+sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_full_train trainer=test every_n_epochs=null every_n_train_steps=50 img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 857087 - a little risky but OK 95-99% GPU MEM usage
+## VASR
+sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_full_train trainer=test every_n_epochs=null every_n_train_steps=50 img_size=128 batch_size=32 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 857088, 88% GPU MEM usage
+## BONGARD_HOI+VASR
+sbatch --time=0-00:15:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_vasr_scoring_full_train trainer=test every_n_epochs=null every_n_train_steps=50 img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+# 857091, 90-95% GPU MEM usage (26h per epoch (only train) :o)
+
 # Scoring
 ## BONGARD_HOI (SLOT=BONGARD_HOI+VASR)
 ### 20 slots - Slot model frozen
@@ -222,6 +233,65 @@ sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 # ~845261~  845333 # 10GB memory looks good # Increase early stopping
 ./scripts/run_bulk_2_0.sh 3 845333 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=16 model.slot_model.num_slots=20 early_stopping_patience=100 max_epochs=500
 Job based on: 845333,Job id 1: 850857,Job id 2: 850858,Job id 3: 850859
+
+### 20 slots - Slot model trained
+## BONGARD_HOI (aux loss ratio = 10)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_full_train img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+First job id: 857092,Job id 2: 857093,Job id 3: 857094
+## VASR (aux loss ratio = 10)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=32 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+First job id: 857095,Job id 2: 857096,Job id 3: 857097
+## BONGARD_HOI+VASR (aux loss ratio = 10)
+sbatch --time=4-00:00:00 --partition=long --mem=36GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+Submitted batch job 857098
+
+## BONGARD_HOI (aux loss ratio = 1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_full_train img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=1 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+First job id: 857099,Job id 2: 857100,Job id 3: 857101
+## VASR (aux loss ratio = 1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=32 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=1 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+First job id: 857102,Job id 2: 857103,Job id 3: 857104
+## BONGARD_HOI+VASR (aux loss ratio = 1)
+sbatch --time=4-00:00:00 --partition=long --mem=36GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=1 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+Submitted batch job 857105
+
+## BONGARD_HOI (aux loss ratio = 0.1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_full_train img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=0.1 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+First job id: 857106,Job id 2: 857107,Job id 3: 857108
+## VASR (aux loss ratio = 0.1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=32 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=0.1 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+First job id: 857109,Job id 2: 857110,Job id 3: 857111
+## BONGARD_HOI+VASR (aux loss ratio = 0/1)
+sbatch --time=4-00:00:00 --partition=long --mem=36GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=16 model.slot_model.num_slots=20 model.auxiliary_loss_ratio=0.1 model.slot_model.ckpt_path=/app/model_checkpoints/839928/last.ckpt
+Submitted batch job 857112
+
+### 60 slots - Slot model trained (NOT ALL RAN YET - verify results before running (may not be worth it)
+
+## BONGARD_HOI (aux loss ratio = 10)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+First job id: 857113,Job id 2: 857114,Job id 3: 857115
+## VASR (aux loss ratio = 10)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+First job id: 857116,Job id 2: 857117,Job id 3: 857118
+## BONGARD_HOI+VASR (aux loss ratio = 10)
+sbatch --time=4-00:00:00 --partition=long --mem=36GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=10 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+Submitted batch job 857119
+
+## BONGARD_HOI (aux loss ratio = 1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=1 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+## VASR (aux loss ratio = 1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=1 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+## BONGARD_HOI+VASR (aux loss ratio = 1)
+sbatch --time=4-00:00:00 --partition=long --mem=36GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=1 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+
+## BONGARD_HOI (aux loss ratio = 0.1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=0.1 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+## VASR (aux loss ratio = 0.1)
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=0.1 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+## BONGARD_HOI+VASR (aux loss ratio = 0/1)
+sbatch --time=4-00:00:00 --partition=long --mem=36GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_full_train img_size=128 batch_size=8 model.slot_model.num_slots=60 model.auxiliary_loss_ratio=0.1 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
+
+
 
 ### 60 slots - Slot model frozen
 ./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring img_size=128 batch_size=8 model.slot_model.num_slots=60 early_stopping_patience=100 max_epochs=500 model.slot_model.ckpt_path=/app/model_checkpoints/835822/last.ckpt
