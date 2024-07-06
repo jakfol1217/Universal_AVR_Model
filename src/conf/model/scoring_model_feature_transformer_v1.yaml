@@ -1,12 +1,12 @@
 _target_: model.models.scoring_model_feature_transformer_v1.ScoringModelFeatureTransformer
 num_correct: 2 # number of correct answers (e.g. 1 - raven, 2 - bongard)
 context_norm: true
-in_dim: 64
+in_dim: 1024
 transformer_name: ${transformer_name}
 pooling: false
 transformer:
   _target_: model.models.vit.ViT
-  dim: 64 # hidden dimension size
+  dim: 1024 # hidden dimension size
   depth: 24 # transformer number of layers
   heads: 8 # transformer number of heads
   mlp_dim: 512 # transformer mlp dimension
@@ -17,7 +17,7 @@ transformer:
   save_hyperparameters: False
 pos_emb:
   _target_: model.models.pos_emb.PositionalEmbedding
-  out_dim: 64 # same as in_dim
+  out_dim: 1024 # same as in_dim
   nrows: 7
   ncols: 2
 #   ndim: null

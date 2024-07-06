@@ -72,6 +72,7 @@ class ScoringModelFeatureTransformer(AVRModule):
             self.feature_transformer = timm.create_model(transformer_name, pretrained=True, num_classes=0, global_pool='')
         for param in self.feature_transformer.parameters():
                 param.requires_grad = False
+        self.pooling = pooling
 
 
     def apply_context_norm(self, z_seq):
@@ -104,7 +105,8 @@ class ScoringModelFeatureTransformer(AVRModule):
             x_seq = torch.cat([given_panels, answer_panels[:, d]], dim=1)
             # print("seq min and max>>",torch.min(x_seq),torch.max(x_seq))
             # x_seq = torch.cat([AB,C_choices[:,d,:].unsqueeze(1)],dim=1)
-            x_seq = torch.flatten(x_seq, start_dim=1, end_dim=2)
+            if not self.pooling:     
+                x_seq = torch.flatten(x_seq, start_dim=1, end_dim=2)
             if self.contextnorm:
 
                 x_seq = self.apply_context_norm(x_seq)

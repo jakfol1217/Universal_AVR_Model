@@ -36,7 +36,7 @@ class WReN_vit(pl.LightningModule):
             use_layer_norm=False,
             change_dim_first=True
         )
-        self.norm = nn.LayerNorm(self.object_tuple_size) if use_layer_norm else Identity()
+        self.norm = nn.LayerNorm(self.hidden_size) if use_layer_norm else Identity()
         self.f = F(
             depth=2,
             object_size=self.hidden_size,
