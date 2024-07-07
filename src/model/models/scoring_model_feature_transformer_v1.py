@@ -98,21 +98,16 @@ class ScoringModelFeatureTransformer(AVRModule):
         # Loop through all choices and compute scores
         for d in permutations(range(answer_panels.shape[1]), self.num_correct):
 
-            # print(AB,C_choices[:,d,:],AB.shape,C_choices[:,d,:].shape)
-            # x_seq = torch.cat([given_panels_posencoded_seq,torch.cat((answer_panels[:,d],self.row_fc(third).unsqueeze(1).repeat((1,answer_panels.shape[2],1)), self.column_fc(third).unsqueeze(1).repeat((1,answer_panels.shape[2],1))),dim=2).unsqueeze(1)],dim=1)
-            # print(given_panels.shape)
-            # print(answer_panels[:, d].shape)
+
             x_seq = torch.cat([given_panels, answer_panels[:, d]], dim=1)
-            # print("seq min and max>>",torch.min(x_seq),torch.max(x_seq))
-            # x_seq = torch.cat([AB,C_choices[:,d,:].unsqueeze(1)],dim=1)
+
             if not self.pooling:     
                 x_seq = torch.flatten(x_seq, start_dim=1, end_dim=2)
             if self.contextnorm:
 
                 x_seq = self.apply_context_norm(x_seq)
-
             x_seq = x_seq + pos_emb_score  # TODO: add positional embeddings
-            # x_seq = torch.cat((x_seq,all_posemb_concat_flatten),dim=2)
+
             score = self.transformer(x_seq)
             scores.append(score)
         scores = torch.cat(scores, dim=1)

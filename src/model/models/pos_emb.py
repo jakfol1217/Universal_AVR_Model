@@ -24,6 +24,7 @@ class PositionalEmbedding(pl.LightningModule):
         ncols: int,
         ndim: int | None = None,
         row_wise: bool = True,
+        feature_pooling: bool = False,
         **kwargs,
     ):
         super().__init__()
@@ -32,6 +33,7 @@ class PositionalEmbedding(pl.LightningModule):
         self.ncols = ncols
         self.row_wise = row_wise
         self.row_column_fc = nn.Linear(self.ndim, out_dim)
+        self.feature_pooling = feature_pooling
 
     def forward(self, x):
         cells = [[0 for _ in range(self.ndim)] for _ in range(self.nrows * self.ncols)]
@@ -55,14 +57,22 @@ class PositionalEmbedding(pl.LightningModule):
                     it += 1
 
         cells = [torch.tensor(cell, device=self.device).repeat((x.shape[0], 1)).float() for cell in cells]
-        posemb = [
+        if not self.feature_pooling:
+            posemb = [
             self.row_column_fc(cell)
             .unsqueeze(1)
             .repeat((1, x.shape[2], 1))
             .unsqueeze(1)
             for cell in cells
-        ]
-        posemb_flatten = torch.flatten(torch.cat(posemb, dim=1), start_dim=1, end_dim=2)
+            ]
+            posemb_flatten = torch.flatten(torch.cat(posemb, dim=1), start_dim=1, end_dim=2)
+        else:
+            posemb = [
+            self.row_column_fc(cell)
+            .unsqueeze(1)
+            for cell in cells
+            ]
+            posemb_flatten = torch.cat(posemb, dim=1)
 
         return posemb_flatten
 

@@ -4,3 +4,4 @@ nrows: 7
 ncols: 2
 #   ndim: null
 row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
+feature_pooling: false

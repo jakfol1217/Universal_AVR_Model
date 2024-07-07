@@ -19,7 +19,8 @@ class LinearBNReLU(pl.LightningModule):
         x = self.linear(x)
         shape = x.shape
         x = x.flatten(0, -2)
-        x = self.bn(x)
+        if x.shape[0] != 1:
+            x = self.bn(x)
         x = x.view(shape)
         x = self.relu(x)
         return x

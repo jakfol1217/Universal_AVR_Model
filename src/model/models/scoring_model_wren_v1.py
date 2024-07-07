@@ -85,18 +85,23 @@ class ScoringModelWReN(ScoringModel):
         if self.wren_type == "averaged":
             given_panels = given_panels.mean(2)
             answer_panels = answer_panels.mean(2)
-        scores = self.wren_model(given_panels.squeeze(), answer_panels.squeeze())
+        scores = self.wren_model(given_panels, answer_panels)
         return scores
     
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
         img, target = batch
         results = []
+        slot_model_loss = None
         if self.feature_transformer is None:
             for idx in range(img.shape[1]):
                 recon_combined, recons, masks, slots, attn = self.slot_model(img[:, idx])
                 results.append(slots)
                 del recon_combined, recons, masks, slots, attn
+            pred_img = torch.stack(results, dim=1).contiguous()
+            if pred_img.shape[2] != img.shape[2]:
+                pred_img = pred_img.repeat(1, 1, 3, 1, 1)
+            slot_model_loss = self.slot_model.loss(pred_img, img)
 
         else:
             for idx in range(img.shape[1]):
@@ -114,18 +119,41 @@ class ScoringModelWReN(ScoringModel):
 
         pred = scores.argmax(1)
 
-        for metric_nm, metric_func in self.additional_metrics.items():
+        ce_loss = self.loss(scores, target)
+
+        current_metrics = self.additional_metrics[dataloader_idx]
+        for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(
                 f"{step_name}/{self.task_names[dataloader_idx]}/{metric_nm}",
                 value,
                 on_epoch=True,
-                prog_bar=True if step_name == "val" else False,
+                prog_bar=False,
+                logger=True,
+                add_dataloader_idx=False,
+            )
+        if self.auxiliary_loss_ratio > 0:
+            self.log(
+                f"{step_name}/{self.task_names[dataloader_idx]}/mse_loss",
+                slot_model_loss,
+                on_epoch=True,
+                prog_bar=False,
+                logger=True,
+                add_dataloader_idx=False,
+            )
+            self.log(
+                f"{step_name}/{self.task_names[dataloader_idx]}/cross_entropy_loss",
+                ce_loss,
+                on_epoch=True,
+                prog_bar=False,
                 logger=True,
                 add_dataloader_idx=False,
             )
 
-        loss = self.loss(scores, target)
+        if slot_model_loss is not None:
+            loss = ce_loss + self.auxiliary_loss_ratio * slot_model_loss
+        else:
+            loss = ce_loss
         return loss
 
 
