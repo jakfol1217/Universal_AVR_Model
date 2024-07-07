@@ -350,6 +350,44 @@ sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 ./scripts/run_bulk_2_0.sh 3 853571 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_wren_scoring img_size=128 batch_size=32 model.wren_type=each model.slot_model.num_slots=20 +trainer.val_check_interval=0.5
 Job based on: 853571,Job id 1: 853572,Job id 2: 853573,Job id 3: 853574
 
+# Scoring -- feature transformer
+
+## BONGARD HOI (ViT)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true
+857254
+./scripts/run_bulk_2_0.sh 3 857254 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_trans img_size=128 batch_size=16 model.pooling=true +trainer.val_check_interval=0.5
+Job based on: 857254,Job id 1: 857255,Job id 2: 857256,Job id 3: 857257
+
+## BONGARD HOI (WReN features pooled)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans img_size=128 batch_size=16  
+857238
+./scripts/run_bulk_2_0.sh 3 857238 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans img_size=128 batch_size=16 +trainer.val_check_interval=0.5
+Job based on: 857238,Job id 1: 857239,Job id 2: 857240,Job id 3: 857241
+
+## BONGARD HOI (WReN features unpooled)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.in_dim=148480
+857242
+./scripts/run_bulk_2_0.sh 3 857242 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.in_dim=148480 +trainer.val_check_interval=0.5
+Job based on: 857242,Job id 1: 857243,Job id 2: 857244,Job id 3: 857245
+
+## VASR (ViT features pooled)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true
+857258
+./scripts/run_bulk_2_0.sh 3 857258 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true +trainer.val_check_interval=0.5
+Job based on: 857258,Job id 1: 857259,Job id 2: 857260,Job id 3: 857261
+
+## VASR (WReN features pooled)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16
+857246
+./scripts/run_bulk_2_0.sh 3 857246 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16 +trainer.val_check_interval=0.5
+Job based on: 857246,Job id 1: 857247,Job id 2: 857248,Job id 3: 857249
+
+## VASR (WReN features unpooled)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.in_dim=148480
+857250
+./scripts/run_bulk_2_0.sh 3  857250 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.in_dim=148480 +trainer.val_check_interval=0.5
+Job based on: 857250,Job id 1: 857251,Job id 2: 857252,Job id 3: 857253
+
 # Images single
 ## BONGARD_HOI
 ## Test run
