@@ -156,4 +156,11 @@ class ScoringModelWReN(ScoringModel):
             loss = ce_loss
         return loss
 
+    def on_save_checkpoint(self, checkpoint):
+        keys_to_delete = []
+        for key in checkpoint['state_dict']:
+            if key.startswith('slot_model') or key.startswith('feature_transformer'):
+                keys_to_delete.append(key)
 
+        for key in keys_to_delete:
+            del checkpoint['state_dict'][key]
