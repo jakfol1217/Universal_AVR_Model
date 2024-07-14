@@ -26,6 +26,14 @@ def remove_background_bongard_hoi(dataset_path, save_path):
     for file in os.listdir(os.path.join(dataset_path, "bongard_hoi_release")):
         shutil.copyfile(os.path.join(dataset_path, "bongard_hoi_release", file), os.path.join(save_path, "bongard_hoi_release", file))
 
+def remove_background_bongard_hoi_simple(dataset_path, save_path):
+    files = os.listdir(dataset_path)
+    for file in tqdm(files):
+        im = Image.open(os.path.join(dataset_path, file))
+        im_no_bg = MODEL(im)
+        new_filename = file.split(".")[0] + ".png"
+        im_no_bg.save(os.path.join(save_path, new_filename))
+
 def remove_background_vasr(dataset_path, save_path):
     image_dataset_path = os.path.join(dataset_path, "images_512")
     files = os.listdir(image_dataset_path)
