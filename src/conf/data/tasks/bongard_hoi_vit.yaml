@@ -4,6 +4,8 @@ defaults:
 
 bongard_hoi_vit:
   num_context_panels: 12
+  context_groups: [[0,1,2,3,4,5]]
+  answer_groups: [0, 1]
   dataset:
     target: model.avr_datasets.HOI_VITdataset
     data_path: ${data.root}/bongard_hoi/hake/

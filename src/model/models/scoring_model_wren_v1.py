@@ -1,9 +1,13 @@
 from itertools import permutations
+import json
+
+from ultralytics import YOLO
 
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
 import timm 
+import numpy as np
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 from torch import nn
@@ -25,6 +29,7 @@ class ScoringModelWReN(ScoringModel):
         slot_model: pl.LightningModule,
         wren_type: str,
         transformer_name: str,
+        use_detection: bool,
         hidden_dim: int = 512,
         additional_metrics: dict = {},
         save_hyperparameters=True,
@@ -76,17 +81,30 @@ class ScoringModelWReN(ScoringModel):
             for param in self.feature_transformer.parameters():
                 param.requires_grad = False
 
+        self.detection_model = None
+        if use_detection:
+            self.detection_model = YOLO('https://github.com/ultralytics/assets/releases/download/v8.1.0/yolov8m.pt')
+            self.detection_model.requires_grad_(False)
+            
 
-
-       
 
     def forward(self, given_panels, answer_panels):
-        # TODO: implement with slot_model (image as input instead of slots)
         if self.wren_type == "averaged":
             given_panels = given_panels.mean(2)
             answer_panels = answer_panels.mean(2)
         scores = self.wren_model(given_panels, answer_panels)
         return scores
+    
+    def forward_detection_model(self, given_panels, answer_panels, context_groups, answer_groups):
+        detection_scores = [[] for _ in range(given_panels.shape[0])]
+        for i in range(given_panels.shape[0]):
+            for c_g in context_groups:
+                context_detected = self.get_detected_classes(given_panels[i, c_g, :])
+                for a_g in answer_groups:
+                    answer_detected = self.get_detected_classes(answer_groups[i, a_g, :])
+                    detection_scores[i].append(self.score_function(context_detected, answer_detected))
+        return torch.Tensor(detection_scores)
+                    
     
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
@@ -116,6 +134,17 @@ class ScoringModelWReN(ScoringModel):
 
         
         scores = self(given_panels, answer_panels)
+
+        if self.detection_model is not None:
+            context_groups = self.cfg.data.tasks[
+                self.task_names[dataloader_idx]
+            ].context_groups
+            answer_groups = self.cfg.data.tasks[
+                self.task_names[dataloader_idx]
+            ].answer_groups
+        
+            scores += self.forward_detection_model(given_panels, answer_panels, context_groups, answer_groups)
+            
 
         pred = scores.argmax(1)
 
@@ -159,8 +188,30 @@ class ScoringModelWReN(ScoringModel):
     def on_save_checkpoint(self, checkpoint):
         keys_to_delete = []
         for key in checkpoint['state_dict']:
-            if key.startswith('slot_model') or key.startswith('feature_transformer'):
+            if key.startswith('slot_model') or key.startswith('feature_transformer') or key.startswith('detection_model'):
                 keys_to_delete.append(key)
 
         for key in keys_to_delete:
             del checkpoint['state_dict'][key]
+
+
+    def get_detected_classes(self, images, confidence_level=0.8):
+        results = self.detection_model(images)
+        classes = np.array([0 for _ in range(len(results[0].names))], dtype='float64')
+        for r in results:
+            json_res = json.loads(r.tojson())
+            for detection in json_res:
+                if detection['confidence'] >= confidence_level:
+                    classes[detection['class']] += 1
+        classes /= len(results)
+        return classes
+
+    def score_function(self, context, answers):
+        x = np.sum(context - answers)
+        context_scale = np.sum(context)
+        
+        res = max(-(abs(x)**(3/2))/100 + 0.1, -0.15)
+        if res < 0:
+            numbing_param = 2/context_scale if context_scale != 0 else 1
+            res *= numbing_param
+        return res

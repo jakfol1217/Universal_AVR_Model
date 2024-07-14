@@ -23,6 +23,7 @@ pos_emb:
 #   ndim: null
   row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
 save_hyperparameters: true
+use_detection: false
 
 # Carefully select for specific with respect to the task
 # additional_metrics:

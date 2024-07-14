@@ -15,6 +15,7 @@ early_stopping_patience: 20
 model:
   wren_type: 'vit_pooled'
   in_dim: 1024
+  use_detection: false
   slot_model:
     num_slots: 20
     hid_dim: 64

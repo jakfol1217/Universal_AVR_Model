@@ -1,11 +1,15 @@
 import math
 import os
+import json
 from itertools import permutations
+
+from ultralytics import YOLO
 
 import numpy as np
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
+import numpy as np
 import torch.nn.functional as F
 import timm
 from hydra.utils import instantiate
@@ -24,6 +28,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         in_dim,
         transformer: pl.LightningModule,
         transformer_name: str,
+        use_detection: bool,
         pooling: bool,
         pos_emb: pl.LightningModule | None = None,
         additional_metrics: dict = {},
@@ -74,12 +79,17 @@ class ScoringModelFeatureTransformer(AVRModule):
                 param.requires_grad = False
         self.pooling = pooling
 
+        self.detection_model = None
+        if use_detection:
+            self.detection_model = YOLO('https://github.com/ultralytics/assets/releases/download/v8.1.0/yolov8m.pt')
+            self.detection_model.requires_grad_(False)
+
 
     def apply_context_norm(self, z_seq):
         eps = 1e-8
         z_mu = z_seq.mean(1)
         z_sigma = (z_seq.var(1) + eps).sqrt()
-        # print("seq, mean, var shape>>",z_seq.shape,z_mu.shape,z_sigma.shape)
+
         z_seq = (z_seq - z_mu.unsqueeze(1)) / z_sigma.unsqueeze(1)
         z_seq = (z_seq * self.gamma.unsqueeze(0).unsqueeze(0)) + self.beta.unsqueeze(
             0
@@ -87,7 +97,6 @@ class ScoringModelFeatureTransformer(AVRModule):
         return z_seq
 
     def forward(self, given_panels, answer_panels):
-        # TODO: implement with slot_model (image as input instead of slots)
 
         scores = []
         pos_emb_score = (
@@ -95,7 +104,7 @@ class ScoringModelFeatureTransformer(AVRModule):
             if self.pos_emb is not None
             else torch.tensor(0.0)
         )
-        # Loop through all choices and compute scores
+
         for d in permutations(range(answer_panels.shape[1]), self.num_correct):
 
 
@@ -116,6 +125,16 @@ class ScoringModelFeatureTransformer(AVRModule):
     # TODO: Separate optimizers for different modules
     def configure_optimizers(self):
         return instantiate(self.cfg.optimizer, params=self.parameters())
+    
+    def forward_detection_model(self, given_panels, answer_panels, context_groups, answer_groups):
+        detection_scores = [[] for _ in range(given_panels.shape[0])]
+        for i in range(given_panels.shape[0]):
+            for c_g in context_groups:
+                context_detected = self.get_detected_classes(given_panels[i, c_g, :])
+                for a_g in answer_groups:
+                    answer_detected = self.get_detected_classes(answer_groups[i, a_g, :])
+                    detection_scores[i].append(self.score_function(context_detected, answer_detected))
+        return torch.Tensor(detection_scores)
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
         img, target = batch
@@ -131,11 +150,19 @@ class ScoringModelFeatureTransformer(AVRModule):
         answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:]
 
         scores = self(given_panels, answer_panels)
-        # print("scores and target>>",scores,target)
+
+        if self.detection_model is not None:
+            context_groups = self.cfg.data.tasks[
+                self.task_names[dataloader_idx]
+            ].context_groups
+            answer_groups = self.cfg.data.tasks[
+                self.task_names[dataloader_idx]
+            ].answer_groups
+        
+            scores += self.forward_detection_model(given_panels, answer_panels, context_groups, answer_groups)
+
         pred = scores.argmax(1)
-        # print(scores)
-        # print(scores.shape) # batch x num_choices
-        # print(f"Prediction: {pred}, Target: {target}")
+
 
         for metric_nm, metric_func in self.additional_metrics.items():
             value = metric_func(pred, target)
@@ -147,14 +174,7 @@ class ScoringModelFeatureTransformer(AVRModule):
                 logger=True,
                 add_dataloader_idx=False,
             )
-        # acc = torch.eq(pred,target).float().mean().item() * 100.0
 
-        # print("mse loss>>>",mse_criterion(torch.stack(recon_combined_seq,dim=1).squeeze(4), img))
-        # print("ce loss>>",ce_criterion(scores,target))
-        # print("recon combined seq shape>>",torch.stack(recon_combined_seq,dim=1).shape)
-        # loss = 1000*mse_criterion(torch.stack(recon_combined_seq,dim=1), img) + ce_criterion(scores,target)
-        # loss = ce_criterion(scores,target)
-        # TODO: which loss
         loss = self.loss(scores, target)
         return loss
 
@@ -188,8 +208,31 @@ class ScoringModelFeatureTransformer(AVRModule):
     def on_save_checkpoint(self, checkpoint):
         keys_to_delete = []
         for key in checkpoint['state_dict']:
-            if key.startswith('slot_model') or key.startswith('feature_transformer'):
+            if key.startswith('slot_model') or key.startswith('feature_transformer') or key.startswith('detection_model'):
                 keys_to_delete.append(key)
 
         for key in keys_to_delete:
             del checkpoint['state_dict'][key]
+
+
+
+    def get_detected_classes(self, images, confidence_level=0.8):
+        results = self.detection_model(images)
+        classes = np.array([0 for _ in range(len(results[0].names))], dtype='float64')
+        for r in results:
+            json_res = json.loads(r.tojson())
+            for detection in json_res:
+                if detection['confidence'] >= confidence_level:
+                    classes[detection['class']] += 1
+        classes /= len(results)
+        return classes
+
+    def score_function(self, context, answers):
+        x = np.sum(context - answers)
+        context_scale = np.sum(context)
+        
+        res = max(-(abs(x)**(3/2))/100 + 0.1, -0.15)
+        if res < 0:
+            numbing_param = 2/context_scale if context_scale != 0 else 1
+            res *= numbing_param
+        return res
