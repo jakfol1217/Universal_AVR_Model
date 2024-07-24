@@ -18,6 +18,7 @@ from .WReN_average import WReN_average
 from .WReN_each import WReN_each
 from .WReN_in_order import WReN_in_order
 from .WReN_vit import WReN_vit
+from .yoloWrapper import YOLOwrapper
 
 
 class ScoringModelWReN(ScoringModel):
@@ -83,8 +84,13 @@ class ScoringModelWReN(ScoringModel):
 
         self.detection_model = None
         if use_detection:
-            self.detection_model = YOLO('https://github.com/ultralytics/assets/releases/download/v8.1.0/yolov8m.pt')
-            self.detection_model.requires_grad_(False)
+            self.detection_model = [self.init_detection_model()]
+
+    @torch.no_grad()
+    def init_detection_model(self):
+        detection_model = YOLOwrapper('yolo/yolov8m.pt')
+        detection_model.yolo.eval()
+        return detection_model
             
 
 
@@ -196,7 +202,7 @@ class ScoringModelWReN(ScoringModel):
 
 
     def get_detected_classes(self, images, confidence_level=0.8):
-        results = self.detection_model(images)
+        results = self.detection_model[0](images)
         classes = np.array([0 for _ in range(len(results[0].names))], dtype='float64')
         for r in results:
             json_res = json.loads(r.tojson())
