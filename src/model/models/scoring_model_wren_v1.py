@@ -84,7 +84,7 @@ class ScoringModelWReN(ScoringModel):
 
         self.detection_model = None
         if use_detection:
-            self.detection_model = [self.init_detection_model()]
+            self.detection_model = self.init_detection_model()
 
     @torch.no_grad()
     def init_detection_model(self):
@@ -105,9 +105,15 @@ class ScoringModelWReN(ScoringModel):
         detection_scores = [[] for _ in range(given_panels.shape[0])]
         for i in range(given_panels.shape[0]):
             for c_g in context_groups:
-                context_detected = self.get_detected_classes(given_panels[i, c_g, :])
+                chosen_given = given_panels[i, c_g, :]
+                if len(chosen_given.shape) < 4:
+                    chosen_given = chosen_given.unsqueeze(0)
+                context_detected = self.get_detected_classes(chosen_given)
                 for a_g in answer_groups:
-                    answer_detected = self.get_detected_classes(answer_groups[i, a_g, :])
+                    chosen_answer = answer_panels[i, a_g, :]
+                    if len(chosen_answer) < 4:
+                        chosen_answer = chosen_answer.unsqueeze(0)
+                    answer_detected = self.get_detected_classes(chosen_answer)
                     detection_scores[i].append(self.score_function(context_detected, answer_detected))
         return torch.Tensor(detection_scores)
                     
@@ -138,6 +144,9 @@ class ScoringModelWReN(ScoringModel):
         given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt]
         answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:]
 
+        given_imgs = img[:, :context_panels_cnt]
+        answer_imgs = img[:, context_panels_cnt:]
+
         
         scores = self(given_panels, answer_panels)
 
@@ -149,7 +158,9 @@ class ScoringModelWReN(ScoringModel):
                 self.task_names[dataloader_idx]
             ].answer_groups
         
-            scores += self.forward_detection_model(given_panels, answer_panels, context_groups, answer_groups)
+            det_scores = self.forward_detection_model(given_imgs, answer_imgs, context_groups, answer_groups)
+            det_scores = det_scores.to(scores, non_blocking=True)
+            scores += det_scores
             
 
         pred = scores.argmax(1)
@@ -202,7 +213,7 @@ class ScoringModelWReN(ScoringModel):
 
 
     def get_detected_classes(self, images, confidence_level=0.8):
-        results = self.detection_model[0](images)
+        results = self.detection_model(images, verbose=False)
         classes = np.array([0 for _ in range(len(results[0].names))], dtype='float64')
         for r in results:
             json_res = json.loads(r.tojson())
