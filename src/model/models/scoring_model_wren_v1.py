@@ -88,7 +88,7 @@ class ScoringModelWReN(ScoringModel):
 
     @torch.no_grad()
     def init_detection_model(self):
-        detection_model = YOLOwrapper('yolo/yolov8m.pt')
+        detection_model = YOLOwrapper('/app/yolo/yolov8m.pt')
         detection_model.yolo.eval()
         return detection_model
             
