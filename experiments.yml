@@ -1,0 +1,155 @@
+experiments:
+  - slurm_id: [832505]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: lr_check
+  - slurm_id: [832506]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: lr_check
+  - slurm_id: [832509]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: lr_check
+  - slurm_id: [832509]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: lr_check
+  - slurm_id: [832511]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: lr_check
+  - slurm_id: [835796, 835797, 835798, 839926, 839927, 839928]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [835799,835800,835801,839929,839930,839931]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [835802,835803,835804,835805,839932,839933,839934,839935]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [835806,835807,835808,835809,835810,839936,839937,839938,839939]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [835811,835812,835813,835814,835815,835816]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_slots"
+  # Tutaj w number_of_iterations/size_of_hid_dim zgranąłem id z commands.log
+  - slurm_id: [835817,835818,835819,835820,835821,835822]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [835823,835824,835825,838518]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_iterations"
+  - slurm_id: [835826,835827,835828,838519]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "number_of_iterations"
+  - slurm_id: [835829,835830,835831,838520]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "size_of_hid_dim"
+  - slurm_id: [835832,835833,835834,835835,835836,835837,838635]
+    experiment_nm: bongard_hoi_vasr_images
+    test_nm: "size_of_hid_dim"
+  - slurm_id: [845333,850857,850858,850859]
+    experiment_nm: bongard_hoi_scoring
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "frozen_slot"
+  - slurm_id: [857092,857093,857094]
+    experiment_nm: bongard_hoi_scoring_full_train
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  - slurm_id: [857095,857096,857097]
+    experiment_nm: vasr_scoring_full_train
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  # to chyba nie taki run jaki chcialem 857098
+  # to chyba nie taki run jaki chcialem 857105
+  # to chyba nie taki run jaki chcialem 857112
+  - slurm_id: [857099,857100,857101]
+    experiment_nm: bongard_hoi_scoring_full_train
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  - slurm_id: [857102,857103,857104]
+    experiment_nm: vasr_scoring_full_train
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  - slurm_id: [857106,857107,857108]
+    experiment_nm: bongard_hoi_scoring_full_train
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  - slurm_id: [857109,857110,857111]
+    experiment_nm: vasr_scoring_full_train
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  - slurm_id: [857113,857114,857115]
+    experiment_nm: bongard_hoi_scoring_full_train
+    based_on:
+      slurm_id: 835822
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  - slurm_id: [857116,857117,857118]
+    experiment_nm: vasr_scoring_full_train
+    based_on:
+      slurm_id: 835822
+      strategy: "last_ckpt"
+    test_nm: "trained_slot_aux_test"
+  - slurm_id: [850860,850861,850862,850863]
+    experiment_nm: bongard_hoi_scoring
+    based_on:
+      slurm_id: 835822
+      strategy: "last_ckpt"
+    test_nm: "frozen_slot"
+  - slurm_id: [850860,850861,850862,850863]
+    experiment_nm: vasr_scoring
+    based_on:
+      slurm_id: 839928
+      strategy: "last_ckpt"
+    test_nm: "frozen_slot"
+  - slurm_id: [850853,850854,850855,850856]
+    experiment_nm: vasr_scoring
+    based_on:
+      slurm_id: 835822
+      strategy: "last_ckpt"
+    test_nm: "frozen_slot"
+  - slurm_id: [850769,850770,850771,850772,850773]
+    experiment_nm: bongard_hoi_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850774,850775,850776,850777,850778]
+    experiment_nm: bongard_hoi_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850779,850780,850781,850782,850783]
+    experiment_nm: bongard_hoi_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850784,850785,850786,850787,850788]
+    experiment_nm: bongard_hoi_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850789,850790,850791,850792,850793]
+    experiment_nm: bongard_hoi_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850794,850795,850796,850797,850798]
+    experiment_nm: bongard_hoi_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850799,850800,850801,850802,850803]
+    experiment_nm: vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850804,850805,850806,850807,850808]
+    experiment_nm: vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850809,850810,850811,850812,850813]
+    experiment_nm: vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850814,850815,850816,850817,850818]
+    experiment_nm: vasr_images
+    test_nm: "number_of_slots"
+  - slurm_id: [850824,850825,850826,850827,850828]
+    experiment_nm: vasr_images
+    test_nm: "number_of_slots"

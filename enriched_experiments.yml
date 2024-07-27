@@ -1,0 +1,1340 @@
+experiments:
+- slurm_id:
+  - 832505
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: lr_check
+  val/bongard_hoi_images/loss:
+    best_loss: 0.025924356654286385
+    best_loss_epoch: 2
+    best_loss_step: 46049
+    best_slurm_id: 832505
+  val/loss:
+    best_loss: 0.02481253817677498
+    best_loss_epoch: 2
+    best_loss_step: 46049
+    best_slurm_id: 832505
+  train/vasr_images/loss_epoch:
+    best_loss: 0.007650455459952354
+    best_loss_epoch: 2
+    best_loss_step: 46049
+    best_slurm_id: 832505
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 15349
+    best_slurm_id: 832505
+  val/vasr_images/loss:
+    best_loss: 0.024717137217521667
+    best_loss_epoch: 2
+    best_loss_step: 46049
+    best_slurm_id: 832505
+  wandb_urls:
+  - https://wandb.ai/avr-fighters/AVR_universal/runs/2a485jne
+  max_epoch: 2
+  additional_inforamations:
+    lr: 0.001
+- slurm_id:
+  - 832506
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: lr_check
+  val/bongard_hoi_images/loss:
+    best_loss: 0.020044388249516487
+    best_loss_epoch: 5
+    best_loss_step: 42211
+    best_slurm_id: 832506
+  val/loss:
+    best_loss: 0.01951976865530014
+    best_loss_epoch: 5
+    best_loss_step: 42211
+    best_slurm_id: 832506
+  train/vasr_images/loss_epoch:
+    best_loss: 0.005892102140933275
+    best_loss_epoch: 4
+    best_loss_step: 38374
+    best_slurm_id: 832506
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 7674
+    best_slurm_id: 832506
+  val/vasr_images/loss:
+    best_loss: 0.019478021189570427
+    best_loss_epoch: 5
+    best_loss_step: 42211
+    best_slurm_id: 832506
+  wandb_urls:
+  - https://wandb.ai/avr-fighters/AVR_universal/runs/bgcs7jia
+  max_epoch: 4
+  additional_inforamations:
+    lr: 0.0001
+- slurm_id:
+  - 832509
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: lr_check
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02324376069009304
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  val/loss:
+    best_loss: 0.021974850445985794
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  train/vasr_images/loss_epoch:
+    best_loss: 0.006709589157253504
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 832509
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 7674
+    best_slurm_id: 832509
+  val/vasr_images/loss:
+    best_loss: 0.021864240989089012
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  wandb_urls:
+  - https://wandb.ai/avr-fighters/AVR_universal/runs/54zd7x04
+  max_epoch: 6
+  additional_inforamations:
+    lr: 5.0e-05
+- slurm_id:
+  - 832509
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: lr_check
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02324376069009304
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  val/loss:
+    best_loss: 0.021974850445985794
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  train/vasr_images/loss_epoch:
+    best_loss: 0.006709589157253504
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 832509
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 7674
+    best_slurm_id: 832509
+  val/vasr_images/loss:
+    best_loss: 0.021864240989089012
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  wandb_urls:
+  - https://wandb.ai/avr-fighters/AVR_universal/runs/54zd7x04
+  max_epoch: 6
+  additional_inforamations:
+    lr: 5.0e-05
+- slurm_id:
+  - 832511
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: lr_check
+  val/bongard_hoi_images/loss:
+    best_loss: 0.017196564003825188
+    best_loss_epoch: 1
+    best_loss_step: 61399
+    best_slurm_id: 832511
+  val/loss:
+    best_loss: 0.014553934335708618
+    best_loss_epoch: 1
+    best_loss_step: 61399
+    best_slurm_id: 832511
+  train/vasr_images/loss_epoch:
+    best_loss: 0.0048177423886954784
+    best_loss_epoch: 1
+    best_loss_step: 61399
+    best_slurm_id: 832511
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 30699
+    best_slurm_id: 832511
+  val/vasr_images/loss:
+    best_loss: 0.014317856170237064
+    best_loss_epoch: 1
+    best_loss_step: 61399
+    best_slurm_id: 832511
+  wandb_urls:
+  - https://wandb.ai/avr-fighters/AVR_universal/runs/mlwtl73e
+  max_epoch: 1
+  additional_inforamations:
+    lr: 0.0001
+- slurm_id:
+  - 835796
+  - 835797
+  - 835798
+  - 839926
+  - 839927
+  - 839928
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.01490876916795969
+    best_loss_epoch: 18
+    best_loss_step: 72921
+    best_slurm_id: 839928
+  val/loss:
+    best_loss: 0.012868308462202549
+    best_loss_epoch: 17
+    best_loss_step: 69083
+    best_slurm_id: 839928
+  train/vasr_images/loss_epoch:
+    best_loss: 0.004018037114292383
+    best_loss_epoch: 18
+    best_loss_step: 72921
+    best_slurm_id: 839928
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 3837
+    best_slurm_id: 835796
+  val/vasr_images/loss:
+    best_loss: 0.012699373066425323
+    best_loss_epoch: 17
+    best_loss_step: 69083
+    best_slurm_id: 839928
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/gzkhftm7
+  - https://wandb.ai/avr_universal/AVR_universal/runs/fl7x59k9
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qtgsn8eg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/2od077zb
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ppazc5nj
+  - https://wandb.ai/avr_universal/AVR_universal/runs/9t20x5qq
+  max_epoch: 18
+- slurm_id:
+  - 835799
+  - 835800
+  - 835801
+  - 839929
+  - 839930
+  - 839931
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.018479300662875175
+    best_loss_epoch: 17
+    best_loss_step: 34541
+    best_slurm_id: 839931
+  val/loss:
+    best_loss: 0.01640578731894493
+    best_loss_epoch: 17
+    best_loss_step: 34541
+    best_slurm_id: 839931
+  train/vasr_images/loss_epoch:
+    best_loss: 0.004935429897159338
+    best_loss_epoch: 17
+    best_loss_step: 34541
+    best_slurm_id: 839931
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 1918
+    best_slurm_id: 835799
+  val/vasr_images/loss:
+    best_loss: 0.01621818169951439
+    best_loss_epoch: 17
+    best_loss_step: 34541
+    best_slurm_id: 839931
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/6p9zayat
+  - https://wandb.ai/avr_universal/AVR_universal/runs/d4vhzhat
+  - https://wandb.ai/avr_universal/AVR_universal/runs/nk7u2mau
+  - https://wandb.ai/avr_universal/AVR_universal/runs/5ozuriah
+  - https://wandb.ai/avr_universal/AVR_universal/runs/neh7rzbg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/nj956297
+  max_epoch: 17
+- slurm_id:
+  - 835802
+  - 835803
+  - 835804
+  - 835805
+  - 839932
+  - 839933
+  - 839934
+  - 839935
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.011832279153168201
+    best_loss_epoch: 18
+    best_loss_step: 145824
+    best_slurm_id: 839935
+  val/loss:
+    best_loss: 0.009998176246881485
+    best_loss_epoch: 18
+    best_loss_step: 145824
+    best_slurm_id: 839935
+  train/vasr_images/loss_epoch:
+    best_loss: 0.003141001332551241
+    best_loss_epoch: 19
+    best_loss_step: 153499
+    best_slurm_id: 839935
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 7674
+    best_slurm_id: 835802
+  val/vasr_images/loss:
+    best_loss: 0.009839432314038277
+    best_loss_epoch: 18
+    best_loss_step: 145824
+    best_slurm_id: 839935
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/k4p1deuy
+  - https://wandb.ai/avr_universal/AVR_universal/runs/leq963g1
+  - https://wandb.ai/avr_universal/AVR_universal/runs/mgxk7zag
+  - https://wandb.ai/avr_universal/AVR_universal/runs/z0a4cces
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qqee4zc9
+  - https://wandb.ai/avr_universal/AVR_universal/runs/23528hyv
+  - https://wandb.ai/avr_universal/AVR_universal/runs/f8nxvf6l
+  - https://wandb.ai/avr_universal/AVR_universal/runs/8xdbxtsm
+  max_epoch: 19
+- slurm_id:
+  - 835806
+  - 835807
+  - 835808
+  - 835809
+  - 835810
+  - 839936
+  - 839937
+  - 839938
+  - 839939
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.0101221464574337
+    best_loss_epoch: 24
+    best_loss_step: 191874
+    best_slurm_id: 839939
+  val/loss:
+    best_loss: 0.008456766605377197
+    best_loss_epoch: 24
+    best_loss_step: 191874
+    best_slurm_id: 839939
+  train/vasr_images/loss_epoch:
+    best_loss: 0.002693037036806345
+    best_loss_epoch: 24
+    best_loss_step: 191874
+    best_slurm_id: 839939
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 7674
+    best_slurm_id: 835806
+  val/vasr_images/loss:
+    best_loss: 0.00831372570246458
+    best_loss_epoch: 24
+    best_loss_step: 191874
+    best_slurm_id: 839939
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/rjwkrebo
+  - https://wandb.ai/avr_universal/AVR_universal/runs/v6bqzzq5
+  - https://wandb.ai/avr_universal/AVR_universal/runs/p0d4w01w
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vmvsg0ek
+  - https://wandb.ai/avr_universal/AVR_universal/runs/j06l44th
+  - https://wandb.ai/avr_universal/AVR_universal/runs/55ca6out
+  - https://wandb.ai/avr_universal/AVR_universal/runs/5xnpd0ij
+  - https://wandb.ai/avr_universal/AVR_universal/runs/0dboxc6v
+  - https://wandb.ai/avr_universal/AVR_universal/runs/02ruwtc1
+  max_epoch: 24
+- slurm_id:
+  - 835811
+  - 835812
+  - 835813
+  - 835814
+  - 835815
+  - 835816
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.009865512140095234
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 835816
+  val/loss:
+    best_loss: 0.00827059242874384
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 835816
+  train/vasr_images/loss_epoch:
+    best_loss: 0.0026175109669566154
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 835816
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 7674
+    best_slurm_id: 835811
+  val/vasr_images/loss:
+    best_loss: 0.008134938776493073
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 835816
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/trjzluus
+  - https://wandb.ai/avr_universal/AVR_universal/runs/nduryzyx
+  - https://wandb.ai/avr_universal/AVR_universal/runs/uimy06d7
+  - https://wandb.ai/avr_universal/AVR_universal/runs/hrog7did
+  - https://wandb.ai/avr_universal/AVR_universal/runs/65yh8a44
+  - https://wandb.ai/avr_universal/AVR_universal/runs/wo3n566y
+  max_epoch: 15
+- slurm_id:
+  - 835817
+  - 835818
+  - 835819
+  - 835820
+  - 835821
+  - 835822
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.008151460438966751
+    best_loss_epoch: 18
+    best_loss_step: 291649
+    best_slurm_id: 835822
+  val/loss:
+    best_loss: 0.006754660047590733
+    best_loss_epoch: 18
+    best_loss_step: 291649
+    best_slurm_id: 835822
+  train/vasr_images/loss_epoch:
+    best_loss: 0.0022024624049663544
+    best_loss_epoch: 18
+    best_loss_step: 291649
+    best_slurm_id: 835822
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 15349
+    best_slurm_id: 835817
+  val/vasr_images/loss:
+    best_loss: 0.006631937809288502
+    best_loss_epoch: 18
+    best_loss_step: 291649
+    best_slurm_id: 835822
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/gwy78xsw
+  - https://wandb.ai/avr_universal/AVR_universal/runs/250ym3ie
+  - https://wandb.ai/avr_universal/AVR_universal/runs/dn6z83ty
+  - https://wandb.ai/avr_universal/AVR_universal/runs/atp0wxkz
+  - https://wandb.ai/avr_universal/AVR_universal/runs/n3g1tg25
+  - https://wandb.ai/avr_universal/AVR_universal/runs/uwogsd6b
+  max_epoch: 18
+- slurm_id:
+  - 835823
+  - 835824
+  - 835825
+  - 838518
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_iterations
+  val/bongard_hoi_images/loss:
+    best_loss: 0.019362598657608032
+    best_loss_epoch: 11
+    best_loss_step: 46055
+    best_slurm_id: 838518
+  val/loss:
+    best_loss: 0.01744585856795311
+    best_loss_epoch: 11
+    best_loss_step: 46055
+    best_slurm_id: 838518
+  train/vasr_images/loss_epoch:
+    best_loss: 0.005339270923286676
+    best_loss_epoch: 11
+    best_loss_step: 46055
+    best_slurm_id: 838518
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 3837
+    best_slurm_id: 835823
+  val/vasr_images/loss:
+    best_loss: 0.017297320067882538
+    best_loss_epoch: 11
+    best_loss_step: 46055
+    best_slurm_id: 838518
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/33a736em
+  - https://wandb.ai/avr_universal/AVR_universal/runs/2doxb1g9
+  - https://wandb.ai/avr_universal/AVR_universal/runs/r6163dod
+  - https://wandb.ai/avr_universal/AVR_universal/runs/c0jyrj5p
+  max_epoch: 11
+- slurm_id:
+  - 835826
+  - 835827
+  - 835828
+  - 838519
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: number_of_iterations
+  val/bongard_hoi_images/loss:
+    best_loss: 0.015007037669420242
+    best_loss_epoch: 13
+    best_loss_step: 53731
+    best_slurm_id: 838519
+  val/loss:
+    best_loss: 0.01288787554949522
+    best_loss_epoch: 13
+    best_loss_step: 53731
+    best_slurm_id: 838519
+  train/vasr_images/loss_epoch:
+    best_loss: 0.004046469461172819
+    best_loss_epoch: 13
+    best_loss_step: 53731
+    best_slurm_id: 838519
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 3837
+    best_slurm_id: 835826
+  val/vasr_images/loss:
+    best_loss: 0.01271761953830719
+    best_loss_epoch: 13
+    best_loss_step: 53731
+    best_slurm_id: 838519
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/mng8anbx
+  - https://wandb.ai/avr_universal/AVR_universal/runs/broa8oix
+  - https://wandb.ai/avr_universal/AVR_universal/runs/6xtod8lh
+  - https://wandb.ai/avr_universal/AVR_universal/runs/xk0pozw8
+  max_epoch: 13
+- slurm_id:
+  - 835829
+  - 835830
+  - 835831
+  - 838520
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: size_of_hid_dim
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02080267108976841
+    best_loss_epoch: 9
+    best_loss_step: 19189
+    best_slurm_id: 838520
+  val/loss:
+    best_loss: 0.01904316432774067
+    best_loss_epoch: 9
+    best_loss_step: 19189
+    best_slurm_id: 838520
+  train/vasr_images/loss_epoch:
+    best_loss: 0.005704119335860014
+    best_loss_epoch: 9
+    best_loss_step: 19189
+    best_slurm_id: 838520
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 1918
+    best_slurm_id: 835829
+  val/vasr_images/loss:
+    best_loss: 0.01888311095535755
+    best_loss_epoch: 9
+    best_loss_step: 19189
+    best_slurm_id: 838520
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/hp55al2r
+  - https://wandb.ai/avr_universal/AVR_universal/runs/zoewiskf
+  - https://wandb.ai/avr_universal/AVR_universal/runs/th1ebbzu
+  - https://wandb.ai/avr_universal/AVR_universal/runs/88v4gu2y
+  max_epoch: 9
+- slurm_id:
+  - 835832
+  - 835833
+  - 835834
+  - 835835
+  - 835836
+  - 835837
+  - 838635
+  experiment_nm: bongard_hoi_vasr_images
+  test_nm: size_of_hid_dim
+  val/bongard_hoi_images/loss:
+    best_loss: 0.009023799560964108
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 838635
+  val/loss:
+    best_loss: 0.007640121504664421
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 838635
+  train/vasr_images/loss_epoch:
+    best_loss: 0.00244462164118886
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 838635
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.0
+    best_loss_epoch: 0
+    best_loss_step: 7674
+    best_slurm_id: 835832
+  val/vasr_images/loss:
+    best_loss: 0.007521741557866335
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 838635
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/3pznvnlk
+  - https://wandb.ai/avr_universal/AVR_universal/runs/7g1mdq4s
+  - https://wandb.ai/avr_universal/AVR_universal/runs/u94lgrn1
+  - https://wandb.ai/avr_universal/AVR_universal/runs/zp1vptg6
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vgmk88yk
+  - https://wandb.ai/avr_universal/AVR_universal/runs/tbukkfkv
+  - https://wandb.ai/avr_universal/AVR_universal/runs/a2ophcvn
+  max_epoch: 15
+- slurm_id:
+  - 845333
+  - 850857
+  - 850858
+  - 850859
+  experiment_nm: bongard_hoi_scoring
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/fr53pfqs
+  - https://wandb.ai/avr_universal/AVR_universal/runs/a2vl8cwg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qv8iuo3k
+  - https://wandb.ai/avr_universal/AVR_universal/runs/i3khkelr
+- slurm_id:
+  - 857092
+  - 857093
+  - 857094
+  experiment_nm: bongard_hoi_scoring_full_train
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.026408622041344643
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857092
+  val/bongard_hoi/mse_loss:
+    best_loss: 0.026981176808476448
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857092
+  train/bongard_hoi/cross_entropy_loss_epoch:
+    best_loss: 0.27843207120895386
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857092
+  val/loss:
+    best_loss: 0.955525815486908
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857092
+  val/bongard_hoi/cross_entropy_loss:
+    best_loss: 0.6816357374191284
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857092
+  val/bongard_hoi/loss:
+    best_loss: 0.9554855823516846
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857092
+  train/bongard_hoi/loss_epoch:
+    best_loss: 0.542518138885498
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857092
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/e53nln8c
+  - https://wandb.ai/avr_universal/AVR_universal/runs/fis6tq1q
+  - https://wandb.ai/avr_universal/AVR_universal/runs/07e6j0rx
+  max_epoch: 22
+- slurm_id:
+  - 857095
+  - 857096
+  - 857097
+  experiment_nm: vasr_scoring_full_train
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  train/vasr/cross_entropy_loss_epoch:
+    best_loss: 0.494556188583374
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857097
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.7830440998077393
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857095
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.021913595497608185
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857095
+  val/vasr/mse_loss:
+    best_loss: 0.021684516221284866
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857095
+  val/loss:
+    best_loss: 1.9968842267990112
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857095
+  val/vasr/loss:
+    best_loss: 2.002938747406006
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857095
+  train/vasr/loss_epoch:
+    best_loss: 0.7208511233329773
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857097
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/pl54u845
+  - https://wandb.ai/avr_universal/AVR_universal/runs/stcbjcgw
+  - https://wandb.ai/avr_universal/AVR_universal/runs/b76vmhgy
+  max_epoch: 5
+- slurm_id:
+  - 857099
+  - 857100
+  - 857101
+  experiment_nm: bongard_hoi_scoring_full_train
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.035507868975400925
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 857099
+  val/bongard_hoi/mse_loss:
+    best_loss: 0.03668461740016937
+    best_loss_epoch: 18
+    best_loss_step: 27378
+    best_slurm_id: 857099
+  train/bongard_hoi/cross_entropy_loss_epoch:
+    best_loss: 0.29167038202285767
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857099
+  val/loss:
+    best_loss: 0.7006984353065491
+    best_loss_epoch: 13
+    best_loss_step: 20173
+    best_slurm_id: 857099
+  val/bongard_hoi/cross_entropy_loss:
+    best_loss: 0.6631662249565125
+    best_loss_epoch: 13
+    best_loss_step: 20173
+    best_slurm_id: 857099
+  val/bongard_hoi/loss:
+    best_loss: 0.700573205947876
+    best_loss_epoch: 13
+    best_loss_step: 20173
+    best_slurm_id: 857099
+  train/bongard_hoi/loss_epoch:
+    best_loss: 0.3272635340690613
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857099
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/d9y645tr
+  - https://wandb.ai/avr_universal/AVR_universal/runs/rehj2eu8
+  - https://wandb.ai/avr_universal/AVR_universal/runs/wl7il899
+  max_epoch: 22
+- slurm_id:
+  - 857102
+  - 857103
+  - 857104
+  experiment_nm: vasr_scoring_full_train
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  train/vasr/cross_entropy_loss_epoch:
+    best_loss: 0.5077122449874878
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857104
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.5780696868896484
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857102
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.030330795794725418
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857104
+  val/vasr/mse_loss:
+    best_loss: 0.029959451407194138
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857102
+  val/loss:
+    best_loss: 1.6100318431854248
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857102
+  val/vasr/loss:
+    best_loss: 1.6084319353103638
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857102
+  train/vasr/loss_epoch:
+    best_loss: 0.5380439162254333
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857104
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vk7q2cl4
+  - https://wandb.ai/avr_universal/AVR_universal/runs/s4tbj816
+  - https://wandb.ai/avr_universal/AVR_universal/runs/lxsp10u9
+  max_epoch: 5
+- slurm_id:
+  - 857106
+  - 857107
+  - 857108
+  experiment_nm: bongard_hoi_scoring_full_train
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.043671946972608566
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 857106
+  val/bongard_hoi/mse_loss:
+    best_loss: 0.04595975950360298
+    best_loss_epoch: 6
+    best_loss_step: 10086
+    best_slurm_id: 857106
+  train/bongard_hoi/cross_entropy_loss_epoch:
+    best_loss: 0.29748550057411194
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857106
+  val/loss:
+    best_loss: 0.6776648759841919
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857106
+  val/bongard_hoi/cross_entropy_loss:
+    best_loss: 0.6725570559501648
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857106
+  val/bongard_hoi/loss:
+    best_loss: 0.6776489019393921
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857106
+  train/bongard_hoi/loss_epoch:
+    best_loss: 0.30227866768836975
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857106
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/e8fro33v
+  - https://wandb.ai/avr_universal/AVR_universal/runs/3yhza4py
+  - https://wandb.ai/avr_universal/AVR_universal/runs/od1397gv
+  max_epoch: 22
+- slurm_id:
+  - 857109
+  - 857110
+  - 857111
+  experiment_nm: vasr_scoring_full_train
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  train/vasr/cross_entropy_loss_epoch:
+    best_loss: 0.5028630495071411
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857111
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.6577732563018799
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857109
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.03883930295705795
+    best_loss_epoch: 2
+    best_loss_step: 36125
+    best_slurm_id: 857110
+  val/vasr/mse_loss:
+    best_loss: 0.038639795035123825
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857109
+  val/loss:
+    best_loss: 1.66280198097229
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857109
+  val/vasr/loss:
+    best_loss: 1.6616795063018799
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857109
+  train/vasr/loss_epoch:
+    best_loss: 0.5068185925483704
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857111
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/2e63hw1p
+  - https://wandb.ai/avr_universal/AVR_universal/runs/okut8ggm
+  - https://wandb.ai/avr_universal/AVR_universal/runs/gdtnanp1
+  max_epoch: 5
+- slurm_id:
+  - 857113
+  - 857114
+  - 857115
+  experiment_nm: bongard_hoi_scoring_full_train
+  based_on:
+    slurm_id: 835822
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.021865662187337875
+    best_loss_epoch: 21
+    best_loss_step: 63381
+    best_slurm_id: 857115
+  val/bongard_hoi/mse_loss:
+    best_loss: 0.021205037832260132
+    best_loss_epoch: 16
+    best_loss_step: 48976
+    best_slurm_id: 857115
+  train/bongard_hoi/cross_entropy_loss_epoch:
+    best_loss: 0.23124581575393677
+    best_loss_epoch: 22
+    best_loss_step: 66262
+    best_slurm_id: 857115
+  val/loss:
+    best_loss: 0.9021443724632263
+    best_loss_epoch: 23
+    best_loss_step: 69143
+    best_slurm_id: 857115
+  val/bongard_hoi/cross_entropy_loss:
+    best_loss: 0.6835119128227234
+    best_loss_epoch: 6
+    best_loss_step: 20166
+    best_slurm_id: 857113
+  val/bongard_hoi/loss:
+    best_loss: 0.9020517468452454
+    best_loss_epoch: 23
+    best_loss_step: 69143
+    best_slurm_id: 857115
+  train/bongard_hoi/loss_epoch:
+    best_loss: 0.45008042454719543
+    best_loss_epoch: 22
+    best_loss_step: 66262
+    best_slurm_id: 857115
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/df7ia2g0
+  - https://wandb.ai/avr_universal/AVR_universal/runs/h9lsn2f9
+  - https://wandb.ai/avr_universal/AVR_universal/runs/py9psomt
+  max_epoch: 23
+- slurm_id:
+  - 857116
+  - 857117
+  - 857118
+  experiment_nm: vasr_scoring_full_train
+  based_on:
+    slurm_id: 835822
+    strategy: last_ckpt
+  test_nm: trained_slot_aux_test
+  failed: true
+- slurm_id:
+  - 850860
+  - 850861
+  - 850862
+  - 850863
+  experiment_nm: bongard_hoi_scoring
+  based_on:
+    slurm_id: 835822
+    strategy: last_ckpt
+  test_nm: frozen_slot
+  val/loss:
+    best_loss: 0.6802625060081482
+    best_loss_epoch: 66
+    best_loss_step: 193026
+    best_slurm_id: 850863
+  val/bongard_hoi/loss:
+    best_loss: 0.6802269220352173
+    best_loss_epoch: 66
+    best_loss_step: 193026
+    best_slurm_id: 850863
+  train/bongard_hoi/loss_epoch:
+    best_loss: 0.3696654140949249
+    best_loss_epoch: 84
+    best_loss_step: 244884
+    best_slurm_id: 850863
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/zqjuzl5t
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vt09gz2k
+  - https://wandb.ai/avr_universal/AVR_universal/runs/z353sycn
+  - https://wandb.ai/avr_universal/AVR_universal/runs/sf2t5i9i
+  max_epoch: 87
+- slurm_id:
+  - 850860
+  - 850861
+  - 850862
+  - 850863
+  experiment_nm: vasr_scoring
+  based_on:
+    slurm_id: 839928
+    strategy: last_ckpt
+  test_nm: frozen_slot
+  val/loss:
+    best_loss: 0.6802625060081482
+    best_loss_epoch: 66
+    best_loss_step: 193026
+    best_slurm_id: 850863
+  val/bongard_hoi/loss:
+    best_loss: 0.6802269220352173
+    best_loss_epoch: 66
+    best_loss_step: 193026
+    best_slurm_id: 850863
+  train/bongard_hoi/loss_epoch:
+    best_loss: 0.3696654140949249
+    best_loss_epoch: 84
+    best_loss_step: 244884
+    best_slurm_id: 850863
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/zqjuzl5t
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vt09gz2k
+  - https://wandb.ai/avr_universal/AVR_universal/runs/z353sycn
+  - https://wandb.ai/avr_universal/AVR_universal/runs/sf2t5i9i
+  max_epoch: 87
+- slurm_id:
+  - 850853
+  - 850854
+  - 850855
+  - 850856
+  experiment_nm: vasr_scoring
+  based_on:
+    slurm_id: 835822
+    strategy: last_ckpt
+  test_nm: frozen_slot
+  val/loss:
+    best_loss: 1.358184814453125
+    best_loss_epoch: 2
+    best_loss_step: 72251
+    best_slurm_id: 850854
+  val/vasr/loss:
+    best_loss: 1.358184814453125
+    best_loss_epoch: 2
+    best_loss_step: 72251
+    best_slurm_id: 850854
+  train/vasr/loss_epoch:
+    best_loss: 1.2601429224014282
+    best_loss_epoch: 8
+    best_loss_step: 216755
+    best_slurm_id: 850855
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/w41wrwvb
+  - https://wandb.ai/avr_universal/AVR_universal/runs/pknv6zyz
+  - https://wandb.ai/avr_universal/AVR_universal/runs/tyis8hk2
+  - https://wandb.ai/avr_universal/AVR_universal/runs/tis009p4
+  max_epoch: 8
+- slurm_id:
+  - 850769
+  - 850770
+  - 850771
+  - 850772
+  - 850773
+  experiment_nm: bongard_hoi_images
+  test_nm: number_of_slots
+  failed: true
+- slurm_id:
+  - 850774
+  - 850775
+  - 850776
+  - 850777
+  - 850778
+  experiment_nm: bongard_hoi_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02192046493291855
+    best_loss_epoch: 7
+    best_loss_step: 15351
+    best_slurm_id: 850778
+  val/loss:
+    best_loss: 0.021915065124630928
+    best_loss_epoch: 7
+    best_loss_step: 15351
+    best_slurm_id: 850778
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.02031293511390686
+    best_loss_epoch: 7
+    best_loss_step: 15351
+    best_slurm_id: 850778
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ajgv8fz2
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ojnrfqqg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/rq0ug2jk
+  - https://wandb.ai/avr_universal/AVR_universal/runs/czv3iaxd
+  - https://wandb.ai/avr_universal/AVR_universal/runs/nnb6vsch
+  max_epoch: 7
+- slurm_id:
+  - 850779
+  - 850780
+  - 850781
+  - 850782
+  - 850783
+  experiment_nm: bongard_hoi_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.014024739153683186
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850783
+  val/loss:
+    best_loss: 0.014023310504853725
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850783
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.01262578647583723
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850783
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/n0hk4rmq
+  - https://wandb.ai/avr_universal/AVR_universal/runs/b5qb81uc
+  - https://wandb.ai/avr_universal/AVR_universal/runs/j19v6njt
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vay9i00k
+  - https://wandb.ai/avr_universal/AVR_universal/runs/14ptjb5l
+  max_epoch: 6
+- slurm_id:
+  - 850784
+  - 850785
+  - 850786
+  - 850787
+  - 850788
+  experiment_nm: bongard_hoi_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.01232420839369297
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850788
+  val/loss:
+    best_loss: 0.012315829284489155
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850788
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.011095356196165085
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850788
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/4tpqkjl7
+  - https://wandb.ai/avr_universal/AVR_universal/runs/fz84p1dp
+  - https://wandb.ai/avr_universal/AVR_universal/runs/mho5xeam
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ufm67wgh
+  - https://wandb.ai/avr_universal/AVR_universal/runs/1lyk1jvk
+  max_epoch: 6
+- slurm_id:
+  - 850789
+  - 850790
+  - 850791
+  - 850792
+  - 850793
+  experiment_nm: bongard_hoi_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.01116068847477436
+    best_loss_epoch: 7
+    best_loss_step: 61399
+    best_slurm_id: 850793
+  val/loss:
+    best_loss: 0.011150474660098553
+    best_loss_epoch: 7
+    best_loss_step: 61399
+    best_slurm_id: 850793
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.010046218521893024
+    best_loss_epoch: 7
+    best_loss_step: 61399
+    best_slurm_id: 850793
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/78y7oe7x
+  - https://wandb.ai/avr_universal/AVR_universal/runs/53dz79ae
+  - https://wandb.ai/avr_universal/AVR_universal/runs/k2rvpawy
+  - https://wandb.ai/avr_universal/AVR_universal/runs/gzi65dnq
+  - https://wandb.ai/avr_universal/AVR_universal/runs/7h7ix6x4
+  max_epoch: 7
+- slurm_id:
+  - 850794
+  - 850795
+  - 850796
+  - 850797
+  - 850798
+  experiment_nm: bongard_hoi_images
+  test_nm: number_of_slots
+  val/bongard_hoi_images/loss:
+    best_loss: 0.009694935753941536
+    best_loss_epoch: 8
+    best_loss_step: 138149
+    best_slurm_id: 850798
+  val/loss:
+    best_loss: 0.009694424457848072
+    best_loss_epoch: 8
+    best_loss_step: 138149
+    best_slurm_id: 850798
+  train/bongard_hoi_images/loss_epoch:
+    best_loss: 0.008592097088694572
+    best_loss_epoch: 8
+    best_loss_step: 138149
+    best_slurm_id: 850798
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ap7bjerb
+  - https://wandb.ai/avr_universal/AVR_universal/runs/8xg42xzg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/c0jpgm07
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ntg6rns3
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vcy1nwhz
+  max_epoch: 8
+- slurm_id:
+  - 850799
+  - 850800
+  - 850801
+  - 850802
+  - 850803
+  experiment_nm: vasr_images
+  test_nm: number_of_slots
+  failed: true
+- slurm_id:
+  - 850804
+  - 850805
+  - 850806
+  - 850807
+  - 850808
+  experiment_nm: vasr_images
+  test_nm: number_of_slots
+  val/loss:
+    best_loss: 0.011530476622283459
+    best_loss_epoch: 470
+    best_loss_step: 417776
+    best_slurm_id: 850807
+  train/vasr_images/loss_epoch:
+    best_loss: 0.011658484116196632
+    best_loss_epoch: 483
+    best_loss_step: 429307
+    best_slurm_id: 850807
+  val/vasr_images/loss:
+    best_loss: 0.01153148990124464
+    best_loss_epoch: 470
+    best_loss_step: 417776
+    best_slurm_id: 850807
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/aluo7f30
+  - https://wandb.ai/avr_universal/AVR_universal/runs/4ikjp65s
+  - https://wandb.ai/avr_universal/AVR_universal/runs/l7lsgqj7
+  - https://wandb.ai/avr_universal/AVR_universal/runs/lb7d7mx3
+  - https://wandb.ai/avr_universal/AVR_universal/runs/9vx2pevf
+  max_epoch: 486
+- slurm_id:
+  - 850809
+  - 850810
+  - 850811
+  - 850812
+  - 850813
+  experiment_nm: vasr_images
+  test_nm: number_of_slots
+  val/loss:
+    best_loss: 0.008245134726166725
+    best_loss_epoch: 239
+    best_loss_step: 851279
+    best_slurm_id: 850813
+  train/vasr_images/loss_epoch:
+    best_loss: 0.008390456438064575
+    best_loss_epoch: 237
+    best_loss_step: 844185
+    best_slurm_id: 850813
+  val/vasr_images/loss:
+    best_loss: 0.008253274485468864
+    best_loss_epoch: 239
+    best_loss_step: 851279
+    best_slurm_id: 850813
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/va45n370
+  - https://wandb.ai/avr_universal/AVR_universal/runs/zedhb7pu
+  - https://wandb.ai/avr_universal/AVR_universal/runs/im95c8l2
+  - https://wandb.ai/avr_universal/AVR_universal/runs/kdkg4cpu
+  - https://wandb.ai/avr_universal/AVR_universal/runs/23k49aue
+  max_epoch: 239
+- slurm_id:
+  - 850814
+  - 850815
+  - 850816
+  - 850817
+  - 850818
+  experiment_nm: vasr_images
+  test_nm: number_of_slots
+  val/loss:
+    best_loss: 0.007319588214159012
+    best_loss_epoch: 172
+    best_loss_step: 613630
+    best_slurm_id: 850818
+  train/vasr_images/loss_epoch:
+    best_loss: 0.007463155314326286
+    best_loss_epoch: 180
+    best_loss_step: 642006
+    best_slurm_id: 850818
+  val/vasr_images/loss:
+    best_loss: 0.007326883263885975
+    best_loss_epoch: 172
+    best_loss_step: 613630
+    best_slurm_id: 850818
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qrl3c2y5
+  - https://wandb.ai/avr_universal/AVR_universal/runs/a5pmuava
+  - https://wandb.ai/avr_universal/AVR_universal/runs/tu0g40o6
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vo10d3rs
+  - https://wandb.ai/avr_universal/AVR_universal/runs/m0zk9gif
+  max_epoch: 182
+- slurm_id:
+  - 850824
+  - 850825
+  - 850826
+  - 850827
+  - 850828
+  experiment_nm: vasr_images
+  test_nm: number_of_slots
+  val/loss:
+    best_loss: 0.006023895461112261
+    best_loss_epoch: 124
+    best_loss_step: 886749
+    best_slurm_id: 850828
+  train/vasr_images/loss_epoch:
+    best_loss: 0.006103540770709515
+    best_loss_epoch: 122
+    best_loss_step: 872561
+    best_slurm_id: 850828
+  val/vasr_images/loss:
+    best_loss: 0.006026696413755417
+    best_loss_epoch: 124
+    best_loss_step: 886749
+    best_slurm_id: 850828
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/wyls8iih
+  - https://wandb.ai/avr_universal/AVR_universal/runs/p6yqi7pc
+  - https://wandb.ai/avr_universal/AVR_universal/runs/msw3d29q
+  - https://wandb.ai/avr_universal/AVR_universal/runs/3175m4xv
+  - https://wandb.ai/avr_universal/AVR_universal/runs/gmcamg1y
+  max_epoch: 124
