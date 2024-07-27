@@ -1,10 +1,12 @@
-import wandb
 import os
+import re
+
+import wandb
 
 
 class WandbAgent:
-    def __init__(self, project_name: str):
-        self.api = wandb.Api()
+    def __init__(self, project_name: str, **kwargs):
+        self.api = wandb.Api(**kwargs)
         self.project_name = project_name
 
     def get_runs(self, **kwargs):
@@ -24,8 +26,10 @@ class WandbAgent:
 
     def get_newest_runs(self, **kwargs):
         runs = self.get_runs(**kwargs)
-        runs = [r for r in runs if '_timestamp' in r.summary]
-        newest_runs = sorted(runs, key=lambda run: run.summary['_timestamp'], reverse=True)
+        runs = [r for r in runs if "_timestamp" in r.summary]
+        newest_runs = sorted(
+            runs, key=lambda run: run.summary["_timestamp"], reverse=True
+        )
         return newest_runs
 
     def get_newest_checkpoint(self, **kwargs):
@@ -52,6 +56,10 @@ class WandbAgent:
             raise ValueError(
                 f"Query for runs with display_name='{run_name}' returned {len(runs)} results."
             )
+
+    def get_run_by_id(self, run_id):
+        run = self.api.run(f"{self.project_name}/{run_id}")
+        return run
 
     def get_artifact_by_name(self, artifact_name):
         artifact = self.api.artifact(
@@ -83,13 +91,25 @@ class WandbAgent:
         checkpoint_path = os.path.join(checkpoint_path, "model.ckpt")
         return checkpoint_path
 
+    @staticmethod
+    def extract_wandb_id(slurm_id: int, log_dir: str = "./logs") -> str:
+        id = None
+        with open(f"{log_dir}/slurm-{slurm_id}.log", "r") as file:
+            line = file.readline()
+            while line:
+                match = re.search(r"View run at.*runs/(\w+)", line)
+                if match:
+                    id = match.group(1)
+                    break
+                line = file.readline()
+        return id
+
 
 if __name__ == "__main__":
     agent = WandbAgent("AVR_universal")
-    #runs = agent.get_runs()
-    #print(runs[0].summary)
+    # runs = agent.get_runs()
+    # print(runs[0].summary)
     checkpoint_path = agent.get_newest_checkpoint()
 
-
-    #print(run.summary)
-   # print(checkpoint_path)
+    # print(run.summary)
+# print(checkpoint_path)
