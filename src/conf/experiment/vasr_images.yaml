@@ -1,0 +1,21 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [vasr_images]
+
+img_size: 128
+batch_size: 128
+max_epochs: 1000
+lr: 0.0001
+
+early_stopping_patience: 10
+every_n_epochs: 1
+every_n_train_steps: null
+slots_every_n_steps: null # depricated - better to check on validation set
+slots_every_n_epochs: null # depricated - better to check on validation set
+# slots_save_path: /app/out/slots
+model:
+  num_iterations: 3
+  # num_slots: 20
+  # hid_dim: 64
+trainer:
+  val_check_interval: null

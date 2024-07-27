@@ -11,6 +11,8 @@ import pandas as pd
 import torch
 import torchvision
 import ujson as json
+import timm
+from timm.data.transforms_factory import create_transform
 from omegaconf import DictConfig, OmegaConf
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
@@ -118,7 +120,7 @@ class VASRdataset(Dataset):
         for candidate in ast.literal_eval(task['candidates']):
             answers.append(os.path.join(self.data_path, 'images_512', candidate))
 
-        target = task['label']
+        target = int(task['label'])
         images = context + answers
         img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
         img = torch.stack(img)
@@ -207,14 +209,14 @@ class VASRSamplesDataset(Dataset):
             self,
             data_path: str,
             dataset_type: str,  # train, dev
-            img_size: int | None
+            img_size: int | None,
+            dev_ratio: int = 0.8
     ):
-
         self.files = os.listdir(data_path)
         if dataset_type == "train":
-            self.files = self.files[:int(0.8*len(self.files))]
+            self.files = self.files[:int(dev_ratio * len(self.files))]
         else:
-            self.files = self.files[int(0.8 * len(self.files)):]
+            self.files = self.files[int(dev_ratio * len(self.files)):]
         if img_size:
             self.transforms = transforms.Compose(
                 [
@@ -252,9 +254,11 @@ class HOISamplesDataset(Dataset):
         self.dir_sizes = []
         if dataset_type == "train":
             self.dataset_dirs.remove("pic")
+            self.dataset_dirs.append("pic/image/train")
 
         else:
-            dataset_dirs = ["pic"]
+            self.dataset_dirs = ["pic/image/val"]
+            
         for dir in self.dataset_dirs:
             images = []
             for ext in ["*.jpg", "*.png", "*.jpeg"]:
@@ -303,6 +307,54 @@ class HOISamplesDataset(Dataset):
         img = torch.unsqueeze(img, 0)
         target = np.asarray(-1)
         return img, target
+
+
+
+class HOI_VITdataset(HOIdataset):
+    def __init__(
+        self,
+        data_path: str,
+        annotation_path: str,
+        dataset_type: str,
+        model_name: str,
+    ):
+
+        self.data_files = [os.path.join(annotation_path, dataset_type)]
+        if dataset_type:
+            self.data_files = [f for f in self.data_files if dataset_type in f]
+        self.file_sizes = []
+        self.annotations = []
+        for file in self.data_files:
+            with open(file) as f:
+                file_hoi = json.load(f)
+                self.file_sizes.append(len(file_hoi))
+                self.annotations.append(file_hoi)
+
+        self.idx_ranges = np.cumsum(self.file_sizes)
+
+        model = timm.create_model(model_name)
+        model_conf = timm.data.resolve_data_config({}, model=model)
+        self.transforms = create_transform(**model_conf)
+
+
+        self.data_path = data_path
+
+
+class VASR_VITdataset(VASRdataset):
+    def __init__(
+            self,
+            data_path: str,
+            dataset_type: str,  # train, dev
+            model_name: str,
+    ):
+        self.annotations = pd.read_csv(os.path.join(data_path, f"{dataset_type}.csv"))
+
+        model = timm.create_model(model_name)
+        model_conf = timm.data.resolve_data_config({}, model=model)
+        self.transforms = create_transform(**model_conf)
+
+
+        self.data_path = data_path
 
 
 class LOGOdataset(Dataset):

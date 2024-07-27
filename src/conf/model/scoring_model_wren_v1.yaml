@@ -1,0 +1,26 @@
+_target_: model.models.scoring_model_wren_v1.ScoringModelWReN
+context_norm: true
+in_dim: 64
+hidden_dim: 512
+transformer_name: ${transformer_name}
+slot_model:
+  _target_: model.models.STSNv3.SlotAttentionAutoEncoder
+  resolution:
+    - ${img_size}
+    - ${img_size}
+  num_slots: 40
+  hid_dim: 64
+  num_iterations: 1
+  ckpt_path: null
+  save_hyperparameters: false
+  save_slots: false
+  freeze_slot_model: true
+wren_type: 'averaged'
+save_hyperparameters: true
+use_detection: false
+
+# Carefully select for specific with respect to the task
+# additional_metrics:
+#   accuracy:
+#     _target_: torchmetrics.classification.BinaryAccuracy
+#     threshold: 0.5

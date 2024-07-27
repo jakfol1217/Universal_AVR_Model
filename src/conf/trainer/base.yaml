@@ -15,8 +15,7 @@ callbacks:
   - _target_: pytorch_lightning.callbacks.ModelCheckpoint
     monitor: ${monitor}
     mode: min
-    save_top_k: 2
     save_last: true
-    enable_version_counter: False
-    dirpath: model_checkpoints
+    dirpath: model_checkpoints/${get_slurm_job_id:}
     every_n_epochs: ${every_n_epochs}
+    every_n_train_steps: ${every_n_train_steps}

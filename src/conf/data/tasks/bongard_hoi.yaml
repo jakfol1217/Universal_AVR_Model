@@ -3,6 +3,9 @@ defaults:
   - bongard_hoi/optimizer: ../../../../optimizer/adam
 
 bongard_hoi:
+  num_context_panels: 12
+  context_groups: [[0,1,2,3,4,5]]
+  answer_groups: [0, 1]
   dataset:
     target: model.avr_datasets.HOIdataset
     data_path: ${data.root}/bongard_hoi/hake/
@@ -33,17 +36,4 @@ bongard_hoi:
       data_path: ${data.tasks.bongard_hoi.dataset.data_path}
       annotation_path: ${data.tasks.bongard_hoi.dataset.annotation_path}
       img_size: ${data.tasks.bongard_hoi.dataset.img_size}
-  metrics:
-    train:
-      - accuracy:
-          _target_: torchmetrics.classification.MulticlassAccuracy
-          num_classes: 8
-    val:
-      - accuracy:
-          _target_: torchmetrics.classification.MulticlassAccuracy
-          num_classes: 8
-    test:
-      - accuracy:
-          _target_: torchmetrics.classification.MulticlassAccuracy
-          num_classes: 8
   target_loss_ratio: ${target_loss_ratio}
