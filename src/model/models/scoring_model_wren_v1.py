@@ -84,7 +84,7 @@ class ScoringModelWReN(ScoringModel):
 
         self.detection_model = None
         if use_detection:
-            self.detection_model = self.init_detection_model()
+            self.detection_model = [self.init_detection_model()]
 
     @torch.no_grad()
     def init_detection_model(self):
@@ -160,8 +160,9 @@ class ScoringModelWReN(ScoringModel):
         
             det_scores = self.forward_detection_model(given_imgs, answer_imgs, context_groups, answer_groups)
             det_scores = det_scores.to(scores, non_blocking=True)
-            scores += det_scores
-            
+
+            scores_adjusted = scores + det_scores
+            scores = scores_adjusted
 
         pred = scores.argmax(1)
 
@@ -213,7 +214,7 @@ class ScoringModelWReN(ScoringModel):
 
 
     def get_detected_classes(self, images, confidence_level=0.8):
-        results = self.detection_model(images, verbose=False)
+        results = self.detection_model[0](images, verbose=False)
         classes = np.array([0 for _ in range(len(results[0].names))], dtype='float64')
         for r in results:
             json_res = json.loads(r.tojson())

@@ -83,7 +83,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
         self.detection_model = None
         if use_detection:
-            self.detection_model = self.init_detection_model()
+            self.detection_model = [self.init_detection_model()]
 
     @torch.no_grad()
     def init_detection_model(self):
@@ -166,6 +166,8 @@ class ScoringModelFeatureTransformer(AVRModule):
         answer_imgs = img[:, context_panels_cnt:]
 
         scores = self(given_panels, answer_panels)
+        softmax = nn.Softmax(dim=1)
+        scores = softmax(scores)
 
         if self.detection_model is not None:
             context_groups = self.cfg.data.tasks[
@@ -176,7 +178,9 @@ class ScoringModelFeatureTransformer(AVRModule):
             ].answer_groups
             det_scores = self.forward_detection_model(given_imgs, answer_imgs, context_groups, answer_groups)
             det_scores = det_scores.to(scores, non_blocking=True)
-            scores += det_scores
+            
+            scores_adjusted = scores + det_scores
+            scores = scores_adjusted
 
         pred = scores.argmax(1)
 
@@ -234,7 +238,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
 
     def get_detected_classes(self, images, confidence_level=0.8):
-        results = self.detection_model(images)
+        results = self.detection_model[0](images)
         classes = np.array([0 for _ in range(len(results[0].names))], dtype='float64')
         for r in results:
             json_res = json.loads(r.tojson())
