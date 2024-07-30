@@ -1,23 +1,22 @@
+import ast
 import copy
 import glob
 import os
 import random
-import ast
 
 import h5py
 import hydra
 import numpy as np
 import pandas as pd
+import timm
 import torch
 import torchvision
 import ujson as json
-import timm
-from timm.data.transforms_factory import create_transform
 from omegaconf import DictConfig, OmegaConf
 from PIL import Image
+from timm.data.transforms_factory import create_transform
 from torch.utils.data import DataLoader, Dataset
 from torchvision.transforms import transforms
-
 
 
 class Dsprites_OOO():
@@ -28,19 +27,19 @@ class Dsprites_OOO():
             self.latent_sizes = file_dsprites['metadata'][()]['latents_sizes']
             self.latent_idxes = np.concatenate((self.latent_sizes[::-1].cumprod()[::-1][1:], np.array([1,])))
             self.dsprites = file_dsprites['imgs']
-            
-            
+
+
     def latent_dist_to_index(self, lat_dist):
         return np.dot(lat_dist, self.latent_idxes)
-    
-    
+
+
     def return_initial_dist(self):
         dist = [0 for i in range(len(self.latent_sizes))]
         for i, size in enumerate(self.latent_sizes):
             dist[i] = random.randint(0, size-1)
         return dist
-    
-    
+
+
     def return_new_dists(self, initial_dist, idxs):
         vals_1 = random.sample([i for i in range(self.latent_sizes[idxs[0]]) if i != initial_dist[idxs[0]]], k=3)
         vals_2 = [initial_dist[idxs[1]] for _ in range(2)] + random.sample([i for i in range(self.latent_sizes[idxs[1]]) if i != initial_dist[idxs[1]]], k=1)
@@ -51,8 +50,8 @@ class Dsprites_OOO():
             new_dist[idxs[1]] = val2
             new_dists.append(new_dist)
         return new_dists
-        
-    
+
+
     def return_ooo(self, n):
         tasks = []
         targets = []
@@ -62,20 +61,20 @@ class Dsprites_OOO():
             tasks.append(new_task[0])
             targets.append(new_task[1])
             latents.append(new_task[2])
-        
+
         return tasks, targets, latents
-    
+
     def return_single_task(self):
         latent_types = sorted(random.sample(list(range(1, 6)), k=2), reverse=True)
         latent_dist = self.return_initial_dist()
         dists = [latent_dist, *self.return_new_dists(latent_dist, latent_types)]
-        
+
         ooo_tasks = np.array([self.dsprites[self.latent_dist_to_index(dist)] for dist in dists])
         # random permutation of tasks
-        
+
         task_idxes = list(range(4))
         random.shuffle(task_idxes)
-        
+
         ooo_tasks = ooo_tasks[task_idxes]
         ooo_target = task_idxes.index(3)
         return ooo_tasks, ooo_target, latent_types
@@ -258,7 +257,7 @@ class HOISamplesDataset(Dataset):
 
         else:
             self.dataset_dirs = ["pic/image/val"]
-            
+
         for dir in self.dataset_dirs:
             images = []
             for ext in ["*.jpg", "*.png", "*.jpeg"]:
@@ -385,10 +384,10 @@ class LOGOdataset(Dataset):
 
     def __len__(self):
         return len(self.data_files)
-    
+
     def __getitem__(self, item):
         file = self.data_files[item]
-        
+
         context = []
         answers = []
         ans_idx = random.randint(0,6)
@@ -402,7 +401,7 @@ class LOGOdataset(Dataset):
 
         ans_idx = random.randint(0,6)
         path_1 = os.path.join(file, "1")
-        for i, file_1 in enumerate(os.listdir(path_1)): 
+        for i, file_1 in enumerate(os.listdir(path_1)):
             im = Image.open(os.path.join(path_1, file_1))
             if i == ans_idx:
                 answers.append(self.transforms(im))
@@ -415,15 +414,15 @@ class LOGOdataset(Dataset):
         else:
             target = np.asarray(1)
             answers = answers[::-1]
-        
+
         images = context + answers
         img = torch.stack(images)
-        
-        return img, target
-        
-        
 
-    
+        return img, target
+
+
+
+
 class DEEPIQdataset(Dataset):
     def __init__(self, data_path, img_size=None):
         self.data    = glob.glob(os.path.join(data_path, "*.png"))
@@ -441,30 +440,30 @@ class DEEPIQdataset(Dataset):
                         transforms.ToTensor()
                     ]
             )
-    
-    
+
+
     def __len__(self):
         return len(self.data)
-    
-    
+
+
     def __getitem__(self, item):
         img_path = self.data[item]
         img_split = self.split_ooo_images(Image.open(img_path))
         img = [self.transforms(split) for split in img_split]
         img = torch.stack(img)
-                                   
+
         target = np.asarray(self.answers[0][item])
-        
+
         return img, target
-        
-    
+
+
     def split_ooo_images(self, image):
         images = []
         for window in range(0, image.size[0], 100):
             images.append(np.array(image)[:,window:window+100])
         return images
 
-    
+
 class DOPTdataset(Dataset):
     def __init__(
         self,
@@ -512,11 +511,11 @@ class DOPTdataset(Dataset):
 
 class DSPRITESdataset(Dataset):
     def __init__(self, data_path, img_size=None, num_tasks=1000):
-        
+
         self.DSPRITE_tasker = Dsprites_OOO(data_path, 12)
         self.tasks, self.targets, _ = self.DSPRITE_tasker.return_ooo(num_tasks)
-        
-        
+
+
         if img_size:
             self.transforms = transforms.Compose(
                     [
@@ -530,21 +529,21 @@ class DSPRITESdataset(Dataset):
                         transforms.ToTensor()
                     ]
             )
-    
+
     def __len__(self):
         return len(self.tasks)
-    
+
     def __getitem__(self, item):
         tasks = self.tasks[item]
-        
+
         img = torch.stack([self.transforms(im) for im in tasks])
-        
+
         target = np.asarray(self.targets[item])
-        
+
         return img, target
-        
-        
-    
+
+
+
 class IRAVENdataset(Dataset):
     def __init__(
         self,
@@ -570,18 +569,18 @@ class IRAVENdataset(Dataset):
                         transforms.ToTensor()
                     ]
             )
-    
+
     def __len__(self):
         return len(self.data_files)
-    
+
     def __getitem__(self, item):
         data = np.load(self.data_files[item], mmap_mode='r')
         images = data['image']
 
         target = np.asarray(data['targ'])
-        
+
         img = torch.stack([self.transforms(im) for im in images])
-        
+
         return img, target
 
 
@@ -606,21 +605,21 @@ class MNSdataset(Dataset):
                     transforms.ToTensor()
                 ]
             )
-    
+
     def __len__(self):
         return len(self.data_files)
-    
+
     def __getitem__(self, item):
         data = np.load(self.data_files[item], mmap_mode='r')
         images = data['image']
         target = np.asarray(data['target'])
-        
+
         img = torch.stack([self.transforms(im) for im in images])
-        
+
         return img, target
 
-    
-    
+
+
 class PGMdataset(Dataset):
     def __init__(
         self,
@@ -647,21 +646,66 @@ class PGMdataset(Dataset):
                     transforms.ToTensor()
                 ]
             )
-            
+
 
     def __len__(self):
         return len(self.data_files)
-    
+
     def __getitem__(self, item):
         data = np.load(self.data_files[item], mmap_mode='r')
         images = data['image']
         images = images.reshape(-1,160,160)
         target = np.asarray(data['target'])
-        
+
         img = torch.stack([self.transforms(im) for im in images])
-        
+
         return img, target
 
+
+class VAECSamplesDataset(Dataset):
+    def __init__(
+        self,
+        data_path: str,
+        dataset_type: str,
+        img_size: int | None,
+    ):
+        self.data_file = os.path.join(data_path, dataset_type)
+        with h5py.File(self.data_file) as f:
+            self.file_size = len(f)
+
+        if img_size:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor(),
+                    transforms.Resize((img_size, img_size))
+                ]
+            )
+        else:
+            self.transforms = transforms.Compose(
+                [
+                    transforms.ToTensor()
+                ]
+            )
+
+        self.data_path = data_path
+
+    def __len__(self):
+        return self.file_size * 7
+
+    def __getitem__(self, item):
+
+        file = self.data_file
+
+        local_item = str(item // 7)
+        img_idx = item % 7
+
+        with h5py.File(file) as f:
+            img = np.asarray(f[local_item]['imgs'])[img_idx]
+
+        img = torch.stack([self.transforms(img)])
+        target = np.asarray(-1)
+
+        return img, target
 
 class VAECdataset(Dataset):
     def __init__(
@@ -698,7 +742,7 @@ class VAECdataset(Dataset):
         file = self.data_file
 
         local_item = str(item)
-        
+
         with h5py.File(file) as f:
             context = [f[local_item]['imgs'][_idx] for _idx in list(f[local_item]['ABCD'])[:3]]
             idx_hy = [i for i in list(f[local_item]['not_D']) if i not in list(f[local_item]['ABCD'])][:3] + [list(f[local_item]['ABCD'])[3]]
