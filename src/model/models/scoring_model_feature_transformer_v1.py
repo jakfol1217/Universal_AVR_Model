@@ -3,8 +3,6 @@ import os
 import json
 from itertools import permutations
 
-from ultralytics import YOLO
-
 
 import numpy as np
 import pytorch_lightning as pl
@@ -16,6 +14,11 @@ import timm
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 from torch import nn
+import spacy 
+from numpy import dot
+from numpy.linalg import norm 
+from transformers import pipeline
+from sentence_transformers import SentenceTransformer
 
 from .base import AVRModule
 from .yoloWrapper import YOLOwrapper
@@ -31,6 +34,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         transformer: pl.LightningModule,
         transformer_name: str,
         use_detection: bool,
+        use_captions: bool,
         pooling: bool,
         pos_emb: pl.LightningModule | None = None,
         additional_metrics: dict = {},
@@ -84,6 +88,17 @@ class ScoringModelFeatureTransformer(AVRModule):
         self.detection_model = None
         if use_detection:
             self.detection_model = [self.init_detection_model()]
+            
+        self.use_captions = use_captions
+        if self.use_captions:
+            self.captioner_model = [pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")]
+            self.word_embedder = [SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')]
+            try:
+                self.sentence_parser = spacy.load('en_core_web_md')
+            except:
+                print("Downloading en_core_web_md...")
+                spacy.cli.download('en_core_web_md')
+                self.sentence_parser = spacy.load('en_core_web_md')
 
     @torch.no_grad()
     def init_detection_model(self):
@@ -146,11 +161,29 @@ class ScoringModelFeatureTransformer(AVRModule):
                     if len(chosen_answer) < 4:
                         chosen_answer = chosen_answer.unsqueeze(0)
                     answer_detected = self.get_detected_classes(chosen_answer)
-                    detection_scores[i].append(self.score_function(context_detected, answer_detected))
+                    detection_scores[i].append(self.detection_score_function(context_detected, answer_detected))
         return torch.Tensor(detection_scores)
 
+    def forward_activities_model(self, given_panels, answer_panels, context_groups, answer_groups):
+        activity_scores = [[] for _ in range(given_panels.shape[0])]
+        context_activities = []
+        for i in range(given_panels.shape[0]):
+            for c_g in context_groups:
+                for c_g_i in c_g:
+                    chosen_given = given_panels[i, c_g_i, :]
+                    context_activities.append(self.get_activities(chosen_given))
+                context_activities = torch.stack(context_activities)
+                for a_g in answer_groups:
+                    chosen_answer = answer_panels[i, a_g, :]
+                    answer_activity = self.get_activities(chosen_answer)
+                    activity_scores[i].append(self.activity_score_function(context_activities, answer_activity))
+        return torch.Tensor(activity_scores)  
+
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
-        img, target = batch
+        if self.use_captions:
+            img, target, img_orig = batch
+        else:
+            img, target = batch
         results = []
         for idx in range(img.shape[1]):
             results.append(self.feature_transformer(img[:, idx]))
@@ -165,22 +198,34 @@ class ScoringModelFeatureTransformer(AVRModule):
         given_imgs = img[:, :context_panels_cnt]
         answer_imgs = img[:, context_panels_cnt:]
 
+        context_groups = self.cfg.data.tasks[
+                self.task_names[dataloader_idx]
+            ].context_groups
+        answer_groups = self.cfg.data.tasks[
+                self.task_names[dataloader_idx]
+            ].answer_groups
+
         scores = self(given_panels, answer_panels)
         softmax = nn.Softmax(dim=1)
         scores = softmax(scores)
 
         if self.detection_model is not None:
-            context_groups = self.cfg.data.tasks[
-                self.task_names[dataloader_idx]
-            ].context_groups
-            answer_groups = self.cfg.data.tasks[
-                self.task_names[dataloader_idx]
-            ].answer_groups
+            
             det_scores = self.forward_detection_model(given_imgs, answer_imgs, context_groups, answer_groups)
             det_scores = det_scores.to(scores, non_blocking=True)
             
             scores_adjusted = scores + det_scores
             scores = scores_adjusted
+
+        if self.use_captions:
+            given_imgs_orig = img_orig[:, :context_panels_cnt]
+            answer_imgs_orig = img_orig[:, context_panels_cnt:]
+
+            act_scores = self.forward_activities_model(given_imgs_orig, answer_imgs_orig, context_groups, answer_groups)
+            act_scores = act_scores.to(scores, non_blocking=True)
+
+            scores_adjusted = scores + act_scores
+            scores = scores_adjusted   
 
         pred = scores.argmax(1)
 
@@ -248,12 +293,43 @@ class ScoringModelFeatureTransformer(AVRModule):
         classes /= len(results)
         return classes
 
-    def score_function(self, context, answers):
-        x = np.sum(context - answers)
-        context_scale = np.sum(context)
+    def detection_score_function(self, context, answers):
+        x = np.sum(np.average(context, axis=0) - answers)
+        context_scale = np.sum(np.average(context, axis=0))
         
-        res = max(-(abs(x)**(3/2))/100 + 0.1, -0.15)
+        res = max(-(abs(x)**(3/2))/90 + 0.15, -0.2)
         if res < 0:
             numbing_param = 2/context_scale if context_scale != 0 else 1
             res *= numbing_param
         return res
+    
+    def activity_score_function(self, ac1_em, ac2_em):
+        cos_sim = 0
+        for i in range(ac1_em.shape[0]):
+            cos_sim += self.cosine_similarity(ac1_em[i,:], ac2_em)
+        cos_sim /= ac1_em.shape[0]
+        return cos_sim/2 - 0.16
+    
+    
+    def get_activities(self, image):
+        caption = self.captioner_model[0](image)
+        activities = self.get_activity_from_caption(caption['generated_text'])
+        embedded_activities = self.embed_activities(activities)
+        return embedded_activities
+    
+    def embed_activities(self, activities):
+        embedded_activities = self.word_embedder[0].encode(activities)
+        return embedded_activities
+    
+    def get_activity_from_caption(self, caption):
+        parsed_caption = self.sentence_parser(caption)
+        activities = []
+        for tok in parsed_caption:
+            if tok.pos_ == "VERB" and tok.dep_ == "ROOT":
+                activities.append(str(tok))
+            if tok.pos_ == "NOUN" and tok.dep_ == "dobj":
+                activities.append(str(tok))
+        return " ".join(activities)
+    
+    def cosine_similarity(self, x1, x2):
+        return dot(x1, x2)/(norm(x1) * norm(x2))

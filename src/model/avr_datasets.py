@@ -202,6 +202,10 @@ class HOIdataset(Dataset):
         img = torch.stack(img)
 
         return img, target
+    
+
+
+
 
 class VASRSamplesDataset(Dataset):
     def __init__(
@@ -355,6 +359,65 @@ class VASR_VITdataset(VASRdataset):
 
         self.data_path = data_path
 
+
+
+class VASRdatasetWithOriginals(VASR_VITdataset):
+    def __getitem__(self, item):
+        task = self.annotations.iloc[item, :]
+        context = []
+        answers = []
+        img_names = ["A_img", "B_img", "C_img"]
+        for im in img_names:
+            context.append(os.path.join(self.data_path, 'images_512', task[im]))
+        for candidate in ast.literal_eval(task['candidates']):
+            answers.append(os.path.join(self.data_path, 'images_512', candidate))
+
+        target = int(task['label'])
+        images = context + answers
+        img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
+        img_orig = [transforms.ToTensor(Image.open(im).convert('RGB')) for im in images]
+        img = torch.stack(img)
+        img_orig = torch.stack(img_orig)
+
+        return img, target, img_orig
+
+
+class HOIdatasetWithOriginals(HOI_VITdataset):
+    def __getitem__(self, item):
+        for i in range(len(self.idx_ranges)):
+            if item < self.idx_ranges[i]:
+                idx = i
+                break
+
+        files_hoi = self.annotations[idx]
+
+        if idx == 0:
+            file_hoi = files_hoi[item]
+        else:
+            file_hoi = files_hoi[item - self.idx_ranges[idx - 1]]
+
+        context = file_hoi[0] + file_hoi[1]
+        context = [os.path.join(self.data_path, c['im_path']) for c in context]
+
+        answers = []
+        # adding random image as answer
+        answers.append(context.pop(random.randint(0, 6)))
+        answers.append(context.pop(random.randint(6, 12)))
+
+        # random answer flip
+        if random.uniform(0, 1) <= 0.5:
+            target = np.asarray(0)
+        else:
+            target = np.asarray(1)
+            answers = answers[::-1]
+
+        images = context + answers
+        img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
+        img_orig = [transforms.ToTensor(Image.open(im).convert('RGB')) for im in images]
+        img = torch.stack(img)
+        img_orig = torch.stack(img_orig)
+
+        return img, target, img_orig
 
 class LOGOdataset(Dataset):
     def __init__(

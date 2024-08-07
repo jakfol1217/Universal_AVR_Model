@@ -18,6 +18,7 @@ slot_model:
 wren_type: 'averaged'
 save_hyperparameters: true
 use_detection: false
+use_captions: false
 
 # Carefully select for specific with respect to the task
 # additional_metrics:
