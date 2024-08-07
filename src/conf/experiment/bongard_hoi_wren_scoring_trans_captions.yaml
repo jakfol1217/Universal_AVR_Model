@@ -1,0 +1,27 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [bongard_hoi_captions]
+  - override /model: scoring_model_wren_v1
+  - override /data/datamodule: single_module
+
+img_size: 128
+max_epochs: 200
+batch_size: 8
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 20
+
+model:
+  wren_type: 'vit_pooled'
+  in_dim: 1024
+  use_detection: false
+  slot_model:
+    num_slots: 20
+    hid_dim: 64
+    num_iterations: 1
+    # ckpt_path: /mnt/evafs/groups/mandziuk-lab/akaminski/out/slots/839928/last.ckpt
+  additional_metrics:
+    accuracy:
+      _target_: torchmetrics.classification.BinaryAccuracy
+      threshold: 0.5
