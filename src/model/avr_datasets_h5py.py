@@ -165,10 +165,10 @@ class LOGOSamplesDataset_h5py(Dataset):
     def __getitem__(self, item):
         item = item // 14
         idx = item % 14
-        grp = (idx % 7) + 1
-        grp_idx = idx // 7
+        grp = idx % 7
+        grp_idx = (idx // 7) + 1
         with h5py.File(self.data_files) as f:
-            images_grp = np.asarray(f[str(item)][f"grp_{grp}"])[[grp_idx]]
+            images_grp = np.asarray(f[str(item)][f"grp_{grp_idx}"])[[grp]]
         image = [self.transforms(im) for im in images_grp]
         img = torch.stack(image)
         target = np.asarray(-1)

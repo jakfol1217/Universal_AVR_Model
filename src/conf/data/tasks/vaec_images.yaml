@@ -3,9 +3,8 @@ defaults:
   - vaec/optimizer: ../../../../optimizer/adam
 
 vaec:
-  num_context_panels: 3
   dataset:
-    target: model.avr_datasets.VAECdataset
+    target: model.avr_datasets.VAECSamplesDataset
     data_path: ${data.root}/vaec/datasets/
     img_size: ${img_size}
     train:

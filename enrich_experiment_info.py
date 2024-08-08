@@ -5,6 +5,7 @@ from typing import Any
 import pandas as pd
 import yaml
 from dotenv import load_dotenv
+from tqdm import tqdm
 
 import wandb
 from src.wandb_agent import WandbAgent
@@ -26,7 +27,7 @@ def get_history(
         _key
         for _key in run.summary.keys()
         if not _key.startswith("gradients/")
-        and _key != "graph_0"
+        and _key not in ["graph_0", "_wandb"]
         and (_key in ["_step", "trainer/global_step"] or not _key.endswith("_step"))
     ]
 
@@ -83,6 +84,27 @@ def extract_best_metric(runs, val_data, train_data) -> dict:
 
     return out
 
+
+def extract_accuracy_metric(runs, val_data, train_data) -> dict:
+    columns = set(val_data.columns) | set(train_data.columns)
+    loss_columns = [col for col in columns if "accuracy" in col]
+    # loss_columns = [col for col in loss_columns if "val" in col]
+
+
+    out = {}
+    for col in loss_columns:
+        df = val_data if "val" in col else train_data
+        best_val = df.sort_values(col, ascending=False).iloc[0]
+
+        out[col] = {
+            "best_loss": float(best_val[col]),
+            "best_loss_epoch": int(best_val["epoch"]),
+            "best_loss_step": int(best_val["trainer/global_step"]),
+            "best_slurm_id": int(best_val["SLURM_ID"]),
+        }
+
+    return out
+
 #  'val/loss',
 #  '_runtime',
 #  'train/bongard_hoi_images/loss_epoch',
@@ -103,6 +125,7 @@ common_info = [
     # lambda dict[slurm_id, wanbdb.run], valid_history, train -> dict
     extract_url,
     extract_best_metric,
+    extract_accuracy_metric,
     lambda _, __, val_data: {"max_epoch": int(val_data["epoch"].max())},
 ]
 
@@ -135,7 +158,7 @@ def main():
         return wandb_id
 
     out = {"experiments": [None] * len(exps["experiments"])}
-    for ix, experiment in enumerate(exps["experiments"]):
+    for ix, experiment in tqdm(enumerate(exps["experiments"]), total=len(exps["experiments"])):
         try:
             run_ids = {_id: extract_wandb_id(_id) for _id in experiment["slurm_id"]}
             # DEBUG:

@@ -1,0 +1,21 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [bongard_logo_h5_images]
+  - override /data/datamodule: single_module
+  - override /model: stsnv3
+
+img_size: 80
+max_epochs: 200
+batch_size: 16
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 20
+
+# slots_every_n_steps: null # depricated - better to check on validation set
+# slots_every_n_epochs: null # depricated - better to check on validation set
+# slots_save_path: /app/out/slots
+model:
+  num_iterations: 3
+  # num_slots: 20
+  # hid_dim: 64

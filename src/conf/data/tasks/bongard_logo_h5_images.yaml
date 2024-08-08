@@ -1,0 +1,29 @@
+defaults:
+  - bongard_logo/dataloader: ../../../../dataloader/default
+  - bongard_logo/optimizer: ../../../../optimizer/adam
+
+bongard_logo:
+  dataset:
+    target: model.avr_datasets_h5py.LOGOSamplesDataset_h5py
+    data_path: ${data.root}/h5py/bongard_logo
+    img_size: ${img_size}
+    train:
+      _target_: ${data.tasks.bongard_logo.dataset.target}
+      dataset_type: train
+      data_path: ${data.tasks.bongard_logo.dataset.data_path}
+      img_size: ${data.tasks.bongard_logo.dataset.img_size}
+    val:
+      _target_: ${data.tasks.bongard_logo.dataset.target}
+      dataset_type: val
+      data_path: ${data.tasks.bongard_logo.dataset.data_path}
+      img_size: ${data.tasks.bongard_logo.dataset.img_size}
+    test:
+      _target_: ${data.tasks.bongard_logo.dataset.target}
+      dataset_type: test_ff
+        # TODO: allow multiple dataset types (requires change in dataset class)?
+        # - test_hd_comb
+        # - test_bd
+        # - test_hd_novel
+      data_path: ${data.tasks.bongard_logo.dataset.data_path}
+      img_size: ${data.tasks.bongard_logo.dataset.img_size}
+  target_loss_ratio: ${target_loss_ratio}
