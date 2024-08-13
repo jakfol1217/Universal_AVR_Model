@@ -1,8 +1,8 @@
 defaults:
-  - vasr_vit/dataloader: ../../../../dataloader/default
-  - vasr_vit/optimizer: ../../../../optimizer/adam
-  
-vasr_vit:
+  - vasr_captions/dataloader: ../../../../dataloader/default
+  - vasr_captions/optimizer: ../../../../optimizer/adam
+
+vasr_captions:
   num_context_panels: 3
   context_groups: [[1]]
   answer_groups: [0,1,2,3]
@@ -10,19 +10,23 @@ vasr_vit:
     target: model.avr_datasets.VASRdatasetWithOriginals
     data_path: ${data.root}/vasr
     model_name: ${transformer_name}
+    data_path_cap: ${data.root}/vasr_cap
     train:
-      _target_: ${data.tasks.vasr_vit.dataset.target}
+      _target_: ${data.tasks.vasr_captions.dataset.target}
       dataset_type: train
-      data_path: ${data.tasks.vasr_vit.dataset.data_path}
-      model_name: ${data.tasks.vasr_vit.dataset.model_name}
+      data_path: ${data.tasks.vasr_captions.dataset.data_path}
+      model_name: ${data.tasks.vasr_captions.dataset.model_name}
+      data_path_cap: ${data.tasks.vasr_captions.dataset.data_path_cap}
     val:
-      _target_: ${data.tasks.vasr_vit.dataset.target}
+      _target_: ${data.tasks.vasr_captions.dataset.target}
       dataset_type: dev
-      data_path: ${data.tasks.vasr_vit.dataset.data_path}
-      model_name: ${data.tasks.vasr_vit.dataset.model_name}
+      data_path: ${data.tasks.vasr_captions.dataset.data_path}
+      model_name: ${data.tasks.vasr_captions.dataset.model_name}
+      data_path_cap: ${data.tasks.vasr_captions.dataset.data_path_cap}
     test:
-      _target_: ${data.tasks.vasr_vit.dataset.target}
+      _target_: ${data.tasks.vasr_captions..dataset.target}
       dataset_type: dev
-      data_path: ${data.tasks.vasr_vit.dataset.data_path}
-      model_name: ${data.tasks.vasr_vit.dataset.model_name}
+      data_path: ${data.tasks.vasr_captions.dataset.data_path}
+      model_name: ${data.tasks.vasr_captions.dataset.model_name}
+      data_path_cap: ${data.tasks.vasr_captions.dataset.data_path_cap}
   target_loss_ratio: ${target_loss_ratio}

@@ -362,27 +362,69 @@ class VASR_VITdataset(VASRdataset):
 
 
 class VASRdatasetWithOriginals(VASR_VITdataset):
+    def __init__(
+            self,
+            data_path: str,
+            dataset_type: str,  # train, dev
+            model_name: str,
+            data_path_cap: str,
+    ):
+        super().__init__(data_path, dataset_type, model_name)
+        self.transforms2 = transforms.Compose([
+            transforms.Resize((384, 384)),
+            transforms.PILToTensor()
+        ])
+        self.data_path_cap = data_path_cap
+
     def __getitem__(self, item):
         task = self.annotations.iloc[item, :]
         context = []
         answers = []
+        context_caps = []
+        answers_caps = []
         img_names = ["A_img", "B_img", "C_img"]
         for im in img_names:
             context.append(os.path.join(self.data_path, 'images_512', task[im]))
+            context_cap = task[im].split(".")[0] + ".npy"
+            context_caps.append(os.path.join(self.data_path_cap, 'images_512', context_cap))
         for candidate in ast.literal_eval(task['candidates']):
             answers.append(os.path.join(self.data_path, 'images_512', candidate))
-
+            candidate_cap = candidate.split(".")[0] + ".npy"
+            answers_caps.append(os.path.join(self.data_path_cap, 'images_512', candidate_cap))
+        
         target = int(task['label'])
         images = context + answers
+        images_cap = context_caps + answers_caps
         img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
-        img_orig = [transforms.ToTensor(Image.open(im).convert('RGB')) for im in images]
+        caps = []
+        for i_c in images_cap:
+            with open(i_c, "rb") as f:
+                caption = np.load(f)
+            caps.append(torch.from_numpy(caption))
         img = torch.stack(img)
-        img_orig = torch.stack(img_orig)
+        caps = torch.stack(caps)
 
-        return img, target, img_orig
+        return img, target, caps
 
 
 class HOIdatasetWithOriginals(HOI_VITdataset):
+    def __init__(
+        self,
+        data_path: str,
+        annotation_path: str,
+        dataset_type: str,
+        model_name: str,
+        data_path_cap: str,
+        
+    ):
+        super().__init__(data_path, annotation_path, dataset_type, model_name)
+        self.transforms2 = transforms.Compose([
+            transforms.Resize((384, 384)),
+            transforms.PILToTensor()
+        ])
+
+        self.data_path_cap = data_path_cap
+
     def __getitem__(self, item):
         for i in range(len(self.idx_ranges)):
             if item < self.idx_ranges[i]:
@@ -397,12 +439,18 @@ class HOIdatasetWithOriginals(HOI_VITdataset):
             file_hoi = files_hoi[item - self.idx_ranges[idx - 1]]
 
         context = file_hoi[0] + file_hoi[1]
+        context_caps = [os.path.join(self.data_path_cap, c['im_path'].rsplit(".", 1)[0] + ".npy") for c in context]
         context = [os.path.join(self.data_path, c['im_path']) for c in context]
 
         answers = []
+        answers_caps = []
         # adding random image as answer
-        answers.append(context.pop(random.randint(0, 6)))
-        answers.append(context.pop(random.randint(6, 12)))
+        rand_1 = random.randint(0, 6)
+        rand_2 = random.randint(6, 12)
+        answers.append(context.pop(rand_1))
+        answers.append(context.pop(rand_2))
+        answers_caps.append(context_caps.pop(rand_1))
+        answers_caps.append(context_caps.pop(rand_2))
 
         # random answer flip
         if random.uniform(0, 1) <= 0.5:
@@ -410,14 +458,20 @@ class HOIdatasetWithOriginals(HOI_VITdataset):
         else:
             target = np.asarray(1)
             answers = answers[::-1]
+            answers_caps = answers_caps[::-1]
 
         images = context + answers
+        images_cap = context_caps + answers_caps
         img = [self.transforms(Image.open(im).convert('RGB')) for im in images]
-        img_orig = [transforms.ToTensor(Image.open(im).convert('RGB')) for im in images]
+        caps = []
+        for i_c in images_cap:
+            with open(i_c, "rb") as f:
+                caption = np.load(f)
+                caps.append(torch.from_numpy(caption))
         img = torch.stack(img)
-        img_orig = torch.stack(img_orig)
+        caps = torch.stack(caps)
 
-        return img, target, img_orig
+        return img, target, caps
 
 class LOGOdataset(Dataset):
     def __init__(

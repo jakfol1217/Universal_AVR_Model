@@ -92,15 +92,7 @@ class ScoringModelWReN(ScoringModel):
             self.detection_model = [self.init_detection_model()]
             
         self.use_captions = use_captions
-        if self.use_captions:
-            self.captioner_model = [pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")]
-            self.word_embedder = [SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')]
-            try:
-                self.sentence_parser = spacy.load('en_core_web_md')
-            except:
-                print("Downloading en_core_web_md...")
-                spacy.cli.download('en_core_web_md')
-                self.sentence_parser = spacy.load('en_core_web_md')
+        self.cos_sim = torch.nn.CosineSimilarity(dim=0)
 
 
 
@@ -121,41 +113,41 @@ class ScoringModelWReN(ScoringModel):
     
     def forward_detection_model(self, given_panels, answer_panels, context_groups, answer_groups):
         detection_scores = [[] for _ in range(given_panels.shape[0])]
-        for i in range(given_panels.shape[0]):
-            for c_g in context_groups:
-                chosen_given = given_panels[i, c_g, :]
-                if len(chosen_given.shape) < 4:
-                    chosen_given = chosen_given.unsqueeze(0)
-                context_detected = self.get_detected_classes(chosen_given)
-                for a_g in answer_groups:
-                    chosen_answer = answer_panels[i, a_g, :]
-                    if len(chosen_answer) < 4:
-                        chosen_answer = chosen_answer.unsqueeze(0)
-                    answer_detected = self.get_detected_classes(chosen_answer)
-                    detection_scores[i].append(self.detection_score_function(context_detected, answer_detected))
+
+        context_panels = given_panels[:, context_groups[0], :]
+        context_panels_flat = context_panels.flatten(0, 1)
+
+        used_answer_panels = answer_panels[:, answer_groups, :]
+        used_answer_panels_flat = used_answer_panels.flatten(0, 1)
+
+        context_detected = self.get_detected_classes(context_panels_flat).view((*context_panels.shape[:2], -1))
+        answer_detected = self.get_detected_classes(used_answer_panels_flat).view((*used_answer_panels.shape[:2], -1))
+
+        for i in range(context_detected.shape[0]):
+            for a_g in answer_groups:
+                detection_scores[i].append(self.activity_score_function(context_detected[i,:], answer_detected[i, a_g, :]))
         return torch.Tensor(detection_scores)
-    
+
 
     def forward_activities_model(self, given_panels, answer_panels, context_groups, answer_groups):
         activity_scores = [[] for _ in range(given_panels.shape[0])]
-        context_activities = []
-        for i in range(given_panels.shape[0]):
-            for c_g in context_groups:
-                for c_g_i in c_g:
-                    chosen_given = given_panels[i, c_g_i, :]
-                    context_activities.append(self.get_activities(chosen_given))
-                context_activities = torch.stack(context_activities)
-                for a_g in answer_groups:
-                    chosen_answer = answer_panels[i, a_g, :]
-                    answer_activity = self.get_activities(chosen_answer)
-                    activity_scores[i].append(self.activity_score_function(context_activities, answer_activity))
-        return torch.Tensor(activity_scores)  
+
+        context_panels = given_panels[:, context_groups[0], :]
+
+        used_answer_panels = answer_panels[:, answer_groups, :]
+
+        
+        for i in range(context_panels.shape[0]):
+            for a_g in answer_groups:
+                activity_scores[i].append(self.activity_score_function(context_panels[i,:], used_answer_panels[i, a_g, :]))
+
+        return torch.Tensor(activity_scores) 
        
     
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
         if self.use_captions:
-            img, target, img_orig = batch
+            img, target, img_cap = batch
         else:
             img, target = batch
         results = []
@@ -203,10 +195,10 @@ class ScoringModelWReN(ScoringModel):
             scores = scores_adjusted
         
         if self.use_captions:
-            given_imgs_orig = img_orig[:, :context_panels_cnt]
-            answer_imgs_orig = img_orig[:, context_panels_cnt:]
+            given_imgs_cap = img_cap[:, :context_panels_cnt]
+            answer_imgs_cap = img_cap[:, context_panels_cnt:]
 
-            act_scores = self.forward_activities_model(given_imgs_orig, answer_imgs_orig, context_groups, answer_groups)
+            act_scores = self.forward_activities_model(given_imgs_cap, answer_imgs_cap, context_groups, answer_groups)
             act_scores = act_scores.to(scores, non_blocking=True)
 
             scores_adjusted = scores + act_scores
@@ -262,15 +254,14 @@ class ScoringModelWReN(ScoringModel):
 
 
     def get_detected_classes(self, images, confidence_level=0.8):
-        results = self.detection_model[0](images, verbose=False)
-        classes = np.array([0 for _ in range(len(results[0].names))], dtype='float64')
-        for r in results:
+        results = self.detection_model[0](images)
+        classes = np.array([[0 for _ in range(len(results[0].names))] for i in range(len(results))], dtype='float64')
+        for i, r in enumerate(results):
             json_res = json.loads(r.tojson())
             for detection in json_res:
                 if detection['confidence'] >= confidence_level:
-                    classes[detection['class']] += 1
-        classes /= len(results)
-        return classes
+                    classes[i][detection['class']] += 1
+        return torch.from_numpy(classes)
 
     def detection_score_function(self, context, answers):
         x = np.sum(np.average(context, axis=0) - answers)
@@ -285,30 +276,6 @@ class ScoringModelWReN(ScoringModel):
     def activity_score_function(self, ac1_em, ac2_em):
         cos_sim = 0
         for i in range(ac1_em.shape[0]):
-            cos_sim += self.cosine_similarity(ac1_em[i,:], ac2_em)
+            cos_sim += self.cos_sim(ac1_em[i,:], ac2_em)
         cos_sim /= ac1_em.shape[0]
-        return cos_sim/2 - 0.16
-    
-    
-    def get_activities(self, image):
-        caption = self.captioner_model[0](image)
-        activities = self.get_activity_from_caption(caption['generated_text'])
-        embedded_activities = self.embed_activities(activities)
-        return embedded_activities
-    
-    def embed_activities(self, activities):
-        embedded_activities = self.word_embedder[0].encode(activities)
-        return embedded_activities
-    
-    def get_activity_from_caption(self, caption):
-        parsed_caption = self.sentence_parser(caption)
-        activities = []
-        for tok in parsed_caption:
-            if tok.pos_ == "VERB" and tok.dep_ == "ROOT":
-                activities.append(str(tok))
-            if tok.pos_ == "NOUN" and tok.dep_ == "dobj":
-                activities.append(str(tok))
-        return " ".join(activities)
-    
-    def cosine_similarity(self, x1, x2):
-        return dot(x1, x2)/(norm(x1) * norm(x2))
+        return cos_sim/2 - 0.12

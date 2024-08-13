@@ -1,8 +1,8 @@
 defaults:
-  - bongard_hoi_vit/dataloader: ../../../../dataloader/default
-  - bongard_hoi_vit/optimizer: ../../../../optimizer/adam
+  - bongard_hoi_captions/dataloader: ../../../../dataloader/default
+  - bongard_hoi_captions/optimizer: ../../../../optimizer/adam
 
-bongard_hoi_vit:
+bongard_hoi_captions:
   num_context_panels: 12
   context_groups: [[0,1,2,3,4,5]]
   answer_groups: [0, 1]
@@ -11,29 +11,33 @@ bongard_hoi_vit:
     data_path: ${data.root}/bongard_hoi/hake/
     annotation_path: ${data.root}/bongard_hoi/bongard_hoi_release/
     model_name: ${transformer_name}
+    data_path_cap: ${data.root}/bongard_hoi_cap/hake/
     train:
-      _target_: ${data.tasks.bongard_hoi_vit.dataset.target}
+      _target_: ${data.tasks.bongard_hoi_captions.dataset.target}
       dataset_type: bongard_hoi_train.json
-      data_path: ${data.tasks.bongard_hoi_vit.dataset.data_path}
-      annotation_path: ${data.tasks.bongard_hoi_vit.dataset.annotation_path}
-      model_name: ${data.tasks.bongard_hoi_vit.dataset.model_name}
+      data_path: ${data.tasks.bongard_hoi_captions.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi_captions.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_hoi_captions.dataset.model_name}
+      data_path_cap: ${data.tasks.bongard_hoi_captions.dataset.data_path_cap}
     val:
-      _target_: ${data.tasks.bongard_hoi_vit.dataset.target}
+      _target_: ${data.tasks.bongard_hoi_captions.dataset.target}
       dataset_type: bongard_hoi_val_seen_obj_unseen_act.json
         # TODO: allow multiple dataset types (requires change in dataset class)?
         # - bongard_hoi_val_unseen_obj_unseen_act.json
         # - bongard_hoi_val_seen_obj_seen_act.json
         # - bongard_hoi_val_unseen_obj_seen_act.json
-      data_path: ${data.tasks.bongard_hoi_vit.dataset.data_path}
-      annotation_path: ${data.tasks.bongard_hoi_vit.dataset.annotation_path}
-      model_name: ${data.tasks.bongard_hoi_vit.dataset.model_name}
+      data_path: ${data.tasks.bongard_hoi_captions.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi_captions.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_hoi_captions.dataset.model_name}
+      data_path_cap: ${data.tasks.bongard_hoi_captions.dataset.data_path_cap}
     test:
-      _target_: ${data.tasks.bongard_hoi_vit.dataset.target}
+      _target_: ${data.tasks.bongard_hoi_captions.dataset.target}
       dataset_type: bongard_hoi_test_seen_obj_seen_act.json
         # - bongard_hoi_test_unseen_obj_seen_act.json
         # - bongard_hoi_test_seen_obj_unseen_act.json
         # - bongard_hoi_test_unseen_obj_unseen_act.json
-      data_path: ${data.tasks.bongard_hoi_vit.dataset.data_path}
-      annotation_path: ${data.tasks.bongard_hoi_vit.dataset.annotation_path}
-      model_name: ${data.tasks.bongard_hoi_vit.dataset.model_name}
+      data_path: ${data.tasks.bongard_hoi_captions.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi_captions.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_hoi_captions.dataset.model_name}
+      data_path_cap: ${data.tasks.bongard_hoi_captions.dataset.data_path_cap}
   target_loss_ratio: ${target_loss_ratio}
