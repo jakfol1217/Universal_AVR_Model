@@ -165,7 +165,7 @@ class ScoringModelWReN(ScoringModel):
         else:
             for idx in range(img.shape[1]):
                 with autocast(device_type='cuda', dtype=torch.float16):
-                    res = self.feature_transformer[0](img[:, idx])
+                    res = self.feature_transformer(img[:, idx])
                 results.append(res)
         
         context_panels_cnt = self.cfg.data.tasks[

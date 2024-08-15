@@ -24,7 +24,7 @@ vasr_captions:
       model_name: ${data.tasks.vasr_captions.dataset.model_name}
       data_path_cap: ${data.tasks.vasr_captions.dataset.data_path_cap}
     test:
-      _target_: ${data.tasks.vasr_captions..dataset.target}
+      _target_: ${data.tasks.vasr_captions.dataset.target}
       dataset_type: dev
       data_path: ${data.tasks.vasr_captions.dataset.data_path}
       model_name: ${data.tasks.vasr_captions.dataset.model_name}
