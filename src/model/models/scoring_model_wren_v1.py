@@ -124,10 +124,10 @@ class ScoringModelWReN(ScoringModel):
                 for _ix in task_metrics_idxs
             ]
         )
-        print(self.task_metrics)
+
         if len(self.task_metrics) > 0:
             self.additional_metrics = self.task_metrics
-        print(self.additional_metrics)
+
             
         self.use_captions = use_captions
         self.cos_sim = torch.nn.CosineSimilarity(dim=0)
@@ -246,7 +246,6 @@ class ScoringModelWReN(ScoringModel):
 
         ce_loss = self.loss(scores, target)
 
-        print(self.additional_metrics)
         current_metrics = self.additional_metrics[dataloader_idx]
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
