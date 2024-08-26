@@ -1,0 +1,61 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [bongard_hoi_vit, vasr_vit]
+  - override /model: scoring_model_feature_transformer_v1
+  - override /data/datamodule: multi_module
+
+img_size: 256
+max_epochs: 200
+batch_size: 16
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 20
+num_correct_1: 1
+
+# slots_every_n_steps: null # depricated - better to check on validation set
+# slots_every_n_epochs: null # depricated - better to check on validation set
+# slots_save_path: /app/out/slots
+model:
+  num_correct: 2 # depends on dataset
+  in_dim: 1024
+  use_detection: false
+  num_correct_1: 1
+  pos_emb:
+    _target_: model.models.pos_emb.PositionalEmbedding
+    out_dim: 1024 # same as in_dim
+    nrows: 7
+    ncols: 2
+    # ndim: null
+    row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
+    feature_pooling: false
+  pos_emb_1:
+    _target_: model.models.pos_emb.PositionalEmbedding
+    out_dim: 1024 # same as in_dim
+    nrows: 2
+    ncols: 2
+    # ndim: null
+    row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
+    feature_pooling: false
+  transformer_1:
+    _target_: model.models.vit.ViT
+    dim: 1024 # hidden dimension size
+    depth: 24 # transformer number of layers
+    heads: 8 # transformer number of heads
+    mlp_dim: 512 # transformer mlp dimension
+    pool: cls
+    dim_head: 32
+    dropout: 0.1
+    emb_dropout: 0.0
+    save_hyperparameters: False
+    num_correct_1: 1
+  
+  additional_metrics:
+    accuracy_bongard_hoi:
+      _target_: torchmetrics.classification.BinaryAccuracy
+      threshold: 0.5
+  additional_metrics_1:
+    accuracy_vasr:
+      _target_: torchmetrics.classification.MulticlassAccuracy
+      num_classes: 4
+      average: macro

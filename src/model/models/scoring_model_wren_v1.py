@@ -22,6 +22,7 @@ from .WReN_average import WReN_average
 from .WReN_each import WReN_each
 from .WReN_in_order import WReN_in_order
 from .WReN_vit import WReN_vit
+from .VASR_model import VASR_model
 from .yoloWrapper import YOLOwrapper
 
 
@@ -40,6 +41,8 @@ class ScoringModelWReN(ScoringModel):
         additional_metrics: dict = {},
         save_hyperparameters=True,
         freeze_slot_model=True,
+        g_depth=3,
+        f_depth=2,
         **kwargs,
     ):
         super().__init__(
@@ -59,7 +62,9 @@ class ScoringModelWReN(ScoringModel):
         if self.wren_type == "averaged" or self.wren_type == "vit_pooled":
             self.wren_model = WReN_average(
                 object_size=in_dim,
-                use_layer_norm=context_norm
+                use_layer_norm=context_norm,
+                g_depth=g_depth,
+                f_depth=f_depth
             )
         elif self.wren_type == "vit":
             self.wren_model = WReN_vit(
@@ -77,10 +82,14 @@ class ScoringModelWReN(ScoringModel):
                 object_size=in_dim,
                 use_layer_norm=context_norm
             )
+        elif self.wren_type == "basic":
+            self.wren_model = VASR_model(
+                object_size=in_dim
+            )
         self.feature_transformer = None
         if self.wren_type == "vit":
             self.feature_transformer = timm.create_model(transformer_name, pretrained=True, num_classes=0, global_pool='')
-        if self.wren_type == "vit_pooled":
+        if self.wren_type == "vit_pooled" or self.wren_type == "basic":
             self.feature_transformer= timm.create_model(transformer_name, pretrained=True, num_classes=0)
         
         if self.feature_transformer is not None:
@@ -90,6 +99,35 @@ class ScoringModelWReN(ScoringModel):
         self.detection_model = None
         if use_detection:
             self.detection_model = [self.init_detection_model()]
+        
+        task_metrics_idxs = [
+            int(_it.removeprefix("task_metric_"))
+            for _it in kwargs.keys()
+            if _it.startswith("task_metric_")
+        ]
+
+        def create_module_dict(metrics_dict):
+            return nn.ModuleDict(
+                {
+                    metric_nm: (
+                        instantiate(metric_func)
+                        if isinstance(metric_func, DictConfig)
+                        else metric_func
+                    )
+                    for metric_nm, metric_func in metrics_dict.items()
+                }
+            )
+
+        self.task_metrics = nn.ModuleList(
+            [
+                create_module_dict(kwargs.get(f"task_metric_{_ix}"))
+                for _ix in task_metrics_idxs
+            ]
+        )
+        print(self.task_metrics)
+        if len(self.task_metrics) > 0:
+            self.additional_metrics = self.task_metrics
+        print(self.additional_metrics)
             
         self.use_captions = use_captions
         self.cos_sim = torch.nn.CosineSimilarity(dim=0)
@@ -208,6 +246,7 @@ class ScoringModelWReN(ScoringModel):
 
         ce_loss = self.loss(scores, target)
 
+        print(self.additional_metrics)
         current_metrics = self.additional_metrics[dataloader_idx]
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)

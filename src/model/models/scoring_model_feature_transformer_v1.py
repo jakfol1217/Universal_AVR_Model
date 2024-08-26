@@ -52,7 +52,14 @@ class ScoringModelFeatureTransformer(AVRModule):
         # self.automatic_optimization = False # use when slot and transoformer have separate optimizers
         self.in_dim = in_dim
         # self.row_column_fc = nn.Linear(6, in_dim)
-        self.num_correct = num_correct
+        multi_corrects = [
+            int(_it.removeprefix("num_correct_"))
+            for _it in kwargs.keys()
+            if _it.startswith("num_correct_")
+        ]
+        self.num_correct = [num_correct] + [
+            kwargs.get(f"num_correct_{_ix}") for _ix in multi_corrects
+        ]
 
         if context_norm:
             self.contextnorm = True
@@ -62,22 +69,46 @@ class ScoringModelFeatureTransformer(AVRModule):
             self.contextnorm = False
 
         # TODO: Add option to train slot_model as well (may require configuring multiple optimizers)
-
+        multi_pos_emb = [
+            int(_it.removeprefix("pos_emb_"))
+            for _it in kwargs.keys()
+            if _it.startswith("pos_emb_")
+        ]
         self.transformer = transformer
-        self.pos_emb = pos_emb
+        if len(multi_pos_emb) == 0:
+            self.pos_emb = nn.ModuleList([pos_emb])
+        if len(multi_pos_emb) > 0:
+            self.pos_emb = nn.ModuleList(
+                [pos_emb] + [kwargs.get(f"pos_emb_{_ix}") for _ix in multi_pos_emb]
+            )
 
         self.loss = instantiate(cfg.metrics.cross_entropy)
         self.val_losses = []
-        self.additional_metrics = nn.ModuleDict(
-            {
-                metric_nm: (
-                    instantiate(metric_func)
-                    if isinstance(metric_func, DictConfig)
-                    else metric_func
-                )
-                for metric_nm, metric_func in additional_metrics.items()
-            }
-        )
+        def create_module_dict(metrics_dict):
+            return nn.ModuleDict(
+                {
+                    metric_nm: (
+                        instantiate(metric_func)
+                        if isinstance(metric_func, DictConfig)
+                        else metric_func
+                    )
+                    for metric_nm, metric_func in metrics_dict.items()
+                }
+            )
+
+        if len(multi_pos_emb) == 0:
+            self.additional_metrics = nn.ModuleList(
+                [create_module_dict(additional_metrics)]
+            )
+        else:
+            self.additional_metrics = nn.ModuleList(
+                [create_module_dict(additional_metrics)]
+                + [
+                    create_module_dict(kwargs.get(f"additional_metrics_{_ix}"))
+                    for _ix in multi_pos_emb
+                ]
+            )
+
         if pooling:
             self.feature_transformer = timm.create_model(transformer_name, pretrained=True, num_classes=0)
         else:
@@ -111,16 +142,18 @@ class ScoringModelFeatureTransformer(AVRModule):
         ).unsqueeze(0)
         return z_seq
 
-    def forward(self, given_panels, answer_panels):
+    def forward(self, given_panels, answer_panels, idx=0):
+        __pos_emb = self.pos_emb[idx]
+        __transformer = self.transformer
+        __num_correct = self.num_correct[idx]
 
         scores = []
         pos_emb_score = (
-            self.pos_emb(given_panels)
-            if self.pos_emb is not None
-            else torch.tensor(0.0)
+            __pos_emb(given_panels) if __pos_emb is not None else torch.tensor(0.0)
         )
 
-        for d in permutations(range(answer_panels.shape[1]), self.num_correct):
+
+        for d in permutations(range(answer_panels.shape[1]), __num_correct):
 
 
             x_seq = torch.cat([given_panels, answer_panels[:, d]], dim=1)
@@ -132,7 +165,7 @@ class ScoringModelFeatureTransformer(AVRModule):
                 x_seq = self.apply_context_norm(x_seq)
             x_seq = x_seq + pos_emb_score  # TODO: add positional embeddings
 
-            score = self.transformer(x_seq)
+            score = __transformer(x_seq)
             scores.append(score)
         scores = torch.cat(scores, dim=1)
         return scores
@@ -200,7 +233,7 @@ class ScoringModelFeatureTransformer(AVRModule):
                 self.task_names[dataloader_idx]
             ].answer_groups
 
-        scores = self(given_panels, answer_panels)
+        scores = self(given_panels, answer_panels, idx=dataloader_idx)
         softmax = nn.Softmax(dim=1)
         scores = softmax(scores)
 
@@ -226,8 +259,8 @@ class ScoringModelFeatureTransformer(AVRModule):
 
         pred = scores.argmax(1)
 
-
-        for metric_nm, metric_func in self.additional_metrics.items():
+        current_metrics = self.additional_metrics[dataloader_idx]
+        for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(
                 f"{step_name}/{self.task_names[dataloader_idx]}/{metric_nm}",

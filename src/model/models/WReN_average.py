@@ -14,7 +14,7 @@ class WReN_average(pl.LightningModule):
     [2] Santoro, Adam, et al. "A simple neural network module for relational reasoning." NeurIPS 2017
     """
 
-    def __init__(self, object_size: int, use_layer_norm: bool = False):
+    def __init__(self, object_size: int, use_layer_norm: bool = False, g_depth=3, f_depth=2):
         """
          Initializes the WReN model.
          :param object_size: size of the object (panel) vector
@@ -29,14 +29,14 @@ class WReN_average(pl.LightningModule):
         self.object_size = object_size
         self.object_tuple_size = (2) * (self.object_size)
         self.g = G(
-            depth=3,
+            depth=g_depth,
             in_size=self.object_tuple_size,
             out_size=self.object_tuple_size,
             use_layer_norm=False
         )
         self.norm = nn.LayerNorm(self.object_tuple_size) if use_layer_norm else Identity()
         self.f = F(
-            depth=2,
+            depth=f_depth,
             object_size=self.object_tuple_size,
             out_size=1
         )

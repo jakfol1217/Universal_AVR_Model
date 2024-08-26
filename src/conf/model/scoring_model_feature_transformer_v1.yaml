@@ -25,6 +25,8 @@ pos_emb:
 save_hyperparameters: true
 use_detection: false
 use_captions: false
+g_depth: 3 
+f_depth: 2
 
 # Carefully select for specific with respect to the task
 # additional_metrics:
