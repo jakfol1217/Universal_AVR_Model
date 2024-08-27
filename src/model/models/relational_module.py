@@ -6,12 +6,12 @@ import torch.nn as nn
 class RelationalModule(pl.LightningModule):
     def __init__(self,
                  object_size: int,
-                 assymetrical: bool,
+                 asymetrical: bool,
                  rel_activation_func: str = "softmax",
                  context_norm: bool = False,
                  hierarchical: bool = False):
         super(RelationalModule, self).__init__()
-        if assymetrical:
+        if asymetrical:
             self.k_trans = nn.Linear(object_size, object_size)
             self.q_trans = nn.Linear(object_size, object_size)
         else:
@@ -56,7 +56,7 @@ class RelationalModule(pl.LightningModule):
         return torch.cat(relational_matrices, dim=1)
 
 
-
+# todo: potentially other module for abstract shapes? utilizing slots etc
 
     def relational_bottleneck(self, keys, queries):
         rel_matrix = torch.matmul(keys, queries.transpose(1,2))
