@@ -617,3 +617,125 @@ First job id: 872981, Job id 2: 872982
 ### 20 vaec
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'"
 First job id: 872983, Job id 2: 872984
+
+
+### Unpooled features
+
+## BONGARD HOI (WReN features unpooled)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.use_detection=true model.in_dim=148480 log_every_n_steps=200
+876440
+./scripts/run_bulk_2_0.sh 3 876440 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.use_detection=true model.in_dim=148480 +trainer.val_check_interval=0.5 log_every_n_steps=200
+Job based on: 876440, Job id 1: 876441, Job id 2: 876442, Job id 3: 876443
+https://wandb.ai/avr_universal/AVR_universal/runs/xb2rvf7l
+
+## VASR (WReN features unpooled)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.use_detection=true model.in_dim=148480 log_every_n_steps=200
+876444
+./scripts/run_bulk_2_0.sh 3  876444 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=8 model.wren_type=vit model.use_detection=true model.in_dim=148480 +trainer.val_check_interval=0.5 log_every_n_steps=200
+Job based on: 876444, Job id 1: 876445, Job id 2: 876446, Job id 3: 876447
+https://wandb.ai/avr_universal/AVR_universal/runs/3ck0cyap
+
+
+### transformer parameters
+
+## VASR (ViT features pooled) smaller transformer (depth 12)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.depth=12
+876136
+./scripts/run_bulk_2_0.sh 3 876136 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.depth=12
+Job based on: 876136, Job id 1: 876137, Job id 2: 876138, Job id 3: 876139
+https://wandb.ai/avr_universal/AVR_universal/runs/xp0zkkxz
+
+## VASR (ViT features pooled) smaller transformer (depth 18)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.depth=18
+876999
+./scripts/run_bulk_2_0.sh 3 876999 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.depth=18
+Job based on: 876999, Job id 1: 877000, Job id 2: 877001, Job id 3: 877002
+
+## VASR (ViT features pooled) smaller transformer (depth 30) 
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.depth=30
+877003
+./scripts/run_bulk_2_0.sh 3 877003 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.depth=30
+Job based on: 877003, Job id 1: 877004, Job id 2: 877005, Job id 3: 877006
+
+## VASR (ViT features pooled) smaller transformer (dim)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.mlp_dim=256
+876140
+./scripts/run_bulk_2_0.sh 3 876140 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.mlp_dim=256
+Job based on: 876140, Job id 1: 876141, Job id 2: 876142, Job id 3: 876143
+https://wandb.ai/avr_universal/AVR_universal/runs/wht2whf3
+
+## VASR (ViT features pooled) smaller transformer (dim 1024)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.mlp_dim=1024
+876470
+./scripts/run_bulk_2_0.sh 3 876470 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.mlp_dim=1024
+Job based on: 876470, Job id 1: 876471, Job id 2: 876472, Job id 3: 876473
+https://wandb.ai/avr_universal/AVR_universal/runs/bfd61zn7
+
+## VASR (ViT features pooled) smaller transformer (heads 4)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.heads=4
+876144
+./scripts/run_bulk_2_0.sh 3 876144 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.heads=4
+Job based on: 876144, Job id 1: 876145, Job id 2: 876146, Job id 3: 876147
+https://wandb.ai/avr_universal/AVR_universal/runs/7myttor4
+
+## VASR (ViT features pooled) smaller transformer (heads 6)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.heads=6
+876474
+./scripts/run_bulk_2_0.sh 3 876474 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.heads=6
+Job based on: 876144, Job id 1: 876145, Job id 2: 876146, Job id 3: 876147
+https://wandb.ai/avr_universal/AVR_universal/runs/8e0dua9s
+
+## VASR (ViT features pooled) smaller transformer (heads 10)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true early_stopping_patience=25 model.transformer.heads=10
+877007
+./scripts/run_bulk_2_0.sh 3 877007 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_scoring_trans img_size=128 batch_size=16 model.pooling=true model.pos_emb.feature_pooling=true +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.transformer.heads=10
+Job based on: 877007, Job id 1: 877008, Job id 2: 877009, Job id 3: 877010
+
+### Smaller WReN depth
+
+## VASR (WReN features pooled) smaller wren depth
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16 log_every_n_steps=200 early_stopping_patience=25 model.g_depth=1 model.f_depth=1
+877016
+./scripts/run_bulk_2_0.sh 3 877016 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16 +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 model.g_depth=1 model.f_depth=1
+Job based on: 877016, Job id 1: 877017, Job id 2: 877018, Job id 3: 877019
+
+### Simple model (from VASR article)
+
+## BONGARD HOI (simple model)
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans model.wren_type=basic img_size=128 batch_size=16 log_every_n_steps=200
+877011
+./scripts/run_bulk_2_0.sh 3 877011 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_wren_scoring_trans model.wren_type=basic img_size=128 batch_size=16 +trainer.val_check_interval=0.5 log_every_n_steps=200
+Job based on: 877011, Job id 1: 877012, Job id 2: 877013, Job id 3: 877014
+
+## VASR (simple model) 
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_wren_scoring_trans model.wren_type=basic img_size=128 batch_size=16 log_every_n_steps=200
+876128
+./scripts/run_bulk_2_0.sh 3 876128 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_wren_scoring_trans model.wren_type=basic img_size=128 batch_size=16 +trainer.val_check_interval=0.5 log_every_n_steps=200
+Job based on: 876128, Job id 1: 876129, Job id 2: 876130, Job id 3: 876131
+https://wandb.ai/avr_universal/AVR_universal/runs/tha0vupw
+
+## VASR (simple model) only cap
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans_captions model.wren_type=basic img_size=128 batch_size=16 log_every_n_steps=200 model.use_captions=true early_stopping_patience=25
+876257
+./scripts/run_bulk_2_0.sh 3 876257 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans_captions img_size=128 batch_size=16 +trainer.val_check_interval=0.5 log_every_n_steps=200 model.use_captions=true early_stopping_patience=25
+Job based on: 876257, Job id 1: 876258, Job id 2: 876259, Job id 3: 876260
+https://wandb.ai/avr_universal/AVR_universal/runs/9wwlib19
+
+
+### learning rate tests
+
+## VASR (WReN features pooled) higher lr
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16 log_every_n_steps=200 early_stopping_patience=25 lr=0.001
+876120
+./scripts/run_bulk_2_0.sh 3 876120 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16 +trainer.val_check_interval=0.5 log_every_n_steps=200 early_stopping_patience=25 lr=0.001
+Job based on: 876120, Job id 1: 876121, Job id 2: 876122, Job id 3: 876123
+https://wandb.ai/avr_universal/AVR_universal/runs/ticze5ac
+
+## VASR (WReN features pooled) lower lr
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16 log_every_n_steps=200 lr=0.00001
+876124
+./scripts/run_bulk_2_0.sh 3 876124 "--time=1-00:00:00 --mem=24GB --gpus=1" scripts/run_yolo.sh src/main.py +experiment=vasr_wren_scoring_trans img_size=128 batch_size=16 +trainer.val_check_interval=0.5 log_every_n_steps=200 lr=0.00001
+Job based on: 876124, Job id 1: 876125, Job id 2: 876126, Job id 3: 876127
+https://wandb.ai/avr_universal/AVR_universal/runs/q9qtish7
+
+
