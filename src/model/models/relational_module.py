@@ -60,7 +60,7 @@ class RelationalModule(pl.LightningModule):
 
     def relational_bottleneck(self, keys, queries):
         rel_matrix = torch.matmul(keys, queries.transpose(1,2))
-        return self.rel_activation_func(rel_matrix), torch.zeros(*rel_matrix.shape)
+        return self.rel_activation_func(rel_matrix), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
     
     def relational_bottleneck_hierarchical(self, keys, queries):
         rel_matrix_1 = torch.matmul(keys, queries.transpose(1,2)) # use activation on previous if hierarchical? probably not
