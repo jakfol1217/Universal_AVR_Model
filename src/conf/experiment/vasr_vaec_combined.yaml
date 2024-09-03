@@ -13,6 +13,7 @@ every_n_train_steps: null
 early_stopping_patience: 20
 
 model:
+  scoring_in_dim: 16
   task_metric_0:
     accuracy_vasr:
       _target_: torchmetrics.classification.MulticlassAccuracy

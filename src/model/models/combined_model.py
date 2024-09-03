@@ -12,7 +12,7 @@ from omegaconf import DictConfig, OmegaConf
 from torch import nn
 
 from .scoring_model_v1 import ScoringModel
-from .relational_module import RelationalScoringModule, RelationalModule
+from .relational_module import RelationalScoringModule, relationalModelConstructor
 
 
 class CombinedModel(ScoringModel):
@@ -24,6 +24,7 @@ class CombinedModel(ScoringModel):
             slot_model: pl.LightningModule,
             #slot_model_v3: pl.LightningModule,
             transformer_name: str,
+            use_answers_only: bool,
             relational_in_dim: int,
             relational_asymetrical: bool,
             relational_activation_func: str,
@@ -64,7 +65,8 @@ class CombinedModel(ScoringModel):
             pooling=scoring_pooling_type
         )
 
-        self.relationalModule_real = RelationalModule(
+        self.relationalModule_real = relationalModelConstructor(
+            use_answers_only=use_answers_only,
             object_size=relational_in_dim,
             asymetrical=relational_asymetrical,
             rel_activation_func=relational_activation_func,
@@ -73,7 +75,8 @@ class CombinedModel(ScoringModel):
         )
         if separate_relationals:
             self.pooling = nn.AdaptiveMaxPool2d((1, relational_in_dim_2))
-            self.relationalModule_abstract = RelationalModule(
+            self.relationalModule_abstract = relationalModelConstructor(
+                use_answers_only=use_answers_only,
                 object_size=relational_in_dim_2,
                 asymetrical=relational_asymetrical_2,
                 rel_activation_func=relational_activation_func_2,
@@ -195,7 +198,6 @@ class CombinedModel(ScoringModel):
         pred = scores.argmax(1)
 
         ce_loss = self.loss(scores, target)
-        print(self.additional_metrics)
         current_metrics = self.additional_metrics[dataloader_idx]
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)

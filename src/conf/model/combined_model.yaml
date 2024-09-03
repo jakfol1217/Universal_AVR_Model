@@ -1,10 +1,12 @@
 _target_: model.models.combined_model.CombinedModel
 context_norm: true
 
+use_answers_only: false
+
 relational_in_dim: 1024
 relational_asymetrical: true
 relational_activation_func: 'softmax'
-relational_context_norm: false
+relational_context_norm: true
 relational_hierarchical: false
 
 separate_relationals: true
@@ -18,7 +20,7 @@ real_idxes: [0]
 relational_in_dim_2: 1280
 relational_asymetrical_2: true
 relational_activation_func_2: 'softmax'
-relational_context_norm_2: false
+relational_context_norm_2: true
 relational_hierarchical_2: false
 
 transformer_name: ${transformer_name}
