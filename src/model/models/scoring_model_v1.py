@@ -1,6 +1,8 @@
+import io
 import math
 import os
 from itertools import permutations
+from typing import OrderedDict
 
 import h5py
 import numpy as np
@@ -30,6 +32,7 @@ class ScoringModel(AVRModule):
         save_hyperparameters=True,
         freeze_slot_model=True,
         auxiliary_loss_ratio: float = 0.0,
+        increment_dataloader_idx: int = 0,
         **kwargs,
     ):
         super().__init__(cfg)
@@ -101,6 +104,7 @@ class ScoringModel(AVRModule):
 
         self.loss = instantiate(cfg.metrics.cross_entropy)
         self.val_losses = []
+        self.increment_dataloader_idx = increment_dataloader_idx
 
         def create_module_dict(metrics_dict):
             return nn.ModuleDict(
@@ -200,7 +204,7 @@ class ScoringModel(AVRModule):
         given_panels = torch.stack(slots_seq, dim=1)[:, :context_panels_cnt]
         answer_panels = torch.stack(slots_seq, dim=1)[:, context_panels_cnt:]
 
-        scores = self(given_panels, answer_panels, idx=dataloader_idx)
+        scores = self(given_panels, answer_panels, idx=dataloader_idx + self.increment_dataloader_idx)
         # print("scores and target>>",scores,target)
         pred = scores.argmax(1)
         # print(scores)
@@ -208,7 +212,7 @@ class ScoringModel(AVRModule):
         # print(f"Prediction: {pred}, Target: {target}")
         ce_loss = self.loss(scores, target)
 
-        current_metrics = self.additional_metrics[dataloader_idx]
+        current_metrics = self.additional_metrics[dataloader_idx + self.increment_dataloader_idx]
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(
@@ -272,3 +276,49 @@ class ScoringModel(AVRModule):
             sync_dist=True,
         )
         self.val_losses.clear()
+
+    @classmethod
+    def load_from_checkpoint(
+        cls,
+        checkpoint_path,
+        map_location=None,
+        hparams_file=None,
+        strict=None,
+        **kwargs,
+    ):
+        """
+        Load a model from a checkpoint file --- due to changes in model structure we have to rename weights for some parts to match current version.
+        """
+        _checkpoint = torch.load(checkpoint_path, map_location="cpu")
+
+        transformer_weights = [
+            k for k in _checkpoint["state_dict"].keys() if k.startswith("transformer.")
+        ]
+        new_state_dict = OrderedDict()
+
+        if len([k for k in transformer_weights if k.startswith("transformer.0")]) == 0:
+            # renaming transformer to tranformer.0 to match the model (same with pos_emb -> pos_emb.0)
+            weight_names = _checkpoint["state_dict"].keys()
+            for key in weight_names:
+                if key.startswith("transformer."):
+                    new_state_dict[key.replace("transformer.", "transformer.0.", 1)] = (
+                        _checkpoint["state_dict"].get(key)
+                    )
+                elif key.startswith("pos_emb."):
+                    new_state_dict[key.replace("pos_emb.", "pos_emb.0.", 1)] = (
+                        _checkpoint["state_dict"].get(key)
+                    )
+                else:
+                    new_state_dict[key] = _checkpoint["state_dict"].get(key)
+            _checkpoint["state_dict"] = new_state_dict
+
+        buffer = io.BytesIO()
+        torch.save(_checkpoint, buffer)
+
+        return super().load_from_checkpoint(
+            io.BytesIO(buffer.getvalue()),
+            map_location=map_location,
+            hparams_file=hparams_file,
+            strict=strict,
+            **kwargs,
+        )

@@ -159,178 +159,261 @@ experiments:
   - slurm_id: [850824,850825,850826,850827,850828]
     experiment_nm: vasr_images
     test_nm: "number_of_slots"
-  # - slurm_id: [870567] # 870568,870569,870570
+  # - slurm_id: [870567, 870568,870569,870570]
   #   experiment_nm: bongard_hoi_scoring
   #   based_on:
   #     slurm_id: 850773
   #     strategy: "last_ckpt"
   #   test_nm: "frozen_slot"
-  - slurm_id: [870733] # 870734,870735,870736
+  - slurm_id: [870733, 870734,870735,870736]
     experiment_nm: bongard_hoi_scoring
     based_on:
       slurm_id: 870726
       strategy: "last_ckpt"
     test_nm: "frozen_slot"
-  - slurm_id: [870571] # 870572,870573,870574
+  - slurm_id: [870571, 870572,870573,870574]
     experiment_nm: bongard_hoi_scoring
     based_on:
       slurm_id: 850798
       strategy: "last_ckpt"
     test_nm: "frozen_slot"
-  # - slurm_id: [870575] # 870576,870577,870578
+  # - slurm_id: [870575, 870576,870577,870578]
   #   experiment_nm: vasr_scoring
   #   based_on:
   #     slurm_id: 850803
   #     strategy: "last_ckpt"
   #   test_nm: "frozen_slot"
-  - slurm_id: [870737] # 870738,870739,870740
+  - slurm_id: [870737, 870738,870739,870740]
     experiment_nm: vasr_scoring
     based_on:
       slurm_id: 870731
       strategy: "last_ckpt"
     test_nm: "frozen_slot"
-  - slurm_id: [870579] # 870580,870581,870582
+  - slurm_id: [870579, 870580,870581,870582]
     experiment_nm: vasr_scoring
     based_on:
       slurm_id: 850828
       strategy: "last_ckpt"
     test_nm: "frozen_slot"
-  # - slurm_id: [870583] # 870584,870585
+  # - slurm_id: [870583, 870584,870585]
     # experiment_nm: bongard_hoi_scoring_full_train
     # based_on:
       # slurm_id: 850773
       # strategy: "last_ckpt"
     # test_nm: "trained_slot_aux_test"
-  - slurm_id: [870741] # 870742,870743
+  - slurm_id: [870741, 870742,870743]
     experiment_nm: bongard_hoi_scoring_full_train
     based_on:
       slurm_id: 870726
       strategy: "last_ckpt"
     test_nm: "trained_slot_aux_test"
-  # - slurm_id: [870586] # 870587,870588
+  # - slurm_id: [870586, 870587,870588]
   #   experiment_nm: vasr_scoring_full_train
   #   based_on:
   #     slurm_id: 850803
   #     strategy: "last_ckpt"
   #   test_nm: "trained_slot_aux_test"
-  - slurm_id: [870744] # 870745,870746
+  - slurm_id: [870744, 870745,870746]
     experiment_nm: vasr_scoring_full_train
     based_on:
       slurm_id: 870731
       strategy: "last_ckpt"
     test_nm: "trained_slot_aux_test"
-  # - slurm_id: [870589] # 870590,870591
+  # - slurm_id: [870589, 870590,870591]
     # experiment_nm: bongard_hoi_scoring_full_train
     # based_on:
       # slurm_id: 850773
       # strategy: "last_ckpt"
     # test_nm: "trained_slot_aux_test"
-  - slurm_id: [870747] # 870748,870749
+  - slurm_id: [870747, 870748,870749]
     experiment_nm: bongard_hoi_scoring_full_train
     based_on:
       slurm_id: 870726
       strategy: "last_ckpt"
     test_nm: "trained_slot_aux_test"
-  # - slurm_id: [870592] # 870593,870594
+  # - slurm_id: [870592, 870593,870594]
   #   experiment_nm: vasr_scoring_full_train
   #   based_on:
   #     slurm_id: 850803
   #     strategy: "last_ckpt"
   #   test_nm: "trained_slot_aux_test"
-  - slurm_id: [870750] # 870751,870752
+  - slurm_id: [870750, 870751,870752]
     experiment_nm: vasr_scoring_full_train
     based_on:
       slurm_id: 870731
       strategy: "last_ckpt"
     test_nm: "trained_slot_aux_test"
-  # - slurm_id: [870595] # 870596,870597
+  # - slurm_id: [870595, 870596,870597]
     # experiment_nm: bongard_hoi_scoring_full_train
     # based_on:
       # slurm_id: 850773
       # strategy: "last_ckpt"
     # test_nm: "trained_slot_aux_test"
-  - slurm_id: [870753] # 870754,870755
+  - slurm_id: [870753, 870754,870755]
     experiment_nm: bongard_hoi_scoring_full_train
     based_on:
       slurm_id: 870726
       strategy: "last_ckpt"
     test_nm: "trained_slot_aux_test"
-  # - slurm_id: [870598] # 870599,870600
+  # - slurm_id: [870598, 870599,870600]
   #   experiment_nm: vasr_scoring_full_train
   #   based_on:
   #     slurm_id: 850803
   #     strategy: "last_ckpt"
   #   test_nm: "trained_slot_aux_test"
-  - slurm_id: [870756] # 870757,870758
+  - slurm_id: [870756, 870757,870758]
     experiment_nm: vasr_scoring_full_train
     based_on:
       slurm_id: 870731
       strategy: "last_ckpt"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [871036] # 871037, 871038
+    cache: true
+  - slurm_id: [871036, 871037, 871038]
     experiment_nm: bongard_logo_vaec_images
     test_nm: "number_of_slots"
-  - slurm_id: [871039] # 871040, 871041
+  - slurm_id: [871039, 871040, 871041]
     experiment_nm: bongard_logo_vaec_images
     test_nm: "number_of_slots"
-  - slurm_id: [871043] # 871044,871045
+  - slurm_id: [871043, 871044,871045]
     experiment_nm: bongard_logo_images
     test_nm: "number_of_slots"
-  - slurm_id: [871046] # 871047,871048
+  - slurm_id: [871046, 871047,871048]
     experiment_nm: bongard_logo_images
     test_nm: "number_of_slots"
-  - slurm_id: [871049] # 871050,871051
+  - slurm_id: [871049, 871050,871051]
     experiment_nm: vaec_images
     test_nm: "number_of_slots"
-  - slurm_id: [871052] # 871053,871054
+  - slurm_id: [871052, 871053,871054]
     experiment_nm: vaec_images
     test_nm: "number_of_slots"
-  - slurm_id: [872969] # 872970
+  - slurm_id: [872969, 872970, 874323, 874324]
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "frozen_slot"
-  - slurm_id: [872971] # 872972
+  - slurm_id: [872971, 872972, 874325, 874326]
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "frozen_slot"
-  - slurm_id: [872973] # 872974
+  - slurm_id: [872973, 872974, 874327, 874328]
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "frozen_slot"
-  - slurm_id: [872975] # 872976
+  - slurm_id: [872975, 872976, 874330, 874331]
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "frozen_slot"
 
-  - slurm_id: [872977] # 872978
+  - slurm_id: [872977, 872978, 874334]
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871045
       strategy: "best_all"
     test_nm: "frozen_slot"
-  - slurm_id: [872979] # 872980
+    cache: true
+  - slurm_id: [872979, 872980, 874335, 874336]
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871046
       strategy: "best_all"
     test_nm: "frozen_slot"
-  - slurm_id: [872981] # 872982
+  - slurm_id: [872981, 872982, 874340, 874341]
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871049
       strategy: "best_all"
     test_nm: "frozen_slot"
-  - slurm_id: [872983] # 872983
+  - slurm_id: [872983, 872984, 874342, 874343]
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "frozen_slot"
+  - slurm_id: [873670, 873671, 874344, 874345]
+    experiment_nm: bongard_logo_vaec_scoring
+    based_on:
+      slurm_id: 871039
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873687, 873688, 874346, 874347]
+    experiment_nm: bongard_logo_vaec_scoring
+    based_on:
+      slurm_id: 871037
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+
+# TODO: check if started, ran
+
+  - slurm_id: [873738, 873739, 873740, 874350, 874351]
+    experiment_nm: bongard_logo_scoring
+    based_on:
+      slurm_id: 871039
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873741, 873742, 873743, 874352, 874353]
+    experiment_nm: bongard_logo_scoring
+    based_on:
+      slurm_id: 871037
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873744, 873745, 873746, 874354, 874355]
+    experiment_nm: vaec_scoring
+    based_on:
+      slurm_id: 871039
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873748, 873749, 873750, 874358, 874359]
+    experiment_nm: vaec_scoring
+    based_on:
+      slurm_id: 871037
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+    cache: true
+
+  - slurm_id: [873751, 873752, 873753, 874360, 874361]
+    experiment_nm: bongard_logo_scoring
+    based_on:
+      slurm_id: 871045
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873754, 873755, 873756, 874362, 874363]
+    experiment_nm: bongard_logo_scoring
+    based_on:
+      slurm_id: 871046
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873757, 873758, 873759, 874364, 874365]
+    experiment_nm: vaec_scoring
+    based_on:
+      slurm_id: 871049
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873760, 873761, 873762, 874366, 874367]
+    experiment_nm: vaec_scoring
+    based_on:
+      slurm_id: 871052
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+    cache: true
+
+  - slurm_id: [873763, 873764 ]
+    experiment_nm: bongard_logo_vaec_scoring
+    based_on:
+      slurm_id: 871039
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+  - slurm_id: [873767, 873768, 873769, 873770, 874368, 874369]
+    experiment_nm: bongard_logo_vaec_scoring
+    based_on:
+      slurm_id: 871037
+      strategy: "best_all"
+    test_nm: "frozen_slot"
+    cache: true # true (defualt) - use cache, false download history information and overwrite current cached values
+# TODO: train slot model on best with AUX learning (mse of reconstructions) and check if helps

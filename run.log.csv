@@ -585,17 +585,25 @@ sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 ### 10 bongard_logo
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
 First job id: 872969, Job id 2: 872970
+./scripts/run_bulk_2_0.sh 2 872970 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+Job based on: 872970,Job id 1: 874323,Job id 2: 874324
 ### 20 bongard_logo
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
 First job id: 872971, Job id 2: 872972
+./scripts/run_bulk_2_0.sh 2 872972 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+Job based on: 872972, Job id 1: 874325, Job id 2: 874326
 
 ### 10 vaec
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
 First job id: 872973, Job id 2: 872974
+./scripts/run_bulk_2_0.sh 2 872974 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+Job based on: 872974, Job id 1: 874327, Job id 2: 874328
 
 ### 20 vaec
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
 First job id: 872975, Job id 2: 872976
+./scripts/run_bulk_2_0.sh 2 872976 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+Job based on: 872976, Job id 1: 874330, Job id 2: 874331
 
 ### based on single
 # 10 LOGO: model_checkpoints/871045/epoch=158-step=80931.ckpt
@@ -603,20 +611,118 @@ First job id: 872975, Job id 2: 872976
 ### 10 bongard_logo
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'"
 First job id: 872977, Job id 2: 872978
+./scripts/run_bulk_2_0.sh 1 872978 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'"
+Job based on: 872978, Job id 1: 874334
 
 ### 20 bongard_logo
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'"
 First job id: 872979, Job id 2: 872980
+./scripts/run_bulk_2_0.sh 2 872980 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'"
+Job based on: 872980, Job id 1: 874335, Job id 2: 874336
 
 # 10 VAEC: model_checkpoints/871049/epoch=25-step=13546.ckpt
 # 20 VAEC: model_checkpoints/871052/epoch=12-step=13546.ckpt
 ### 10 vaec
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'"
 First job id: 872981, Job id 2: 872982
+./scripts/run_bulk_2_0.sh 2 872982 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'"
+Job based on: 872982, Job id 1: 874340, Job id 2: 874341
 
 ### 20 vaec
 ./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'"
 First job id: 872983, Job id 2: 872984
+./scripts/run_bulk_2_0.sh 2 872984 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'"
+Job based on: 872984, Job id 1: 874342, Job id 2: 874343
+
+### bongard_logo + vaec
+### 10
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring trainer=test every_n_train_steps=50 every_n_epochs=null img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+# 873668
+./scripts/run_bulk.sh 2 "--time=1-00:00:00 --mem=40GB --gpus=2" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+First job id: 873670, Job id 2: 873671
+./scripts/run_bulk_2_0.sh 2 873671 "--time=1-00:00:00 --mem=40GB --gpus=2" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring early_stopping_patience=500 img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+Job based on: 873671, Job id 1: 874344, Job id 2: 874345
+
+### 20
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring trainer=test every_n_train_steps=50 every_n_epochs=null img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+# 873669
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+First job id: 873687, Job id 2: 873688 #, Job id 3: 873689, Job id 4: 873690
+./scripts/run_bulk_2_0.sh 2 873688 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring early_stopping_patience=500 img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+Job based on: 873688, Job id 1: 874346, Job id 2: 874347
+
+### Scoring Abstract
+### Based on both, train slot model
+### 10 bongard_logo
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_scoring ++model.freeze_slot_model=false trainer=test every_n_train_steps=50 every_n_epochs=null img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+# 873722
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+First job id: 873738, Job id 2: 873739, Job id 3: 873740
+./scripts/run_bulk_2_0.sh 2 873740 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+Job based on: 873740, Job id 1: 874350, Job id 2: 874351
+### 20 bongard_logo
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_scoring ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+# 873726
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+First job id: 873741, Job id 2: 873742, Job id 3: 873743
+./scripts/run_bulk_2_0.sh 2 873743 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+Job based on: 873743, Job id 1: 874352, Job id 2: 874353
+
+### 10 vaec
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vaec_scoring ++model.freeze_slot_model=false trainer=test img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+# 873733
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+First job id: 873744, Job id 2: 873745, Job id 3: 873746
+./scripts/run_bulk_2_0.sh 2 873744 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+Job based on: 873744, Job id 1: 874354, Job id 2: 874355
+
+### 20 vaec
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vaec_scoring ++model.freeze_slot_model=false trainer=test img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+# 873734
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+First job id: 873748, Job id 2: 873749, Job id 3: 873750
+./scripts/run_bulk_2_0.sh 2 873750 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+Job based on: 873750, Job id 1: 874358, Job id 2: 874359
+
+### Based on single, train slot model
+### 10 bongard_logo
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'"
+First job id: 873751, Job id 2: 873752, Job id 3: 873753
+./scripts/run_bulk_2_0.sh 2 873753 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'"
+Job based on: 873753, Job id 1: 874360, Job id 2: 874361
+
+### 20 bongard_logo
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'"
+First job id: 873754, Job id 2: 873755, Job id 3: 873756
+./scripts/run_bulk_2_0.sh 2 873756 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'"
+Job based on: 873756, Job id 1: 874362, Job id 2: 874363
+
+### 10 vaec
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'"
+First job id: 873757, Job id 2: 873758, Job id 3: 873759
+./scripts/run_bulk_2_0.sh 2 873759 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'"
+Job based on: 873759, Job id 1: 874364, Job id 2: 874365
+
+### 20 vaec
+./scripts/run_bulk.sh 3 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'"
+First job id: 873760, Job id 2: 873761, Job id 3: 873762
+./scripts/run_bulk_2_0.sh 2 873762 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'"
+Job based on: 873762, Job id 1: 874366, Job id 2: 874367
+
+### bongard_logo + vaec, train slot model
+### 10
+#sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false trainer=test every_n_train_steps=50 every_n_epochs=null img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+# 
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+First job id: 873763, Job id 2: 873764, Job id 3: 873765, Job id 4: 873766
+
+### 20
+#sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false trainer=test every_n_train_steps=50 every_n_epochs=null img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+# 
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+First job id: 873767, Job id 2: 873768, Job id 3: 873769, Job id 4: 873770
+./scripts/run_bulk_2_0.sh 2 873770 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+Job based on: 873770, Job id 1: 874368, Job id 2: 874369
 
 
 ### Unpooled features
@@ -739,3 +845,257 @@ Job based on: 876124, Job id 1: 876125, Job id 2: 876126, Job id 3: 876127
 https://wandb.ai/avr_universal/AVR_universal/runs/q9qtish7
 
 
+# w prostych przypadkach (tam gdzie tworzyles opisy,... - nowe zbiory z nowymi configami bedziesz musial stworzyc nowe yamle dla bongardowych zbiorow (żeby zadziałało zapisywane w tym samym runie w wandb i nie nadpisywało wyników, alternatywa zmiana logowanie w AVRModule ale wtedy wszystkie istniejace wyniki w wandb beda mialy inna strukture niz to co wprowadzimy)
+# HOI:
+- data.tasks=[bongard_hoi_seen-seen]
+- data.tasks=[bongard_hoi_seen-seen]
+- data.tasks=[bongard_hoi_seen-unseen]
+- data.tasks=[bongard_hoi_unseen-seen]
+- data.tasks=[bongard_hoi_unseen-unseen]
+# LOGO:
+- data.tasks=[bongard_logo_test_bd]
+- data.tasks=[bongard_logo_test_ff]
+- data.tasks=[bongard_logo_test_hd_comb]
+- data.tasks=[bongard_logo_test_hd_novel]
+# VAEC:
+- data.tasks=[vaec_test1]
+- data.tasks=[vaec_test2]
+- data.tasks=[vaec_test3]
+- data.tasks=[vaec_test4]
+- data.tasks=[vaec_test5]
+# VASR:
+- data.tasks=[vasr]
+
+
+
+
+/app/model_checkpoints/845333/epoch=20-step=30261.ckpt: bongard_hoi
+/app/model_checkpoints/857092/epoch=21-step=31702.ckpt: bongard_hoi
+/app/model_checkpoints/857095/epoch=1-step=24084.ckpt: vasr
+/app/model_checkpoints/857099/epoch=13-step=20174.ckpt: bongard_hoi
+/app/model_checkpoints/857102/epoch=0-step=12042.ckpt: vasr
+/app/model_checkpoints/857106/epoch=21-step=31702.ckpt: bongard_hoi
+/app/model_checkpoints/857109/epoch=0-step=12042.ckpt: vasr
+/app/model_checkpoints/857115/epoch=23-step=69144.ckpt: bongard_hoi
+/app/model_checkpoints/850863/epoch=66-step=193027.ckpt: bongard_hoi
+/app/model_checkpoints/845347/epoch=0-step=12042.ckpt: vasr
+/app/model_checkpoints/850854/epoch=2-step=72252.ckpt: vasr
+/app/model_checkpoints/870733/epoch=17-step=25938.ckpt: bongard_hoi
+/app/model_checkpoints/870574/epoch=43-step=126764.ckpt: bongard_hoi
+/app/model_checkpoints/870737/epoch=0-step=6021.ckpt: vasr
+/app/model_checkpoints/870579/epoch=0-step=12042.ckpt: vasr
+/app/model_checkpoints/870741/epoch=8-step=12969.ckpt: bongard_hoi
+/app/model_checkpoints/870744/epoch=0-step=12042.ckpt: vasr
+/app/model_checkpoints/870747/epoch=17-step=25938.ckpt: bongard_hoi
+/app/model_checkpoints/870750/epoch=0-step=12042.ckpt: vasr
+/app/model_checkpoints/870753/epoch=0-step=1441.ckpt: bongard_hoi
+/app/model_checkpoints/870756/epoch=0-step=12042.ckpt: vasr
+/app/model_checkpoints/872969/epoch=311-step=45552.ckpt: bongard_logo
+/app/model_checkpoints/874325/epoch=439-step=128040.ckpt: bongard_logo
+/app/model_checkpoints/872973/epoch=22-step=3427.ckpt: vaec
+/app/model_checkpoints/872975/epoch=1-step=596.ckpt: vaec
+/app/model_checkpoints/872978/epoch=362-step=52998.ckpt: bongard_logo
+/app/model_checkpoints/872980/epoch=204-step=59655.ckpt: bongard_logo
+/app/model_checkpoints/872981/epoch=37-step=5662.ckpt: vaec
+/app/model_checkpoints/872983/epoch=59-step=17880.ckpt: vaec
+/app/model_checkpoints/873670/epoch=18-step=2831.ckpt: vaec, bongard_logo
+/app/model_checkpoints/873687/epoch=45-step=27370.ckpt: vaec, bongard_logo
+/app/model_checkpoints/873738/epoch=8-step=1314.ckpt: bongard_logo
+/app/model_checkpoints/873741/epoch=56-step=16587.ckpt: bongard_logo
+/app/model_checkpoints/873748/epoch=19-step=5960.ckpt: vaec
+/app/model_checkpoints/873751/epoch=0-step=146.ckpt: bongard_logo
+/app/model_checkpoints/873754/epoch=2-step=873.ckpt: bongard_logo
+/app/model_checkpoints/873757/epoch=38-step=5811.ckpt: vaec
+/app/model_checkpoints/873760/epoch=61-step=18476.ckpt: vaec
+/app/model_checkpoints/873763/epoch=63-step=19072.ckpt: vaec, bongard_logo
+/app/model_checkpoints/873767/epoch=1-step=1190.ckpt: vaec, bongard_logo
+
+LAST_ID=1
+for task_nm in bongard_hoi_seen-seen bongard_hoi_seen-unseen bongard_hoi_unseen-seen bongard_hoi_unseen-unseen; do
+    LAST_ID=$(sbatch --parsable --time=0-01:00:00 --dependency=afterany:$LAST_ID scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/870733/epoch=17-step=25938.ckpt'" data/tasks=[${task_nm}])
+    echo -n "${LAST_ID} "
+done
+# 882623 882624 882625 882626
+
+LAST_ID=1 # dummy id to simplify the code
+for task_nm in vaec_test1 vaec_test2 vaec_test3 vaec_test4 vaec_test5; do
+    LAST_ID=$(sbatch --parsable --time=0-01:00:00 --dependency=afterany:$LAST_ID scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/873760/epoch=61-step=18476.ckpt'" data/tasks=[${task_nm}])
+    echo -n "${LAST_ID} "
+done
+# 882588, 882589, 882590, 882591, 882592
+
+#sbatch --time=0-01:00:00 scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/873760/epoch=61-step=18476.ckpt'" data/tasks=[vaec]
+# 882440 #OK
+
+LAST_ID=1 # dummy id to simplify the code
+for task_nm in vaec_test1 vaec_test2 vaec_test3 vaec_test4 vaec_test5; do
+    LAST_ID=$(sbatch --parsable --time=0-01:00:00 --dependency=afterany:$LAST_ID scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/873748/epoch=19-step=5960.ckpt'" data/tasks=[${task_nm}])
+    echo -n "${LAST_ID} "
+done
+# 882593 882594 882595 882596 882597
+
+#sbatch --time=0-01:00:00 scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/873748/epoch=19-step=5960.ckpt'" data/tasks=[vaec]
+# 882441 #OK
+
+
+LAST_ID=1 # dummy id to simplify the code
+for task_nm in vaec_test1 vaec_test2 vaec_test3 vaec_test4 vaec_test5; do
+    LAST_ID=$(sbatch --parsable --time=0-01:00:00 --dependency=afterany:$LAST_ID scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/873767/epoch=1-step=1190.ckpt'" data/tasks=[${task_nm}] +increment_dataloader_idx=1)
+    echo -n "${LAST_ID} "
+done
+# 882658 882659 882660 882661 882662
+# DONE: error with shapes, fix me (propably problem with fact that model had 2 paths and we are using the wrong one (code below worked with different dataset (hard to adjust without changes to the code :/)
+# quick fix - passing 2 tasks at the same time but not sure how would it work, maybe parameter to scoring model increment_dataloader_idx (default = 0)  
+# added increment_dataloader_idx to scoring_model_v1 and adjusted test.py (to allow to pass this parameter)
+
+# sbatch --time=0-01:00:00 scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/873767/epoch=1-step=1190.ckpt'" data/tasks=[vaec]
+# 882442
+
+# Dependecies added only to avoid writing to same wandb resource (not sure if it can cause inconsistencies
+LAST_ID=882662
+for task_nm in bongard_logo_test_bd bongard_logo_test_ff bongard_logo_test_hd_comb bongard_logo_test_hd_novel; do
+    LAST_ID=$(sbatch --parsable --time=0-01:00:00 --dependency=afterany:$LAST_ID scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/873767/epoch=1-step=1190.ckpt'" data/tasks=[${task_nm}])
+    echo -n "${LAST_ID} "
+done
+# 882603 882604 882605 882606
+
+LAST_ID=1
+for task_nm in bongard_logo_test_bd bongard_logo_test_ff bongard_logo_test_hd_comb bongard_logo_test_hd_novel; do
+    LAST_ID=$(sbatch --parsable --time=0-01:00:00 --dependency=afterany:$LAST_ID scripts/run.sh src/test.py "checkpoint_path='/app/model_checkpoints/872978/epoch=362-step=52998.ckpt'" data/tasks=[${task_nm}])
+    echo -n "${LAST_ID} "
+done
+# 882611 882612 882613 882614
+
+
+# 1st argument - checkpoing_path,
+# 2nd argument - slurm_id dependency (default=1)
+# 3rd argument - additional hydra config (e.g. +increment_dataloader_idx=1)
+test_prepare () {
+    CHECKPOINT_PATH=$1
+    LAST_ID=${2:-1}
+    ADDITIONAL_PARAMS=${3}
+    echo "Params:"
+    echo $CHECKPOINT_PATH
+    echo $LAST_ID
+    echo $ADDITIONAL_PARAMS
+}
+
+# arugments - any number of tasks to run
+test_run () {
+    echo "Slurm ids:"
+    for task_nm in ${@}; do
+        LAST_ID=$(sbatch --parsable --time=0-00:30:00 --dependency=afterany:${LAST_ID} scripts/run.sh src/test.py "checkpoint_path='${CHECKPOINT_PATH}'" data/tasks=[${task_nm}] ${ADDITIONAL_PARAMS})
+        echo -n "${LAST_ID} "
+    done
+    echo
+}
+
+test_bongard_logo () {
+    test_prepare $1 $2 $3
+
+    test_run bongard_logo_test_bd bongard_logo_test_ff bongard_logo_test_hd_comb bongard_logo_test_hd_novel
+}
+
+test_vaec () {
+    test_prepare $1 $2 $3
+
+    test_run vaec_test1 vaec_test2 vaec_test3 vaec_test4 vaec_test5
+}
+
+test_bongard_hoi () {
+    test_prepare $1 $2 $3
+
+    test_run bongard_hoi_seen-seen bongard_hoi_seen-unseen bongard_hoi_unseen-seen bongard_hoi_unseen-unseen
+}
+
+test_vasr () {
+    test_prepare $1 $2 $3
+
+    test_run vasr
+}
+
+
+test_vasr /app/model_checkpoints/870756/epoch=0-step=12042.ckpt
+# 883409
+
+test_bongard_hoi /app/model_checkpoints/845333/epoch=20-step=30261.ckpt
+# 883420 883421 883422 883423
+test_bongard_hoi /app/model_checkpoints/857092/epoch=21-step=31702.ckpt
+# 883424 883425 883426 883427
+test_vasr /app/model_checkpoints/857095/epoch=1-step=24084.ckpt
+# 883428
+test_bongard_hoi /app/model_checkpoints/857099/epoch=13-step=20174.ckpt
+# 883429 883430 883431 883432
+test_vasr /app/model_checkpoints/857102/epoch=0-step=12042.ckpt
+# 883433
+test_bongard_hoi /app/model_checkpoints/857106/epoch=21-step=31702.ckpt
+# 883434 883435 883436 883437
+test_vasr /app/model_checkpoints/857109/epoch=0-step=12042.ckpt
+# 883438
+test_bongard_hoi /app/model_checkpoints/857115/epoch=23-step=69144.ckpt
+# 883439 883440 883441 883442
+test_bongard_hoi /app/model_checkpoints/850863/epoch=66-step=193027.ckpt
+# 883443 883444 883445 883446
+test_vasr /app/model_checkpoints/845347/epoch=0-step=12042.ckpt
+# 883447
+test_vasr /app/model_checkpoints/850854/epoch=2-step=72252.ckpt
+# 883448
+test_bongard_hoi /app/model_checkpoints/870733/epoch=17-step=25938.ckpt
+# 883449 883450 883451 883452
+test_bongard_hoi /app/model_checkpoints/870574/epoch=43-step=126764.ckpt
+# 883453 883454 883455 883456
+test_vasr /app/model_checkpoints/870737/epoch=0-step=6021.ckpt
+# 883457
+test_vasr /app/model_checkpoints/870579/epoch=0-step=12042.ckpt
+# 883458
+test_bongard_hoi /app/model_checkpoints/870741/epoch=8-step=12969.ckpt
+# 883459 883460 883461 883462
+test_vasr /app/model_checkpoints/870744/epoch=0-step=12042.ckpt
+# 883463
+test_bongard_hoi /app/model_checkpoints/870747/epoch=17-step=25938.ckpt
+# 883464 883465 883466 883467
+test_vasr /app/model_checkpoints/870750/epoch=0-step=12042.ckpt
+# 883468
+test_bongard_hoi /app/model_checkpoints/870753/epoch=0-step=1441.ckpt
+# 883469 883470 883471 883472
+test_bongard_logo /app/model_checkpoints/872969/epoch=311-step=45552.ckpt
+# 883473 883474 883475 883476
+test_bongard_logo /app/model_checkpoints/874325/epoch=439-step=128040.ckpt
+# 883477 883478 883479 883480
+test_vaec /app/model_checkpoints/872973/epoch=22-step=3427.ckpt
+# 883481 883482 883483 883484 883485
+test_vaec /app/model_checkpoints/872975/epoch=1-step=596.ckpt
+# 883486 883487 883488 883489 883490
+test_bongard_logo /app/model_checkpoints/872980/epoch=204-step=59655.ckpt
+# 883491 883492 883493 883494
+test_vaec /app/model_checkpoints/872981/epoch=37-step=5662.ckpt
+# 883495 883496 883497 883498 883499
+test_vaec /app/model_checkpoints/872983/epoch=59-step=17880.ckpt
+# 883500 883501 883502 883503 883504
+
+
+test_bongard_logo /app/model_checkpoints/873670/epoch=18-step=2831.ckpt
+# 883505 883506 883507 883508
+test_vaec /app/model_checkpoints/873670/epoch=18-step=2831.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 883509 883510 883511 883512 883513
+
+test_bongard_logo /app/model_checkpoints/873687/epoch=45-step=27370.ckpt
+# 883514 883515 883516 883517
+test_vaec /app/model_checkpoints/873687/epoch=45-step=27370.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 883518 883519 883520 883521 883522
+
+test_bongard_logo /app/model_checkpoints/873738/epoch=8-step=1314.ckpt
+# 883523 883524 883525 883526
+test_bongard_logo /app/model_checkpoints/873741/epoch=56-step=16587.ckpt
+# 883527 883528 883529 883530
+test_bongard_logo /app/model_checkpoints/873751/epoch=0-step=146.ckpt
+# 883531 883532 883533 883534
+test_bongard_logo /app/model_checkpoints/873754/epoch=2-step=873.ckpt
+# 883535 883536 883537 883538
+test_vaec /app/model_checkpoints/873757/epoch=38-step=5811.ckpt
+# 883539 883540 883541 883542 883543
+
+test_bongard_logo /app/model_checkpoints/873763/epoch=63-step=19072.ckpt
+# 883544 883545 883546 883547
+test_vaec /app/model_checkpoints/873763/epoch=63-step=19072.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 883548 883549 883550 883551 883552

@@ -10,6 +10,16 @@ experiments:
     best_loss_epoch: 2
     best_loss_step: 46049
     best_slurm_id: 832505
+  val/vasr_images/loss:
+    best_loss: 0.024717137217521667
+    best_loss_epoch: 2
+    best_loss_step: 46049
+    best_slurm_id: 832505
+  val/bongard_hoi_images/loss:
+    best_loss: 0.025924356654286385
+    best_loss_epoch: 2
+    best_loss_step: 46049
+    best_slurm_id: 832505
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.0
     best_loss_epoch: 0
@@ -20,17 +30,10 @@ experiments:
     best_loss_epoch: 2
     best_loss_step: 46049
     best_slurm_id: 832505
-  val/bongard_hoi_images/loss:
-    best_loss: 0.025924356654286385
-    best_loss_epoch: 2
-    best_loss_step: 46049
-    best_slurm_id: 832505
-  val/vasr_images/loss:
-    best_loss: 0.024717137217521667
-    best_loss_epoch: 2
-    best_loss_step: 46049
-    best_slurm_id: 832505
   max_epoch: 2
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
   additional_inforamations:
     lr: 0.001
 - slurm_id:
@@ -44,6 +47,16 @@ experiments:
     best_loss_epoch: 4
     best_loss_step: 38374
     best_slurm_id: 832506
+  val/vasr_images/loss:
+    best_loss: 0.019478021189570427
+    best_loss_epoch: 5
+    best_loss_step: 42211
+    best_slurm_id: 832506
+  val/bongard_hoi_images/loss:
+    best_loss: 0.020044388249516487
+    best_loss_epoch: 5
+    best_loss_step: 42211
+    best_slurm_id: 832506
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.0
     best_loss_epoch: 0
@@ -54,17 +67,10 @@ experiments:
     best_loss_epoch: 5
     best_loss_step: 42211
     best_slurm_id: 832506
-  val/bongard_hoi_images/loss:
-    best_loss: 0.020044388249516487
-    best_loss_epoch: 5
-    best_loss_step: 42211
-    best_slurm_id: 832506
-  val/vasr_images/loss:
-    best_loss: 0.019478021189570427
-    best_loss_epoch: 5
-    best_loss_step: 42211
-    best_slurm_id: 832506
-  max_epoch: 4
+  max_epoch: 5
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
   additional_inforamations:
     lr: 0.0001
 - slurm_id:
@@ -78,6 +84,16 @@ experiments:
     best_loss_epoch: 6
     best_loss_step: 53724
     best_slurm_id: 832509
+  val/vasr_images/loss:
+    best_loss: 0.021864240989089012
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02324376069009304
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.0
     best_loss_epoch: 0
@@ -88,17 +104,10 @@ experiments:
     best_loss_epoch: 7
     best_loss_step: 57561
     best_slurm_id: 832509
-  val/bongard_hoi_images/loss:
-    best_loss: 0.02324376069009304
-    best_loss_epoch: 7
-    best_loss_step: 57561
-    best_slurm_id: 832509
-  val/vasr_images/loss:
-    best_loss: 0.021864240989089012
-    best_loss_epoch: 7
-    best_loss_step: 57561
-    best_slurm_id: 832509
-  max_epoch: 6
+  max_epoch: 7
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
   additional_inforamations:
     lr: 5.0e-05
 - slurm_id:
@@ -112,6 +121,16 @@ experiments:
     best_loss_epoch: 6
     best_loss_step: 53724
     best_slurm_id: 832509
+  val/vasr_images/loss:
+    best_loss: 0.021864240989089012
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02324376069009304
+    best_loss_epoch: 7
+    best_loss_step: 57561
+    best_slurm_id: 832509
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.0
     best_loss_epoch: 0
@@ -122,17 +141,10 @@ experiments:
     best_loss_epoch: 7
     best_loss_step: 57561
     best_slurm_id: 832509
-  val/bongard_hoi_images/loss:
-    best_loss: 0.02324376069009304
-    best_loss_epoch: 7
-    best_loss_step: 57561
-    best_slurm_id: 832509
-  val/vasr_images/loss:
-    best_loss: 0.021864240989089012
-    best_loss_epoch: 7
-    best_loss_step: 57561
-    best_slurm_id: 832509
-  max_epoch: 6
+  max_epoch: 7
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
   additional_inforamations:
     lr: 5.0e-05
 - slurm_id:
@@ -146,6 +158,16 @@ experiments:
     best_loss_epoch: 1
     best_loss_step: 61399
     best_slurm_id: 832511
+  val/vasr_images/loss:
+    best_loss: 0.014317856170237064
+    best_loss_epoch: 1
+    best_loss_step: 61399
+    best_slurm_id: 832511
+  val/bongard_hoi_images/loss:
+    best_loss: 0.017196564003825188
+    best_loss_epoch: 1
+    best_loss_step: 61399
+    best_slurm_id: 832511
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.0
     best_loss_epoch: 0
@@ -156,17 +178,10 @@ experiments:
     best_loss_epoch: 1
     best_loss_step: 61399
     best_slurm_id: 832511
-  val/bongard_hoi_images/loss:
-    best_loss: 0.017196564003825188
-    best_loss_epoch: 1
-    best_loss_step: 61399
-    best_slurm_id: 832511
-  val/vasr_images/loss:
-    best_loss: 0.014317856170237064
-    best_loss_epoch: 1
-    best_loss_step: 61399
-    best_slurm_id: 832511
   max_epoch: 1
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
   additional_inforamations:
     lr: 0.0001
 - slurm_id:
@@ -179,14 +194,24 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: number_of_slots
   wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qtgsn8eg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ppazc5nj
   - https://wandb.ai/avr_universal/AVR_universal/runs/gzkhftm7
   - https://wandb.ai/avr_universal/AVR_universal/runs/fl7x59k9
-  - https://wandb.ai/avr_universal/AVR_universal/runs/qtgsn8eg
   - https://wandb.ai/avr_universal/AVR_universal/runs/2od077zb
-  - https://wandb.ai/avr_universal/AVR_universal/runs/ppazc5nj
   - https://wandb.ai/avr_universal/AVR_universal/runs/9t20x5qq
   train/vasr_images/loss_epoch:
     best_loss: 0.004018037114292383
+    best_loss_epoch: 18
+    best_loss_step: 72921
+    best_slurm_id: 839928
+  val/vasr_images/loss:
+    best_loss: 0.012699373066425323
+    best_loss_epoch: 17
+    best_loss_step: 69083
+    best_slurm_id: 839928
+  val/bongard_hoi_images/loss:
+    best_loss: 0.01490876916795969
     best_loss_epoch: 18
     best_loss_step: 72921
     best_slurm_id: 839928
@@ -200,17 +225,10 @@ experiments:
     best_loss_epoch: 17
     best_loss_step: 69083
     best_slurm_id: 839928
-  val/bongard_hoi_images/loss:
-    best_loss: 0.01490876916795969
-    best_loss_epoch: 18
-    best_loss_step: 72921
-    best_slurm_id: 839928
-  val/vasr_images/loss:
-    best_loss: 0.012699373066425323
-    best_loss_epoch: 17
-    best_loss_step: 69083
-    best_slurm_id: 839928
   max_epoch: 18
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835799
   - 835800
@@ -221,14 +239,24 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/6p9zayat
-  - https://wandb.ai/avr_universal/AVR_universal/runs/d4vhzhat
-  - https://wandb.ai/avr_universal/AVR_universal/runs/nk7u2mau
   - https://wandb.ai/avr_universal/AVR_universal/runs/5ozuriah
-  - https://wandb.ai/avr_universal/AVR_universal/runs/neh7rzbg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/nk7u2mau
+  - https://wandb.ai/avr_universal/AVR_universal/runs/d4vhzhat
   - https://wandb.ai/avr_universal/AVR_universal/runs/nj956297
+  - https://wandb.ai/avr_universal/AVR_universal/runs/neh7rzbg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/6p9zayat
   train/vasr_images/loss_epoch:
     best_loss: 0.004935429897159338
+    best_loss_epoch: 17
+    best_loss_step: 34541
+    best_slurm_id: 839931
+  val/vasr_images/loss:
+    best_loss: 0.01621818169951439
+    best_loss_epoch: 17
+    best_loss_step: 34541
+    best_slurm_id: 839931
+  val/bongard_hoi_images/loss:
+    best_loss: 0.018479300662875175
     best_loss_epoch: 17
     best_loss_step: 34541
     best_slurm_id: 839931
@@ -242,17 +270,10 @@ experiments:
     best_loss_epoch: 17
     best_loss_step: 34541
     best_slurm_id: 839931
-  val/bongard_hoi_images/loss:
-    best_loss: 0.018479300662875175
-    best_loss_epoch: 17
-    best_loss_step: 34541
-    best_slurm_id: 839931
-  val/vasr_images/loss:
-    best_loss: 0.01621818169951439
-    best_loss_epoch: 17
-    best_loss_step: 34541
-    best_slurm_id: 839931
   max_epoch: 17
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835802
   - 835803
@@ -265,18 +286,28 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/k4p1deuy
-  - https://wandb.ai/avr_universal/AVR_universal/runs/leq963g1
-  - https://wandb.ai/avr_universal/AVR_universal/runs/mgxk7zag
   - https://wandb.ai/avr_universal/AVR_universal/runs/z0a4cces
-  - https://wandb.ai/avr_universal/AVR_universal/runs/qqee4zc9
-  - https://wandb.ai/avr_universal/AVR_universal/runs/23528hyv
   - https://wandb.ai/avr_universal/AVR_universal/runs/f8nxvf6l
   - https://wandb.ai/avr_universal/AVR_universal/runs/8xdbxtsm
+  - https://wandb.ai/avr_universal/AVR_universal/runs/mgxk7zag
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qqee4zc9
+  - https://wandb.ai/avr_universal/AVR_universal/runs/23528hyv
+  - https://wandb.ai/avr_universal/AVR_universal/runs/leq963g1
+  - https://wandb.ai/avr_universal/AVR_universal/runs/k4p1deuy
   train/vasr_images/loss_epoch:
     best_loss: 0.003141001332551241
     best_loss_epoch: 19
     best_loss_step: 153499
+    best_slurm_id: 839935
+  val/vasr_images/loss:
+    best_loss: 0.009839432314038277
+    best_loss_epoch: 18
+    best_loss_step: 145824
+    best_slurm_id: 839935
+  val/bongard_hoi_images/loss:
+    best_loss: 0.011832279153168201
+    best_loss_epoch: 18
+    best_loss_step: 145824
     best_slurm_id: 839935
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.0
@@ -288,17 +319,10 @@ experiments:
     best_loss_epoch: 18
     best_loss_step: 145824
     best_slurm_id: 839935
-  val/bongard_hoi_images/loss:
-    best_loss: 0.011832279153168201
-    best_loss_epoch: 18
-    best_loss_step: 145824
-    best_slurm_id: 839935
-  val/vasr_images/loss:
-    best_loss: 0.009839432314038277
-    best_loss_epoch: 18
-    best_loss_step: 145824
-    best_slurm_id: 839935
   max_epoch: 19
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835806
   - 835807
@@ -315,14 +339,24 @@ experiments:
   - https://wandb.ai/avr_universal/AVR_universal/runs/rjwkrebo
   - https://wandb.ai/avr_universal/AVR_universal/runs/v6bqzzq5
   - https://wandb.ai/avr_universal/AVR_universal/runs/p0d4w01w
-  - https://wandb.ai/avr_universal/AVR_universal/runs/vmvsg0ek
-  - https://wandb.ai/avr_universal/AVR_universal/runs/j06l44th
   - https://wandb.ai/avr_universal/AVR_universal/runs/55ca6out
-  - https://wandb.ai/avr_universal/AVR_universal/runs/5xnpd0ij
   - https://wandb.ai/avr_universal/AVR_universal/runs/0dboxc6v
+  - https://wandb.ai/avr_universal/AVR_universal/runs/j06l44th
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vmvsg0ek
   - https://wandb.ai/avr_universal/AVR_universal/runs/02ruwtc1
+  - https://wandb.ai/avr_universal/AVR_universal/runs/5xnpd0ij
   train/vasr_images/loss_epoch:
     best_loss: 0.002693037036806345
+    best_loss_epoch: 24
+    best_loss_step: 191874
+    best_slurm_id: 839939
+  val/vasr_images/loss:
+    best_loss: 0.00831372570246458
+    best_loss_epoch: 24
+    best_loss_step: 191874
+    best_slurm_id: 839939
+  val/bongard_hoi_images/loss:
+    best_loss: 0.0101221464574337
     best_loss_epoch: 24
     best_loss_step: 191874
     best_slurm_id: 839939
@@ -336,17 +370,10 @@ experiments:
     best_loss_epoch: 24
     best_loss_step: 191874
     best_slurm_id: 839939
-  val/bongard_hoi_images/loss:
-    best_loss: 0.0101221464574337
-    best_loss_epoch: 24
-    best_loss_step: 191874
-    best_slurm_id: 839939
-  val/vasr_images/loss:
-    best_loss: 0.00831372570246458
-    best_loss_epoch: 24
-    best_loss_step: 191874
-    best_slurm_id: 839939
   max_epoch: 24
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835811
   - 835812
@@ -357,14 +384,24 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/trjzluus
-  - https://wandb.ai/avr_universal/AVR_universal/runs/nduryzyx
-  - https://wandb.ai/avr_universal/AVR_universal/runs/uimy06d7
-  - https://wandb.ai/avr_universal/AVR_universal/runs/hrog7did
   - https://wandb.ai/avr_universal/AVR_universal/runs/65yh8a44
+  - https://wandb.ai/avr_universal/AVR_universal/runs/nduryzyx
+  - https://wandb.ai/avr_universal/AVR_universal/runs/hrog7did
   - https://wandb.ai/avr_universal/AVR_universal/runs/wo3n566y
+  - https://wandb.ai/avr_universal/AVR_universal/runs/uimy06d7
+  - https://wandb.ai/avr_universal/AVR_universal/runs/trjzluus
   train/vasr_images/loss_epoch:
     best_loss: 0.0026175109669566154
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 835816
+  val/vasr_images/loss:
+    best_loss: 0.008134938776493073
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 835816
+  val/bongard_hoi_images/loss:
+    best_loss: 0.009865512140095234
     best_loss_epoch: 15
     best_loss_step: 122799
     best_slurm_id: 835816
@@ -378,17 +415,10 @@ experiments:
     best_loss_epoch: 15
     best_loss_step: 122799
     best_slurm_id: 835816
-  val/bongard_hoi_images/loss:
-    best_loss: 0.009865512140095234
-    best_loss_epoch: 15
-    best_loss_step: 122799
-    best_slurm_id: 835816
-  val/vasr_images/loss:
-    best_loss: 0.008134938776493073
-    best_loss_epoch: 15
-    best_loss_step: 122799
-    best_slurm_id: 835816
   max_epoch: 15
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835817
   - 835818
@@ -400,13 +430,23 @@ experiments:
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/gwy78xsw
-  - https://wandb.ai/avr_universal/AVR_universal/runs/250ym3ie
   - https://wandb.ai/avr_universal/AVR_universal/runs/dn6z83ty
-  - https://wandb.ai/avr_universal/AVR_universal/runs/atp0wxkz
-  - https://wandb.ai/avr_universal/AVR_universal/runs/n3g1tg25
   - https://wandb.ai/avr_universal/AVR_universal/runs/uwogsd6b
+  - https://wandb.ai/avr_universal/AVR_universal/runs/250ym3ie
+  - https://wandb.ai/avr_universal/AVR_universal/runs/n3g1tg25
+  - https://wandb.ai/avr_universal/AVR_universal/runs/atp0wxkz
   train/vasr_images/loss_epoch:
     best_loss: 0.0022024624049663544
+    best_loss_epoch: 18
+    best_loss_step: 291649
+    best_slurm_id: 835822
+  val/vasr_images/loss:
+    best_loss: 0.006631937809288502
+    best_loss_epoch: 18
+    best_loss_step: 291649
+    best_slurm_id: 835822
+  val/bongard_hoi_images/loss:
+    best_loss: 0.008151460438966751
     best_loss_epoch: 18
     best_loss_step: 291649
     best_slurm_id: 835822
@@ -420,17 +460,10 @@ experiments:
     best_loss_epoch: 18
     best_loss_step: 291649
     best_slurm_id: 835822
-  val/bongard_hoi_images/loss:
-    best_loss: 0.008151460438966751
-    best_loss_epoch: 18
-    best_loss_step: 291649
-    best_slurm_id: 835822
-  val/vasr_images/loss:
-    best_loss: 0.006631937809288502
-    best_loss_epoch: 18
-    best_loss_step: 291649
-    best_slurm_id: 835822
   max_epoch: 18
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835823
   - 835824
@@ -439,12 +472,22 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: number_of_iterations
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/33a736em
-  - https://wandb.ai/avr_universal/AVR_universal/runs/2doxb1g9
   - https://wandb.ai/avr_universal/AVR_universal/runs/r6163dod
+  - https://wandb.ai/avr_universal/AVR_universal/runs/2doxb1g9
   - https://wandb.ai/avr_universal/AVR_universal/runs/c0jyrj5p
+  - https://wandb.ai/avr_universal/AVR_universal/runs/33a736em
   train/vasr_images/loss_epoch:
     best_loss: 0.005339270923286676
+    best_loss_epoch: 11
+    best_loss_step: 46055
+    best_slurm_id: 838518
+  val/vasr_images/loss:
+    best_loss: 0.017297320067882538
+    best_loss_epoch: 11
+    best_loss_step: 46055
+    best_slurm_id: 838518
+  val/bongard_hoi_images/loss:
+    best_loss: 0.019362598657608032
     best_loss_epoch: 11
     best_loss_step: 46055
     best_slurm_id: 838518
@@ -458,17 +501,10 @@ experiments:
     best_loss_epoch: 11
     best_loss_step: 46055
     best_slurm_id: 838518
-  val/bongard_hoi_images/loss:
-    best_loss: 0.019362598657608032
-    best_loss_epoch: 11
-    best_loss_step: 46055
-    best_slurm_id: 838518
-  val/vasr_images/loss:
-    best_loss: 0.017297320067882538
-    best_loss_epoch: 11
-    best_loss_step: 46055
-    best_slurm_id: 838518
   max_epoch: 11
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835826
   - 835827
@@ -477,12 +513,22 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: number_of_iterations
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/mng8anbx
-  - https://wandb.ai/avr_universal/AVR_universal/runs/broa8oix
-  - https://wandb.ai/avr_universal/AVR_universal/runs/6xtod8lh
   - https://wandb.ai/avr_universal/AVR_universal/runs/xk0pozw8
+  - https://wandb.ai/avr_universal/AVR_universal/runs/broa8oix
+  - https://wandb.ai/avr_universal/AVR_universal/runs/mng8anbx
+  - https://wandb.ai/avr_universal/AVR_universal/runs/6xtod8lh
   train/vasr_images/loss_epoch:
     best_loss: 0.004046469461172819
+    best_loss_epoch: 13
+    best_loss_step: 53731
+    best_slurm_id: 838519
+  val/vasr_images/loss:
+    best_loss: 0.01271761953830719
+    best_loss_epoch: 13
+    best_loss_step: 53731
+    best_slurm_id: 838519
+  val/bongard_hoi_images/loss:
+    best_loss: 0.015007037669420242
     best_loss_epoch: 13
     best_loss_step: 53731
     best_slurm_id: 838519
@@ -496,17 +542,10 @@ experiments:
     best_loss_epoch: 13
     best_loss_step: 53731
     best_slurm_id: 838519
-  val/bongard_hoi_images/loss:
-    best_loss: 0.015007037669420242
-    best_loss_epoch: 13
-    best_loss_step: 53731
-    best_slurm_id: 838519
-  val/vasr_images/loss:
-    best_loss: 0.01271761953830719
-    best_loss_epoch: 13
-    best_loss_step: 53731
-    best_slurm_id: 838519
   max_epoch: 13
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835829
   - 835830
@@ -515,12 +554,22 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: size_of_hid_dim
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/hp55al2r
   - https://wandb.ai/avr_universal/AVR_universal/runs/zoewiskf
-  - https://wandb.ai/avr_universal/AVR_universal/runs/th1ebbzu
+  - https://wandb.ai/avr_universal/AVR_universal/runs/hp55al2r
   - https://wandb.ai/avr_universal/AVR_universal/runs/88v4gu2y
+  - https://wandb.ai/avr_universal/AVR_universal/runs/th1ebbzu
   train/vasr_images/loss_epoch:
     best_loss: 0.005704119335860014
+    best_loss_epoch: 9
+    best_loss_step: 19189
+    best_slurm_id: 838520
+  val/vasr_images/loss:
+    best_loss: 0.01888311095535755
+    best_loss_epoch: 9
+    best_loss_step: 19189
+    best_slurm_id: 838520
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02080267108976841
     best_loss_epoch: 9
     best_loss_step: 19189
     best_slurm_id: 838520
@@ -534,17 +583,10 @@ experiments:
     best_loss_epoch: 9
     best_loss_step: 19189
     best_slurm_id: 838520
-  val/bongard_hoi_images/loss:
-    best_loss: 0.02080267108976841
-    best_loss_epoch: 9
-    best_loss_step: 19189
-    best_slurm_id: 838520
-  val/vasr_images/loss:
-    best_loss: 0.01888311095535755
-    best_loss_epoch: 9
-    best_loss_step: 19189
-    best_slurm_id: 838520
   max_epoch: 9
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 835832
   - 835833
@@ -556,15 +598,25 @@ experiments:
   experiment_nm: bongard_hoi_vasr_images
   test_nm: size_of_hid_dim
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/3pznvnlk
-  - https://wandb.ai/avr_universal/AVR_universal/runs/7g1mdq4s
   - https://wandb.ai/avr_universal/AVR_universal/runs/u94lgrn1
   - https://wandb.ai/avr_universal/AVR_universal/runs/zp1vptg6
-  - https://wandb.ai/avr_universal/AVR_universal/runs/vgmk88yk
+  - https://wandb.ai/avr_universal/AVR_universal/runs/3pznvnlk
   - https://wandb.ai/avr_universal/AVR_universal/runs/tbukkfkv
+  - https://wandb.ai/avr_universal/AVR_universal/runs/7g1mdq4s
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vgmk88yk
   - https://wandb.ai/avr_universal/AVR_universal/runs/a2ophcvn
   train/vasr_images/loss_epoch:
     best_loss: 0.00244462164118886
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 838635
+  val/vasr_images/loss:
+    best_loss: 0.007521741557866335
+    best_loss_epoch: 15
+    best_loss_step: 122799
+    best_slurm_id: 838635
+  val/bongard_hoi_images/loss:
+    best_loss: 0.009023799560964108
     best_loss_epoch: 15
     best_loss_step: 122799
     best_slurm_id: 838635
@@ -578,17 +630,10 @@ experiments:
     best_loss_epoch: 15
     best_loss_step: 122799
     best_slurm_id: 838635
-  val/bongard_hoi_images/loss:
-    best_loss: 0.009023799560964108
-    best_loss_epoch: 15
-    best_loss_step: 122799
-    best_slurm_id: 838635
-  val/vasr_images/loss:
-    best_loss: 0.007521741557866335
-    best_loss_epoch: 15
-    best_loss_step: 122799
-    best_slurm_id: 838635
   max_epoch: 15
+  datasets:
+  - vasr_images
+  - bongard_hoi_images
 - slurm_id:
   - 845333
   - 850857
@@ -600,15 +645,10 @@ experiments:
     strategy: last_ckpt
   test_nm: frozen_slot
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/fr53pfqs
   - https://wandb.ai/avr_universal/AVR_universal/runs/a2vl8cwg
+  - https://wandb.ai/avr_universal/AVR_universal/runs/fr53pfqs
   - https://wandb.ai/avr_universal/AVR_universal/runs/qv8iuo3k
   - https://wandb.ai/avr_universal/AVR_universal/runs/i3khkelr
-  val/loss:
-    best_loss: 0.6828289031982422
-    best_loss_epoch: 20
-    best_loss_step: 30260
-    best_slurm_id: 845333
   train/bongard_hoi/loss_epoch:
     best_loss: 0.42470139265060425
     best_loss_epoch: 43
@@ -619,17 +659,25 @@ experiments:
     best_loss_epoch: 20
     best_loss_step: 30260
     best_slurm_id: 845333
-  val/bongard_hoi/accuracy:
-    best_loss: 0.6040564179420471
-    best_loss_epoch: 35
-    best_loss_step: 51875
+  val/loss:
+    best_loss: 0.6828289031982422
+    best_loss_epoch: 20
+    best_loss_step: 30260
     best_slurm_id: 845333
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.778655469417572
     best_loss_epoch: 43
     best_loss_step: 63403
     best_slurm_id: 850859
+  val/bongard_hoi/accuracy:
+    best_loss: 0.6040564179420471
+    best_loss_epoch: 35
+    best_loss_step: 51875
+    best_slurm_id: 845333
   max_epoch: 43
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/845333/epoch=20-step=30261.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 857092
   - 857093
@@ -640,28 +688,13 @@ experiments:
     strategy: last_ckpt
   test_nm: trained_slot_aux_test
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/e53nln8c
   - https://wandb.ai/avr_universal/AVR_universal/runs/fis6tq1q
+  - https://wandb.ai/avr_universal/AVR_universal/runs/e53nln8c
   - https://wandb.ai/avr_universal/AVR_universal/runs/07e6j0rx
-  val/loss:
-    best_loss: 0.955525815486908
-    best_loss_epoch: 21
-    best_loss_step: 31701
-    best_slurm_id: 857092
-  train/bongard_hoi/mse_loss_epoch:
-    best_loss: 0.026408622041344643
-    best_loss_epoch: 22
-    best_loss_step: 33142
-    best_slurm_id: 857092
   val/bongard_hoi/cross_entropy_loss:
     best_loss: 0.6816357374191284
     best_loss_epoch: 22
     best_loss_step: 33142
-    best_slurm_id: 857092
-  val/bongard_hoi/loss:
-    best_loss: 0.9554855823516846
-    best_loss_epoch: 21
-    best_loss_step: 31701
     best_slurm_id: 857092
   train/bongard_hoi/loss_epoch:
     best_loss: 0.542518138885498
@@ -678,17 +711,35 @@ experiments:
     best_loss_epoch: 41
     best_loss_step: 60521
     best_slurm_id: 857093
-  val/bongard_hoi/accuracy:
-    best_loss: 0.5805408358573914
+  val/bongard_hoi/loss:
+    best_loss: 0.9554855823516846
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857092
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.026408622041344643
     best_loss_epoch: 22
     best_loss_step: 33142
+    best_slurm_id: 857092
+  val/loss:
+    best_loss: 0.955525815486908
+    best_loss_epoch: 21
+    best_loss_step: 31701
     best_slurm_id: 857092
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.8320819139480591
     best_loss_epoch: 41
     best_loss_step: 60521
     best_slurm_id: 857093
+  val/bongard_hoi/accuracy:
+    best_loss: 0.5805408358573914
+    best_loss_epoch: 22
+    best_loss_step: 33142
+    best_slurm_id: 857092
   max_epoch: 42
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/857092/epoch=21-step=31702.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 857095
   - 857096
@@ -699,11 +750,36 @@ experiments:
     strategy: last_ckpt
   test_nm: trained_slot_aux_test
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/pl54u845
   - https://wandb.ai/avr_universal/AVR_universal/runs/stcbjcgw
+  - https://wandb.ai/avr_universal/AVR_universal/runs/pl54u845
   - https://wandb.ai/avr_universal/AVR_universal/runs/b76vmhgy
+  val/vasr/mse_loss:
+    best_loss: 0.021684516221284866
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857095
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.7830440998077393
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857095
+  val/vasr/loss:
+    best_loss: 2.002938747406006
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857095
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.021913595497608185
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857095
   train/vasr/cross_entropy_loss_epoch:
     best_loss: 0.494556188583374
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857097
+  train/vasr/loss_epoch:
+    best_loss: 0.7208511233329773
     best_loss_epoch: 5
     best_loss_step: 72251
     best_slurm_id: 857097
@@ -712,42 +788,20 @@ experiments:
     best_loss_epoch: 1
     best_loss_step: 24083
     best_slurm_id: 857095
-  val/vasr/cross_entropy_loss:
-    best_loss: 1.7830440998077393
-    best_loss_epoch: 1
-    best_loss_step: 24083
-    best_slurm_id: 857095
-  val/vasr/mse_loss:
-    best_loss: 0.021684516221284866
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 857095
-  train/vasr/loss_epoch:
-    best_loss: 0.7208511233329773
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 857097
-  train/vasr/mse_loss_epoch:
-    best_loss: 0.021913595497608185
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 857095
-  val/vasr/loss:
-    best_loss: 2.002938747406006
-    best_loss_epoch: 1
-    best_loss_step: 24083
-    best_slurm_id: 857095
-  train/vasr/accuracy_epoch:
-    best_loss: 0.8093662858009338
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 857097
   val/vasr/accuracy:
     best_loss: 0.252280056476593
     best_loss_epoch: 4
     best_loss_step: 60209
     best_slurm_id: 857097
+  train/vasr/accuracy_epoch:
+    best_loss: 0.8093662858009338
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857097
   max_epoch: 5
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/857095/epoch=1-step=24084.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 857099
   - 857100
@@ -758,26 +812,11 @@ experiments:
     strategy: last_ckpt
   test_nm: trained_slot_aux_test
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/d9y645tr
-  - https://wandb.ai/avr_universal/AVR_universal/runs/rehj2eu8
   - https://wandb.ai/avr_universal/AVR_universal/runs/wl7il899
-  val/loss:
-    best_loss: 0.7006984353065491
-    best_loss_epoch: 13
-    best_loss_step: 20173
-    best_slurm_id: 857099
-  train/bongard_hoi/mse_loss_epoch:
-    best_loss: 0.035507868975400925
-    best_loss_epoch: 0
-    best_loss_step: 1440
-    best_slurm_id: 857099
+  - https://wandb.ai/avr_universal/AVR_universal/runs/rehj2eu8
+  - https://wandb.ai/avr_universal/AVR_universal/runs/d9y645tr
   val/bongard_hoi/cross_entropy_loss:
     best_loss: 0.6631662249565125
-    best_loss_epoch: 13
-    best_loss_step: 20173
-    best_slurm_id: 857099
-  val/bongard_hoi/loss:
-    best_loss: 0.700573205947876
     best_loss_epoch: 13
     best_loss_step: 20173
     best_slurm_id: 857099
@@ -796,17 +835,35 @@ experiments:
     best_loss_epoch: 34
     best_loss_step: 50434
     best_slurm_id: 857101
-  val/bongard_hoi/accuracy:
-    best_loss: 0.60758376121521
-    best_loss_epoch: 14
-    best_loss_step: 21614
+  val/bongard_hoi/loss:
+    best_loss: 0.700573205947876
+    best_loss_epoch: 13
+    best_loss_step: 20173
+    best_slurm_id: 857099
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.035507868975400925
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 857099
+  val/loss:
+    best_loss: 0.7006984353065491
+    best_loss_epoch: 13
+    best_loss_step: 20173
     best_slurm_id: 857099
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.8344689607620239
     best_loss_epoch: 34
     best_loss_step: 50434
     best_slurm_id: 857101
+  val/bongard_hoi/accuracy:
+    best_loss: 0.60758376121521
+    best_loss_epoch: 14
+    best_loss_step: 21614
+    best_slurm_id: 857099
   max_epoch: 34
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/857099/epoch=13-step=20174.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 857102
   - 857103
@@ -817,11 +874,36 @@ experiments:
     strategy: last_ckpt
   test_nm: trained_slot_aux_test
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/vk7q2cl4
   - https://wandb.ai/avr_universal/AVR_universal/runs/s4tbj816
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vk7q2cl4
   - https://wandb.ai/avr_universal/AVR_universal/runs/lxsp10u9
+  val/vasr/mse_loss:
+    best_loss: 0.029959451407194138
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857102
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.5780696868896484
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857102
+  val/vasr/loss:
+    best_loss: 1.6084319353103638
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857102
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.030330795794725418
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857104
   train/vasr/cross_entropy_loss_epoch:
     best_loss: 0.5077122449874878
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857104
+  train/vasr/loss_epoch:
+    best_loss: 0.5380439162254333
     best_loss_epoch: 5
     best_loss_step: 72251
     best_slurm_id: 857104
@@ -830,42 +912,20 @@ experiments:
     best_loss_epoch: 0
     best_loss_step: 12041
     best_slurm_id: 857102
-  val/vasr/cross_entropy_loss:
-    best_loss: 1.5780696868896484
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 857102
-  val/vasr/mse_loss:
-    best_loss: 0.029959451407194138
-    best_loss_epoch: 1
-    best_loss_step: 24083
-    best_slurm_id: 857102
-  train/vasr/loss_epoch:
-    best_loss: 0.5380439162254333
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 857104
-  train/vasr/mse_loss_epoch:
-    best_loss: 0.030330795794725418
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 857104
-  val/vasr/loss:
-    best_loss: 1.6084319353103638
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 857102
-  train/vasr/accuracy_epoch:
-    best_loss: 0.8031734228134155
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 857104
   val/vasr/accuracy:
     best_loss: 0.2864484488964081
     best_loss_epoch: 5
     best_loss_step: 72251
     best_slurm_id: 857104
+  train/vasr/accuracy_epoch:
+    best_loss: 0.8031734228134155
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857104
   max_epoch: 5
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/857102/epoch=0-step=12042.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 857106
   - 857107
@@ -876,26 +936,11 @@ experiments:
     strategy: last_ckpt
   test_nm: trained_slot_aux_test
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/e8fro33v
-  - https://wandb.ai/avr_universal/AVR_universal/runs/3yhza4py
   - https://wandb.ai/avr_universal/AVR_universal/runs/od1397gv
-  val/loss:
-    best_loss: 0.6776648759841919
-    best_loss_epoch: 21
-    best_loss_step: 31701
-    best_slurm_id: 857106
-  train/bongard_hoi/mse_loss_epoch:
-    best_loss: 0.043671946972608566
-    best_loss_epoch: 0
-    best_loss_step: 1440
-    best_slurm_id: 857106
+  - https://wandb.ai/avr_universal/AVR_universal/runs/3yhza4py
+  - https://wandb.ai/avr_universal/AVR_universal/runs/e8fro33v
   val/bongard_hoi/cross_entropy_loss:
     best_loss: 0.6725570559501648
-    best_loss_epoch: 21
-    best_loss_step: 31701
-    best_slurm_id: 857106
-  val/bongard_hoi/loss:
-    best_loss: 0.6776489019393921
     best_loss_epoch: 21
     best_loss_step: 31701
     best_slurm_id: 857106
@@ -914,8 +959,18 @@ experiments:
     best_loss_epoch: 40
     best_loss_step: 59080
     best_slurm_id: 857107
-  val/bongard_hoi/accuracy:
-    best_loss: 0.5925925970077515
+  val/bongard_hoi/loss:
+    best_loss: 0.6776489019393921
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857106
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.043671946972608566
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 857106
+  val/loss:
+    best_loss: 0.6776648759841919
     best_loss_epoch: 21
     best_loss_step: 31701
     best_slurm_id: 857106
@@ -924,7 +979,15 @@ experiments:
     best_loss_epoch: 40
     best_loss_step: 59080
     best_slurm_id: 857107
+  val/bongard_hoi/accuracy:
+    best_loss: 0.5925925970077515
+    best_loss_epoch: 21
+    best_loss_step: 31701
+    best_slurm_id: 857106
   max_epoch: 42
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/857106/epoch=21-step=31702.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 857109
   - 857110
@@ -936,10 +999,35 @@ experiments:
   test_nm: trained_slot_aux_test
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/2e63hw1p
-  - https://wandb.ai/avr_universal/AVR_universal/runs/okut8ggm
   - https://wandb.ai/avr_universal/AVR_universal/runs/gdtnanp1
+  - https://wandb.ai/avr_universal/AVR_universal/runs/okut8ggm
+  val/vasr/mse_loss:
+    best_loss: 0.038639795035123825
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 857109
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.6577732563018799
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857109
+  val/vasr/loss:
+    best_loss: 1.6616795063018799
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 857109
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.03883930295705795
+    best_loss_epoch: 2
+    best_loss_step: 36125
+    best_slurm_id: 857110
   train/vasr/cross_entropy_loss_epoch:
     best_loss: 0.5028630495071411
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857111
+  train/vasr/loss_epoch:
+    best_loss: 0.5068185925483704
     best_loss_epoch: 5
     best_loss_step: 72251
     best_slurm_id: 857111
@@ -948,42 +1036,20 @@ experiments:
     best_loss_epoch: 0
     best_loss_step: 12041
     best_slurm_id: 857109
-  val/vasr/cross_entropy_loss:
-    best_loss: 1.6577732563018799
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 857109
-  val/vasr/mse_loss:
-    best_loss: 0.038639795035123825
-    best_loss_epoch: 1
-    best_loss_step: 24083
-    best_slurm_id: 857109
-  train/vasr/loss_epoch:
-    best_loss: 0.5068185925483704
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 857111
-  train/vasr/mse_loss_epoch:
-    best_loss: 0.03883930295705795
-    best_loss_epoch: 2
-    best_loss_step: 36125
-    best_slurm_id: 857110
-  val/vasr/loss:
-    best_loss: 1.6616795063018799
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 857109
-  train/vasr/accuracy_epoch:
-    best_loss: 0.8061398267745972
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 857111
   val/vasr/accuracy:
     best_loss: 0.29409411549568176
     best_loss_epoch: 4
     best_loss_step: 60209
     best_slurm_id: 857111
+  train/vasr/accuracy_epoch:
+    best_loss: 0.8061398267745972
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 857111
   max_epoch: 5
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/857109/epoch=0-step=12042.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 857113
   - 857114
@@ -994,29 +1060,14 @@ experiments:
     strategy: last_ckpt
   test_nm: trained_slot_aux_test
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/df7ia2g0
   - https://wandb.ai/avr_universal/AVR_universal/runs/h9lsn2f9
   - https://wandb.ai/avr_universal/AVR_universal/runs/py9psomt
-  val/loss:
-    best_loss: 0.9021443724632263
-    best_loss_epoch: 23
-    best_loss_step: 69143
-    best_slurm_id: 857115
-  train/bongard_hoi/mse_loss_epoch:
-    best_loss: 0.021865662187337875
-    best_loss_epoch: 21
-    best_loss_step: 63381
-    best_slurm_id: 857115
+  - https://wandb.ai/avr_universal/AVR_universal/runs/df7ia2g0
   val/bongard_hoi/cross_entropy_loss:
     best_loss: 0.6835119128227234
     best_loss_epoch: 6
     best_loss_step: 20166
     best_slurm_id: 857113
-  val/bongard_hoi/loss:
-    best_loss: 0.9020517468452454
-    best_loss_epoch: 23
-    best_loss_step: 69143
-    best_slurm_id: 857115
   train/bongard_hoi/loss_epoch:
     best_loss: 0.45008042454719543
     best_loss_epoch: 22
@@ -1032,17 +1083,35 @@ experiments:
     best_loss_epoch: 22
     best_loss_step: 66262
     best_slurm_id: 857115
-  val/bongard_hoi/accuracy:
-    best_loss: 0.5908288955688477
-    best_loss_epoch: 6
-    best_loss_step: 20166
-    best_slurm_id: 857113
+  val/bongard_hoi/loss:
+    best_loss: 0.9020517468452454
+    best_loss_epoch: 23
+    best_loss_step: 69143
+    best_slurm_id: 857115
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.021865662187337875
+    best_loss_epoch: 21
+    best_loss_step: 63381
+    best_slurm_id: 857115
+  val/loss:
+    best_loss: 0.9021443724632263
+    best_loss_epoch: 23
+    best_loss_step: 69143
+    best_slurm_id: 857115
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.8659780621528625
     best_loss_epoch: 22
     best_loss_step: 66262
     best_slurm_id: 857115
+  val/bongard_hoi/accuracy:
+    best_loss: 0.5908288955688477
+    best_loss_epoch: 6
+    best_loss_step: 20166
+    best_slurm_id: 857113
   max_epoch: 23
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/857115/epoch=23-step=69144.ckpt
+  datasets:
+  - bongard_hoi
 - slurm_id:
   - 857116
   - 857117
@@ -1065,14 +1134,9 @@ experiments:
   test_nm: frozen_slot
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/zqjuzl5t
+  - https://wandb.ai/avr_universal/AVR_universal/runs/sf2t5i9i
   - https://wandb.ai/avr_universal/AVR_universal/runs/vt09gz2k
   - https://wandb.ai/avr_universal/AVR_universal/runs/z353sycn
-  - https://wandb.ai/avr_universal/AVR_universal/runs/sf2t5i9i
-  val/loss:
-    best_loss: 0.6802625060081482
-    best_loss_epoch: 66
-    best_loss_step: 193026
-    best_slurm_id: 850863
   train/bongard_hoi/loss_epoch:
     best_loss: 0.3696654140949249
     best_loss_epoch: 84
@@ -1083,17 +1147,25 @@ experiments:
     best_loss_epoch: 66
     best_loss_step: 193026
     best_slurm_id: 850863
-  val/bongard_hoi/accuracy:
-    best_loss: 0.5849500298500061
-    best_loss_epoch: 71
-    best_loss_step: 207431
+  val/loss:
+    best_loss: 0.6802625060081482
+    best_loss_epoch: 66
+    best_loss_step: 193026
     best_slurm_id: 850863
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.7959290146827698
     best_loss_epoch: 84
     best_loss_step: 244884
     best_slurm_id: 850863
+  val/bongard_hoi/accuracy:
+    best_loss: 0.5849500298500061
+    best_loss_epoch: 71
+    best_loss_step: 207431
+    best_slurm_id: 850863
   max_epoch: 87
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/850863/epoch=66-step=193027.ckpt
+  datasets:
+  - bongard_hoi
 - slurm_id:
   - 845347
   - 850850
@@ -1105,12 +1177,12 @@ experiments:
     strategy: last_ckpt
   test_nm: frozen_slot
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/n5n03zsx
-  - https://wandb.ai/avr_universal/AVR_universal/runs/094qcw0y
   - https://wandb.ai/avr_universal/AVR_universal/runs/tf0o71if
+  - https://wandb.ai/avr_universal/AVR_universal/runs/n5n03zsx
   - https://wandb.ai/avr_universal/AVR_universal/runs/e940ani9
-  val/loss:
-    best_loss: 1.4060808420181274
+  - https://wandb.ai/avr_universal/AVR_universal/runs/094qcw0y
+  val/vasr/loss:
+    best_loss: 1.4053268432617188
     best_loss_epoch: 0
     best_loss_step: 12041
     best_slurm_id: 845347
@@ -1119,22 +1191,25 @@ experiments:
     best_loss_epoch: 14
     best_loss_step: 174608
     best_slurm_id: 850850
-  val/vasr/loss:
-    best_loss: 1.4053268432617188
+  val/loss:
+    best_loss: 1.4060808420181274
     best_loss_epoch: 0
     best_loss_step: 12041
     best_slurm_id: 845347
-  train/vasr/accuracy_epoch:
-    best_loss: 0.5150941014289856
-    best_loss_epoch: 14
-    best_loss_step: 174608
-    best_slurm_id: 850850
   val/vasr/accuracy:
     best_loss: 0.2919343411922455
     best_loss_epoch: 11
     best_loss_step: 144503
     best_slurm_id: 850850
+  train/vasr/accuracy_epoch:
+    best_loss: 0.5150941014289856
+    best_loss_epoch: 14
+    best_loss_step: 174608
+    best_slurm_id: 850850
   max_epoch: 14
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/845347/epoch=0-step=12042.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 850853
   - 850854
@@ -1146,11 +1221,11 @@ experiments:
     strategy: last_ckpt
   test_nm: frozen_slot
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/w41wrwvb
   - https://wandb.ai/avr_universal/AVR_universal/runs/pknv6zyz
   - https://wandb.ai/avr_universal/AVR_universal/runs/tyis8hk2
   - https://wandb.ai/avr_universal/AVR_universal/runs/tis009p4
-  val/loss:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/w41wrwvb
+  val/vasr/loss:
     best_loss: 1.358184814453125
     best_loss_epoch: 2
     best_loss_step: 72251
@@ -1160,22 +1235,25 @@ experiments:
     best_loss_epoch: 11
     best_loss_step: 289007
     best_slurm_id: 850856
-  val/vasr/loss:
+  val/loss:
     best_loss: 1.358184814453125
     best_loss_epoch: 2
     best_loss_step: 72251
     best_slurm_id: 850854
-  train/vasr/accuracy_epoch:
-    best_loss: 0.4556478261947632
-    best_loss_epoch: 11
-    best_loss_step: 289007
-    best_slurm_id: 850856
   val/vasr/accuracy:
     best_loss: 0.2889944911003113
     best_loss_epoch: 9
     best_loss_step: 228797
     best_slurm_id: 850856
+  train/vasr/accuracy_epoch:
+    best_loss: 0.4556478261947632
+    best_loss_epoch: 11
+    best_loss_step: 289007
+    best_slurm_id: 850856
   max_epoch: 11
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/850854/epoch=2-step=72252.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 870722
   - 870723
@@ -1186,10 +1264,11 @@ experiments:
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/2pyp9zgq
-  - https://wandb.ai/avr_universal/AVR_universal/runs/2pyp9zgq
-  - https://wandb.ai/avr_universal/AVR_universal/runs/2pyp9zgq
-  - https://wandb.ai/avr_universal/AVR_universal/runs/2pyp9zgq
-  - https://wandb.ai/avr_universal/AVR_universal/runs/2pyp9zgq
+  val/bongard_hoi_images/loss:
+    best_loss: 0.014150992967188358
+    best_loss_epoch: 30
+    best_loss_step: 118977
+    best_slurm_id: 870726
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.012658508494496346
     best_loss_epoch: 30
@@ -1200,12 +1279,9 @@ experiments:
     best_loss_epoch: 30
     best_loss_step: 118977
     best_slurm_id: 870726
-  val/bongard_hoi_images/loss:
-    best_loss: 0.014150992967188358
-    best_loss_epoch: 30
-    best_loss_step: 118977
-    best_slurm_id: 870726
   max_epoch: 30
+  datasets:
+  - bongard_hoi_images
 - slurm_id:
   - 850774
   - 850775
@@ -1217,9 +1293,14 @@ experiments:
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/ajgv8fz2
   - https://wandb.ai/avr_universal/AVR_universal/runs/ojnrfqqg
-  - https://wandb.ai/avr_universal/AVR_universal/runs/rq0ug2jk
-  - https://wandb.ai/avr_universal/AVR_universal/runs/czv3iaxd
   - https://wandb.ai/avr_universal/AVR_universal/runs/nnb6vsch
+  - https://wandb.ai/avr_universal/AVR_universal/runs/czv3iaxd
+  - https://wandb.ai/avr_universal/AVR_universal/runs/rq0ug2jk
+  val/bongard_hoi_images/loss:
+    best_loss: 0.02192046493291855
+    best_loss_epoch: 7
+    best_loss_step: 15351
+    best_slurm_id: 850778
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.02031293511390686
     best_loss_epoch: 7
@@ -1230,12 +1311,9 @@ experiments:
     best_loss_epoch: 7
     best_loss_step: 15351
     best_slurm_id: 850778
-  val/bongard_hoi_images/loss:
-    best_loss: 0.02192046493291855
-    best_loss_epoch: 7
-    best_loss_step: 15351
-    best_slurm_id: 850778
   max_epoch: 7
+  datasets:
+  - bongard_hoi_images
 - slurm_id:
   - 850779
   - 850780
@@ -1246,10 +1324,15 @@ experiments:
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/n0hk4rmq
-  - https://wandb.ai/avr_universal/AVR_universal/runs/b5qb81uc
-  - https://wandb.ai/avr_universal/AVR_universal/runs/j19v6njt
   - https://wandb.ai/avr_universal/AVR_universal/runs/vay9i00k
   - https://wandb.ai/avr_universal/AVR_universal/runs/14ptjb5l
+  - https://wandb.ai/avr_universal/AVR_universal/runs/b5qb81uc
+  - https://wandb.ai/avr_universal/AVR_universal/runs/j19v6njt
+  val/bongard_hoi_images/loss:
+    best_loss: 0.014024739153683186
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850783
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.01262578647583723
     best_loss_epoch: 6
@@ -1260,12 +1343,9 @@ experiments:
     best_loss_epoch: 6
     best_loss_step: 53724
     best_slurm_id: 850783
-  val/bongard_hoi_images/loss:
-    best_loss: 0.014024739153683186
-    best_loss_epoch: 6
-    best_loss_step: 53724
-    best_slurm_id: 850783
   max_epoch: 6
+  datasets:
+  - bongard_hoi_images
 - slurm_id:
   - 850784
   - 850785
@@ -1276,10 +1356,15 @@ experiments:
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/4tpqkjl7
-  - https://wandb.ai/avr_universal/AVR_universal/runs/fz84p1dp
-  - https://wandb.ai/avr_universal/AVR_universal/runs/mho5xeam
-  - https://wandb.ai/avr_universal/AVR_universal/runs/ufm67wgh
   - https://wandb.ai/avr_universal/AVR_universal/runs/1lyk1jvk
+  - https://wandb.ai/avr_universal/AVR_universal/runs/mho5xeam
+  - https://wandb.ai/avr_universal/AVR_universal/runs/fz84p1dp
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ufm67wgh
+  val/bongard_hoi_images/loss:
+    best_loss: 0.01232420839369297
+    best_loss_epoch: 6
+    best_loss_step: 53724
+    best_slurm_id: 850788
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.011095356196165085
     best_loss_epoch: 6
@@ -1290,12 +1375,9 @@ experiments:
     best_loss_epoch: 6
     best_loss_step: 53724
     best_slurm_id: 850788
-  val/bongard_hoi_images/loss:
-    best_loss: 0.01232420839369297
-    best_loss_epoch: 6
-    best_loss_step: 53724
-    best_slurm_id: 850788
   max_epoch: 6
+  datasets:
+  - bongard_hoi_images
 - slurm_id:
   - 850789
   - 850790
@@ -1305,11 +1387,16 @@ experiments:
   experiment_nm: bongard_hoi_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/78y7oe7x
   - https://wandb.ai/avr_universal/AVR_universal/runs/53dz79ae
   - https://wandb.ai/avr_universal/AVR_universal/runs/k2rvpawy
   - https://wandb.ai/avr_universal/AVR_universal/runs/gzi65dnq
+  - https://wandb.ai/avr_universal/AVR_universal/runs/78y7oe7x
   - https://wandb.ai/avr_universal/AVR_universal/runs/7h7ix6x4
+  val/bongard_hoi_images/loss:
+    best_loss: 0.01116068847477436
+    best_loss_epoch: 7
+    best_loss_step: 61399
+    best_slurm_id: 850793
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.010046218521893024
     best_loss_epoch: 7
@@ -1320,12 +1407,9 @@ experiments:
     best_loss_epoch: 7
     best_loss_step: 61399
     best_slurm_id: 850793
-  val/bongard_hoi_images/loss:
-    best_loss: 0.01116068847477436
-    best_loss_epoch: 7
-    best_loss_step: 61399
-    best_slurm_id: 850793
   max_epoch: 7
+  datasets:
+  - bongard_hoi_images
 - slurm_id:
   - 850794
   - 850795
@@ -1335,11 +1419,16 @@ experiments:
   experiment_nm: bongard_hoi_images
   test_nm: number_of_slots
   wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/vcy1nwhz
   - https://wandb.ai/avr_universal/AVR_universal/runs/ap7bjerb
   - https://wandb.ai/avr_universal/AVR_universal/runs/8xg42xzg
-  - https://wandb.ai/avr_universal/AVR_universal/runs/c0jpgm07
   - https://wandb.ai/avr_universal/AVR_universal/runs/ntg6rns3
-  - https://wandb.ai/avr_universal/AVR_universal/runs/vcy1nwhz
+  - https://wandb.ai/avr_universal/AVR_universal/runs/c0jpgm07
+  val/bongard_hoi_images/loss:
+    best_loss: 0.009694935753941536
+    best_loss_epoch: 8
+    best_loss_step: 138149
+    best_slurm_id: 850798
   train/bongard_hoi_images/loss_epoch:
     best_loss: 0.008592097088694572
     best_loss_epoch: 8
@@ -1350,12 +1439,9 @@ experiments:
     best_loss_epoch: 8
     best_loss_step: 138149
     best_slurm_id: 850798
-  val/bongard_hoi_images/loss:
-    best_loss: 0.009694935753941536
-    best_loss_epoch: 8
-    best_loss_step: 138149
-    best_slurm_id: 850798
   max_epoch: 8
+  datasets:
+  - bongard_hoi_images
 - slurm_id:
   - 870727
   - 870728
@@ -1366,26 +1452,24 @@ experiments:
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/h78y8ed8
-  - https://wandb.ai/avr_universal/AVR_universal/runs/h78y8ed8
-  - https://wandb.ai/avr_universal/AVR_universal/runs/h78y8ed8
-  - https://wandb.ai/avr_universal/AVR_universal/runs/h78y8ed8
-  - https://wandb.ai/avr_universal/AVR_universal/runs/h78y8ed8
   train/vasr_images/loss_epoch:
     best_loss: 0.010089376010000706
     best_loss_epoch: 343
     best_loss_step: 610255
     best_slurm_id: 870731
-  val/loss:
-    best_loss: 0.009912251494824886
-    best_loss_epoch: 334
-    best_loss_step: 594289
-    best_slurm_id: 870727
   val/vasr_images/loss:
     best_loss: 0.00993133895099163
     best_loss_epoch: 334
     best_loss_step: 594289
-    best_slurm_id: 870727
+    best_slurm_id: 870731
+  val/loss:
+    best_loss: 0.009912251494824886
+    best_loss_epoch: 334
+    best_loss_step: 594289
+    best_slurm_id: 870731
   max_epoch: 343
+  datasets:
+  - vasr_images
 - slurm_id:
   - 850804
   - 850805
@@ -1395,27 +1479,29 @@ experiments:
   experiment_nm: vasr_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/aluo7f30
-  - https://wandb.ai/avr_universal/AVR_universal/runs/4ikjp65s
   - https://wandb.ai/avr_universal/AVR_universal/runs/l7lsgqj7
-  - https://wandb.ai/avr_universal/AVR_universal/runs/lb7d7mx3
   - https://wandb.ai/avr_universal/AVR_universal/runs/9vx2pevf
+  - https://wandb.ai/avr_universal/AVR_universal/runs/aluo7f30
+  - https://wandb.ai/avr_universal/AVR_universal/runs/lb7d7mx3
+  - https://wandb.ai/avr_universal/AVR_universal/runs/4ikjp65s
   train/vasr_images/loss_epoch:
     best_loss: 0.01162553671747446
     best_loss_epoch: 524
     best_loss_step: 465674
-    best_slurm_id: 850808
-  val/loss:
-    best_loss: 0.01146694179624319
-    best_loss_epoch: 488
-    best_loss_step: 433742
     best_slurm_id: 850808
   val/vasr_images/loss:
     best_loss: 0.011468133889138699
     best_loss_epoch: 488
     best_loss_step: 433742
     best_slurm_id: 850808
+  val/loss:
+    best_loss: 0.01146694179624319
+    best_loss_epoch: 488
+    best_loss_step: 433742
+    best_slurm_id: 850808
   max_epoch: 528
+  datasets:
+  - vasr_images
 - slurm_id:
   - 850809
   - 850810
@@ -1425,27 +1511,29 @@ experiments:
   experiment_nm: vasr_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/va45n370
-  - https://wandb.ai/avr_universal/AVR_universal/runs/zedhb7pu
-  - https://wandb.ai/avr_universal/AVR_universal/runs/im95c8l2
   - https://wandb.ai/avr_universal/AVR_universal/runs/kdkg4cpu
+  - https://wandb.ai/avr_universal/AVR_universal/runs/zedhb7pu
   - https://wandb.ai/avr_universal/AVR_universal/runs/23k49aue
+  - https://wandb.ai/avr_universal/AVR_universal/runs/im95c8l2
+  - https://wandb.ai/avr_universal/AVR_universal/runs/va45n370
   train/vasr_images/loss_epoch:
     best_loss: 0.008390456438064575
     best_loss_epoch: 237
     best_loss_step: 844185
-    best_slurm_id: 850813
-  val/loss:
-    best_loss: 0.008245134726166725
-    best_loss_epoch: 239
-    best_loss_step: 851279
     best_slurm_id: 850813
   val/vasr_images/loss:
     best_loss: 0.008253274485468864
     best_loss_epoch: 239
     best_loss_step: 851279
     best_slurm_id: 850813
+  val/loss:
+    best_loss: 0.008245134726166725
+    best_loss_epoch: 239
+    best_loss_step: 851279
+    best_slurm_id: 850813
   max_epoch: 239
+  datasets:
+  - vasr_images
 - slurm_id:
   - 850814
   - 850815
@@ -1455,27 +1543,29 @@ experiments:
   experiment_nm: vasr_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/qrl3c2y5
   - https://wandb.ai/avr_universal/AVR_universal/runs/a5pmuava
-  - https://wandb.ai/avr_universal/AVR_universal/runs/tu0g40o6
   - https://wandb.ai/avr_universal/AVR_universal/runs/vo10d3rs
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qrl3c2y5
+  - https://wandb.ai/avr_universal/AVR_universal/runs/tu0g40o6
   - https://wandb.ai/avr_universal/AVR_universal/runs/m0zk9gif
   train/vasr_images/loss_epoch:
     best_loss: 0.007463155314326286
     best_loss_epoch: 180
     best_loss_step: 642006
     best_slurm_id: 850818
-  val/loss:
-    best_loss: 0.007319588214159012
-    best_loss_epoch: 172
-    best_loss_step: 613630
-    best_slurm_id: 850818
   val/vasr_images/loss:
     best_loss: 0.007326883263885975
     best_loss_epoch: 172
     best_loss_step: 613630
     best_slurm_id: 850818
+  val/loss:
+    best_loss: 0.007319588214159012
+    best_loss_epoch: 172
+    best_loss_step: 613630
+    best_slurm_id: 850818
   max_epoch: 182
+  datasets:
+  - vasr_images
 - slurm_id:
   - 850824
   - 850825
@@ -1485,29 +1575,34 @@ experiments:
   experiment_nm: vasr_images
   test_nm: number_of_slots
   wandb_urls:
-  - https://wandb.ai/avr_universal/AVR_universal/runs/wyls8iih
   - https://wandb.ai/avr_universal/AVR_universal/runs/p6yqi7pc
   - https://wandb.ai/avr_universal/AVR_universal/runs/msw3d29q
   - https://wandb.ai/avr_universal/AVR_universal/runs/3175m4xv
   - https://wandb.ai/avr_universal/AVR_universal/runs/gmcamg1y
+  - https://wandb.ai/avr_universal/AVR_universal/runs/wyls8iih
   train/vasr_images/loss_epoch:
     best_loss: 0.006103540770709515
     best_loss_epoch: 122
     best_loss_step: 872561
-    best_slurm_id: 850828
-  val/loss:
-    best_loss: 0.006023895461112261
-    best_loss_epoch: 124
-    best_loss_step: 886749
     best_slurm_id: 850828
   val/vasr_images/loss:
     best_loss: 0.006026696413755417
     best_loss_epoch: 124
     best_loss_step: 886749
     best_slurm_id: 850828
+  val/loss:
+    best_loss: 0.006023895461112261
+    best_loss_epoch: 124
+    best_loss_step: 886749
+    best_slurm_id: 850828
   max_epoch: 124
+  datasets:
+  - vasr_images
 - slurm_id:
   - 870733
+  - 870734
+  - 870735
+  - 870736
   experiment_nm: bongard_hoi_scoring
   based_on:
     slurm_id: 870726
@@ -1515,34 +1610,80 @@ experiments:
   test_nm: frozen_slot
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/spt6lazo
-  val/loss:
-    best_loss: 0.6827223300933838
-    best_loss_epoch: 17
-    best_loss_step: 25937
-    best_slurm_id: 870733
+  test/bongard_hoi_unseen-unseen/loss:
+    best_loss: 0.6954042315483093
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
   train/bongard_hoi/loss_epoch:
     best_loss: 0.3768409788608551
     best_loss_epoch: 115
     best_loss_step: 167155
-    best_slurm_id: 870733
+    best_slurm_id: 870736
+  val/loss:
+    best_loss: 0.6827223300933838
+    best_loss_epoch: 17
+    best_loss_step: 25937
+    best_slurm_id: 870736
+  test/bongard_hoi_seen-seen/loss:
+    best_loss: 0.6963552832603455
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
+  test/bongard_hoi_seen-unseen/loss:
+    best_loss: 0.6767823100090027
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
+  test/bongard_hoi_unseen-seen/loss:
+    best_loss: 0.6931213140487671
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
   val/bongard_hoi/loss:
     best_loss: 0.6827412843704224
     best_loss_epoch: 17
     best_loss_step: 25937
-    best_slurm_id: 870733
+    best_slurm_id: 870736
+  test/bongard_hoi_seen-seen/accuracy:
+    best_loss: 0.5013405084609985
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
+  test/bongard_hoi_unseen-unseen/accuracy:
+    best_loss: 0.5136476159095764
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
   val/bongard_hoi/accuracy:
     best_loss: 0.6105232238769531
     best_loss_epoch: 27
     best_loss_step: 40347
-    best_slurm_id: 870733
+    best_slurm_id: 870736
+  test/bongard_hoi_unseen-seen/accuracy:
+    best_loss: 0.5201665759086609
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.7892452478408813
     best_loss_epoch: 115
     best_loss_step: 167155
-    best_slurm_id: 870733
+    best_slurm_id: 870736
+  test/bongard_hoi_seen-unseen/accuracy:
+    best_loss: 0.6116681694984436
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870736
   max_epoch: 117
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870733/epoch=17-step=25938.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 870571
+  - 870572
+  - 870573
+  - 870574
   experiment_nm: bongard_hoi_scoring
   based_on:
     slurm_id: 850798
@@ -1550,34 +1691,40 @@ experiments:
   test_nm: frozen_slot
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/r5zc0gwk
-  val/loss:
-    best_loss: 0.677776575088501
-    best_loss_epoch: 43
-    best_loss_step: 126763
-    best_slurm_id: 870571
   train/bongard_hoi/loss_epoch:
     best_loss: 0.46584412455558777
     best_loss_epoch: 43
     best_loss_step: 126763
-    best_slurm_id: 870571
+    best_slurm_id: 870574
   val/bongard_hoi/loss:
     best_loss: 0.6777603030204773
     best_loss_epoch: 43
     best_loss_step: 126763
-    best_slurm_id: 870571
-  val/bongard_hoi/accuracy:
-    best_loss: 0.5937683582305908
-    best_loss_epoch: 42
-    best_loss_step: 123882
-    best_slurm_id: 870571
+    best_slurm_id: 870574
+  val/loss:
+    best_loss: 0.677776575088501
+    best_loss_epoch: 43
+    best_loss_step: 126763
+    best_slurm_id: 870574
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.7579532265663147
     best_loss_epoch: 43
     best_loss_step: 126763
-    best_slurm_id: 870571
+    best_slurm_id: 870574
+  val/bongard_hoi/accuracy:
+    best_loss: 0.5937683582305908
+    best_loss_epoch: 42
+    best_loss_step: 123882
+    best_slurm_id: 870574
   max_epoch: 43
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870574/epoch=43-step=126764.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 870737
+  - 870738
+  - 870739
+  - 870740
   experiment_nm: vasr_scoring
   based_on:
     slurm_id: 870731
@@ -1585,34 +1732,40 @@ experiments:
   test_nm: frozen_slot
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/amjbw2zs
-  val/loss:
-    best_loss: 1.3878519535064697
-    best_loss_epoch: 0
-    best_loss_step: 6020
-    best_slurm_id: 870737
-  train/vasr/loss_epoch:
-    best_loss: 1.212298035621643
-    best_loss_epoch: 9
-    best_loss_step: 114398
-    best_slurm_id: 870737
   val/vasr/loss:
     best_loss: 1.3883118629455566
     best_loss_epoch: 0
     best_loss_step: 6020
-    best_slurm_id: 870737
-  train/vasr/accuracy_epoch:
-    best_loss: 0.45433729887008667
+    best_slurm_id: 870740
+  train/vasr/loss_epoch:
+    best_loss: 1.212298035621643
     best_loss_epoch: 9
     best_loss_step: 114398
-    best_slurm_id: 870737
+    best_slurm_id: 870740
+  val/loss:
+    best_loss: 1.3878519535064697
+    best_loss_epoch: 0
+    best_loss_step: 6020
+    best_slurm_id: 870740
   val/vasr/accuracy:
     best_loss: 0.35113638639450073
     best_loss_epoch: 6
     best_loss_step: 84293
-    best_slurm_id: 870737
+    best_slurm_id: 870740
+  train/vasr/accuracy_epoch:
+    best_loss: 0.45433729887008667
+    best_loss_epoch: 9
+    best_loss_step: 114398
+    best_slurm_id: 870740
   max_epoch: 9
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870737/epoch=0-step=6021.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 870579
+  - 870580
+  - 870581
+  - 870582
   experiment_nm: vasr_scoring
   based_on:
     slurm_id: 850828
@@ -1620,34 +1773,39 @@ experiments:
   test_nm: frozen_slot
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/6uj5k79v
-  val/loss:
-    best_loss: 1.4029988050460815
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 870579
-  train/vasr/loss_epoch:
-    best_loss: 1.2801588773727417
-    best_loss_epoch: 3
-    best_loss_step: 96335
-    best_slurm_id: 870579
   val/vasr/loss:
     best_loss: 1.4026577472686768
     best_loss_epoch: 0
     best_loss_step: 12041
-    best_slurm_id: 870579
-  train/vasr/accuracy_epoch:
-    best_loss: 0.4024406671524048
+    best_slurm_id: 870582
+  train/vasr/loss_epoch:
+    best_loss: 1.2801588773727417
     best_loss_epoch: 3
     best_loss_step: 96335
-    best_slurm_id: 870579
+    best_slurm_id: 870582
+  val/loss:
+    best_loss: 1.4029988050460815
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870582
   val/vasr/accuracy:
     best_loss: 0.2713586688041687
     best_loss_epoch: 2
     best_loss_step: 60209
-    best_slurm_id: 870579
+    best_slurm_id: 870582
+  train/vasr/accuracy_epoch:
+    best_loss: 0.4024406671524048
+    best_loss_epoch: 3
+    best_loss_step: 96335
+    best_slurm_id: 870582
   max_epoch: 3
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870579/epoch=0-step=12042.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 870741
+  - 870742
+  - 870743
   experiment_nm: bongard_hoi_scoring_full_train
   based_on:
     slurm_id: 870726
@@ -1655,54 +1813,59 @@ experiments:
   test_nm: trained_slot_aux_test
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/1rgymp1s
-  val/loss:
-    best_loss: 0.6825698614120483
-    best_loss_epoch: 8
-    best_loss_step: 12968
-    best_slurm_id: 870741
-  train/bongard_hoi/mse_loss_epoch:
-    best_loss: 0.04105113819241524
-    best_loss_epoch: 0
-    best_loss_step: 1440
-    best_slurm_id: 870741
   val/bongard_hoi/cross_entropy_loss:
     best_loss: 0.6749675273895264
     best_loss_epoch: 8
     best_loss_step: 12968
-    best_slurm_id: 870741
-  val/bongard_hoi/loss:
-    best_loss: 0.6825110912322998
-    best_loss_epoch: 8
-    best_loss_step: 12968
-    best_slurm_id: 870741
+    best_slurm_id: 870743
   train/bongard_hoi/loss_epoch:
     best_loss: 0.30557212233543396
     best_loss_epoch: 20
     best_loss_step: 30260
-    best_slurm_id: 870741
+    best_slurm_id: 870743
   val/bongard_hoi/mse_loss:
     best_loss: 0.05294140800833702
     best_loss_epoch: 0
     best_loss_step: 1440
-    best_slurm_id: 870741
+    best_slurm_id: 870743
   train/bongard_hoi/cross_entropy_loss_epoch:
     best_loss: 0.2980768382549286
     best_loss_epoch: 20
     best_loss_step: 30260
-    best_slurm_id: 870741
-  val/bongard_hoi/accuracy:
-    best_loss: 0.6019988059997559
-    best_loss_epoch: 12
-    best_loss_step: 18732
-    best_slurm_id: 870741
+    best_slurm_id: 870743
+  val/bongard_hoi/loss:
+    best_loss: 0.6825110912322998
+    best_loss_epoch: 8
+    best_loss_step: 12968
+    best_slurm_id: 870743
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.04105113819241524
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 870743
+  val/loss:
+    best_loss: 0.6825698614120483
+    best_loss_epoch: 8
+    best_loss_step: 12968
+    best_slurm_id: 870743
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.8217959403991699
     best_loss_epoch: 21
     best_loss_step: 31701
-    best_slurm_id: 870741
+    best_slurm_id: 870743
+  val/bongard_hoi/accuracy:
+    best_loss: 0.6019988059997559
+    best_loss_epoch: 12
+    best_loss_step: 18732
+    best_slurm_id: 870743
   max_epoch: 29
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870741/epoch=8-step=12969.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 870744
+  - 870745
+  - 870746
   experiment_nm: vasr_scoring_full_train
   based_on:
     slurm_id: 870731
@@ -1710,19 +1873,59 @@ experiments:
   test_nm: trained_slot_aux_test
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/ri5roagd
-  train/vasr/accuracy_epoch:
-    best_loss: 0.7774953842163086
+  val/vasr/mse_loss:
+    best_loss: 0.0333259291946888
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870746
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.5810152292251587
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870746
+  val/vasr/loss:
+    best_loss: 1.584348201751709
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870746
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.03481936827301979
+    best_loss_epoch: 1
+    best_loss_step: 24083
+    best_slurm_id: 870746
+  train/vasr/cross_entropy_loss_epoch:
+    best_loss: 0.5710660219192505
     best_loss_epoch: 5
     best_loss_step: 72251
-    best_slurm_id: 870744
+    best_slurm_id: 870746
+  train/vasr/loss_epoch:
+    best_loss: 0.6922138333320618
+    best_loss_epoch: 4
+    best_loss_step: 60209
+    best_slurm_id: 870746
+  val/loss:
+    best_loss: 1.5814785957336426
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870746
   val/vasr/accuracy:
     best_loss: 0.2698749899864197
     best_loss_epoch: 1
     best_loss_step: 24083
-    best_slurm_id: 870744
+    best_slurm_id: 870746
+  train/vasr/accuracy_epoch:
+    best_loss: 0.7774953842163086
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 870746
   max_epoch: 5
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870744/epoch=0-step=12042.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 870747
+  - 870748
+  - 870749
   experiment_nm: bongard_hoi_scoring_full_train
   based_on:
     slurm_id: 870726
@@ -1730,54 +1933,59 @@ experiments:
   test_nm: trained_slot_aux_test
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/3jxx86rp
-  val/loss:
-    best_loss: 0.703572154045105
-    best_loss_epoch: 17
-    best_loss_step: 25937
-    best_slurm_id: 870747
-  train/bongard_hoi/mse_loss_epoch:
-    best_loss: 0.03386196494102478
-    best_loss_epoch: 0
-    best_loss_step: 1440
-    best_slurm_id: 870747
   val/bongard_hoi/cross_entropy_loss:
     best_loss: 0.6635305881500244
     best_loss_epoch: 17
     best_loss_step: 25937
-    best_slurm_id: 870747
-  val/bongard_hoi/loss:
-    best_loss: 0.7034205198287964
-    best_loss_epoch: 17
-    best_loss_step: 25937
-    best_slurm_id: 870747
+    best_slurm_id: 870749
   train/bongard_hoi/loss_epoch:
     best_loss: 0.3146233558654785
     best_loss_epoch: 32
     best_loss_step: 47552
-    best_slurm_id: 870747
+    best_slurm_id: 870749
   val/bongard_hoi/mse_loss:
     best_loss: 0.036438338458538055
     best_loss_epoch: 13
     best_loss_step: 20173
-    best_slurm_id: 870747
+    best_slurm_id: 870749
   train/bongard_hoi/cross_entropy_loss_epoch:
     best_loss: 0.2791389226913452
     best_loss_epoch: 32
     best_loss_step: 47552
-    best_slurm_id: 870747
-  val/bongard_hoi/accuracy:
-    best_loss: 0.6155202984809875
+    best_slurm_id: 870749
+  val/bongard_hoi/loss:
+    best_loss: 0.7034205198287964
     best_loss_epoch: 17
     best_loss_step: 25937
-    best_slurm_id: 870747
+    best_slurm_id: 870749
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.03386196494102478
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 870749
+  val/loss:
+    best_loss: 0.703572154045105
+    best_loss_epoch: 17
+    best_loss_step: 25937
+    best_slurm_id: 870749
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.8283928632736206
     best_loss_epoch: 28
     best_loss_step: 41788
-    best_slurm_id: 870747
+    best_slurm_id: 870749
+  val/bongard_hoi/accuracy:
+    best_loss: 0.6155202984809875
+    best_loss_epoch: 17
+    best_loss_step: 25937
+    best_slurm_id: 870749
   max_epoch: 38
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870747/epoch=17-step=25938.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 870750
+  - 870751
+  - 870752
   experiment_nm: vasr_scoring_full_train
   based_on:
     slurm_id: 870731
@@ -1785,54 +1993,59 @@ experiments:
   test_nm: trained_slot_aux_test
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/g82pphsm
-  train/vasr/cross_entropy_loss_epoch:
-    best_loss: 0.5007967352867126
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 870750
-  val/loss:
-    best_loss: 1.7353674173355103
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 870750
-  val/vasr/cross_entropy_loss:
-    best_loss: 1.7097442150115967
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 870750
   val/vasr/mse_loss:
     best_loss: 0.02769278548657894
     best_loss_epoch: 1
     best_loss_step: 24083
-    best_slurm_id: 870750
-  train/vasr/loss_epoch:
-    best_loss: 0.5294557213783264
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 870750
-  train/vasr/mse_loss_epoch:
-    best_loss: 0.028083888813853264
+    best_slurm_id: 870752
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.7097442150115967
     best_loss_epoch: 0
     best_loss_step: 12041
-    best_slurm_id: 870750
+    best_slurm_id: 870752
   val/vasr/loss:
     best_loss: 1.7377417087554932
     best_loss_epoch: 0
     best_loss_step: 12041
-    best_slurm_id: 870750
-  train/vasr/accuracy_epoch:
-    best_loss: 0.8059816956520081
+    best_slurm_id: 870752
+  train/vasr/mse_loss_epoch:
+    best_loss: 0.028083888813853264
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870752
+  train/vasr/cross_entropy_loss_epoch:
+    best_loss: 0.5007967352867126
     best_loss_epoch: 5
     best_loss_step: 72251
-    best_slurm_id: 870750
+    best_slurm_id: 870752
+  train/vasr/loss_epoch:
+    best_loss: 0.5294557213783264
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 870752
+  val/loss:
+    best_loss: 1.7353674173355103
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870752
   val/vasr/accuracy:
     best_loss: 0.2848597466945648
     best_loss_epoch: 0
     best_loss_step: 12041
-    best_slurm_id: 870750
+    best_slurm_id: 870752
+  train/vasr/accuracy_epoch:
+    best_loss: 0.8059816956520081
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 870752
   max_epoch: 5
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870750/epoch=0-step=12042.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 870753
+  - 870754
+  - 870755
   experiment_nm: bongard_hoi_scoring_full_train
   based_on:
     slurm_id: 870726
@@ -1840,256 +2053,1442 @@ experiments:
   test_nm: trained_slot_aux_test
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/snflkztk
-  val/loss:
-    best_loss: 0.9238999485969543
-    best_loss_epoch: 0
-    best_loss_step: 1440
-    best_slurm_id: 870753
-  train/bongard_hoi/mse_loss_epoch:
-    best_loss: 0.02568248100578785
-    best_loss_epoch: 16
-    best_loss_step: 24496
-    best_slurm_id: 870753
   val/bongard_hoi/cross_entropy_loss:
     best_loss: 0.6862086653709412
     best_loss_epoch: 14
     best_loss_step: 21614
-    best_slurm_id: 870753
-  val/bongard_hoi/loss:
-    best_loss: 0.923862874507904
-    best_loss_epoch: 0
-    best_loss_step: 1440
-    best_slurm_id: 870753
+    best_slurm_id: 870755
   train/bongard_hoi/loss_epoch:
     best_loss: 0.5456103682518005
     best_loss_epoch: 16
     best_loss_step: 24496
-    best_slurm_id: 870753
+    best_slurm_id: 870755
   val/bongard_hoi/mse_loss:
     best_loss: 0.023061860352754593
     best_loss_epoch: 0
     best_loss_step: 1440
-    best_slurm_id: 870753
+    best_slurm_id: 870755
   train/bongard_hoi/cross_entropy_loss_epoch:
     best_loss: 0.2887858748435974
     best_loss_epoch: 16
     best_loss_step: 24496
-    best_slurm_id: 870753
-  val/bongard_hoi/accuracy:
-    best_loss: 0.5640799403190613
-    best_loss_epoch: 14
-    best_loss_step: 21614
-    best_slurm_id: 870753
+    best_slurm_id: 870755
+  val/bongard_hoi/loss:
+    best_loss: 0.923862874507904
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 870755
+  train/bongard_hoi/mse_loss_epoch:
+    best_loss: 0.02568248100578785
+    best_loss_epoch: 16
+    best_loss_step: 24496
+    best_slurm_id: 870755
+  val/loss:
+    best_loss: 0.9238999485969543
+    best_loss_epoch: 0
+    best_loss_step: 1440
+    best_slurm_id: 870755
   train/bongard_hoi/accuracy_epoch:
     best_loss: 0.8273512721061707
     best_loss_epoch: 22
     best_loss_step: 33142
-    best_slurm_id: 870753
+    best_slurm_id: 870755
+  val/bongard_hoi/accuracy:
+    best_loss: 0.5640799403190613
+    best_loss_epoch: 14
+    best_loss_step: 21614
+    best_slurm_id: 870755
   max_epoch: 22
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870753/epoch=0-step=1441.ckpt
+  datasets:
+  - bongard_hoi_unseen-unseen
 - slurm_id:
   - 870756
+  - 870757
+  - 870758
   experiment_nm: vasr_scoring_full_train
   based_on:
     slurm_id: 870731
     strategy: last_ckpt
   test_nm: trained_slot_aux_test
+  cache: true
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/32jwivr6
-  train/vasr/cross_entropy_loss_epoch:
-    best_loss: 0.5421766042709351
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 870756
-  val/loss:
-    best_loss: 1.8809092044830322
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 870756
-  val/vasr/cross_entropy_loss:
-    best_loss: 1.6969650983810425
-    best_loss_epoch: 0
-    best_loss_step: 12041
-    best_slurm_id: 870756
   val/vasr/mse_loss:
     best_loss: 0.01918499916791916
     best_loss_epoch: 0
     best_loss_step: 12041
-    best_slurm_id: 870756
-  train/vasr/loss_epoch:
-    best_loss: 0.7460463047027588
-    best_loss_epoch: 5
-    best_loss_step: 72251
-    best_slurm_id: 870756
+    best_slurm_id: 870758
   train/vasr/mse_loss_epoch:
     best_loss: 0.019741781055927277
     best_loss_epoch: 1
     best_loss_step: 24083
-    best_slurm_id: 870756
+    best_slurm_id: 870758
+  train/vasr/cross_entropy_loss_epoch:
+    best_loss: 0.5421766042709351
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 870758
+  val/loss:
+    best_loss: 1.8809092044830322
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870758
+  test/vasr/loss:
+    best_loss: 1.8934333324432373
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870758
+  test/vasr/cross_entropy_loss:
+    best_loss: 1.701835036277771
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870758
   val/vasr/loss:
     best_loss: 1.8888146877288818
     best_loss_epoch: 0
     best_loss_step: 12041
-    best_slurm_id: 870756
-  train/vasr/accuracy_epoch:
-    best_loss: 0.7909031510353088
+    best_slurm_id: 870758
+  val/vasr/cross_entropy_loss:
+    best_loss: 1.6969650983810425
+    best_loss_epoch: 0
+    best_loss_step: 12041
+    best_slurm_id: 870758
+  train/vasr/loss_epoch:
+    best_loss: 0.7460463047027588
     best_loss_epoch: 5
     best_loss_step: 72251
-    best_slurm_id: 870756
+    best_slurm_id: 870758
+  test/vasr/mse_loss:
+    best_loss: 0.019159823656082153
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870758
   val/vasr/accuracy:
     best_loss: 0.2901916801929474
     best_loss_epoch: 2
     best_loss_step: 36125
-    best_slurm_id: 870756
+    best_slurm_id: 870758
+  train/vasr/accuracy_epoch:
+    best_loss: 0.7909031510353088
+    best_loss_epoch: 5
+    best_loss_step: 72251
+    best_slurm_id: 870758
+  test/vasr/accuracy:
+    best_loss: 0.2663251459598541
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 870758
   max_epoch: 5
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/870756/epoch=0-step=12042.ckpt
+  datasets:
+  - vasr
 - slurm_id:
   - 871036
+  - 871037
+  - 871038
   experiment_nm: bongard_logo_vaec_images
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/4f0jemf6
-  val/loss:
-    best_loss: 0.000951033434830606
-    best_loss_epoch: 49
-    best_loss_step: 52099
-    best_slurm_id: 871036
-  train/bongard_logo/loss_epoch:
-    best_loss: 0.00025585954426787794
-    best_loss_epoch: 69
-    best_loss_step: 72939
-    best_slurm_id: 871036
-  train/vaec/loss_epoch:
-    best_loss: 0.0002589454816188663
-    best_loss_epoch: 69
-    best_loss_step: 72939
-    best_slurm_id: 871036
-  val/vaec/loss:
-    best_loss: 0.0009200822678394616
-    best_loss_epoch: 51
-    best_loss_step: 54183
-    best_slurm_id: 871036
   val/bongard_logo/loss:
     best_loss: 0.0008344992529600859
     best_loss_epoch: 68
     best_loss_step: 71897
-    best_slurm_id: 871036
+    best_slurm_id: 871038
+  val/vaec/loss:
+    best_loss: 0.0009200822678394616
+    best_loss_epoch: 51
+    best_loss_step: 54183
+    best_slurm_id: 871038
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.00025585954426787794
+    best_loss_epoch: 69
+    best_loss_step: 72939
+    best_slurm_id: 871038
+  train/vaec/loss_epoch:
+    best_loss: 0.0002589454816188663
+    best_loss_epoch: 69
+    best_loss_step: 72939
+    best_slurm_id: 871038
+  val/loss:
+    best_loss: 0.000951033434830606
+    best_loss_epoch: 49
+    best_loss_step: 52099
+    best_slurm_id: 871038
   max_epoch: 70
+  datasets:
+  - vaec
+  - bongard_logo
 - slurm_id:
   - 871039
+  - 871040
+  - 871041
   experiment_nm: bongard_logo_vaec_images
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/yrmijgp4
-  val/loss:
-    best_loss: 0.0018303473480045795
-    best_loss_epoch: 39
-    best_loss_step: 20839
-    best_slurm_id: 871039
-  train/bongard_logo/loss_epoch:
-    best_loss: 0.0006963625783100724
-    best_loss_epoch: 58
-    best_loss_step: 30738
-    best_slurm_id: 871039
-  train/vaec/loss_epoch:
-    best_loss: 0.000702188815921545
-    best_loss_epoch: 58
-    best_loss_step: 30738
-    best_slurm_id: 871039
-  val/vaec/loss:
-    best_loss: 0.0016545136459171772
-    best_loss_epoch: 39
-    best_loss_step: 20839
-    best_slurm_id: 871039
   val/bongard_logo/loss:
     best_loss: 0.0025394605472683907
     best_loss_epoch: 58
     best_loss_step: 30738
-    best_slurm_id: 871039
+    best_slurm_id: 871041
+  val/vaec/loss:
+    best_loss: 0.0016545136459171772
+    best_loss_epoch: 39
+    best_loss_step: 20839
+    best_slurm_id: 871041
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.0006963625783100724
+    best_loss_epoch: 58
+    best_loss_step: 30738
+    best_slurm_id: 871041
+  train/vaec/loss_epoch:
+    best_loss: 0.000702188815921545
+    best_loss_epoch: 58
+    best_loss_step: 30738
+    best_slurm_id: 871041
+  val/loss:
+    best_loss: 0.0018303473480045795
+    best_loss_epoch: 39
+    best_loss_step: 20839
+    best_slurm_id: 871041
   max_epoch: 60
+  datasets:
+  - vaec
+  - bongard_logo
 - slurm_id:
   - 871043
+  - 871044
+  - 871045
   experiment_nm: bongard_logo_images
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/dd0rs2l0
-  val/loss:
-    best_loss: 0.00123557448387146
-    best_loss_epoch: 158
-    best_loss_step: 80930
-    best_slurm_id: 871043
-  train/bongard_logo/loss_epoch:
-    best_loss: 0.0011485025752335787
-    best_loss_epoch: 162
-    best_loss_step: 82966
-    best_slurm_id: 871043
   val/bongard_logo/loss:
     best_loss: 0.0012445891043171287
     best_loss_epoch: 158
     best_loss_step: 80930
-    best_slurm_id: 871043
+    best_slurm_id: 871045
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.0011485025752335787
+    best_loss_epoch: 162
+    best_loss_step: 82966
+    best_slurm_id: 871045
+  val/loss:
+    best_loss: 0.00123557448387146
+    best_loss_epoch: 158
+    best_loss_step: 80930
+    best_slurm_id: 871045
   max_epoch: 165
+  datasets:
+  - bongard_logo
 - slurm_id:
   - 871046
+  - 871047
+  - 871048
   experiment_nm: bongard_logo_images
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/lp7t3tgt
-  val/loss:
-    best_loss: 0.0012250365689396858
-    best_loss_epoch: 56
-    best_loss_step: 58025
-    best_slurm_id: 871046
-  train/bongard_logo/loss_epoch:
-    best_loss: 0.0012434119125828147
-    best_loss_epoch: 59
-    best_loss_step: 61079
-    best_slurm_id: 871046
   val/bongard_logo/loss:
     best_loss: 0.0012268794234842062
     best_loss_epoch: 56
     best_loss_step: 58025
-    best_slurm_id: 871046
+    best_slurm_id: 871048
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.0012434119125828147
+    best_loss_epoch: 59
+    best_loss_step: 61079
+    best_slurm_id: 871048
+  val/loss:
+    best_loss: 0.0012250365689396858
+    best_loss_epoch: 56
+    best_loss_step: 58025
+    best_slurm_id: 871048
   max_epoch: 77
+  datasets:
+  - bongard_logo
 - slurm_id:
   - 871049
+  - 871050
+  - 871051
   experiment_nm: vaec_images
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/524gruve
-  val/loss:
-    best_loss: 0.0012674867175519466
-    best_loss_epoch: 25
-    best_loss_step: 13545
-    best_slurm_id: 871049
-  train/vaec/loss_epoch:
-    best_loss: 7.02734951119055e-06
-    best_loss_epoch: 46
-    best_loss_step: 24486
-    best_slurm_id: 871049
   val/vaec/loss:
     best_loss: 0.0012677464401349425
     best_loss_epoch: 25
     best_loss_step: 13545
-    best_slurm_id: 871049
+    best_slurm_id: 871051
+  train/vaec/loss_epoch:
+    best_loss: 7.02734951119055e-06
+    best_loss_epoch: 46
+    best_loss_step: 24486
+    best_slurm_id: 871051
+  val/loss:
+    best_loss: 0.0012674867175519466
+    best_loss_epoch: 25
+    best_loss_step: 13545
+    best_slurm_id: 871051
   max_epoch: 47
+  datasets:
+  - vaec
 - slurm_id:
   - 871052
+  - 871053
+  - 871054
   experiment_nm: vaec_images
   test_nm: number_of_slots
   wandb_urls:
   - https://wandb.ai/avr_universal/AVR_universal/runs/gs8h3ooa
-  val/loss:
-    best_loss: 0.0018841979326680303
-    best_loss_epoch: 12
-    best_loss_step: 13545
-    best_slurm_id: 871052
-  train/vaec/loss_epoch:
-    best_loss: 4.19402249463019e-06
-    best_loss_epoch: 33
-    best_loss_step: 35427
-    best_slurm_id: 871052
   val/vaec/loss:
     best_loss: 0.0018847505562007427
     best_loss_epoch: 12
     best_loss_step: 13545
-    best_slurm_id: 871052
+    best_slurm_id: 871054
+  train/vaec/loss_epoch:
+    best_loss: 4.19402249463019e-06
+    best_loss_epoch: 33
+    best_loss_step: 35427
+    best_slurm_id: 871054
+  val/loss:
+    best_loss: 0.0018841979326680303
+    best_loss_epoch: 12
+    best_loss_step: 13545
+    best_slurm_id: 871054
   max_epoch: 34
+  datasets:
+  - vaec
+- slurm_id:
+  - 872969
+  - 872970
+  - 874323
+  - 874324
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871039
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/tgg9ftgm
+  val/bongard_logo/loss:
+    best_loss: 0.5111704468727112
+    best_loss_epoch: 335
+    best_loss_step: 49055
+    best_slurm_id: 874324
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.466625452041626
+    best_loss_epoch: 363
+    best_loss_step: 53143
+    best_slurm_id: 874324
+  val/loss:
+    best_loss: 0.5150498151779175
+    best_loss_epoch: 311
+    best_loss_step: 45551
+    best_slurm_id: 874324
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.7627956867218018
+    best_loss_epoch: 363
+    best_loss_step: 53143
+    best_slurm_id: 874324
+  val/bongard_logo/accuracy:
+    best_loss: 0.7611111402511597
+    best_loss_epoch: 311
+    best_loss_step: 45551
+    best_slurm_id: 874324
+  max_epoch: 363
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/872969/epoch=311-step=45552.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 872971
+  - 872972
+  - 874325
+  - 874326
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871037
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/jlgyk5ja
+  val/bongard_logo/loss:
+    best_loss: 0.4344210624694824
+    best_loss_epoch: 439
+    best_loss_step: 128039
+    best_slurm_id: 874326
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.3915567696094513
+    best_loss_epoch: 487
+    best_loss_step: 142007
+    best_slurm_id: 874326
+  val/loss:
+    best_loss: 0.4320140779018402
+    best_loss_epoch: 439
+    best_loss_step: 128039
+    best_slurm_id: 874326
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.8061290383338928
+    best_loss_epoch: 490
+    best_loss_step: 142880
+    best_slurm_id: 874326
+  val/bongard_logo/accuracy:
+    best_loss: 0.7911111116409302
+    best_loss_epoch: 446
+    best_loss_step: 130076
+    best_slurm_id: 874326
+  max_epoch: 490
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/874325/epoch=439-step=128040.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 872973
+  - 872974
+  - 874327
+  - 874328
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871039
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/bg4p5zn4
+  val/vaec/loss:
+    best_loss: 1.0415475368499756
+    best_loss_epoch: 22
+    best_loss_step: 3426
+    best_slurm_id: 874328
+  train/vaec/loss_epoch:
+    best_loss: 0.05654537305235863
+    best_loss_epoch: 75
+    best_loss_step: 11323
+    best_slurm_id: 874328
+  val/loss:
+    best_loss: 1.041735291481018
+    best_loss_epoch: 22
+    best_loss_step: 3426
+    best_slurm_id: 874328
+  val/vaec/accuracy:
+    best_loss: 0.5492251515388489
+    best_loss_epoch: 32
+    best_loss_step: 4916
+    best_slurm_id: 874328
+  train/vaec/accuracy_epoch:
+    best_loss: 0.9803026914596558
+    best_loss_epoch: 75
+    best_loss_step: 11323
+    best_slurm_id: 874328
+  max_epoch: 75
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/872973/epoch=22-step=3427.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 872975
+  - 872976
+  - 874330
+  - 874331
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871037
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/ic372lv7
+  val/vaec/loss:
+    best_loss: 1.3848718404769897
+    best_loss_epoch: 1
+    best_loss_step: 595
+    best_slurm_id: 874331
+  train/vaec/loss_epoch:
+    best_loss: 0.06713258475065231
+    best_loss_epoch: 54
+    best_loss_step: 16389
+    best_slurm_id: 874331
+  val/loss:
+    best_loss: 1.3848516941070557
+    best_loss_epoch: 1
+    best_loss_step: 595
+    best_slurm_id: 874331
+  val/vaec/accuracy:
+    best_loss: 0.40402525663375854
+    best_loss_epoch: 53
+    best_loss_step: 16091
+    best_slurm_id: 874331
+  train/vaec/accuracy_epoch:
+    best_loss: 0.9740635752677917
+    best_loss_epoch: 54
+    best_loss_step: 16389
+    best_slurm_id: 874331
+  max_epoch: 54
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/872975/epoch=1-step=596.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 872977
+  - 872978
+  - 874334
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871045
+    strategy: best_all
+  test_nm: frozen_slot
+  cache: true
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/5fymg8em
+  test/bongard_logo_test_bd/loss:
+    best_loss: 0.3105243444442749
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  test/bongard_logo_test_ff/loss:
+    best_loss: 0.4386548399925232
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  test/bongard_logo_test_hd_comb/loss:
+    best_loss: 0.5644962191581726
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.36799582839012146
+    best_loss_epoch: 408
+    best_loss_step: 59713
+    best_slurm_id: 874334
+  val/loss:
+    best_loss: 0.38965585827827454
+    best_loss_epoch: 362
+    best_loss_step: 52997
+    best_slurm_id: 874334
+  test/bongard_logo_test_hd_novel/loss:
+    best_loss: 0.5327355265617371
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  val/bongard_logo/loss:
+    best_loss: 0.39659973978996277
+    best_loss_epoch: 367
+    best_loss_step: 53727
+    best_slurm_id: 874334
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.8227956891059875
+    best_loss_epoch: 408
+    best_loss_step: 59713
+    best_slurm_id: 874334
+  test/bongard_logo_test_hd_comb/accuracy:
+    best_loss: 0.7099999785423279
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  test/bongard_logo_test_ff/accuracy:
+    best_loss: 0.7649999856948853
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  test/bongard_logo_test_bd/accuracy:
+    best_loss: 0.8812500238418579
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  test/bongard_logo_test_hd_novel/accuracy:
+    best_loss: 0.6937500238418579
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874334
+  val/bongard_logo/accuracy:
+    best_loss: 0.8077777624130249
+    best_loss_epoch: 362
+    best_loss_step: 52997
+    best_slurm_id: 874334
+  max_epoch: 413
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/872978/epoch=362-step=52998.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 872979
+  - 872980
+  - 874335
+  - 874336
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871046
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/wmmvcuw6
+  val/bongard_logo/loss:
+    best_loss: 0.5986111760139465
+    best_loss_epoch: 204
+    best_loss_step: 59654
+    best_slurm_id: 874336
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.5371320247650146
+    best_loss_epoch: 256
+    best_loss_step: 74786
+    best_slurm_id: 874336
+  val/loss:
+    best_loss: 0.6044459342956543
+    best_loss_epoch: 204
+    best_loss_step: 59654
+    best_slurm_id: 874336
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.7149462103843689
+    best_loss_epoch: 256
+    best_loss_step: 74786
+    best_slurm_id: 874336
+  val/bongard_logo/accuracy:
+    best_loss: 0.6944444179534912
+    best_loss_epoch: 179
+    best_loss_step: 52379
+    best_slurm_id: 874336
+  max_epoch: 256
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/872980/epoch=204-step=59655.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 872981
+  - 872982
+  - 874340
+  - 874341
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871049
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/2suwszlb
+  val/vaec/loss:
+    best_loss: 1.0554678440093994
+    best_loss_epoch: 37
+    best_loss_step: 5661
+    best_slurm_id: 874341
+  train/vaec/loss_epoch:
+    best_loss: 0.32668060064315796
+    best_loss_epoch: 90
+    best_loss_step: 13558
+    best_slurm_id: 874341
+  val/loss:
+    best_loss: 1.055679440498352
+    best_loss_epoch: 37
+    best_loss_step: 5661
+    best_slurm_id: 874341
+  val/vaec/accuracy:
+    best_loss: 0.5726326107978821
+    best_loss_epoch: 89
+    best_loss_step: 13409
+    best_slurm_id: 874341
+  train/vaec/accuracy_epoch:
+    best_loss: 0.8495191931724548
+    best_loss_epoch: 90
+    best_loss_step: 13558
+    best_slurm_id: 874341
+  max_epoch: 90
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/872981/epoch=37-step=5662.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 872983
+  - 872984
+  - 874342
+  - 874343
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871052
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/9ww2k415
+  val/vaec/loss:
+    best_loss: 0.5853188037872314
+    best_loss_epoch: 59
+    best_loss_step: 17879
+    best_slurm_id: 874343
+  train/vaec/loss_epoch:
+    best_loss: 0.20266132056713104
+    best_loss_epoch: 112
+    best_loss_step: 33673
+    best_slurm_id: 874343
+  val/loss:
+    best_loss: 0.5850218534469604
+    best_loss_epoch: 59
+    best_loss_step: 17879
+    best_slurm_id: 874343
+  val/vaec/accuracy:
+    best_loss: 0.7243508100509644
+    best_loss_epoch: 59
+    best_loss_step: 17879
+    best_slurm_id: 874343
+  train/vaec/accuracy_epoch:
+    best_loss: 0.9113637208938599
+    best_loss_epoch: 112
+    best_loss_step: 33673
+    best_slurm_id: 874343
+  max_epoch: 112
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/872983/epoch=59-step=17880.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 873670
+  - 873671
+  - 874344
+  - 874345
+  experiment_nm: bongard_logo_vaec_scoring
+  based_on:
+    slurm_id: 871039
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/3t36txm7
+  val/bongard_logo/loss:
+    best_loss: 0.6450711488723755
+    best_loss_epoch: 65
+    best_loss_step: 9833
+    best_slurm_id: 874345
+  val/vaec/loss:
+    best_loss: 1.2467023134231567
+    best_loss_epoch: 18
+    best_loss_step: 2830
+    best_slurm_id: 874345
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.18050912022590637
+    best_loss_epoch: 71
+    best_loss_step: 10727
+    best_slurm_id: 874345
+  train/vaec/loss_epoch:
+    best_loss: 0.24004805088043213
+    best_loss_epoch: 71
+    best_loss_step: 10727
+    best_slurm_id: 874345
+  val/loss:
+    best_loss: 1.2189525365829468
+    best_loss_epoch: 18
+    best_loss_step: 2830
+    best_slurm_id: 874345
+  val/vaec/accuracy:
+    best_loss: 0.48689985275268555
+    best_loss_epoch: 51
+    best_loss_step: 7747
+    best_slurm_id: 874345
+  train/vaec/accuracy_epoch:
+    best_loss: 0.918785035610199
+    best_loss_epoch: 71
+    best_loss_step: 10727
+    best_slurm_id: 874345
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.6680362224578857
+    best_loss_epoch: 71
+    best_loss_step: 10727
+    best_slurm_id: 874345
+  val/bongard_logo/accuracy:
+    best_loss: 0.597777783870697
+    best_loss_epoch: 61
+    best_loss_step: 9237
+    best_slurm_id: 874345
+  max_epoch: 71
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873670/epoch=18-step=2831.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 873687
+  - 873688
+  - 874346
+  - 874347
+  experiment_nm: bongard_logo_vaec_scoring
+  based_on:
+    slurm_id: 871037
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/v20tygon
+  val/bongard_logo/loss:
+    best_loss: 0.6133872270584106
+    best_loss_epoch: 78
+    best_loss_step: 47004
+    best_slurm_id: 874347
+  val/vaec/loss:
+    best_loss: 1.3563206195831299
+    best_loss_epoch: 45
+    best_loss_step: 27369
+    best_slurm_id: 874347
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.1709364354610443
+    best_loss_epoch: 97
+    best_loss_step: 58309
+    best_slurm_id: 874347
+  train/vaec/loss_epoch:
+    best_loss: 0.17859196662902832
+    best_loss_epoch: 97
+    best_loss_step: 58309
+    best_slurm_id: 874347
+  val/loss:
+    best_loss: 1.3240522146224976
+    best_loss_epoch: 45
+    best_loss_step: 27369
+    best_slurm_id: 874347
+  val/vaec/accuracy:
+    best_loss: 0.4608525037765503
+    best_loss_epoch: 65
+    best_loss_step: 39269
+    best_slurm_id: 874347
+  train/vaec/accuracy_epoch:
+    best_loss: 0.9900210499763489
+    best_loss_epoch: 97
+    best_loss_step: 58309
+    best_slurm_id: 874347
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.6832141280174255
+    best_loss_epoch: 97
+    best_loss_step: 58309
+    best_slurm_id: 874347
+  val/bongard_logo/accuracy:
+    best_loss: 0.6655555367469788
+    best_loss_epoch: 78
+    best_loss_step: 47004
+    best_slurm_id: 874347
+  max_epoch: 97
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873687/epoch=45-step=27370.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 873738
+  - 873739
+  - 873740
+  - 874350
+  - 874351
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871039
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/rqtf6alv
+  val/bongard_logo/loss:
+    best_loss: 0.6930164694786072
+    best_loss_epoch: 38
+    best_loss_step: 5693
+    best_slurm_id: 874351
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.44948992133140564
+    best_loss_epoch: 62
+    best_loss_step: 9197
+    best_slurm_id: 874351
+  val/loss:
+    best_loss: 0.6930033564567566
+    best_loss_epoch: 8
+    best_loss_step: 1313
+    best_slurm_id: 874351
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.7852688431739807
+    best_loss_epoch: 62
+    best_loss_step: 9197
+    best_slurm_id: 874351
+  val/bongard_logo/accuracy:
+    best_loss: 0.5377777814865112
+    best_loss_epoch: 22
+    best_loss_step: 3357
+    best_slurm_id: 874351
+  max_epoch: 62
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873738/epoch=8-step=1314.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 873741
+  - 873742
+  - 873743
+  - 874352
+  - 874353
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871037
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/i4iko4rw
+  val/bongard_logo/loss:
+    best_loss: 0.6930267810821533
+    best_loss_epoch: 56
+    best_loss_step: 16586
+    best_slurm_id: 874353
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.4120033383369446
+    best_loss_epoch: 110
+    best_loss_step: 32300
+    best_slurm_id: 874353
+  val/loss:
+    best_loss: 0.6930000185966492
+    best_loss_epoch: 56
+    best_loss_step: 16586
+    best_slurm_id: 874353
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.8154838681221008
+    best_loss_epoch: 110
+    best_loss_step: 32300
+    best_slurm_id: 874353
+  val/bongard_logo/accuracy:
+    best_loss: 0.5388888716697693
+    best_loss_epoch: 56
+    best_loss_step: 16586
+    best_slurm_id: 874353
+  max_epoch: 110
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873741/epoch=56-step=16587.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 873744
+  - 873745
+  - 873746
+  - 874354
+  - 874355
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871039
+    strategy: best_all
+  test_nm: frozen_slot
+  failed: true
+- slurm_id:
+  - 873748
+  - 873749
+  - 873750
+  - 874358
+  - 874359
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871037
+    strategy: best_all
+  test_nm: frozen_slot
+  cache: true
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/52b05cv3
+  test/vaec_test5/loss:
+    best_loss: 1.7648072242736816
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec_test1/loss:
+    best_loss: 0.02439466491341591
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec/loss:
+    best_loss: 0.02439466491341591
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  val/vaec/loss:
+    best_loss: 0.02275107055902481
+    best_loss_epoch: 19
+    best_loss_step: 5959
+    best_slurm_id: 874359
+  val/loss:
+    best_loss: 0.022712895646691322
+    best_loss_epoch: 19
+    best_loss_step: 5959
+    best_slurm_id: 874359
+  test/vaec_test4/loss:
+    best_loss: 3.5033018589019775
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec_test2/loss:
+    best_loss: 1.0817816257476807
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec_test3/loss:
+    best_loss: 1.0866185426712036
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  train/vaec/loss_epoch:
+    best_loss: 7.568788191747444e-07
+    best_loss_epoch: 22
+    best_loss_step: 6853
+    best_slurm_id: 874359
+  test/vaec_test2/accuracy:
+    best_loss: 0.8688812851905823
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec/accuracy:
+    best_loss: 0.9941306710243225
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec_test1/accuracy:
+    best_loss: 0.9941306710243225
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec_test5/accuracy:
+    best_loss: 0.27280882000923157
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec_test3/accuracy:
+    best_loss: 0.7993917465209961
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  test/vaec_test4/accuracy:
+    best_loss: 0.3943026065826416
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874359
+  val/vaec/accuracy:
+    best_loss: 0.993889331817627
+    best_loss_epoch: 19
+    best_loss_step: 5959
+    best_slurm_id: 874359
+  train/vaec/accuracy_epoch:
+    best_loss: 1.0
+    best_loss_epoch: 22
+    best_loss_step: 6853
+    best_slurm_id: 874359
+  max_epoch: 73
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873748/epoch=19-step=5960.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 873751
+  - 873752
+  - 873753
+  - 874360
+  - 874361
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871045
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/hw9ma38x
+  val/bongard_logo/loss:
+    best_loss: 0.6928532123565674
+    best_loss_epoch: 0
+    best_loss_step: 145
+    best_slurm_id: 874361
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.3958223760128021
+    best_loss_epoch: 54
+    best_loss_step: 8029
+    best_slurm_id: 874361
+  val/loss:
+    best_loss: 0.6927169561386108
+    best_loss_epoch: 0
+    best_loss_step: 145
+    best_slurm_id: 874361
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.8250537514686584
+    best_loss_epoch: 54
+    best_loss_step: 8029
+    best_slurm_id: 874361
+  val/bongard_logo/accuracy:
+    best_loss: 0.5355555415153503
+    best_loss_epoch: 0
+    best_loss_step: 145
+    best_slurm_id: 874361
+  max_epoch: 54
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873751/epoch=0-step=146.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 873754
+  - 873755
+  - 873756
+  - 874362
+  - 874363
+  experiment_nm: bongard_logo_scoring
+  based_on:
+    slurm_id: 871046
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/flxh8e8g
+  val/bongard_logo/loss:
+    best_loss: 0.6926909685134888
+    best_loss_epoch: 2
+    best_loss_step: 872
+    best_slurm_id: 874363
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.3879246115684509
+    best_loss_epoch: 56
+    best_loss_step: 16586
+    best_slurm_id: 874363
+  val/loss:
+    best_loss: 0.6927295327186584
+    best_loss_epoch: 2
+    best_loss_step: 872
+    best_slurm_id: 874363
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.8260214924812317
+    best_loss_epoch: 56
+    best_loss_step: 16586
+    best_slurm_id: 874363
+  val/bongard_logo/accuracy:
+    best_loss: 0.5377777814865112
+    best_loss_epoch: 44
+    best_loss_step: 13094
+    best_slurm_id: 874363
+  max_epoch: 56
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873754/epoch=2-step=873.ckpt
+  datasets:
+  - bongard_logo_test_hd_novel
+- slurm_id:
+  - 873757
+  - 873758
+  - 873759
+  - 874364
+  - 874365
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871049
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/845ydz2z
+  val/vaec/loss:
+    best_loss: 0.03201477974653244
+    best_loss_epoch: 38
+    best_loss_step: 5810
+    best_slurm_id: 874365
+  train/vaec/loss_epoch:
+    best_loss: 4.5033375499770045e-06
+    best_loss_epoch: 92
+    best_loss_step: 13856
+    best_slurm_id: 874365
+  val/loss:
+    best_loss: 0.0319879949092865
+    best_loss_epoch: 38
+    best_loss_step: 5810
+    best_slurm_id: 874365
+  val/vaec/accuracy:
+    best_loss: 0.9912033677101135
+    best_loss_epoch: 37
+    best_loss_step: 5661
+    best_slurm_id: 874365
+  train/vaec/accuracy_epoch:
+    best_loss: 1.0
+    best_loss_epoch: 46
+    best_loss_step: 7002
+    best_slurm_id: 874365
+  max_epoch: 92
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873757/epoch=38-step=5811.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 873760
+  - 873761
+  - 873762
+  - 874366
+  - 874367
+  experiment_nm: vaec_scoring
+  based_on:
+    slurm_id: 871052
+    strategy: best_all
+  test_nm: frozen_slot
+  cache: true
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/1n9ow7rg
+  test/vaec_test5/loss:
+    best_loss: 0.9032509922981262
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec_test1/loss:
+    best_loss: 0.05298895016312599
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec/loss:
+    best_loss: 0.05298895016312599
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  val/vaec/loss:
+    best_loss: 0.049411140382289886
+    best_loss_epoch: 61
+    best_loss_step: 18475
+    best_slurm_id: 874367
+  val/loss:
+    best_loss: 0.04932843893766403
+    best_loss_epoch: 61
+    best_loss_step: 18475
+    best_slurm_id: 874367
+  test/vaec_test4/loss:
+    best_loss: 2.272416591644287
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec_test2/loss:
+    best_loss: 1.823044776916504
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec_test3/loss:
+    best_loss: 3.1767313480377197
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  train/vaec/loss_epoch:
+    best_loss: 1.7274703623115784e-07
+    best_loss_epoch: 109
+    best_loss_step: 32779
+    best_slurm_id: 874367
+  test/vaec_test2/accuracy:
+    best_loss: 0.7415213584899902
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec/accuracy:
+    best_loss: 0.9880539178848267
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec_test1/accuracy:
+    best_loss: 0.9880539178848267
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec_test5/accuracy:
+    best_loss: 0.582979142665863
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec_test3/accuracy:
+    best_loss: 0.35474202036857605
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  test/vaec_test4/accuracy:
+    best_loss: 0.3568354845046997
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874367
+  val/vaec/accuracy:
+    best_loss: 0.9882366061210632
+    best_loss_epoch: 61
+    best_loss_step: 18475
+    best_slurm_id: 874367
+  train/vaec/accuracy_epoch:
+    best_loss: 1.0
+    best_loss_epoch: 115
+    best_loss_step: 34567
+    best_slurm_id: 874367
+  max_epoch: 115
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873760/epoch=61-step=18476.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 873763
+  - 873764
+  experiment_nm: bongard_logo_vaec_scoring
+  based_on:
+    slurm_id: 871039
+    strategy: best_all
+  test_nm: frozen_slot
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/qdfywfs4
+  val/bongard_logo/loss:
+    best_loss: 0.6929844617843628
+    best_loss_epoch: 87
+    best_loss_step: 26223
+    best_slurm_id: 873764
+  val/vaec/loss:
+    best_loss: 1.3861666917800903
+    best_loss_epoch: 63
+    best_loss_step: 19071
+    best_slurm_id: 873764
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.20801104605197906
+    best_loss_epoch: 55
+    best_loss_step: 16687
+    best_slurm_id: 873764
+  train/vaec/loss_epoch:
+    best_loss: 0.6240257620811462
+    best_loss_epoch: 112
+    best_loss_step: 33673
+    best_slurm_id: 873764
+  val/loss:
+    best_loss: 1.352954387664795
+    best_loss_epoch: 63
+    best_loss_step: 19071
+    best_slurm_id: 873764
+  val/vaec/accuracy:
+    best_loss: 0.2600119113922119
+    best_loss_epoch: 0
+    best_loss_step: 297
+    best_slurm_id: 873764
+  train/vaec/accuracy_epoch:
+    best_loss: 0.26459142565727234
+    best_loss_epoch: 0
+    best_loss_step: 297
+    best_slurm_id: 873764
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.5132216811180115
+    best_loss_epoch: 14
+    best_loss_step: 4469
+    best_slurm_id: 873764
+  val/bongard_logo/accuracy:
+    best_loss: 0.5444444417953491
+    best_loss_epoch: 84
+    best_loss_step: 25329
+    best_slurm_id: 873764
+  max_epoch: 113
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873763/epoch=63-step=19072.ckpt
+  datasets:
+  - vaec_test5
+- slurm_id:
+  - 873767
+  - 873768
+  - 873769
+  - 873770
+  - 874368
+  - 874369
+  experiment_nm: bongard_logo_vaec_scoring
+  based_on:
+    slurm_id: 871037
+    strategy: best_all
+  test_nm: frozen_slot
+  cache: true
+  wandb_urls:
+  - https://wandb.ai/avr_universal/AVR_universal/runs/g7qwv1ix
+  test/bongard_logo_test_bd/loss:
+    best_loss: 0.6930927038192749
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/vaec_test1/loss:
+    best_loss: 1.384753704071045
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  train/bongard_logo/loss_epoch:
+    best_loss: 0.108172707259655
+    best_loss_epoch: 55
+    best_loss_step: 33319
+    best_slurm_id: 874369
+  test/vaec_test4/loss:
+    best_loss: 1.3823378086090088
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  val/bongard_logo/loss:
+    best_loss: 0.6930409073829651
+    best_loss_epoch: 3
+    best_loss_step: 2379
+    best_slurm_id: 874369
+  train/vaec/loss_epoch:
+    best_loss: 0.4891330301761627
+    best_loss_epoch: 55
+    best_loss_step: 33319
+    best_slurm_id: 874369
+  test/vaec_test5/loss:
+    best_loss: 1.3836140632629395
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/bongard_logo_test_ff/loss:
+    best_loss: 0.693207323551178
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/bongard_logo_test_hd_comb/loss:
+    best_loss: 0.6930846571922302
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  val/vaec/loss:
+    best_loss: 1.3848730325698853
+    best_loss_epoch: 1
+    best_loss_step: 1189
+    best_slurm_id: 874369
+  val/loss:
+    best_loss: 1.3527270555496216
+    best_loss_epoch: 1
+    best_loss_step: 1189
+    best_slurm_id: 874369
+  test/vaec_test2/loss:
+    best_loss: 1.3836554288864136
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/bongard_logo_test_hd_novel/loss:
+    best_loss: 0.6930506825447083
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/vaec_test3/loss:
+    best_loss: 1.3824973106384277
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/vaec_test1/accuracy:
+    best_loss: 0.2720646560192108
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  train/bongard_logo/accuracy_epoch:
+    best_loss: 0.8421855568885803
+    best_loss_epoch: 55
+    best_loss_step: 33319
+    best_slurm_id: 874369
+  test/vaec_test3/accuracy:
+    best_loss: 0.28154170513153076
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/bongard_logo_test_ff/accuracy:
+    best_loss: 0.4833333194255829
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  val/vaec/accuracy:
+    best_loss: 0.26715970039367676
+    best_loss_epoch: 1
+    best_loss_step: 1189
+    best_slurm_id: 874369
+  test/bongard_logo_test_bd/accuracy:
+    best_loss: 0.5166666507720947
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/vaec_test2/accuracy:
+    best_loss: 0.27411264181137085
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/vaec_test5/accuracy:
+    best_loss: 0.2697887420654297
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/vaec_test4/accuracy:
+    best_loss: 0.27553871273994446
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  test/bongard_logo_test_hd_comb/accuracy:
+    best_loss: 0.48249998688697815
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  train/vaec/accuracy_epoch:
+    best_loss: 0.41192999482154846
+    best_loss_epoch: 55
+    best_loss_step: 33319
+    best_slurm_id: 874369
+  test/bongard_logo_test_hd_novel/accuracy:
+    best_loss: 0.5249999761581421
+    best_loss_epoch: 0
+    best_loss_step: 0
+    best_slurm_id: 874369
+  val/bongard_logo/accuracy:
+    best_loss: 0.5411111116409302
+    best_loss_epoch: 20
+    best_loss_step: 12494
+    best_slurm_id: 874369
+  max_epoch: 55
+  loss/best_ckpt: /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/873767/epoch=1-step=1190.ckpt
+  datasets:
+  - vaec_test5

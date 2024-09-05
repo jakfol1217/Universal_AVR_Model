@@ -1,31 +1,31 @@
 defaults:
-  - vaec/dataloader: ../../../../dataloader/default
-  - vaec/optimizer: ../../../../optimizer/adam
+  - vaec_test2/dataloader: ../../../../dataloader/default
+  - vaec_test2/optimizer: ../../../../optimizer/adam
 
-vaec:
+vaec_test2:
   num_context_panels: 3
   dataset:
     target: model.avr_datasets.VAECdataset
     data_path: ${data.root}/vaec/datasets/
     img_size: ${img_size}
     train:
-      _target_: ${data.tasks.vaec.dataset.target}
+      _target_: ${data.tasks.vaec_test2.dataset.target}
       dataset_type: analogy_train.hy
-      data_path: ${data.tasks.vaec.dataset.data_path}
+      data_path: ${data.tasks.vaec_test2.dataset.data_path}
       # TODO: allow multiple or treat as separate datasets?
       # - analogy_scale_train.hy
-      img_size: ${data.tasks.vaec.dataset.img_size}
+      img_size: ${data.tasks.vaec_test2.dataset.img_size}
     val:
-      _target_: ${data.tasks.vaec.dataset.target}
+      _target_: ${data.tasks.vaec_test2.dataset.target}
       dataset_type: analogy_test1.hy
         # TODO: allow multiple or treat as separate datasets?
         # TODO: split into val and test?
         # - analogy_scale_test1.hy
-      data_path: ${data.tasks.vaec.dataset.data_path}
-      img_size: ${data.tasks.vaec.dataset.img_size}
+      data_path: ${data.tasks.vaec_test2.dataset.data_path}
+      img_size: ${data.tasks.vaec_test2.dataset.img_size}
     test:
-      _target_: ${data.tasks.vaec.dataset.target}
-      dataset_type: analogy_test1.hy
+      _target_: ${data.tasks.vaec_test2.dataset.target}
+      dataset_type: analogy_test2.hy
         # - analogy_test1.hy
         # - analogy_test2.hy
         # - analogy_test3.hy
@@ -34,6 +34,6 @@ vaec:
         # TODO: allow multiple or treat as separate datasets?
         # TODO: split into val and test?
         # - analogy_scale_test1.hy
-      data_path: ${data.tasks.vaec.dataset.data_path}
-      img_size: ${data.tasks.vaec.dataset.img_size}
+      data_path: ${data.tasks.vaec_test2.dataset.data_path}
+      img_size: ${data.tasks.vaec_test2.dataset.img_size}
   target_loss_ratio: ${target_loss_ratio}
