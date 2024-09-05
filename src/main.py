@@ -20,15 +20,19 @@ handler = logging.StreamHandler(stream=sys.stdout)
 logger.addHandler(handler)
 
 def extract_wandb_id(id):
-    try:
-        wandb_id = WandbAgent.extract_wandb_id(
-            id, log_dir="/home2/faculty/akaminski/Universal_AVR_Model/logs"
-        )
-    except FileNotFoundError:
-        wandb_id = WandbAgent.extract_wandb_id(
-            id, log_dir="/home2/faculty/jfoltyn/Universal_AVR_Model/logs"
-        )
-    return wandb_id
+    paths = [
+        "/mnt/evafs/groups/mandziuk-lab/akaminski/logs",
+        "/home2/faculty/akaminski/Universal_AVR_Model/logs",
+        "/home2/faculty/jfoltyn/Universal_AVR_Model/logs",
+    ]
+    for path in paths:
+        try:
+            wandb_id = WandbAgent.extract_wandb_id(id, log_dir=path)
+            return wandb_id
+        except FileNotFoundError:
+            continue
+
+    raise FileNotFoundError(f"Could not find wandb_id for {id}")
 
 @hydra.main(version_base=None, config_path="./conf", config_name="config")
 def _test(cfg: DictConfig) -> None:
