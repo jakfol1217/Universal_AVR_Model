@@ -10,3 +10,4 @@ model_checkpoints/
 .env
 logs/
 slurm-*.out
+history/
