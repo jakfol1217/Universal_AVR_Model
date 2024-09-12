@@ -72,6 +72,6 @@ class WReN_each(pl.LightningModule):
             relations = self.norm(relations)
             f_out[:, i] = self.f(relations).squeeze()
             del relations
-        return self.softmax(f_out)
+        return f_out
 
 

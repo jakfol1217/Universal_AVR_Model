@@ -64,6 +64,6 @@ class WReN_average(pl.LightningModule):
             relations = context_g_out + context_choice_g_out
             relations = self.norm(relations)
             f_out[:, i] = self.f(relations).squeeze()
-        return self.softmax(f_out)
+        return f_out
 
 

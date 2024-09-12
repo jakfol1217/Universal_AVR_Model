@@ -198,4 +198,4 @@ class RelationalScoringModule(pl.LightningModule):
         for ans_i in range(rel_matrix.shape[1]):
             answer_scores.append(self.scoring_mlp(rel_matrix[:, ans_i]))
         answer_scores = torch.cat(answer_scores, dim=1)
-        return self.softmax(answer_scores)
+        return answer_scores

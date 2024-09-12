@@ -35,6 +35,6 @@ class VASR_model(pl.LightningModule):
         x = torch.cat(pairs, dim=1)
 
         x = self.classifier(x)
-        return self.softmax(x)
+        return x
     
 
