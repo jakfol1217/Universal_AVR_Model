@@ -1,0 +1,23 @@
+# Files including model codes
+Descriptions of files in this folder:
+- **ESBN.py** - file containing implementation for ESBN model from [article](https://arxiv.org/abs/2012.14601).
+- *RN_helper_funtions.py* - file containing helper functions for WReN models.
+- *STSN.py* – file containing class with code for slot autoencoder from [article](https://arxiv.org/abs/2006.15055).  
+- *STSNv3.py* – file containing class with code for slot autoencoder from [article](https://arxiv.org/abs/2006.15055), but adjusted to account for 3-dimensional input (colored images).
+- *VASR_model.py* - file containing code from a simple classification model used in [article](https://arxiv.org/abs/2212.04542).
+- *WReN_average.py* – file containing code for the WReN model [article](https://arxiv.org/abs/1807.04225), including averaging between a set of objects (usually slots from the Slot autoencoder [article](https://arxiv.org/abs/2006.15055).  
+- *WReN_each.py* - file containing code for the WReN model [article](https://arxiv.org/abs/1807.04225), including grouping a set of objects in a one-to-one manner (each object to each other object) (usually slots from the Slot autoencoder [article](https://arxiv.org/abs/2006.15055).  
+- *WReN_in_order.py* - file containing code for the WReN model [article](https://arxiv.org/abs/1807.04225), including grouping a set of objects in order (1st with 1st, 2nd with 2nd etc) (usually slots from the Slot autoencoder [article](https://arxiv.org/abs/2006.15055).  
+- *WReN_vit.py* – file containing code for WReN model [article](https://arxiv.org/abs/1807.04225) compatible with image embedding outputs from feature transformer.
+- *base.py* - file containing base abstract class for AVR models.
+- **combined_model.py** - file containing the training of the scoring module combining real-life and abstract data.  
+- *pos_emb.py* – file containing code for positional embeddings for task panels.  
+- **relational_module.py** - file containing functions computing relation matrices as well as a relational scoring module.
+- **scoring_model_esnb.py** - file containing code for the training of the scoring module using the ESBN model.  
+- **scoring_model_feature_transformer_v1.py** – python script containing code for the training of the scoring module using the transformer model adjusted to incorporate feature transformer for loaded data.  
+- **scoring_model_v1.py** – file containing code for the training of the scoring module using the transformer model (this script manages training for combined slot autoencoder and scoring module).  
+- **scoring_model_wren_v1.py** – file containing code for the training of the scoring module using the WreN model.  
+- *test.py* - test model.
+- *torch_wrappers.py* - file containing helper wrapping functions.
+- *vit.py* – file containing code for transformer model used for scoring module.
+- *yoloWrapper.py* - file containing helper wrapping functions (for Yolo model from huggingface).
