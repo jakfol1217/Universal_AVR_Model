@@ -78,7 +78,8 @@ class RelationalModule(pl.LightningModule):
         diag = torch.zeros(rel_matrix.shape[1], rel_matrix.shape[2], device=rel_matrix.device)
         diag.fill_diagonal_(torch.inf)
         rel_matrix = rel_matrix - diag
-        return self.rel_activation_func(rel_matrix), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
+        #return self.rel_activation_func(rel_matrix), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
+        return rel_matrix/rel_matrix.max(), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
 
     def relational_bottleneck_hierarchical(self, keys, queries):
 
@@ -88,7 +89,8 @@ class RelationalModule(pl.LightningModule):
         rel_matrix_1 = rel_matrix_1 - diag
         rel_matrix_1 = self.rel_activation_func(rel_matrix_1)  # use activation on previous if hierarchical? probably not
         rel_matrix_2 = torch.matmul(rel_matrix_1, rel_matrix_1.transpose(1,2))
-        return rel_matrix_1, self.rel_activation_func(rel_matrix_2)
+        #return rel_matrix_1, self.rel_activation_func(rel_matrix_2)
+        return rel_matrix_1, rel_matrix_2/rel_matrix_2.max()
 
 
 
@@ -175,7 +177,8 @@ class RelationalScoringModule(pl.LightningModule):
     def __init__(self,
                  in_dim:int,
                  hidden_dim: int = 256,
-                 pooling: str = "max"):
+                 pooling: str = "max",
+                 transformer: pl.LightningModule = None):
         super(RelationalScoringModule, self).__init__()
         self.scoring_mlp = nn.Sequential(
                 nn.Linear(in_dim, hidden_dim),
@@ -191,11 +194,56 @@ class RelationalScoringModule(pl.LightningModule):
 
         self.softmax = nn.Softmax(dim=1)
 
+        self.transformer = transformer
+
     def forward(self, rel_matrix: torch.Tensor) -> torch.Tensor:
-        rel_matrix = rel_matrix.flatten(-2).unsqueeze(-2)
-        rel_matrix = self.pooling(rel_matrix).squeeze(-2)
         answer_scores = []
-        for ans_i in range(rel_matrix.shape[1]):
-            answer_scores.append(self.scoring_mlp(rel_matrix[:, ans_i]))
+        if self.transformer is None:
+            rel_matrix = rel_matrix.flatten(-2).unsqueeze(-2)
+            rel_matrix = self.pooling(rel_matrix).squeeze(-2)
+            
+            for ans_i in range(rel_matrix.shape[1]):
+                answer_scores.append(self.scoring_mlp(rel_matrix[:, ans_i]))
+            
+        else:
+            for ans_i in range(rel_matrix.shape[1]):
+                answer_scores.append(self.transformer(rel_matrix[:, ans_i]))
         answer_scores = torch.cat(answer_scores, dim=1)
         return answer_scores
+
+
+class SemiDummyRelationalClassifier(pl.LightningModule):
+    def __init__(
+        self
+    ):
+        super().__init__()
+
+
+    def forward(
+            self, 
+            panels: torch.Tensor
+    ):
+        print(panels.shape)
+        rel_matrix = torch.matmul(panels, panels.transpose(0,1))
+        ans_1_group_1_relation = rel_matrix[6][0:6].sum()
+        ans_1_group_2_relation = rel_matrix[6][7:-1].sum()
+        ans_2_group_1_relation = rel_matrix[-1][0:6].sum()
+        ans_2_group_2_relation = rel_matrix[-1][7:-1].sum()
+
+        if ans_1_group_1_relation >= ans_1_group_2_relation:
+            ans_1_assignment = 0
+        else:
+            ans_1_assignment = 1
+
+        if ans_2_group_1_relation >= ans_2_group_2_relation:
+            ans_2_assignment = 0
+        else:
+            ans_2_assignment = 1
+
+        if ans_1_assignment != ans_2_assignment:
+            return torch.Tensor(ans_1_assignment)
+        else:
+            if ans_1_group_1_relation >= ans_2_group_1_relation:
+                return torch.Tensor(0)
+            else:
+                return torch.Tensor(1)

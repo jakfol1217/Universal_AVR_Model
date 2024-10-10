@@ -26,6 +26,10 @@ relational_hierarchical_2: false
 transformer_name: ${transformer_name}
 save_hyperparameters: true
 
+scoring_transformer: null
+
+limit_to_groups: false
+
 slot_model:
   _target_: model.models.STSNv3.SlotAttentionAutoEncoder
   resolution:

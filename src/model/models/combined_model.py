@@ -41,9 +41,11 @@ class CombinedModel(ScoringModel):
             relational_context_norm_2: bool = None,
             relational_hierarchical_2: bool = None,
             additional_metrics: dict = {},
-            save_hyperparameters=True,
-            freeze_slot_model=True,
+            save_hyperparameters: bool = True,
+            freeze_slot_model: bool = True,
+            limit_to_groups: bool = False,
             auxiliary_loss_ratio: float = 0.0,
+            scoring_transformer: pl.LightningModule = None,
             **kwargs,
     ):
         
@@ -62,7 +64,8 @@ class CombinedModel(ScoringModel):
         self.relationalScoringModule = RelationalScoringModule(
             in_dim=scoring_in_dim,
             hidden_dim=scoring_hidden_dim,
-            pooling=scoring_pooling_type
+            pooling=scoring_pooling_type,
+            transformer=scoring_transformer
         )
 
         self.relationalModule_real = relationalModelConstructor(
@@ -89,6 +92,8 @@ class CombinedModel(ScoringModel):
 
         self.feature_transformer= timm.create_model(transformer_name, pretrained=True, num_classes=0)
         self.real_idxes = real_idxes
+
+        self.limit_to_groups = limit_to_groups
 
         task_metrics_idxs = [
             int(_it.removeprefix("task_metric_"))
@@ -191,7 +196,15 @@ class CombinedModel(ScoringModel):
         given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt]
         answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:]
 
-        scores = self(given_panels, answer_panels, isAbstract=isAbstract)
+        context_groups = self.cfg.data.tasks[
+                self.task_names[dataloader_idx]
+            ].context_groups
+        
+        if self.limit_to_groups:
+            scores = self(given_panels[:, context_groups[0], :], answer_panels, isAbstract=isAbstract)
+        else:
+            scores = self(given_panels, answer_panels, isAbstract=isAbstract)
+        
         softmax = nn.Softmax(dim=1)
         scores = softmax(scores)
 
