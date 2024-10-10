@@ -21,9 +21,10 @@ logger.addHandler(handler)
 
 def extract_wandb_id(id):
     paths = [
-        "/mnt/evafs/groups/mandziuk-lab/akaminski/logs",
-        "/home2/faculty/akaminski/Universal_AVR_Model/logs",
-        "/home2/faculty/jfoltyn/Universal_AVR_Model/logs",
+        # "/mnt/evafs/groups/mandziuk-lab/akaminski/logs",
+        # "/home2/faculty/akaminski/Universal_AVR_Model/logs",
+        # "/home2/faculty/jfoltyn/Universal_AVR_Model/logs",
+        "/app/logs"
     ]
     for path in paths:
         try:
@@ -41,6 +42,8 @@ def _test(cfg: DictConfig) -> None:
 
     pl.seed_everything(cfg.seed)
     data_module = instantiate(cfg.data.datamodule, cfg)
+    torch.set_default_device("cuda")
+    torch.multiprocessing .set_start_method('spawn')
 
     # TODO: checkpoint mechanism (param in config + loading from checkpoint)
     # TODO: datamodules (combination investiagtion)
@@ -71,12 +74,14 @@ def _test(cfg: DictConfig) -> None:
         module = module.__class__.load_from_checkpoint(
             cfg.checkpoint_path, cfg=cfg, **module_kwargs, _recursive_=False
         )
+    # print(module.device)
 
-    # print(module)
+    print(module)
     # print(cfg.trainer)
     trainer: pl.Trainer = instantiate(cfg.trainer)
     trainer.logger = wandb_logger
     wandb_logger.watch(module)
+
     trainer.fit(module, data_module, ckpt_path=cfg.checkpoint_path)
     # trainer.test(module, data_module)
 
