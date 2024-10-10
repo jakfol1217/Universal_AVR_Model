@@ -537,7 +537,22 @@ class LOGOdataset(Dataset):
 
         return img, target
 
+class LOGOdataset_vit(LOGOdataset):
+    def __init__(
+        self,
+        data_path: str,
+        annotation_path: str,
+        dataset_type: str,
+        model_name: str,
+    ):
+        with open(annotation_path, "r") as f:
+            annotations = json.load(f)
+        data_files = annotations[dataset_type]
+        self.data_files = [os.path.join(data_path, file[:2], "images", file) for file in data_files]
 
+        model = timm.create_model(model_name)
+        model_conf = timm.data.resolve_data_config({}, model=model)
+        self.transforms = create_transform(**model_conf)
 
 
 class DEEPIQdataset(Dataset):
@@ -871,6 +886,57 @@ class VAECdataset(Dataset):
         img = torch.stack([self.transforms(im) for im in images])
 
         return img, target
+
+
+class VAECdataset_vit(VAECdataset):
+    def __init__(
+        self,
+        data_path: str,
+        dataset_type: str,
+        model_name: str,
+    ):
+        self.data_file = os.path.join(data_path, dataset_type)
+        with h5py.File(self.data_file) as f:
+            self.file_size = len(f)
+
+        self.data_path = data_path
+
+        # model = timm.create_model(model_name)
+        # model_conf = timm.data.resolve_data_config({}, model=model)
+        # self.transforms = create_transform(**model_conf)
+        self.transforms = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Resize(size=384, interpolation=transforms.InterpolationMode.BICUBIC , max_size=None, antialias=True),
+            transforms.CenterCrop(size=(384, 384)),
+            transforms.Normalize(mean=[0.5000, 0.5000, 0.5000], std=[0.5000, 0.5000, 0.5000])
+        ])
+
+
+class EmbeddingH5PYDataset(Dataset):
+    def __init__(
+        self,
+        data_path: str,
+        dataset_type: str,
+    ):
+        file_nm = dataset_type if dataset_type.endswith(".hy") else dataset_type + ".hy"
+        self.data_file = os.path.join(data_path, file_nm)
+        with h5py.File(self.data_file, "r") as f:
+            assert f["data"].shape[0] == f["labels"].shape[0]
+            self.file_size = f["data"].shape[0]
+
+        self.dataset = None
+
+    def __len__(self):
+        return self.file_size
+
+    def __getitem__(self, item):
+        if self.dataset is None:
+            self.dataset = h5py.File(self.data_file, "r")
+
+        embeddings = torch.from_numpy(self.dataset["data"][item])
+        target = self.dataset["labels"][item]
+
+        return embeddings, target
 
 
 @hydra.main(version_base=None, config_path="../conf", config_name="config")
