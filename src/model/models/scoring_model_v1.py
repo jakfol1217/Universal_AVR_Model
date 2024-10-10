@@ -49,15 +49,15 @@ class ScoringModel(AVRModule):
         # self.row_column_fc = nn.Linear(6, in_dim)
         self.num_correct = num_correct
 
-        if context_norm:
+        if context_norm: # whether to appl context norm
             self.contextnorm = True
             self.gamma = nn.Parameter(torch.ones(in_dim))
             self.beta = nn.Parameter(torch.zeros(in_dim))
         else:
             self.contextnorm = False
 
-        self.slot_model = slot_model
-        if (
+        self.slot_model = slot_model  
+        if ( # loading slot model weights from checkpoint
             slot_ckpt_path := cfg.model.slot_model.ckpt_path
         ) is not None and cfg.checkpoint_path is None:
             cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
@@ -70,18 +70,18 @@ class ScoringModel(AVRModule):
                 slot_ckpt_path, cfg=cfg, **model_cfg
             )
         self.freeze_slot_model = freeze_slot_model
-        self.auxiliary_loss_ratio = auxiliary_loss_ratio
+        self.auxiliary_loss_ratio = auxiliary_loss_ratio # auxiliary loss ratio for image reconstruction with slots
         if self.freeze_slot_model:
             self.slot_model.freeze()
         else:
             self.slot_model.unfreeze()
 
-        multi_transformers = [
+        multi_transformers = [ # multi transformer models handling
             int(_it.removeprefix("transformer_"))
             for _it in kwargs.keys()
             if _it.startswith("transformer_")
         ]
-        multi_pos_emb = [
+        multi_pos_emb = [ #multi positional embedding handling
             int(_it.removeprefix("pos_emb_"))
             for _it in kwargs.keys()
             if _it.startswith("pos_emb_")
@@ -118,7 +118,7 @@ class ScoringModel(AVRModule):
                 }
             )
 
-        if len(multi_transformers) == 0:
+        if len(multi_transformers) == 0:  # loading additional metrics for different tasks from configuration files
             self.additional_metrics = nn.ModuleList(
                 [create_module_dict(additional_metrics)]
             )
@@ -143,6 +143,7 @@ class ScoringModel(AVRModule):
         return z_seq
 
     def forward(self, given_panels, answer_panels, idx=0):
+        # computing scores with multiple possible transformer models
         __pos_emb = self.pos_emb[idx]
         __transformer = self.transformer[idx]
         __num_correct = (
@@ -185,7 +186,7 @@ class ScoringModel(AVRModule):
         recons_seq = []
         masks_seq = []
         slots_seq = []
-        for idx in range(img.shape[1]):
+        for idx in range(img.shape[1]): # creating slots
             recon_combined, recons, masks, slots, attn = self.slot_model(img[:, idx])
             recons_seq.append(recons)
             recon_combined_seq.append(recon_combined)
@@ -197,12 +198,12 @@ class ScoringModel(AVRModule):
             pred_img = pred_img.repeat(1, 1, 3, 1, 1)
         slot_model_loss = self.slot_model.loss(pred_img, img)
 
-        context_panels_cnt = self.cfg.data.tasks[
+        context_panels_cnt = self.cfg.data.tasks[ # number of task context panels
             self.task_names[dataloader_idx]
         ].num_context_panels
 
-        given_panels = torch.stack(slots_seq, dim=1)[:, :context_panels_cnt]
-        answer_panels = torch.stack(slots_seq, dim=1)[:, context_panels_cnt:]
+        given_panels = torch.stack(slots_seq, dim=1)[:, :context_panels_cnt] # context panels
+        answer_panels = torch.stack(slots_seq, dim=1)[:, context_panels_cnt:] # answer panels
 
         scores = self(given_panels, answer_panels, idx=dataloader_idx + self.increment_dataloader_idx)
         # print("scores and target>>",scores,target)
@@ -210,9 +211,9 @@ class ScoringModel(AVRModule):
         # print(scores)
         # print(scores.shape) # batch x num_choices
         # print(f"Prediction: {pred}, Target: {target}")
-        ce_loss = self.loss(scores, target)
+        ce_loss = self.loss(scores, target) # cross entropy loss for slot image reconstruction
 
-        current_metrics = self.additional_metrics[dataloader_idx + self.increment_dataloader_idx]
+        current_metrics = self.additional_metrics[dataloader_idx + self.increment_dataloader_idx] # computing and reporting metrics
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(

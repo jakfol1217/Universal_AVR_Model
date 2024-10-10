@@ -61,7 +61,7 @@ class ScoringModelFeatureTransformer(AVRModule):
             kwargs.get(f"num_correct_{_ix}") for _ix in multi_corrects
         ]
 
-        if context_norm:
+        if context_norm: # use context norm
             self.contextnorm = True
             self.gamma = nn.Parameter(torch.ones(in_dim))
             self.beta = nn.Parameter(torch.zeros(in_dim))
@@ -108,24 +108,28 @@ class ScoringModelFeatureTransformer(AVRModule):
                     for _ix in multi_pos_emb
                 ]
             )
-
-        if pooling:
+        
+        # defining feature transformer (for embedding), default: vit_large_patch32_384
+        if pooling: # use pooling in feature transformer
             self.feature_transformer = timm.create_model(transformer_name, pretrained=True, num_classes=0)
         else:
             self.feature_transformer = timm.create_model(transformer_name, pretrained=True, num_classes=0, global_pool='')
         for param in self.feature_transformer.parameters():
                 param.requires_grad = False
         self.pooling = pooling
-
+        
+        # optional: detection model for object detection
         self.detection_model = None
         if use_detection:
             self.detection_model = [self.init_detection_model()]
-            
+        
+        # optional: activity detection model (using captions to find activities as presented on image, e.g. man running etc)
         self.use_captions = use_captions
         self.cos_sim = torch.nn.CosineSimilarity(dim=0)
 
     @torch.no_grad()
     def init_detection_model(self):
+        # workaround for creating object detection model
         detection_model = YOLOwrapper('/app/yolo/yolov8m.pt')
         detection_model.yolo.eval()
         return detection_model
@@ -143,6 +147,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         return z_seq
 
     def forward(self, given_panels, answer_panels, idx=0):
+        # computing scores with multiple possible transformer models
         __pos_emb = self.pos_emb[idx]
         __transformer = self.transformer
         __num_correct = self.num_correct[idx]
@@ -175,6 +180,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         return instantiate(self.cfg.optimizer, params=self.parameters())
     
     def forward_detection_model(self, given_panels, answer_panels, context_groups, answer_groups):
+        # function performing optional object detection step (returns scores that are added to model scores)
         detection_scores = [[] for _ in range(given_panels.shape[0])]
 
         context_panels = given_panels[:, context_groups[0], :]
@@ -193,6 +199,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
 
     def forward_activities_model(self, given_panels, answer_panels, context_groups, answer_groups):
+        # function performing optional activity detection step (returns scores that are added to model scores)
         activity_scores = [[] for _ in range(given_panels.shape[0])]
 
         context_panels = given_panels[:, context_groups[0], :]
@@ -208,28 +215,29 @@ class ScoringModelFeatureTransformer(AVRModule):
  
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
-        if self.use_captions:
+        if self.use_captions: # if activity detection is used, we load in additional pre-defined captions for images
             img, target, img_cap = batch
         else:
             img, target = batch
         results = []
-        for idx in range(img.shape[1]):
+        for idx in range(img.shape[1]): # creating embeddings with feature transformer
             results.append(self.feature_transformer(img[:, idx]))
 
-        context_panels_cnt = self.cfg.data.tasks[
+        context_panels_cnt = self.cfg.data.tasks[ # number of task context panels
             self.task_names[dataloader_idx]
         ].num_context_panels
 
-        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt]
-        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:]
+        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt] # context panels
+        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:] # answer panels
 
-        given_imgs = img[:, :context_panels_cnt]
-        answer_imgs = img[:, context_panels_cnt:]
+        given_imgs = img[:, :context_panels_cnt] # context original images (pre embedding)
+        answer_imgs = img[:, context_panels_cnt:] # answer original images (pre-embedding)
 
-        context_groups = self.cfg.data.tasks[
+        context_groups = self.cfg.data.tasks[ # context groups (e.g. using only 1 group from bongard instead of all context images)
                 self.task_names[dataloader_idx]
             ].context_groups
-        answer_groups = self.cfg.data.tasks[
+        
+        answer_groups = self.cfg.data.tasks[ # answer groups, contain all answers in case of bongard and analogy making problems
                 self.task_names[dataloader_idx]
             ].answer_groups
 
@@ -238,7 +246,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         scores = softmax(scores)
 
         if self.detection_model is not None:
-            
+            # optional object detection step
             det_scores = self.forward_detection_model(given_imgs, answer_imgs, context_groups, answer_groups)
             det_scores = det_scores.to(scores, non_blocking=True)
             
@@ -246,6 +254,7 @@ class ScoringModelFeatureTransformer(AVRModule):
             scores = scores_adjusted
 
         if self.use_captions:
+            # optional activity detection step
             given_imgs_cap = img_cap[:, :context_panels_cnt]
             answer_imgs_cap = img_cap[:, context_panels_cnt:]
 
@@ -259,7 +268,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
         pred = scores.argmax(1)
 
-        current_metrics = self.additional_metrics[dataloader_idx]
+        current_metrics = self.additional_metrics[dataloader_idx] # computing and reporting metrics
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(
@@ -302,6 +311,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         self.val_losses.clear()
 
     def on_save_checkpoint(self, checkpoint):
+        # deleting saved weights of non-trained models to save EDEN disk space
         keys_to_delete = []
         for key in checkpoint['state_dict']:
             if key.startswith('slot_model') or key.startswith('feature_transformer') or key.startswith('detection_model'):
@@ -313,6 +323,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
 
     def get_detected_classes(self, images, confidence_level=0.8):
+        # function computing the number of detected objects in object detection step
         results = self.detection_model[0](images)
         classes = np.array([[0 for _ in range(len(results[0].names))] for i in range(len(results))], dtype='float64')
         for i, r in enumerate(results):
@@ -323,6 +334,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         return torch.from_numpy(classes)
 
     def detection_score_function(self, context, answers):
+        # function computing object detection scores (which are added to model scores to influence model decision)
         x = np.sum(np.average(context, axis=0) - answers)
         context_scale = np.sum(np.average(context, axis=0))
         
@@ -332,7 +344,9 @@ class ScoringModelFeatureTransformer(AVRModule):
             res *= numbing_param
         return res
     
+
     def activity_score_function(self, ac1_em, ac2_em):
+        # function computing activity detection scores (which are added to model scores to influence model decision)
         cos_sim = 0
         for i in range(ac1_em.shape[0]):
             cos_sim += self.cos_sim(ac1_em[i,:], ac2_em)

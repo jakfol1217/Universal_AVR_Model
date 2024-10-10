@@ -57,7 +57,7 @@ class ScoringModelWReN(ScoringModel):
             save_hyperparameters=save_hyperparameters, 
             freeze_slot_model=freeze_slot_model
                          )
-        
+        # choosing the type of WReN model (affects how STSN slots are processed, e.g. if we take the average of all slots or slots unchanged)
         self.wren_type = wren_type
         if self.wren_type == "averaged" or self.wren_type == "vit_pooled":
             self.wren_model = WReN_average(
@@ -86,6 +86,8 @@ class ScoringModelWReN(ScoringModel):
             self.wren_model = VASR_model(
                 object_size=in_dim
             )
+
+        # defining feature transformer (for embedding), default: vit_large_patch32_384
         self.feature_transformer = None
         if self.wren_type == "vit":
             self.feature_transformer = timm.create_model(transformer_name, pretrained=True, num_classes=0, global_pool='')
@@ -96,11 +98,12 @@ class ScoringModelWReN(ScoringModel):
             for param in self.feature_transformer.parameters():
                 param.requires_grad = False
 
+        # optional: detection model for object detection
         self.detection_model = None
         if use_detection:
             self.detection_model = [self.init_detection_model()]
         
-        task_metrics_idxs = [
+        task_metrics_idxs = [ # loading additional metrics for different tasks from configuration files
             int(_it.removeprefix("task_metric_"))
             for _it in kwargs.keys()
             if _it.startswith("task_metric_")
@@ -118,7 +121,7 @@ class ScoringModelWReN(ScoringModel):
                 }
             )
 
-        self.task_metrics = nn.ModuleList(
+        self.task_metrics = nn.ModuleList( # loading additional metrics for different tasks
             [
                 create_module_dict(kwargs.get(f"task_metric_{_ix}"))
                 for _ix in task_metrics_idxs
@@ -128,7 +131,7 @@ class ScoringModelWReN(ScoringModel):
         if len(self.task_metrics) > 0:
             self.additional_metrics = self.task_metrics
 
-            
+        # optional: activity detection model (using captions to find activities as presented on image, e.g. man running etc)    
         self.use_captions = use_captions
         self.cos_sim = torch.nn.CosineSimilarity(dim=0)
 
@@ -136,6 +139,7 @@ class ScoringModelWReN(ScoringModel):
 
     @torch.no_grad()
     def init_detection_model(self):
+        # workaround for creating object detection model
         detection_model = YOLOwrapper('/app/yolo/yolov8m.pt')
         detection_model.yolo.eval()
         return detection_model
@@ -143,6 +147,7 @@ class ScoringModelWReN(ScoringModel):
 
 
     def forward(self, given_panels, answer_panels):
+        # creating scores with the use of WReN model
         if self.wren_type == "averaged":
             given_panels = given_panels.mean(2)
             answer_panels = answer_panels.mean(2)
@@ -150,6 +155,7 @@ class ScoringModelWReN(ScoringModel):
         return scores
     
     def forward_detection_model(self, given_panels, answer_panels, context_groups, answer_groups):
+        # function performing optional object detection step (returns scores that are added to model scores)
         detection_scores = [[] for _ in range(given_panels.shape[0])]
 
         context_panels = given_panels[:, context_groups[0], :]
@@ -168,6 +174,7 @@ class ScoringModelWReN(ScoringModel):
 
 
     def forward_activities_model(self, given_panels, answer_panels, context_groups, answer_groups):
+        # function performing optional activity detection step (returns scores that are added to model scores)
         activity_scores = [[] for _ in range(given_panels.shape[0])]
 
         context_panels = given_panels[:, context_groups[0], :]
@@ -184,13 +191,13 @@ class ScoringModelWReN(ScoringModel):
     
 
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
-        if self.use_captions:
+        if self.use_captions: # if activity detection is used, we load in additional pre-defined captions for images
             img, target, img_cap = batch
         else:
             img, target = batch
         results = []
         slot_model_loss = None
-        if self.feature_transformer is None:
+        if self.feature_transformer is None: # creating slots using STSN
             for idx in range(img.shape[1]):
                 recon_combined, recons, masks, slots, attn = self.slot_model(img[:, idx])
                 results.append(slots)
@@ -200,32 +207,34 @@ class ScoringModelWReN(ScoringModel):
                 pred_img = pred_img.repeat(1, 1, 3, 1, 1)
             slot_model_loss = self.slot_model.loss(pred_img, img)
 
-        else:
+        else: # creating embeddings with feature transformer
             for idx in range(img.shape[1]):
                 with autocast(device_type='cuda', dtype=torch.float16):
                     res = self.feature_transformer(img[:, idx])
                 results.append(res)
         
-        context_panels_cnt = self.cfg.data.tasks[
+        context_panels_cnt = self.cfg.data.tasks[ # number of task context panels
                 self.task_names[dataloader_idx]
             ].num_context_panels
 
-        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt]
-        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:]
+        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt] # context panels
+        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:] # answer panels
 
-        given_imgs = img[:, :context_panels_cnt]
-        answer_imgs = img[:, context_panels_cnt:]
-        context_groups = self.cfg.data.tasks[
+        given_imgs = img[:, :context_panels_cnt] # context original images (pre embedding)
+        answer_imgs = img[:, context_panels_cnt:] # answer original images (pre-embedding)
+
+        context_groups = self.cfg.data.tasks[ # context groups (e.g. using only 1 group from bongard instead of all context images)
                 self.task_names[dataloader_idx]
             ].context_groups
-        answer_groups = self.cfg.data.tasks[
+        
+        answer_groups = self.cfg.data.tasks[ # answer groups, contain all answers in case of bongard and analogy making problems
                 self.task_names[dataloader_idx]
             ].answer_groups
         
         scores = self(given_panels, answer_panels)
 
         if self.detection_model is not None:
-        
+            # optional object detection step
             det_scores = self.forward_detection_model(given_imgs, answer_imgs, context_groups, answer_groups)
             det_scores = det_scores.to(scores, non_blocking=True)
 
@@ -233,6 +242,7 @@ class ScoringModelWReN(ScoringModel):
             scores = scores_adjusted
         
         if self.use_captions:
+            # optional activity detection step
             given_imgs_cap = img_cap[:, :context_panels_cnt]
             answer_imgs_cap = img_cap[:, context_panels_cnt:]
 
@@ -246,7 +256,7 @@ class ScoringModelWReN(ScoringModel):
 
         ce_loss = self.loss(scores, target)
 
-        current_metrics = self.additional_metrics[dataloader_idx]
+        current_metrics = self.additional_metrics[dataloader_idx] # computing and reporting metrics
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(
@@ -282,6 +292,7 @@ class ScoringModelWReN(ScoringModel):
         return loss
 
     def on_save_checkpoint(self, checkpoint):
+        # deleting saved weights of non-trained models to save EDEN disk space
         keys_to_delete = []
         for key in checkpoint['state_dict']:
             if key.startswith('slot_model') or key.startswith('feature_transformer') or key.startswith('detection_model'):
@@ -292,6 +303,7 @@ class ScoringModelWReN(ScoringModel):
 
 
     def get_detected_classes(self, images, confidence_level=0.8):
+        # function computing the number of detected objects in object detection step
         results = self.detection_model[0](images)
         classes = np.array([[0 for _ in range(len(results[0].names))] for i in range(len(results))], dtype='float64')
         for i, r in enumerate(results):
@@ -302,6 +314,7 @@ class ScoringModelWReN(ScoringModel):
         return torch.from_numpy(classes)
 
     def detection_score_function(self, context, answers):
+        # function computing object detection scores (which are added to model scores to influence model decision)
         x = np.sum(np.average(context, axis=0) - answers)
         context_scale = np.sum(np.average(context, axis=0))
         
@@ -312,6 +325,7 @@ class ScoringModelWReN(ScoringModel):
         return res
     
     def activity_score_function(self, ac1_em, ac2_em):
+        # function computing activity detection scores (which are added to model scores to influence model decision)
         cos_sim = 0
         for i in range(ac1_em.shape[0]):
             cos_sim += self.cos_sim(ac1_em[i,:], ac2_em)

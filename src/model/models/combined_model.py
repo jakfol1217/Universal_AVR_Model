@@ -61,6 +61,7 @@ class CombinedModel(ScoringModel):
             freeze_slot_model=freeze_slot_model,
             auxiliary_loss_ratio=auxiliary_loss_ratio)
         
+        # loading relational scoring module
         self.relationalScoringModule = RelationalScoringModule(
             in_dim=scoring_in_dim,
             hidden_dim=scoring_hidden_dim,
@@ -68,6 +69,7 @@ class CombinedModel(ScoringModel):
             transformer=scoring_transformer
         )
 
+        # relational model for real-life images
         self.relationalModule_real = relationalModelConstructor(
             use_answers_only=use_answers_only,
             object_size=relational_in_dim,
@@ -76,7 +78,7 @@ class CombinedModel(ScoringModel):
             context_norm=relational_context_norm,
             hierarchical=relational_hierarchical
         )
-        if separate_relationals:
+        if separate_relationals: # whether to use separate relational models for abstract/real-life images
             self.pooling = nn.AdaptiveMaxPool2d((1, relational_in_dim_2))
             self.relationalModule_abstract = relationalModelConstructor(
                 use_answers_only=use_answers_only,
@@ -90,12 +92,13 @@ class CombinedModel(ScoringModel):
             self.pooling = nn.AdaptiveMaxPool2d((1, relational_in_dim))
             self.relationalModule_abstract = self.relationalModule_real
 
+        # defining feature transformer (for embedding), default: vit_large_patch32_384
         self.feature_transformer= timm.create_model(transformer_name, pretrained=True, num_classes=0)
-        self.real_idxes = real_idxes
+        self.real_idxes = real_idxes # indexes of datasets with real-life images for training
 
-        self.limit_to_groups = limit_to_groups
+        self.limit_to_groups = limit_to_groups # whether to limit relational computations to groups (e.g. computing realtions for only 1st group in bongard problems)
 
-        task_metrics_idxs = [
+        task_metrics_idxs = [ # loading additional metrics for different tasks from configuration files
             int(_it.removeprefix("task_metric_"))
             for _it in kwargs.keys()
             if _it.startswith("task_metric_")
@@ -113,7 +116,7 @@ class CombinedModel(ScoringModel):
                 }
             )
 
-        self.task_metrics = nn.ModuleList(
+        self.task_metrics = nn.ModuleList(  # loading additional metrics for different tasks
             [
                 create_module_dict(kwargs.get(f"task_metric_{_ix}"))
                 for _ix in task_metrics_idxs
@@ -147,6 +150,7 @@ class CombinedModel(ScoringModel):
         return image not in self.real_idxes
 
     def forward(self, given_panels, answer_panels, isAbstract):
+        # computing scores from realtional matrices
         if not isAbstract:
             rel_matrix = self.relationalModule_real(given_panels, answer_panels)
         else:
@@ -189,18 +193,18 @@ class CombinedModel(ScoringModel):
                     res = self.feature_transformer(img[:, idx])
                 results.append(res)
 
-        context_panels_cnt = self.cfg.data.tasks[
+        context_panels_cnt = self.cfg.data.tasks[ # number of task context panels
             self.task_names[dataloader_idx]
         ].num_context_panels
 
-        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt]
-        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:]
+        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt] # context panels
+        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:] # answer panels
 
-        context_groups = self.cfg.data.tasks[
+        context_groups = self.cfg.data.tasks[ # context groups (e.g. using only 1 group from bongard instead of all context images)
                 self.task_names[dataloader_idx]
             ].context_groups
         
-        if self.limit_to_groups:
+        if self.limit_to_groups: # whether to limit relational computing to groups (e.g. computing realtions for only 1st group in bongard problems)
             scores = self(given_panels[:, context_groups[0], :], answer_panels, isAbstract=isAbstract)
         else:
             scores = self(given_panels, answer_panels, isAbstract=isAbstract)
@@ -210,8 +214,8 @@ class CombinedModel(ScoringModel):
 
         pred = scores.argmax(1)
 
-        ce_loss = self.loss(scores, target)
-        current_metrics = self.additional_metrics[dataloader_idx]
+        ce_loss = self.loss(scores, target)  # cross entropy loss for slot image reconstruction
+        current_metrics = self.additional_metrics[dataloader_idx] # computing and reporting metrics
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(

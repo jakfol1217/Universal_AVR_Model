@@ -54,17 +54,17 @@ class RelationalModule(pl.LightningModule):
 
         relational_matrices = []
         for ans_i in range(answers.shape[1]):
-            context_choice = torch.cat([context, answers[:, ans_i, :].unsqueeze(1)], dim=1)
+            context_choice = torch.cat([context, answers[:, ans_i, :].unsqueeze(1)], dim=1) # appending answer to context
             if self.context_norm:
                 context_choice = self.apply_context_norm(context_choice)
 
-            keys = self.k_trans(context_choice)
+            keys = self.k_trans(context_choice) # creating keys
 
-            queries = self.q_trans(context_choice)
+            queries = self.q_trans(context_choice) # creating queries
 
             rel_matrix_1, rel_matrix_2 = self.create_relational(keys, queries)
             rel_matrix = torch.cat([rel_matrix_1.unsqueeze(1), rel_matrix_2.unsqueeze(1)], dim=1)
-            rel_matrix = torch.einsum('btch,m->bch', rel_matrix, self.hierarchical_aggregation)
+            rel_matrix = torch.einsum('btch,m->bch', rel_matrix, self.hierarchical_aggregation) # aggregating 1st and 2nd degree realtional matrices
             relational_matrices.append(rel_matrix.unsqueeze(1))
 
         return torch.cat(relational_matrices, dim=1)
@@ -72,16 +72,15 @@ class RelationalModule(pl.LightningModule):
 
 # todo: potentially other module for abstract shapes? utilizing slots etc
 
-    def relational_bottleneck(self, keys, queries):
+    def relational_bottleneck(self, keys, queries): # creating relational matrices of 1st degree only
 
         rel_matrix = torch.matmul(keys, queries.transpose(1,2))
         diag = torch.zeros(rel_matrix.shape[1], rel_matrix.shape[2], device=rel_matrix.device)
-        diag.fill_diagonal_(torch.inf)
+        diag.fill_diagonal_(torch.inf) # filling diagonal with negative infinity (otherwise diagonal dominates the rest)
         rel_matrix = rel_matrix - diag
-        #return self.rel_activation_func(rel_matrix), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
-        return rel_matrix/rel_matrix.max(), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
+        return self.rel_activation_func(rel_matrix), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
 
-    def relational_bottleneck_hierarchical(self, keys, queries):
+    def relational_bottleneck_hierarchical(self, keys, queries): # creating relational matrices of 1st and 2nd degrees
 
         rel_matrix_1 = torch.matmul(keys, queries.transpose(1,2))
         diag = torch.zeros(rel_matrix_1.shape[1], rel_matrix_1.shape[2], device=rel_matrix_1.device)
@@ -89,12 +88,12 @@ class RelationalModule(pl.LightningModule):
         rel_matrix_1 = rel_matrix_1 - diag
         rel_matrix_1 = self.rel_activation_func(rel_matrix_1)  # use activation on previous if hierarchical? probably not
         rel_matrix_2 = torch.matmul(rel_matrix_1, rel_matrix_1.transpose(1,2))
-        #return rel_matrix_1, self.rel_activation_func(rel_matrix_2)
-        return rel_matrix_1, rel_matrix_2/rel_matrix_2.max()
+        return rel_matrix_1, self.rel_activation_func(rel_matrix_2)
 
 
 
 class RelationalModuleAnswersOnly(RelationalModule):
+    # creating relational matrices with realtions between answers and context (excluding relations between context images)
     def __init__(self,
                  object_size: int,
                  asymetrical: bool,
@@ -117,12 +116,10 @@ class RelationalModuleAnswersOnly(RelationalModule):
             context_choice = torch.cat([context, answers[:, ans_i, :].unsqueeze(1)], dim=1)
             if self.context_norm:
                 context_choice = self.apply_context_norm(context_choice)
+
             keys = self.k_trans(context_choice)
 
             queries = self.q_trans(context_choice)
-
-            if torch.any(keys.isnan()) or torch.any(keys.isinf()) or torch.any(queries.isnan()) or torch.any(queries.isinf()):
-                print("after normalization")
 
             rel_matrix_1, rel_matrix_2 = self.create_relational(keys[:,:-1], queries[:,:-1], keys[:,-1].unsqueeze(1), queries[:,-1].unsqueeze(1))
             if not self.asymetrical:
@@ -136,7 +133,7 @@ class RelationalModuleAnswersOnly(RelationalModule):
         return torch.cat(relational_matrices, dim=1)
 
 
-    def relational_bottleneck(self, context_keyes, context_queries, answers_keys, answers_queries):
+    def relational_bottleneck(self, context_keyes, context_queries, answers_keys, answers_queries): # creating relational matrices of 1st degree only
 
         rel_answers_queries = torch.matmul(context_keyes, answers_queries.transpose(1,2)).squeeze()
         rel_answers_keys = torch.matmul(context_queries, answers_keys.transpose(1,2)).squeeze()
@@ -144,7 +141,7 @@ class RelationalModuleAnswersOnly(RelationalModule):
         return self.rel_activation_func(rel_answers), torch.zeros(*rel_answers.shape, device=rel_answers.device)
     
 
-    def relational_bottleneck_hierarchical(self, context_keyes, context_queries, answers_keys, answers_queries):
+    def relational_bottleneck_hierarchical(self, context_keyes, context_queries, answers_keys, answers_queries): # creating relational matrices of 1st and 2nd degrees
 
         rel_answers_1, _ = self.relational_bottleneck(context_keyes, context_queries, answers_keys, answers_queries)  # use activation on previous if hierarchical?
         rel_context_1 = self.rel_activation_func(torch.matmul(context_keyes, context_queries.transpose(1,2)))
@@ -198,14 +195,14 @@ class RelationalScoringModule(pl.LightningModule):
 
     def forward(self, rel_matrix: torch.Tensor) -> torch.Tensor:
         answer_scores = []
-        if self.transformer is None:
+        if self.transformer is None: # using MLP for scoring
             rel_matrix = rel_matrix.flatten(-2).unsqueeze(-2)
-            rel_matrix = self.pooling(rel_matrix).squeeze(-2)
+            rel_matrix = self.pooling(rel_matrix).squeeze(-2) # pooling -- to make relational matrices from different task types the same size (e.g. from bongard and analogy making)
             
             for ans_i in range(rel_matrix.shape[1]):
                 answer_scores.append(self.scoring_mlp(rel_matrix[:, ans_i]))
             
-        else:
+        else: # using ViT transformer model for scoring
             for ans_i in range(rel_matrix.shape[1]):
                 answer_scores.append(self.transformer(rel_matrix[:, ans_i]))
         answer_scores = torch.cat(answer_scores, dim=1)
@@ -213,6 +210,7 @@ class RelationalScoringModule(pl.LightningModule):
 
 
 class SemiDummyRelationalClassifier(pl.LightningModule):
+    # "dummy" classifier (tested on bongard problems) -- we assign answers to groups that are on average more similar
     def __init__(
         self
     ):

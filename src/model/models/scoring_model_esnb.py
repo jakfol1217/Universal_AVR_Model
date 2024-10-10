@@ -44,7 +44,7 @@ class ScoringModelEsnb(AVRModule):
             )
 
         _encoders = []
-        cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
+        cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True) # loading encoder models
         for _i in range(len(encoders)):
             conf = cfg.model.encoders[_i]
             if conf is None:
@@ -98,12 +98,12 @@ class ScoringModelEsnb(AVRModule):
             )
 
 
-        task_metrics_idxs = sorted([
+        task_metrics_idxs = sorted([ # loading additional metrics for different tasks from configuration files
             int(_it.removeprefix("task_metric_"))
             for _it in kwargs.keys()
             if _it.startswith("task_metric_")
         ])
-        self.task_metrics = nn.ModuleList(
+        self.task_metrics = nn.ModuleList( # loading additional metrics for different tasks
             [
                 create_module_dict(kwargs.get(f"task_metric_{_ix}"))
                 for _ix in task_metrics_idxs
@@ -139,7 +139,7 @@ class ScoringModelEsnb(AVRModule):
         if encoder is None:
             encoder_model_loss = 0.0
             panels = img
-        elif isinstance(encoder, (STSN.SlotAttentionAutoEncoder, STSNv3.SlotAttentionAutoEncoder)):
+        elif isinstance(encoder, (STSN.SlotAttentionAutoEncoder, STSNv3.SlotAttentionAutoEncoder)): # creating slots using STSN
             recon_combined_seq = []
             recons_seq = []
             masks_seq = []
@@ -156,7 +156,7 @@ class ScoringModelEsnb(AVRModule):
             encoder_model_loss = encoder.loss(pred_img, img)
             panels = torch.stack(results, dim=1)
         else:
-            for idx in range(img.shape[1]):
+            for idx in range(img.shape[1]): # creating embeddings with feature transformer
             #     with torch.autocast(device_type='cuda', dtype=torch.float16):
                 res = encoder(img[:, idx])
                 results.append(res)
@@ -165,7 +165,7 @@ class ScoringModelEsnb(AVRModule):
 
         
 
-        relations = self.relation_module(panels)
+        relations = self.relation_module(panels) # computing relations
         # print(f"{relations=}")
         scores = self(relations)
 
@@ -173,9 +173,9 @@ class ScoringModelEsnb(AVRModule):
         # print(scores)
         # print(scores.shape) # batch x num_choices
         # print(f"Prediction: {pred}, Target: {target}")
-        ce_loss = self.loss(scores, target)
+        ce_loss = self.loss(scores, target) # cross entropy loss for slot image reconstruction
 
-        current_metrics = self.additional_metrics[dataloader_idx + self.increment_dataloader_idx]
+        current_metrics = self.additional_metrics[dataloader_idx + self.increment_dataloader_idx] # computing and reporting metrics
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(
