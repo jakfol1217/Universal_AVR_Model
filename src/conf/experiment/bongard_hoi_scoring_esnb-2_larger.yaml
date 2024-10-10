@@ -1,0 +1,52 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [bongard_hoi_vit_2]
+  - override /model: scoring_model_esnb
+  - override /data/datamodule: single_module
+
+img_size: 80
+max_epochs: 500
+batch_size: 16
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 500
+
+# slots_every_n_steps: null # depricated - better to check on validation set
+# slots_every_n_epochs: null # depricated - better to check on validation set
+# slots_save_path: /app/out/slots
+model:
+  encoders:
+    - null
+  relation_module:
+    task_seg: [[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]] # HOI/LOGO
+    # norm_type: tasksegmented_contextnorm
+    z_size: 1024
+    key_size: 2048
+    hidden_size: 4096
+  scoring_module:
+    _target_: model.models.torch_wrappers.Sequential
+    models:
+      - _target_: torch.nn.Linear
+        in_features: 4096 # equal to hidden_size
+        out_features: 2048
+        bias: true
+      - _target_: torch.nn.ReLU
+      - _target_: torch.nn.Linear
+        in_features: 2048 # equal to hidden_size
+        out_features: 2048
+        bias: true
+      - _target_: torch.nn.ReLU
+      - _target_: torch.nn.Linear
+        in_features: 2048 # equal to hidden_size
+        out_features: 512
+        bias: true
+      - _target_: torch.nn.ReLU
+      - _target_: torch.nn.Linear
+        in_features: 512
+        out_features: 2 # number of classes 4 - VAEC/VASR, 1/2/4 -- HOI/LOGO
+        bias: true
+  task_metric_0:
+    accuracy:
+      _target_: torchmetrics.classification.BinaryAccuracy
+      threshold: 0.5

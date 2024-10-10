@@ -1,0 +1,42 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [vaec]
+  - override /model: scoring_model_esnb
+  - override /data/datamodule: single_module
+
+img_size: 80
+max_epochs: 500
+batch_size: 16
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 500
+
+# slots_every_n_steps: null # depricated - better to check on validation set
+# slots_every_n_epochs: null # depricated - better to check on validation set
+# slots_save_path: /app/out/slots
+model:
+  encoders:
+    - _target_: model.models.STSNv3.SlotAttentionAutoEncoder
+      resolution:
+        - ${img_size}
+        - ${img_size}
+      num_slots: 20
+      hid_dim: 64
+      num_iterations: 3
+      ckpt_path: null
+      save_hyperparameters: false
+      save_slots: false
+      freeze: true
+  relation_module:
+    task_seg: [[0, 1],[2, 3],[2, 4],[2, 5],[2, 6]] # VAEC/VASR
+    # norm_type: tasksegmented_contextnorm
+    # z_size: 1024
+    # key_size: 512
+    # hidden_size: 512
+  task_metric_0:
+    accuracy:
+      _target_: torchmetrics.classification.MulticlassAccuracy
+      num_classes: 4
+      average: macro
+  freeze_slot_model: true
