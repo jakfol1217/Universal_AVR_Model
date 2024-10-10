@@ -1099,3 +1099,302 @@ test_bongard_logo /app/model_checkpoints/873763/epoch=63-step=19072.ckpt
 # 883544 883545 883546 883547
 test_vaec /app/model_checkpoints/873763/epoch=63-step=19072.ckpt $LAST_ID "+increment_dataloader_idx=1"
 # 883548 883549 883550 883551 883552
+
+
+
+### Scoring Abstract
+### Based on both, train slot model
+### 10 bongard_logo
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=1
+# 883848, 883849, 883850, 883851
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=100
+# 883852, 883853, 883854, 883855
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=1000
+# 883856, 883857, 883858, 883859
+
+
+### 20 bongard_logo
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=1
+# 883860, 883861, 883862, 883863
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=100
+# 883864, 883865, 883866, 883867
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=1000
+# 883868, 883869, 883870, 883871
+
+
+
+### 10 vaec
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=1
+# 883873, 883874, 883875, 883876
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=100
+# 883877, 883878, 883879, 883880
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=1000
+# 883881, 883882, 883883, 883884
+
+
+### 20 vaec
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=1
+# 883885, 883886, 883887, 883888
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=100
+# 883889, 883890, 883891, 883892
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=1000
+# 883893, 883894, 883895, 883896
+
+
+
+### Based on single, train slot model
+### 10 bongard_logo
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'" model.auxiliary_loss_ratio=1
+# 883774, 883775, 883776, 883777
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'" model.auxiliary_loss_ratio=100
+# 883779, 883780, 883781, 883782
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'" model.auxiliary_loss_ratio=1000
+# 883783, 883784, 883785, 883786
+
+
+### 20 bongard_logo
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'" model.auxiliary_loss_ratio=1
+# 883787, 883788, 883789, 883790
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'" model.auxiliary_loss_ratio=100
+# 883791, 883792, 883793, 883794
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'" model.auxiliary_loss_ratio=1000
+# 883795, 883796, 883797, 883798
+
+### 10 vaec
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'" model.auxiliary_loss_ratio=1
+# 883799, 883800, 883801, 883802
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'" model.auxiliary_loss_ratio=100
+# 883803, 883804, 883805, 883806
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=128 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'" model.auxiliary_loss_ratio=1000
+# 883807, 883808, 883809, 883810
+
+
+### 20 vaec
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" model.auxiliary_loss_ratio=1
+# 883811, 883812, 883813, 883814
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" model.auxiliary_loss_ratio=100
+# 883815, 883816, 883817, 883818
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring early_stopping_patience=500 ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" model.auxiliary_loss_ratio=1000
+# 883819, 883820, 883821, 883822
+
+
+### bongard_logo + vaec, train slot model
+### 10
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=1
+# 883823, 883824, 883825, 883826
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=100
+# 883827, 883828, 883829, 883830
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=64 model.slot_model.num_slots=10 "model.slot_model.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'" model.auxiliary_loss_ratio=1000
+# 883831, 883832, 883833, 883834
+
+
+
+### 20
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=1
+# 883835, 883836, 883837, 883838
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=100
+# 883839, 883840, 883841, 883842
+
+./scripts/run_bulk.sh 4 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_scoring ++model.freeze_slot_model=false img_size=80 batch_size=32 model.slot_model.num_slots=20 "model.slot_model.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'" model.auxiliary_loss_ratio=1000
+# 883843, 883844, 883845, 883846
+
+
+### ESNB - tests
+
+# bongards
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=64 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+# 893835
+
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=8
+# 893841
+
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=8 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871039/epoch=39-step=20840.ckpt'"
+# 893846
+
+
+# analogy
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vaec_scoring_esnb trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=64 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+# 893838
+
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_scoring_esnb trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=32
+# 893843
+
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb trainer=test every_n_train_steps=50 every_n_epochs=null batch_size=8 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871037/epoch=49-step=52100.ckpt'"
+# 893844
+
+### Run for a day - simple MLP (Linear-ReLU-Linear scoring module)
+
+# BONGARD single
+
+## 10 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb batch_size=64 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'"
+# 893857 wtf? # 893941 # 894010
+# 894867 (scoring linear output 2)
+
+## 20 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb batch_size=16 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'"
+# 893861 wtf? # 893942 # 894011
+
+## real
+#./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py ++trainer.limit_train_batches=10 +experiment=bongard_hoi_scoring_esnb batch_size=16
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb batch_size=16
+# 893849 wtf? # 893943 # 894012 # 894069 # 894868 # 894878
+./scripts/run_bulk_2_0.sh 2 894878 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb batch_size=16
+# 894994, 894995
+
+
+## logo with vit
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit batch_size=16
+# 894996
+
+# BONGARD dual
+
+## 10 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb batch_size=8 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'"
+# 893850 wtf? # 893944 # 893983 # 894013 # 894880
+## 20 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb batch_size=8 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'"
+# 893851 wtf? # 893945 # 893984 # 894014 # 894882
+
+## dual with vit
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb_vit batch_size=4
+# 894998 # 895004
+
+
+# ANALOGY single
+
+## 10 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb batch_size=128 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'"
+# 893859 wtf? # 893946 # 893997
+## 20 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb batch_size=64 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'"
+# 893860 wtf? # 893947 # 894015
+
+## real
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_esnb batch_size=32
+# 893854 works?wtf?
+./scripts/run_bulk_2_0.sh 2 893854 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_esnb batch_size=32
+# 894020, 894021
+
+## vaec with vit
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb_vit batch_size=32
+# 895003
+
+# ANALOGY dual
+
+## 10 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb batch_size=8 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'"
+# 893855 wtf? # 893948 # 894022 # 894883
+## 20 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb batch_size=8 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'"
+# 893856 wtf? # 893949 # 894023 # 894884
+
+## dual with vit
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb_vit batch_size=8
+# 895005
+
+### Embedding without padding (not universal approach)
+
+#
+# BONGARD single
+
+## 10 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb batch_size=64 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871045/epoch=158-step=80931.ckpt'" model.relation_module.z_size=64
+# 894024
+
+## 20 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb batch_size=16 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871046/epoch=56-step=58026.ckpt'" model.relation_module.z_size=64
+# 894027
+
+
+
+# ANALOGY single
+
+## 10 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb batch_size=128 model.encoders.0.num_slots=10 "model.encoders.0.ckpt_path='/app/model_checkpoints/871049/epoch=25-step=13546.ckpt'" model.relation_module.z_size=64
+# 894028
+
+## 20 slots
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb batch_size=64 model.encoders.0.num_slots=20 "model.encoders.0.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" model.relation_module.z_size=64
+# 894029
+
+# with encoder unfrozen
+# TODO
+
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/create_embeddings_datasets.py --data_root=/app/data --out_root=/app/out --model_name=vit_large_patch32_384 --chunk_size=4 --run_logo
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/create_embeddings_datasets.py --data_root=/app/data --out_root=/app/out --model_name=vit_large_patch32_384 --chunk_size=4 --run_hoi
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/create_embeddings_datasets.py --data_root=/app/data --out_root=/app/out --model_name=vit_large_patch32_384 --chunk_size=4 --run_vaec
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/create_embeddings_datasets.py --data_root=/app/data --out_root=/app/out --model_name=vit_large_patch32_384 --chunk_size=4 --run_vasr
+
+# 895044 (895048 895065 895067) (895046 895066 895068) 895047
+
+sbatch --time=0-00:05:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit-2 batch_size=128
+# 895073
+
+# Trying larger scoring/relation module
+
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit-2_larger batch_size=128
+
+bongard_logo_scoring_esnb_vit-2
+bongard_hoi_scoring_esnb-2
+vaec_scoring_esnb_vit-2
+vasr_scoring_esnb-2
+
+bongard_logo_hoi_scoring_esnb_vit-2
+vaec_vasr_scoring_esnb_vit-2
+
+bongard_logo_scoring_esnb_vit-2_larger
+bongard_hoi_scoring_esnb-2_larger
+vaec_scoring_esnb_vit-2_larger
+vasr_scoring_esnb-2_larger
+
+bongard_logo_hoi_scoring_esnb_vit-2_larger
+vaec_vasr_scoring_esnb_vit-2_larger
+
+
+
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit-2 batch_size=128
+# 895077
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb-2 batch_size=256
+# 895083
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb_vit-2 batch_size=256
+# 895084
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_esnb-2 batch_size=256
+# 895085 # 895151
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb_vit-2 batch_size=256
+# 895081
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb_vit-2 batch_size=256
+# 895086 # 895152
+
+
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit-2_larger batch_size=128
+# 895095
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb-2_larger batch_size=128
+# 895096
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb_vit-2_larger batch_size=128
+# 895097 # 895155
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_esnb-2_larger batch_size=128
+# 895098 # 895153 # 895156
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb_vit-2_larger batch_size=128
+# 895099
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb_vit-2_larger batch_size=128
+# 895100 # 895154 # 895157
