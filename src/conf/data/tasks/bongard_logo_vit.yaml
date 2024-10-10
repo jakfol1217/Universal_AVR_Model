@@ -1,0 +1,34 @@
+defaults:
+  - bongard_logo_vit/dataloader: ../../../../dataloader/default
+  - bongard_logo_vit/optimizer: ../../../../optimizer/adam
+
+bongard_logo_vit:
+  num_context_panels: 12
+  dataset:
+    target: model.avr_datasets.LOGOdataset_vit
+    data_path: ${data.root}/bongard_logo/ShapeBongard_V2/
+    annotation_path: ${data.root}/bongard_logo/ShapeBongard_V2/ShapeBongard_V2_split.json
+    model_name: ${transformer_name}
+    train:
+      _target_: ${data.tasks.bongard_logo_vit.dataset.target}
+      dataset_type: train
+      data_path: ${data.tasks.bongard_logo_vit.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_logo_vit.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_logo_vit.dataset.model_name}
+    val:
+      _target_: ${data.tasks.bongard_logo_vit.dataset.target}
+      dataset_type: val
+      data_path: ${data.tasks.bongard_logo_vit.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_logo_vit.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_logo_vit.dataset.model_name}
+    test:
+      _target_: ${data.tasks.bongard_logo_vit.dataset.target}
+      dataset_type: test_ff
+        # TODO: allow multiple dataset types (requires change in dataset class)?
+        # - test_hd_comb
+        # - test_bd
+        # - test_hd_novel
+      data_path: ${data.tasks.bongard_logo_vit.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_logo_vit.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_logo_vit.dataset.model_name}
+  target_loss_ratio: ${target_loss_ratio}
