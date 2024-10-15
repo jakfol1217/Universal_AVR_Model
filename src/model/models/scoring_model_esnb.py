@@ -15,9 +15,10 @@ from omegaconf import DictConfig, OmegaConf
 from torch import nn
 from torch.utils.checkpoint import checkpoint
 
-from model.models import STSN, STSNv3
+from model.models import STSN, ESNBv2, STSNv3
 
 from .base import AVRModule
+
 # import sys
 
 # print(f">>>pl::{pl.__version__}")
@@ -113,7 +114,6 @@ class ScoringModelEsnb(AVRModule):
         if len(self.task_metrics) > 0:
             self.additional_metrics = self.task_metrics
 
-
     def apply_context_norm(self, z_seq):
         eps = 1e-8
         z_mu = z_seq.mean(1)
@@ -124,8 +124,18 @@ class ScoringModelEsnb(AVRModule):
         ).unsqueeze(0)
         return z_seq
 
-    def forward(self, relations, idx=0):
-        return self.scoring_module(relations)
+    def forward(self, relations, n_answers=None):
+        if isinstance(self.relation_module, ESNBv2.ESNB):
+            scores = []
+            relations = torch.stack(relations, dim=1).squeeze(2)
+            # print(f"{relations.shape=}")
+            relations_view = relations.view(relations.shape[0], n_answers, -1, relations.shape[-1]) # add different strategies?
+            # print(f"{relations_view.shape=}")
+            for i in range(n_answers):
+                scores.append(self.scoring_module(relations_view[:, i]))
+            return torch.cat(scores, dim=1)
+        else:
+            return self.scoring_module(relations)
 
     # TODO: Separate optimizers for different modules
     def configure_optimizers(self):
@@ -163,11 +173,11 @@ class ScoringModelEsnb(AVRModule):
             encoder_model_loss = 0.0
             panels = torch.stack(results, dim=1)
 
-        
 
         relations = self.relation_module(panels) # computing relations
         # print(f"{relations=}")
-        scores = self(relations)
+        num_context_panels=self.cfg.data.tasks[self.task_names[dataloader_idx]].num_context_panels
+        scores = self(relations, n_answers=img.shape[1]-num_context_panels)
 
         pred = scores.argmax(1)
         # print(scores)
