@@ -1,0 +1,41 @@
+_target_: model.models.baseline_scoring_modules.BaselineScoringModel
+
+base_type: 'mlp'
+base_in_dim: 14336
+base_out_dim: 2
+base_hid_dim: null
+
+num_correct: 2 # number of correct answers (e.g. 1 - raven, 2 - bongard)
+context_norm: true
+in_dim: 1024
+transformer_name: ${transformer_name}
+pooling: false
+transformer:
+  _target_: model.models.vit.ViT
+  dim: 1024 # hidden dimension size
+  depth: 24 # transformer number of layers
+  heads: 8 # transformer number of heads
+  mlp_dim: 512 # transformer mlp dimension
+  pool: cls
+  dim_head: 32
+  dropout: 0.1
+  emb_dropout: 0.0
+  save_hyperparameters: False
+pos_emb:
+  _target_: model.models.pos_emb.PositionalEmbedding
+  out_dim: 1024 # same as in_dim
+  nrows: 7
+  ncols: 2
+#   ndim: null
+  row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
+save_hyperparameters: true
+use_detection: false
+use_captions: false
+
+
+
+# Carefully select for specific with respect to the task
+# additional_metrics:
+#   accuracy:
+#     _target_: torchmetrics.classification.BinaryAccuracy
+#     threshold: 0.5
