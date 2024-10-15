@@ -884,8 +884,8 @@ sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experim
 897028
 
 ## combined bongard hoi bongard logo
-sbatch --time=1-00:00:00 --mem=40GB --gpus=1 /home2/faculty/akaminski/Universal_AVR_Model/scripts/run.sh /home2/faculty/akaminski/Universal_AVR_Model/src/main.py +experiment=bongard_hoi_combined img_size=128 batch_size=8 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" log_every_n_steps=200 early_stopping_patience=25
-897029
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_bongard_logo_transformer_combined img_size=128 batch_size=8 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" model.relational_activation_func='none' log_every_n_steps=200 early_stopping_patience=25
+897030
 
 
 
