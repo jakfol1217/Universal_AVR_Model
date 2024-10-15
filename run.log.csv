@@ -1444,3 +1444,52 @@ vaec_vasr_scoring_esnb_vit-2_larger
 # 895099
 ./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb_vit-2_larger batch_size=128
 # 895100 # 895154 # 895157
+
+
+# ESNBv2 (all key_r as relations - transformer as scoring function
+
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit-2 batch_size=128 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896909
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896910
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896918
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_esnb-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896919
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896913
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896920
+
+
+# lower lr
+
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit-2 batch_size=128 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}' lr=0.00005
+# 896949
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}' lr=0.00005
+# 896950
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}' lr=0.00005
+# 896951
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_esnb-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}' lr=0.00005
+# 896952
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}' lr=0.00005
+# 896953
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}' lr=0.00005
+# 896954
+
+# Smaller transformer -> depth:24,heads:8,mlp_dim:512,pool:cls,dim_head:32 > depth:2,heads:2,mlp_dim:32,pool:cls,dim_head:8
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_scoring_esnb_vit-2 batch_size=128 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:2,heads:2,mlp_dim:32,pool:cls,dim_head:8,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896955
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_hoi_scoring_esnb-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:2,heads:2,mlp_dim:32,pool:cls,dim_head:8,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896956
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:2,heads:2,mlp_dim:32,pool:cls,dim_head:8,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896957
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vasr_scoring_esnb-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:2,heads:2,mlp_dim:32,pool:cls,dim_head:8,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896958
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_hoi_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:2,heads:2,mlp_dim:32,pool:cls,dim_head:8,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896959
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=40GB --gpus=1" scripts/run.sh src/main.py +experiment=vaec_vasr_scoring_esnb_vit-2 batch_size=256 model.relation_module._target_=model.models.ESNBv2.ESNB model.relation_module.task_seg='[[0,1,2,3],[0,1,2,4],[0,1,2,5],[0,1,2,6]]' +model.scoring_module='{_target_:model.models.vit.ViT,dim:513,depth:2,heads:2,mlp_dim:32,pool:cls,dim_head:8,dropout:0.1,emb_dropout:0.0,save_hyperparameters:False}'
+# 896960
+
+
+
