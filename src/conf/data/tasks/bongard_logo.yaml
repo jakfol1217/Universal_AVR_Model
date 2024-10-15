@@ -3,6 +3,9 @@ defaults:
   - bongard_logo/optimizer: ../../../../optimizer/adam
 
 bongard_logo:
+  num_context_panels: 12
+  context_groups: [[0,1,2,3,4,5]]
+  answer_groups: [0, 1]
   dataset:
     target: model.avr_datasets.LOGOdataset
     data_path: ${data.root}/bongard_logo/ShapeBongard_V2/
