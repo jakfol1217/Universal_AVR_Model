@@ -10,7 +10,7 @@
 #SBATCH --partition=short
 #SBATCH --export=ALL,HYDRA_FULL_ERROR=1
 #SBATCH --account=mandziuk-lab
-#SBATCH --output=logs/slurm-%j.log
+#SBATCH --output=/mnt/evafs/groups/mandziuk-lab/akaminski/logs/slurm-%j.log
 
 date "+%Y-%m-%d %H:%M:%S"
 echo "SLURMD_NODENAME: ${SLURMD_NODENAME}"
@@ -28,8 +28,9 @@ singularity run \
     --bind ~/Universal_AVR_Model/src:/app/src:ro \
     --bind ~/Universal_AVR_Model/.env:/app/.env:ro \
     --bind /mnt/evafs/groups/mandziuk-lab/akaminski/datasets:/app/data:ro \
-    --bind ~/Universal_AVR_Model/model_checkpoints:/app/model_checkpoints:rw \
+    --bind /mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints:/app/model_checkpoints:rw \
     --bind /mnt/evafs/groups/mandziuk-lab/akaminski/out:/app/out:rw \
+    --bind /mnt/evafs/groups/mandziuk-lab/akaminski/logs:/app/logs:ro \
     --bind /mnt/evafs/groups/mandziuk-lab/akaminski/yolo:/app/yolo:ro \
     ~/singularity/universal-avr-system-nvidia-latest.sif \
     "${1}" "${@:2}"
