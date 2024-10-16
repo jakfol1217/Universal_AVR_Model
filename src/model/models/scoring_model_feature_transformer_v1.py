@@ -40,6 +40,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         pos_emb: pl.LightningModule | None = None,
         additional_metrics: dict = {},
         save_hyperparameters=True,
+        increment_dataloader_idx: int = 0,
         **kwargs,
     ):
         super().__init__(cfg)
@@ -126,6 +127,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         # optional: activity detection model (using captions to find activities as presented on image, e.g. man running etc)
         self.use_captions = use_captions
         self.cos_sim = torch.nn.CosineSimilarity(dim=0)
+        self.increment_dataloader_idx = increment_dataloader_idx
 
     @torch.no_grad()
     def init_detection_model(self):
@@ -241,7 +243,7 @@ class ScoringModelFeatureTransformer(AVRModule):
                 self.task_names[dataloader_idx]
             ].answer_groups
 
-        scores = self(given_panels, answer_panels, idx=dataloader_idx)
+        scores = self(given_panels, answer_panels, idx=dataloader_idx + self.increment_dataloader_idx)
         softmax = nn.Softmax(dim=1)
         scores = softmax(scores)
 
@@ -268,7 +270,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
         pred = scores.argmax(1)
 
-        current_metrics = self.additional_metrics[dataloader_idx] # computing and reporting metrics
+        current_metrics = self.additional_metrics[dataloader_idx + self.increment_dataloader_idx] # computing and reporting metrics
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(
