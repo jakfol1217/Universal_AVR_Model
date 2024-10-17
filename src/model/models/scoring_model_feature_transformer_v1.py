@@ -196,7 +196,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
         for i in range(context_detected.shape[0]):
             for a_g in answer_groups:
-                detection_scores[i].append(self.activity_score_function(context_detected[i,:], answer_detected[i, a_g, :]))
+                detection_scores[i].append(self.detection_score_function(context_detected[i,:], answer_detected[i, a_g, :]))
         return torch.Tensor(detection_scores)
 
 
@@ -337,10 +337,10 @@ class ScoringModelFeatureTransformer(AVRModule):
 
     def detection_score_function(self, context, answers):
         # function computing object detection scores (which are added to model scores to influence model decision)
-        x = np.sum(np.average(context, axis=0) - answers)
+        x = np.sum(abs(np.average(context, axis=0) - answers))
         context_scale = np.sum(np.average(context, axis=0))
         
-        res = max(-(abs(x)**(3/2))/90 + 0.15, -0.2)
+        res = max(-(x**(3/2))/90 + 0.15, -0.2)
         if res < 0:
             numbing_param = 2/context_scale if context_scale != 0 else 1
             res *= numbing_param
