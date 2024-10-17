@@ -51,6 +51,37 @@ def save_captions(image_path, save_path, files):
             with open(os.path.join(save_path, nf), 'wb') as f:
                 np.save(f, im_cap[i,:])
 
+def save_captions_no_activities(image_path, save_path, files):
+    ITER = 0
+    ims = []
+    filenames = []
+    for file in tqdm(files):
+        ims.append(Image.open(os.path.join(image_path, file)))
+        #print(file)
+        filenames.append(file.split(".")[0] + ".npy")
+        ITER += 1
+        if ITER < ITER_LIMIT:
+            continue
+        else:
+            im_cap = get_captions_only(ims)
+            for i, nf in enumerate(tqdm(filenames, leave=False)):
+                #print(i)
+                with open(os.path.join(save_path, nf), 'wb') as f:
+                    np.save(f, im_cap[i,:])
+            ITER = 0
+            ims = []
+            filenames = []
+    if len(ims) != 0:
+        im_cap = get_captions_only(ims)
+        for i, nf in enumerate(filenames):
+            with open(os.path.join(save_path, nf), 'wb') as f:
+                np.save(f, im_cap[i,:])
+
+
+def get_captions_only(images):
+    captions = CAPTIONER_MODEL(images)
+    embedded_captions = embed_activities(captions)
+    return embedded_captions
 
 def get_activities(images):
     captions = CAPTIONER_MODEL(images)
@@ -86,6 +117,18 @@ def translate_vasr(df):
     return df
 
 
+def caption_bongard_hoi_no_activities(dataset_path, save_path):
+    files = os.listdir(dataset_path)
+    files = sorted(files)
+    save_captions_no_activities(dataset_path, save_path, files)
+
+def caption_bongard_hoi_no_activities_part(dataset_path, save_path, n):
+    files = os.listdir(dataset_path)
+    files = sorted(files)
+    files = files[int(n):]
+    save_captions_no_activities(dataset_path, save_path, files)
+
+
 def caption_bongard_hoi(dataset_path, save_path):
     files = os.listdir(dataset_path)
     files = sorted(files)
@@ -97,6 +140,37 @@ def caption_bongard_hoi_part(dataset_path, save_path, n):
     files = files[int(n):]
     save_captions(dataset_path, save_path, files)
 
+
+def caption_vasr_no_activities(dataset_path, save_path):
+    image_dataset_path = os.path.join(dataset_path, "images_512")
+    files = os.listdir(image_dataset_path)
+    files = sorted(files)
+    save_path_images = os.path.join(save_path, "images_512")
+    os.makedirs(save_path_images, exist_ok=True)
+
+    save_captions_no_activities(image_dataset_path, save_path_images, files)
+
+    for file_path in glob.glob(os.path.join(dataset_path, "*.csv")):
+        _, filename = os.path.split(file_path)
+        annots = pd.read_csv(file_path)
+        annots_translated = translate_vasr(annots)
+        annots_translated.to_csv(os.path.join(save_path, filename), index=False)
+
+def caption_vasr_no_activities_part(dataset_path, save_path, n):
+    image_dataset_path = os.path.join(dataset_path, "images_512")
+    files = os.listdir(image_dataset_path)
+    files = sorted(files)
+    files = files[int(n):]
+    save_path_images = os.path.join(save_path, "images_512")
+    os.makedirs(save_path_images, exist_ok=True)
+
+    save_captions_no_activities(image_dataset_path, save_path_images, files)
+
+    for file_path in glob.glob(os.path.join(dataset_path, "*.csv")):
+        _, filename = os.path.split(file_path)
+        annots = pd.read_csv(file_path)
+        annots_translated = translate_vasr(annots)
+        annots_translated.to_csv(os.path.join(save_path, filename), index=False)
 
 
 def caption_vasr(dataset_path, save_path):
