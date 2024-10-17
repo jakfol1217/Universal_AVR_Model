@@ -43,6 +43,7 @@ class ScoringModelWReN(ScoringModel):
         freeze_slot_model=True,
         g_depth=3,
         f_depth=2,
+        use_caption_linear: bool = False,
         **kwargs,
     ):
         super().__init__(
@@ -133,7 +134,13 @@ class ScoringModelWReN(ScoringModel):
 
         # optional: activity detection model (using captions to find activities as presented on image, e.g. man running etc)    
         self.use_captions = use_captions
-        self.cos_sim = torch.nn.CosineSimilarity(dim=0)
+        if use_caption_linear:
+            self.cos_sim = nn.Sequential(
+            nn.Linear(2048, 256),
+            nn.Linear(256, 1)
+        )
+        else:
+            self.cos_sim = torch.nn.CosineSimilarity(dim=0)
 
 
 
@@ -328,6 +335,13 @@ class ScoringModelWReN(ScoringModel):
         # function computing activity detection scores (which are added to model scores to influence model decision)
         cos_sim = 0
         for i in range(ac1_em.shape[0]):
-            cos_sim += self.cos_sim(ac1_em[i,:], ac2_em)
-        cos_sim /= ac1_em.shape[0]
-        return cos_sim/2 - 0.12
+            if not self.use_caption_linear:
+                cos_sim += self.cos_sim(ac1_em[i,:], ac2_em)
+            else:
+                ac_em = torch.cat([ac1_em[i,:], ac2_em])
+                cos_sim += self.cos_sim(ac_em)
+        if not self.use_caption_linear:
+            cos_sim /= ac1_em.shape[0]
+            cos_sim = cos_sim/2 - 0.12
+
+        return cos_sim

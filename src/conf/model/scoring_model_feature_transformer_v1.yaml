@@ -26,6 +26,7 @@ save_hyperparameters: true
 use_detection: false
 use_captions: false
 auxiliary_loss_ratio: 0.0
+use_caption_linear: false
 
 
 # Carefully select for specific with respect to the task
