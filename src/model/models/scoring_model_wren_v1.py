@@ -142,6 +142,8 @@ class ScoringModelWReN(ScoringModel):
         else:
             self.cos_sim = torch.nn.CosineSimilarity(dim=0)
 
+        self.use_caption_linear = use_caption_linear
+
 
 
     @torch.no_grad()
