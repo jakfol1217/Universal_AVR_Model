@@ -7,9 +7,9 @@ pooling: false
 transformer:
   _target_: model.models.vit.ViT
   dim: 1024 # hidden dimension size
-  depth: 24 # transformer number of layers
-  heads: 8 # transformer number of heads
-  mlp_dim: 512 # transformer mlp dimension
+  depth: 2 # transformer number of layers
+  heads: 2 # transformer number of heads
+  mlp_dim: 128 # transformer mlp dimension
   pool: cls
   dim_head: 32
   dropout: 0.1
