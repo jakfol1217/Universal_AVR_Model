@@ -17,7 +17,7 @@ model:
   base_in_dim: 7168
   base_out_dim: 4
   base_hid_dim: null
-  task_metric_0:
+  additional_metrics:
     accuracy_vasr:
       _target_: torchmetrics.classification.MulticlassAccuracy
       num_classes: 4
