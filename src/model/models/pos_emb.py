@@ -77,6 +77,43 @@ class PositionalEmbedding(pl.LightningModule):
         return posemb_flatten
 
 
+class DiscretePositionEmbedding(pl.LightningModule):    
+    def __init__(self, 
+                cfg: DictConfig,
+                 num_rows: int, 
+                 num_cols: int, 
+                 out_dim: int, 
+                 *args, 
+                 **kwargs):        
+        super().__init__()        
+        coordinates = self.get_coordinate_matrix(num_rows, num_cols)        
+        self.coordinates = nn.Parameter(coordinates, requires_grad=False)        
+        self.embedding = nn.Linear(self.coordinates.size(-1), out_dim)    
+        
+    def forward(self) -> torch.Tensor:        
+        """        :return: a tensor of shape (num_rows * num_cols, out_dim)        """        
+        x = self.embedding(self.coordinates)        
+        return x    
+    
+    @staticmethod    
+    def get_coordinate_matrix(num_rows: int, num_cols: int) -> torch.Tensor:        
+        """        Creates a coordinate matrix, e.g. for a problem with 2x2 structure:        
+        [[1, 0, 1, 0],         
+        [1, 0, 0, 1],         
+        [0, 1, 1, 0],         
+        [0, 1, 0, 1]]        
+        :return: a tensor of shape (num_rows * num_cols, num_rows + num_cols)        """        
+        coordinates = []        
+        for row in range(num_rows):            
+            for col in range(num_cols):                
+                coordinate = torch.zeros(num_rows + num_cols, dtype=torch.float32)                
+                coordinate[row] = 1.0                
+                coordinate[num_rows + col] = 1.0                
+                coordinates.append(coordinate)        
+        coordinates = torch.stack(coordinates, dim=0)        
+        return coordinates 
+
+
 if __name__ == "__main__":
     x = torch.randn(3, 5, 4)
     ndim = 3 + 3
@@ -164,3 +201,6 @@ if __name__ == "__main__":
     # for i in range(nrows * ncols):
     #     print(cells[i])
     # print(cells)
+
+
+

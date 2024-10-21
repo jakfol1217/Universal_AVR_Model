@@ -20,8 +20,15 @@ pos_emb:
   out_dim: 1024 # same as in_dim
   nrows: 7
   ncols: 2
-#   ndim: null
   row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
+
+disc_pos_emb:
+  _target_: model.models.pos_emb.DiscretePositionEmbedding
+  num_rows: 7
+  num_cols: 2
+  out_dim: 16 # same as in_dim
+#   ndim: null
+  
 save_hyperparameters: true
 use_detection: false
 use_captions: false

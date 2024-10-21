@@ -44,12 +44,14 @@ class ScoringModelWReN(ScoringModel):
         g_depth=3,
         f_depth=2,
         use_caption_linear: bool = False,
+        num_correct: int = 2,
+        increment_dataloader_idx: int = 0,
         **kwargs,
     ):
         super().__init__(
             cfg, 
             context_norm=context_norm, 
-            num_correct=1, 
+            num_correct=num_correct, 
             in_dim=in_dim, 
             slot_model=slot_model,
             transformer=None, 
@@ -136,13 +138,14 @@ class ScoringModelWReN(ScoringModel):
         self.use_captions = use_captions
         if use_caption_linear:
             self.cos_sim = nn.Sequential(
-            nn.Linear(2048, 256),
+            nn.Linear(768, 256),
             nn.Linear(256, 1)
         )
         else:
             self.cos_sim = torch.nn.CosineSimilarity(dim=0)
 
         self.use_caption_linear = use_caption_linear
+        self.increment_dataloader_idx = increment_dataloader_idx
 
 
 
@@ -155,11 +158,22 @@ class ScoringModelWReN(ScoringModel):
             
 
 
-    def forward(self, given_panels, answer_panels):
+    def forward(self, given_panels, answer_panels, idx=0):
+        __num_correct = self.num_correct[idx]
+        __disc_pos_emb = self.disc_pos_emb[idx]
         # creating scores with the use of WReN model
         if self.wren_type == "averaged":
             given_panels = given_panels.mean(2)
             answer_panels = answer_panels.mean(2)
+
+        if self.use_disc_pos_emb:
+            disc_pos_embed = __disc_pos_emb()
+            disc_pos_embed = disc_pos_embed.repeat(given_panels.shape[0], 1, 1)
+            disc_pos_embed_context = disc_pos_embed[:, :-__num_correct, :]
+            disc_pos_embed_answers = disc_pos_embed[:, -__num_correct:, :].repeat(1,__num_correct,1)
+            given_panels = torch.cat([given_panels, disc_pos_embed_context], dim=-1)
+            answer_panels = torch.cat([answer_panels, disc_pos_embed_answers], dim=-1)
+
         scores = self.wren_model(given_panels, answer_panels)
         return scores
     
@@ -240,7 +254,7 @@ class ScoringModelWReN(ScoringModel):
                 self.task_names[dataloader_idx]
             ].answer_groups
         
-        scores = self(given_panels, answer_panels)
+        scores = self(given_panels, answer_panels, idx=dataloader_idx + self.increment_dataloader_idx)
 
         if self.detection_model is not None:
             # optional object detection step
@@ -324,10 +338,11 @@ class ScoringModelWReN(ScoringModel):
 
     def detection_score_function(self, context, answers):
         # function computing object detection scores (which are added to model scores to influence model decision)
-        x = np.sum(np.average(context, axis=0) - answers)
+
+        x = torch.sum(abs(context.mean(axis=0) - answers))
         context_scale = np.sum(np.average(context, axis=0))
         
-        res = max(-(abs(x)**(3/2))/90 + 0.15, -0.2)
+        res = max(-(x**(3/2))/90 + 0.15, -0.2)
         if res < 0:
             numbing_param = 2/context_scale if context_scale != 0 else 1
             res *= numbing_param

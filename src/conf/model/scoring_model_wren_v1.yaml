@@ -15,6 +15,13 @@ slot_model:
   save_hyperparameters: false
   save_slots: false
   freeze_slot_model: true
+
+disc_pos_emb:
+  _target_: model.models.pos_emb.DiscretePositionEmbedding
+  out_dim: 16 # same as in_dim
+  num_rows: 7
+  num_cols: 2
+
 wren_type: 'averaged'
 save_hyperparameters: true
 use_detection: false
@@ -22,6 +29,8 @@ use_captions: false
 g_depth: 3 
 f_depth: 2
 use_caption_linear: false
+
+num_correct: 2
 
 # Carefully select for specific with respect to the task
 # additional_metrics:

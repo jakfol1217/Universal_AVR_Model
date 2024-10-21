@@ -15,11 +15,9 @@ import timm
 from hydra.utils import instantiate
 from omegaconf import DictConfig, OmegaConf
 from torch import nn
-import spacy 
 from numpy import dot
 from numpy.linalg import norm 
 from transformers import pipeline
-from sentence_transformers import SentenceTransformer
 
 from .base import AVRModule
 from .yoloWrapper import YOLOwrapper
@@ -38,6 +36,7 @@ class ScoringModelFeatureTransformer(AVRModule):
         use_captions: bool,
         pooling: bool,
         pos_emb: pl.LightningModule | None = None,
+        disc_pos_emb: pl.LightningModule | None = None,
         additional_metrics: dict = {},
         save_hyperparameters=True,
         increment_dataloader_idx: int = 0,
@@ -45,7 +44,6 @@ class ScoringModelFeatureTransformer(AVRModule):
         **kwargs,
     ):
         super().__init__(cfg)
-
         if save_hyperparameters:
             self.save_hyperparameters(
                 OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
@@ -83,6 +81,20 @@ class ScoringModelFeatureTransformer(AVRModule):
             self.pos_emb = nn.ModuleList(
                 [pos_emb] + [kwargs.get(f"pos_emb_{_ix}") for _ix in multi_pos_emb]
             )
+        
+        multi_disc_pos_emb = [
+            int(_it.removeprefix("disc_pos_emb_"))
+            for _it in kwargs.keys()
+            if _it.startswith("disc_pos_emb_")
+        ]
+        if len(multi_disc_pos_emb) == 0:
+            self.disc_pos_emb = nn.ModuleList([disc_pos_emb])
+        if len(multi_disc_pos_emb) > 0:
+            self.disc_pos_emb = nn.ModuleList(
+                [disc_pos_emb] + [kwargs.get(f"disc_pos_emb_{_ix}") for _ix in multi_disc_pos_emb]
+            )
+        
+        self.use_disc_pos_emb = pos_emb is None and not disc_pos_emb is None
 
         self.loss = instantiate(cfg.metrics.cross_entropy)
         self.val_losses = []
@@ -111,6 +123,8 @@ class ScoringModelFeatureTransformer(AVRModule):
                 ]
             )
         
+
+
         # defining feature transformer (for embedding), default: vit_large_patch32_384
         if pooling: # use pooling in feature transformer
             self.feature_transformer = timm.create_model(transformer_name, pretrained=True, num_classes=0)
@@ -132,7 +146,7 @@ class ScoringModelFeatureTransformer(AVRModule):
 
         if use_caption_linear:
             self.cos_sim = nn.Sequential(
-            nn.Linear(2048, 256),
+            nn.Linear(768, 256),
             nn.Linear(256, 1)
         )
         else:
@@ -166,15 +180,20 @@ class ScoringModelFeatureTransformer(AVRModule):
         __pos_emb = self.pos_emb[idx]
         __transformer = self.transformer
         __num_correct = self.num_correct[idx]
+        __disc_pos_emb = self.disc_pos_emb[idx]
 
         scores = []
         pos_emb_score = (
-            __pos_emb(given_panels) if __pos_emb is not None else torch.tensor(0.0)
+            __pos_emb(given_panels) if __pos_emb is not None and not self.use_disc_pos_emb else torch.tensor(0.0)
         )
+
+        disc_pos_embed = __disc_pos_emb() if self.use_disc_pos_emb else torch.rand(0)
+        if self.use_disc_pos_emb:
+            disc_pos_embed = disc_pos_embed.repeat(given_panels.shape[0], 1, 1)
+
 
 
         for d in permutations(range(answer_panels.shape[1]), __num_correct):
-
 
             x_seq = torch.cat([given_panels, answer_panels[:, d]], dim=1)
 
@@ -183,7 +202,12 @@ class ScoringModelFeatureTransformer(AVRModule):
             if self.contextnorm:
 
                 x_seq = self.apply_context_norm(x_seq)
-            x_seq = x_seq + pos_emb_score  # TODO: add positional embeddings
+            if self.use_disc_pos_emb:
+                print(x_seq.shape)
+                print(disc_pos_embed.shape)
+                x_seq = torch.cat([x_seq, disc_pos_embed], dim=-1)
+            else:
+                x_seq = x_seq + pos_emb_score  # TODO: add positional embeddings
 
             score = __transformer(x_seq)
             scores.append(score)
@@ -350,7 +374,8 @@ class ScoringModelFeatureTransformer(AVRModule):
 
     def detection_score_function(self, context, answers):
         # function computing object detection scores (which are added to model scores to influence model decision)
-        x = np.sum(abs(np.average(context, axis=0) - answers))
+
+        x = torch.sum(abs(context.mean(axis=0) - answers))
         context_scale = np.sum(np.average(context, axis=0))
         
         res = max(-(x**(3/2))/90 + 0.15, -0.2)
