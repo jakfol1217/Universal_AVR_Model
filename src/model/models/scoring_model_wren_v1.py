@@ -314,16 +314,6 @@ class ScoringModelWReN(ScoringModel):
             loss = ce_loss
         return loss
 
-    def on_save_checkpoint(self, checkpoint):
-        # deleting saved weights of non-trained models to save EDEN disk space
-        keys_to_delete = []
-        for key in checkpoint['state_dict']:
-            if key.startswith('slot_model') or key.startswith('feature_transformer') or key.startswith('detection_model'):
-                keys_to_delete.append(key)
-
-        for key in keys_to_delete:
-            del checkpoint['state_dict'][key]
-
 
     def get_detected_classes(self, images, confidence_level=0.8):
         # function computing the number of detected objects in object detection step
