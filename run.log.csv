@@ -875,7 +875,7 @@ Job based on: 879660, Job id 1: 879670, Job id 2: 879671, Job id 3: 879672
 
 ### Relational matrix model with transformer
 ## only bongard hoi
-sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vasr_combined_transformer img_size=128 batch_size=8 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" model.relational_activation_func='none' model.scoring_transformer.dim=4 log_every_n_steps=200 early_stopping_patience=25
+sbatch --time=1-00:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_hoi_combined_transformer img_size=128 batch_size=8 "model.slot_model.ckpt_path='/app/model_checkpoints/871052/epoch=12-step=13546.ckpt'" model.relational_activation_func='none' model.scoring_transformer.dim=49 log_every_n_steps=200 early_stopping_patience=25
 894042
 https://wandb.ai/avr_universal/AVR_universal/runs/tld2fp23
 
