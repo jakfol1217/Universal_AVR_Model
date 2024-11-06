@@ -1,0 +1,23 @@
+defaults:
+  - bongard_hoi_seen-seen_vit/dataloader: ../../../../dataloader/default
+  - bongard_hoi_seen-seen_vit/optimizer: ../../../../optimizer/adam
+
+bongard_hoi_seen-seen_vit:
+  num_context_panels: 12
+  context_groups: [[0,1,2,3,4,5]]
+  answer_groups: [0, 1]
+  dataset:
+    target: model.avr_datasets.HOI_VITdataset
+    data_path: ${data.root}/bongard_hoi/hake/
+    annotation_path: ${data.root}/bongard_hoi/bongard_hoi_release/
+    model_name: ${transformer_name}
+    test:
+      _target_: ${data.tasks.bongard_hoi_seen-seen_vit.dataset.target}
+      dataset_type: bongard_hoi_test_seen_obj_seen_act.json
+        # - bongard_hoi_test_unseen_obj_seen_act.json
+        # - bongard_hoi_test_seen_obj_unseen_act.json
+        # - bongard_hoi_test_unseen_obj_unseen_act.json
+      data_path: ${data.tasks.bongard_hoi_seen-seen_vit.dataset.data_path}
+      annotation_path: ${data.tasks.bongard_hoi_seen-seen_vit.dataset.annotation_path}
+      model_name: ${data.tasks.bongard_hoi_seen-seen_vit.dataset.model_name}
+  target_loss_ratio: ${target_loss_ratio}

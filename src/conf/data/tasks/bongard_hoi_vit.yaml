@@ -19,7 +19,8 @@ bongard_hoi_vit:
       model_name: ${data.tasks.bongard_hoi_vit.dataset.model_name}
     val:
       _target_: ${data.tasks.bongard_hoi_vit.dataset.target}
-      dataset_type: bongard_hoi_val_seen_obj_unseen_act.json
+#      dataset_type: bongard_hoi_val_seen_obj_unseen_act.json
+      dataset_type: [bongard_hoi_val_seen_obj_unseen_act.json, bongard_hoi_val_seen_obj_seen_act.json]
         # TODO: allow multiple dataset types (requires change in dataset class)?
         # - bongard_hoi_val_unseen_obj_unseen_act.json
         # - bongard_hoi_val_seen_obj_seen_act.json

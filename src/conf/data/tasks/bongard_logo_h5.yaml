@@ -6,7 +6,6 @@ bongard_logo:
   num_context_panels: 12
   context_groups: [[0,1,2,3,4,5]]
   answer_groups: [0, 1]
-  num_context_panels: 12
   dataset:
     target: model.avr_datasets_h5py.LOGOdataset_h5py
     data_path: ${data.root}/h5py/bongard_logo

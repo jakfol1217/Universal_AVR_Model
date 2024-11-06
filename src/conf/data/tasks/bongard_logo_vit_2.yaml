@@ -4,6 +4,8 @@ defaults:
 
 bongard_logo_vit:
   num_context_panels: 12
+  context_groups: [[0,1,2,3,4,5]]
+  answer_groups: [0, 1]
   dataset:
     target: model.avr_datasets.EmbeddingH5PYDataset
     data_path: ${data.root}/vit_large_patch32_384/bongard_logo/
