@@ -12,7 +12,7 @@ import timm
 import torch
 import torchvision
 import ujson as json
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig, OmegaConf, ListConfig
 from PIL import Image
 from timm.data.transforms_factory import create_transform
 from torch.utils.data import DataLoader, Dataset
@@ -135,10 +135,13 @@ class HOIdataset(Dataset):
         dataset_type: str,
         img_size: int | None,
     ):
-
-        self.data_files = [os.path.join(annotation_path, dataset_type)]
-        if dataset_type:
-            self.data_files = [f for f in self.data_files if dataset_type in f]
+        if isinstance(dataset_type, list):
+            self.data_files = [os.path.join(annotation_path, d_t) for d_t in dataset_type]
+        else:
+            self.data_files = [os.path.join(annotation_path, dataset_type)]
+            
+        #if dataset_type:
+        #    self.data_files = [f for f in self.data_files if dataset_type in f]
         self.file_sizes = []
         self.annotations = []
         for file in self.data_files:
@@ -148,6 +151,8 @@ class HOIdataset(Dataset):
                 self.annotations.append(file_hoi)
 
         self.idx_ranges = np.cumsum(self.file_sizes)
+
+        self.answer_idxes = np.random.choice([0,1], size=self.idx_ranges[-1]) # determine which answers are flipped during initialization
 
         if img_size:
             self.transforms = transforms.Compose(
@@ -191,7 +196,7 @@ class HOIdataset(Dataset):
 
         # why?
         # random answer flip
-        if random.uniform(0, 1) <= 0.5:
+        if self.answer_idxes[item] == 0:
             target = np.asarray(0)
         else:
             target = np.asarray(1)
@@ -322,9 +327,12 @@ class HOI_VITdataset(HOIdataset):
         model_name: str,
     ):
 
-        self.data_files = [os.path.join(annotation_path, dataset_type)]
-        if dataset_type:
-            self.data_files = [f for f in self.data_files if dataset_type in f]
+        if isinstance(dataset_type, ListConfig):
+            self.data_files = [os.path.join(annotation_path, d_t) for d_t in dataset_type]
+        else:
+            self.data_files = [os.path.join(annotation_path, dataset_type)]
+        #if dataset_type:
+        #    self.data_files = [f for f in self.data_files if dataset_type in f]
         self.file_sizes = []
         self.annotations = []
         for file in self.data_files:
@@ -334,6 +342,7 @@ class HOI_VITdataset(HOIdataset):
                 self.annotations.append(file_hoi)
 
         self.idx_ranges = np.cumsum(self.file_sizes)
+        self.answer_idxes = np.random.choice([0,1], size=self.idx_ranges[-1])  # determine which answers are flipped during initialization
 
         model = timm.create_model(model_name)
         model_conf = timm.data.resolve_data_config({}, model=model)
