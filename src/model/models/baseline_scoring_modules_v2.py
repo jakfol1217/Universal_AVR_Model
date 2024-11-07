@@ -44,16 +44,14 @@ class BaselineScoringModel(ScoringModelFeatureTransformer):
     
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
         img, target = batch
-        results = []
-        for idx in range(img.shape[1]): # creating embeddings with feature transformers
-            results.append(self.feature_transformer(img[:, idx]))
+
 
         context_panels_cnt = self.cfg.data.tasks[ # number of task context panels
             self.task_names[dataloader_idx]
         ].num_context_panels
 
-        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt] # context panels
-        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:] # answer panels
+        given_panels = img[:, :context_panels_cnt] # context panels
+        answer_panels = img[:, context_panels_cnt:] # answer panels
 
 
         scores = self(given_panels, answer_panels, idx=dataloader_idx)
