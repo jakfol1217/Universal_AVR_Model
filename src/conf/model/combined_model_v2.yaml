@@ -1,4 +1,4 @@
-_target_: model.models.combined_model.CombinedModel
+_target_: model.models.combined_model_v2.CombinedModel
 context_norm: true
 
 in_dim: 1024
@@ -12,17 +12,19 @@ relational_module_real:
   hierarchical: false
   ckpt_path: null
   freeze_module: false
+  loading_name: 'relational_module_real'
 
 
 relational_module_abstract:
   _target_: model.models.relational_module.RelationalModule
-  object_size: 1280
+  object_size: 1024
   asymetrical: true
   rel_activation_func: 'softmax'
   context_norm: true
   hierarchical: false
   ckpt_path: null
   freeze_module: false
+  loading_name: 'relational_module_abstract'
 
 relational_scoring_module:
   _target_: model.models.relational_module.RelationalScoringModule
@@ -36,7 +38,6 @@ relational_scoring_module:
 
 real_idxes: [0]
 
-transformer_name: ${transformer_name}
 save_hyperparameters: true
 
 limit_to_groups: false

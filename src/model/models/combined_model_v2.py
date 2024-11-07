@@ -23,7 +23,6 @@ class CombinedModel(ScoringModel):
             context_norm: bool,
             slot_model: pl.LightningModule,
             #slot_model_v3: pl.LightningModule,
-            transformer_name: str,
             relational_module_real: pl.LightningModule | None = None,
             relational_module_abstract: pl.LightningModule | None = None,
             relational_scoring_module: pl.LightningModule | None = None,
@@ -65,8 +64,6 @@ class CombinedModel(ScoringModel):
             self.relational_module_abstract = relational_module_abstract
 
 
-        # defining feature transformer (for embedding), default: vit_large_patch32_384
-        self.feature_transformer= timm.create_model(transformer_name, pretrained=True, num_classes=0)
         self.real_idxes = real_idxes # indexes of datasets with real-life images for training
 
         self.limit_to_groups = limit_to_groups # whether to limit relational computations to groups (e.g. computing realtions for only 1st group in bongard problems)
@@ -107,7 +104,7 @@ class CombinedModel(ScoringModel):
         # loading modules from checkpoints
         self.relational_module_real = self.load_module_from_checkpoint(
                         cfg.model.relational_module_real.ckpt_path, 
-                        "relational_module_real", 
+                        cfg.model.relational_module_real.loading_name, 
                         relational_module_real,
                         cfg_dict
                         )
@@ -115,7 +112,7 @@ class CombinedModel(ScoringModel):
         if relational_module_abstract is not None:
             self.relational_module_abstract = self.load_module_from_checkpoint(
                             cfg.model.relational_module_abstract.ckpt_path,
-                            "relational_module_abstract",
+                            cfg.model.relational_module_abstract.loading_name,
                             relational_module_abstract,
                             cfg_dict
                             )
@@ -128,15 +125,19 @@ class CombinedModel(ScoringModel):
                         cfg_dict
                         )
         
+        
 
         # whether to freeze modules
         self.freeze_module(self.relational_module_real, cfg.model.relational_module_real.freeze_module)
 
         if relational_module_abstract is not None:
             self.freeze_module(self.relational_module_abstract, cfg.model.relational_module_abstract.freeze_module)
-        if cfg.model.relational_scoring_module.freeze_module:
-            self.partial_freeze_module(self.relational_scoring_module, layers=cfg.model.relational_scoring_module.layers_to_train)
 
+        if cfg.model.relational_scoring_module.freeze_module:
+            if cfg.model.relational_scoring_module.transformer is None:
+                self.partial_freeze_module_mlp(self.relational_scoring_module, layers=cfg.model.relational_scoring_module.layers_to_train)
+            else:
+                self.partial_freeze_module(self.relational_scoring_module, layers=cfg.model.relational_scoring_module.layers_to_train)
 
                 
     def load_module_from_checkpoint(self, module_ckpt_path, module_name, module, cfg_dict):
@@ -165,7 +166,6 @@ class CombinedModel(ScoringModel):
     def partial_freeze_module(self, module, layers):
         for param in module.parameters():
             param.requires_grad = False
-
         for layer in layers:
             for name, param in module.named_parameters():
                 layer_name = f"transformer.layers.{layer}"
@@ -173,25 +173,16 @@ class CombinedModel(ScoringModel):
                     param.requires_grad=True
 
 
+    def partial_freeze_module_mlp(self, module, layers):
+        for param in module.parameters():
+            param.requires_grad = False
+        for layer in layers:
+            for name, param in module.named_parameters():
+                layer_name = f"scoring_mlp.{layer}"
+                if name.startswith(layer_name):
+                    param.requires_grad=True
 
-        #self.slot_model_v3 = slot_model_v3
-        #if (
-        #    slot_ckpt_path := cfg.model.slot_model_v3.ckpt_path
-        #) is not None and cfg.checkpoint_path is None:
-        #    cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
-        #    model_cfg = {
-        #        k: v
-        #        for k, v in cfg_dict["model"]["slot_model_v3"].items()
-        #        if k != "_target_"
-        #    }
-        #    self.slot_model_v3 = slot_model_v3.__class__.load_from_checkpoint(
-        #        slot_ckpt_path, cfg=cfg, **model_cfg
-        #    )
-        #if self.freeze_slot_model:
-        #    self.slot_model_v3.freeze()
-        #else:
-        #    self.slot_model_v3.unfreeze()
-#
+
     def is_task_abstract(self, image): # todo: how to detect if task real or abstract? for now it's hard-coded
         return image not in self.real_idxes
 
@@ -200,12 +191,12 @@ class CombinedModel(ScoringModel):
         if not isAbstract:
             rel_matrix = self.relational_module_real(given_panels, answer_panels)
         else:
-            given_panels_rel = given_panels.flatten(-2).unsqueeze(-2)
-            answer_panels_rel = answer_panels.flatten(-2).unsqueeze(-2)
-            given_panels_rel = self.pooling(given_panels_rel).squeeze(-2)
-            answer_panels_rel = self.pooling(answer_panels_rel).squeeze(-2)
-            rel_matrix = self.relational_module_abstract(given_panels_rel, answer_panels_rel)
-        
+   #         given_panels_rel = given_panels.flatten(-2).unsqueeze(-2)
+   #         answer_panels_rel = answer_panels.flatten(-2).unsqueeze(-2)
+   #         given_panels_rel = self.pooling(given_panels_rel).squeeze(-2)
+   #         answer_panels_rel = self.pooling(answer_panels_rel).squeeze(-2)
+            rel_matrix = self.relational_module_abstract(given_panels, answer_panels)
+
         scores = self.relational_scoring_module(rel_matrix)
         return scores
 
@@ -213,38 +204,18 @@ class CombinedModel(ScoringModel):
     def _step(self, step_name, batch, batch_idx, dataloader_idx=0):
         img, target = batch
         
-        results = []
         isAbstract = self.is_task_abstract(dataloader_idx) # pass img, for now its hard coded
 
         slot_model_loss = None
-        if isAbstract:
-            recon_combined_seq = []
-            if img.shape[2] > 1:
-                slot_model = self.slot_model
-            else:
-                slot_model = self.slot_model
-            for idx in range(img.shape[1]):
-                recon_combined, recons, masks, slots, attn = slot_model(img[:, idx])
-                results.append(slots)
-                recon_combined_seq.append(recon_combined)
-                del recon_combined, recons, masks, slots, attn
-            pred_img = torch.stack(recon_combined_seq, dim=1).contiguous()
-            if pred_img.shape[2] != img.shape[2]:
-                pred_img = pred_img.repeat(1, 1, 3, 1, 1)
-            slot_model_loss = slot_model.loss(pred_img, img)
-
-        else:
-            for idx in range(img.shape[1]):
-                with autocast(device_type='cuda', dtype=torch.float16):
-                    res = self.feature_transformer(img[:, idx])
-                results.append(res)
 
         context_panels_cnt = self.cfg.data.tasks[ # number of task context panels
             self.task_names[dataloader_idx]
         ].num_context_panels
 
-        given_panels = torch.stack(results, dim=1)[:, :context_panels_cnt] # context panels
-        answer_panels = torch.stack(results, dim=1)[:, context_panels_cnt:] # answer panels
+
+        given_panels = img[:, :context_panels_cnt] # context panels
+        answer_panels = img[:, context_panels_cnt:] # answer panels
+
 
         context_groups = self.cfg.data.tasks[ # context groups (e.g. using only 1 group from bongard instead of all context images)
                 self.task_names[dataloader_idx]
@@ -290,10 +261,7 @@ class CombinedModel(ScoringModel):
                 add_dataloader_idx=False,
             )
 
-        if isAbstract and slot_model_loss is not None:
-            loss = ce_loss + self.auxiliary_loss_ratio * slot_model_loss
-        else:
-            loss = ce_loss
+        loss = ce_loss
         return loss
 
     def training_step(self, batch, batch_idx, dataloader_idx=0):

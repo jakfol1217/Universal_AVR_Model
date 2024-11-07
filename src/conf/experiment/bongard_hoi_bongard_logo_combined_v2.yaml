@@ -1,7 +1,7 @@
 # @package _global_
 defaults:
-  - override /data/tasks: [bongard_hoi_vit, bongard_logo_h5]
-  - override /model: combined_model
+  - override /data/tasks: [bongard_hoi_vit_2, bongard_logo_vit_2]
+  - override /model: combined_model_v2
   - override /data/datamodule: multi_module
 
 img_size: 256

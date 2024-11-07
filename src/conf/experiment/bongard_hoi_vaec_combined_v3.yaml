@@ -1,7 +1,7 @@
 # @package _global_
 defaults:
-  - override /data/tasks: [bongard_hoi_vit, bongard_logo_h5]
-  - override /model: combined_model
+  - override /data/tasks: [bongard_hoi_vit_2, vaec_vit_2]
+  - override /model: combined_model_v3
   - override /data/datamodule: multi_module
 
 img_size: 256
@@ -14,13 +14,17 @@ early_stopping_patience: 20
 
 model:
   real_idxes: [0]
-  relational_scoring_module:
+  relational_scoring_module_1:
     in_dim: 169 
+  relational_scoring_module_2:
+    in_dim: 16
   task_metric_0:
     accuracy_bongard_hoi:
       _target_: torchmetrics.classification.BinaryAccuracy
       threshold: 0.5
   task_metric_1:
-    accuracy_bongard_logo:
-      _target_: torchmetrics.classification.BinaryAccuracy
-      threshold: 0.5
+    accuracy_vaec:
+      _target_: torchmetrics.classification.MulticlassAccuracy
+      num_classes: 7
+      average: macro
+

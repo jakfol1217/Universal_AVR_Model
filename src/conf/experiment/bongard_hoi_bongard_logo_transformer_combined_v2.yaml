@@ -1,7 +1,7 @@
 # @package _global_
 defaults:
-  - override /data/tasks: [bongard_hoi_vit, bongard_logo_h5]
-  - override /model: combined_model
+  - override /data/tasks: [bongard_hoi_vit_2, bongard_logo_vit_2]
+  - override /model: combined_model_v2
   - override /data/datamodule: multi_module
 
 img_size: 256
@@ -16,6 +16,18 @@ model:
   real_idxes: [0]
   relational_scoring_module:
     in_dim: 169 
+    transformer:
+      _target_: model.models.vit.ViT
+      cfg: null
+      dim: 13 # hidden dimension size
+      depth: 2 # transformer number of layers
+      heads: 2 # transformer number of heads
+      mlp_dim: 128 # transformer mlp dimension
+      pool: cls
+      dim_head: 32
+      dropout: 0.1
+      emb_dropout: 0.0
+      save_hyperparameters: False
   task_metric_0:
     accuracy_bongard_hoi:
       _target_: torchmetrics.classification.BinaryAccuracy

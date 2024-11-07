@@ -5,12 +5,18 @@ import torch.nn as nn
 
 class RelationalModule(pl.LightningModule):
     def __init__(self,
+                 cfg,
                  object_size: int,
                  asymetrical: bool,
                  rel_activation_func: str = "softmax",
                  context_norm: bool = True,
-                 hierarchical: bool = False):
+                 hierarchical: bool = False,
+                 **kwargs
+                 ):
         super(RelationalModule, self).__init__()
+
+        self.object_size = object_size
+        
         if asymetrical:
             self.k_trans = nn.Linear(object_size, object_size)
             self.q_trans = nn.Linear(object_size, object_size)
@@ -59,10 +65,10 @@ class RelationalModule(pl.LightningModule):
                 context_choice = self.apply_context_norm(context_choice)
 
             keys = self.k_trans(context_choice) # creating keys
-
             queries = self.q_trans(context_choice) # creating queries
 
             rel_matrix_1, rel_matrix_2 = self.create_relational(keys, queries)
+
             rel_matrix = torch.cat([rel_matrix_1.unsqueeze(1), rel_matrix_2.unsqueeze(1)], dim=1)
             rel_matrix = torch.einsum('btch,m->bch', rel_matrix, self.hierarchical_aggregation) # aggregating 1st and 2nd degree realtional matrices
             relational_matrices.append(rel_matrix.unsqueeze(1))
@@ -75,17 +81,13 @@ class RelationalModule(pl.LightningModule):
     def relational_bottleneck(self, keys, queries): # creating relational matrices of 1st degree only
 
         rel_matrix = torch.matmul(keys, queries.transpose(1,2))
-        diag = torch.zeros(rel_matrix.shape[1], rel_matrix.shape[2], device=rel_matrix.device)
-        diag.fill_diagonal_(torch.inf) # filling diagonal with negative infinity (otherwise diagonal dominates the rest)
-        rel_matrix = rel_matrix - diag
+#        rel_matrix = rel_matrix/torch.amax(rel_matrix, dim=(1,2)).unsqueeze(1).unsqueeze(1)
         return self.rel_activation_func(rel_matrix), torch.zeros(*rel_matrix.shape, device=rel_matrix.device)
 
     def relational_bottleneck_hierarchical(self, keys, queries): # creating relational matrices of 1st and 2nd degrees
 
         rel_matrix_1 = torch.matmul(keys, queries.transpose(1,2))
-        diag = torch.zeros(rel_matrix_1.shape[1], rel_matrix_1.shape[2], device=rel_matrix_1.device)
-        diag.fill_diagonal_(torch.inf)
-        rel_matrix_1 = rel_matrix_1 - diag
+
         rel_matrix_1 = self.rel_activation_func(rel_matrix_1)  # use activation on previous if hierarchical? probably not
         rel_matrix_2 = torch.matmul(rel_matrix_1, rel_matrix_1.transpose(1,2))
         return rel_matrix_1, self.rel_activation_func(rel_matrix_2)
@@ -95,11 +97,15 @@ class RelationalModule(pl.LightningModule):
 class RelationalModuleAnswersOnly(RelationalModule):
     # creating relational matrices with realtions between answers and context (excluding relations between context images)
     def __init__(self,
+                 cfg,
                  object_size: int,
                  asymetrical: bool,
                  rel_activation_func: str = "softmax",
                  context_norm: bool = True,
-                 hierarchical: bool = False):
+                 hierarchical: bool = False,
+                 *args,
+                 **kwargs
+                 ):
         super(RelationalModuleAnswersOnly, self).__init__(object_size,
                                                           asymetrical,
                                                           rel_activation_func,
@@ -172,10 +178,14 @@ def relationalModelConstructor(use_answers_only,
 
 class RelationalScoringModule(pl.LightningModule):
     def __init__(self,
+                 cfg,
                  in_dim:int,
                  hidden_dim: int = 256,
                  pooling: str = "max",
-                 transformer: pl.LightningModule = None):
+                 transformer: pl.LightningModule = None,
+                 *args,
+                 **kwargs
+                 ):
         super(RelationalScoringModule, self).__init__()
         self.scoring_mlp = nn.Sequential(
                 nn.Linear(in_dim, hidden_dim),
