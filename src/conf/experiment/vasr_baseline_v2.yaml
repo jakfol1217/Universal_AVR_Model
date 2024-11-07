@@ -1,0 +1,24 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [vasr_vit_2]
+  - override /model: baseline_scoring_modules_v2
+  - override /data/datamodule: single_module
+
+img_size: 256
+max_epochs: 500
+batch_size: 16
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 20
+
+model:
+  base_type: 'mlp'
+  base_in_dim: 7168
+  base_out_dim: 4
+  base_hid_dim: null
+  additional_metrics:
+    accuracy_vasr:
+      _target_: torchmetrics.classification.MulticlassAccuracy
+      num_classes: 4
+      average: macro
