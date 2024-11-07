@@ -15,7 +15,7 @@ test_prepare () {
 test_run () {
     echo "Slurm ids:"
     for task_nm in ${@}; do
-        LAST_ID=$(sbatch --parsable --time=0-00:30:00 --dependency=afterany:${L>
+        LAST_ID=$(sbatch --parsable --time=0-00:30:00 --dependency=afterany:${LAST_ID} scripts/run.sh src/test.py "checkpoint_path='${CHECKPOINT_PATH}'" data/tasks=[${task_nm}] ${ADDITIONAL_PARAMS})
         echo -n "${LAST_ID} "
     done
     echo
@@ -24,7 +24,7 @@ test_run () {
 test_bongard_logo () {
     test_prepare $1 $2 $3
 
-    test_run bongard_logo_test_bd bongard_logo_test_ff bongard_logo_test_hd_com>
+    test_run bongard_logo_test_bd bongard_logo_test_ff bongard_logo_test_hd_comb bongard_logo_test_hd_novel
 }
 
 test_vaec () {
@@ -36,7 +36,7 @@ test_vaec () {
 test_bongard_hoi () {
     test_prepare $1 $2 $3
 
-    test_run bongard_hoi_seen-seen_vit bongard_hoi_seen-unseen_vit bongard_hoi_>
+    test_run bongard_hoi_seen-seen_vit bongard_hoi_seen-unseen_vit bongard_hoi_unseen-seen_vit bongard_hoi_unseen-unseen_vit
 }
 
 test_vasr () {
