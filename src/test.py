@@ -73,13 +73,11 @@ def main(cfg: DictConfig) -> None:
 
     wandb_logger = WandbLogger(project="AVR_universal", log_model=False, id=wandb_id)
 
-    print(cfg)
     # joining previous config with the new one (to avoid specifying technical details about model when we are only testing it)
     run_config = run.config
     run_config.update(cfg)
     run_config = DictConfig(run_config)
     data_module = instantiate(run_config.data.datamodule, run_config)
-    print(run_config)
 
     module_kwargs = {}
     for k in run_config.model.keys():
@@ -98,9 +96,19 @@ def main(cfg: DictConfig) -> None:
     if (increment_dataloader_idx := cfg.get("increment_dataloader_idx")):
         additional_kwargs["increment_dataloader_idx"] = increment_dataloader_idx
 
+    print("cfg")
+    print(cfg)
+    
+    print("run config")
+    print(run_config)
+    print("module kwargs")
+    print(module_kwargs)
+    print("additional kwargs")
+    print(additional_kwargs)
+
     module_class = hydra.utils.get_class(run_config.model._target_)
     module = module_class.load_from_checkpoint(
-        cfg.checkpoint_path, cfg=run_config, **module_kwargs, **additional_kwargs, _recursive_=False
+        cfg.checkpoint_path, cfg=run_config, **module_kwargs, **additional_kwargs, _recursive_=False, dataloader_idx=cfg.get("dataloader_idx")
     )
 
     print(module)
