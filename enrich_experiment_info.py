@@ -261,7 +261,7 @@ def main():
                     print(f"Failed to calculate {info.__name__} for experiment with slurm ids: {experiment['slurm_id']}. Error: {e}")
             # add additional info
             exp_nm = experiment["experiment_nm"]
-            test_nm = experiment["test_nm"]
+            test_nm = experiment.get("test_nm", "unknown")
 
             for info in additional_info_config["experiment_nm"].get(exp_nm, []):
                 if "additional_inforamations" not in experiment:

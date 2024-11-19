@@ -416,179 +416,209 @@ experiments:
     cache: true # true (defualt) - use cache, false download history information and overwrite current cached values
 # TODO: train slot model on best with AUX learning (mse of reconstructions) and check if helps
 # verify if id match to experiment
-  - slurm_id: [883848, 883849, 883850, 883851]
+  - slurm_id: [883848] #er, 883849, 883850, 883851]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883852, 883853, 883854, 883855]
+  - slurm_id: [883852] #er, 883853, 883854, 883855]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883856, 883857, 883858, 883859]
+  - slurm_id: [883856] #er, 883857, 883858, 883859]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883860, 883861, 883862, 883863]
+  - slurm_id: [883860] #er, 883861, 883862, 883863]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883864, 883865, 883866, 883867]
+  - slurm_id: [883864] #er, 883865, 883866, 883867]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883868, 883869, 883870, 883871]
+  - slurm_id: [883868] #er, 883869, 883870, 883871]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883873, 883874, 883875, 883876]
+  - slurm_id: [883873] #er, 883874, 883875, 883876]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883877, 883878, 883879, 883880]
+  - slurm_id: [883877] #er, 883878, 883879, 883880]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883881, 883882, 883883, 883884]
+  - slurm_id: [883881] #er, 883882, 883883, 883884]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883885, 883886, 883887, 883888]
+  - slurm_id: [883885] #er, 883886, 883887, 883888]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883889, 883890, 883891, 883892]
+  - slurm_id: [883889] #er, 883890, 883891, 883892]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883893, 883894, 883895, 883896]
+  - slurm_id: [883893] #er, 883894, 883895, 883896]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883774, 883775, 883776, 883777]
+  - slurm_id: [883774] #er, 883775, 883776, 883777]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871045
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883779, 883780, 883781, 883782]
+  - slurm_id: [883779] #er, 883780, 883781, 883782]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871045
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883783, 883784, 883785, 883786]
+  - slurm_id: [883783] #er, 883784, 883785, 883786]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871045
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883787, 883788, 883789, 883790]
+  - slurm_id: [883787] #er, 883788, 883789, 883790]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871046
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883791, 883792, 883793, 883794]
+  - slurm_id: [883791] #er, 883792, 883793, 883794]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871046
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883795, 883796, 883797, 883798]
+  - slurm_id: [883795] #er, 883796, 883797, 883798]
+    cache: false
     experiment_nm: bongard_logo_scoring
     based_on:
       slurm_id: 871046
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883799, 883800, 883801, 883802]
+  - slurm_id: [883799] #er, 883800, 883801, 883802]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871049
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883803, 883804, 883805, 883806]
+  - slurm_id: [883803] #er, 883804, 883805, 883806]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871049
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883807, 883808, 883809, 883810]
+  - slurm_id: [883807] #er, 883808, 883809, 883810]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871049
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883811, 883812, 883813, 883814]
+  - slurm_id: [883811] #er, 883812, 883813, 883814]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883815, 883816, 883817, 883818]
+  - slurm_id: [883815] #er, 883816, 883817, 883818]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883819, 883820, 883821, 883822]
+  - slurm_id: [883819] #er, 883820, 883821, 883822]
+    cache: false
     experiment_nm: vaec_scoring
     based_on:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883823, 883824, 883825, 883826]
+  - slurm_id: [883823] #er, 883824, 883825, 883826]
+    cache: false
     experiment_nm: bongard_logo_vaec_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883827, 883828, 883829, 883830]
+  - slurm_id: [883827] #er, 883828, 883829, 883830]
+    cache: false
     experiment_nm: bongard_logo_vaec_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
-  - slurm_id: [883831, 883832, 883833, 883834]
+  - slurm_id: [883831] #er, 883832, 883833, 883834]
+    cache: false
     experiment_nm: bongard_logo_vaec_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883835, 883836, 883837, 883838]
+  - slurm_id: [883835] #er, 883836, 883837, 883838]
+    cache: false
     experiment_nm: bongard_logo_vaec_scoring
     based_on:
       slurm_id: 871037
       strategy: "best_all"
-  - slurm_id: [883839, 883840, 883841, 883842]
+  - slurm_id: [883839] #er, 883840, 883841, 883842]
+    cache: false
     experiment_nm: bongard_logo_vaec_scoring
     based_on:
       slurm_id: 871039
       strategy: "best_all"
     test_nm: "trained_slot_aux_test"
-  - slurm_id: [883843, 883844, 883845, 883846]
+  - slurm_id: [883843] #er, 883844, 883845, 883846]
+    cache: false
     experiment_nm: bongard_logo_vaec_scoring
     based_on:
       slurm_id: 871037
@@ -598,118 +628,216 @@ experiments:
 ## RELATION
 # Single Bongards
   - slurm_id: [894867]
+    cache: false
     experiment_nm: bongard_logo_scoring_esnb
     based_on:
       slurm_id: 871045
       strategy: "best_all"
     test_nm: "relation_esnb_single"
   - slurm_id: [894011]
+    cache: false
     experiment_nm: bongard_logo_scoring_esnb
     based_on:
       slurm_id: 871046
       strategy: "best_all"
     test_nm: "relation_esnb_single"
   - slurm_id: [894878, 894994, 894995]
+    cache: false
     experiment_nm: bongard_hoi_scoring_esnb
     test_nm: "relation_esnb_single"
   - slurm_id: [894996]
+    cache: false
     experiment_nm: bongard_logo_scoring_esnb_vit
     test_nm: "relation_esnb_single"
 
 # Dual Bongards
   - slurm_id: [894880]
+    cache: false
     experiment_nm: bongard_logo_hoi_scoring_esnb
     based_on:
       slurm_id: 871045
       strategy: "best_all"
     test_nm: "relation_esnb_dual"
   - slurm_id: [894882]
+    cache: false
     experiment_nm: bongard_logo_hoi_scoring_esnb
     based_on:
       slurm_id: 871046
       strategy: "best_all"
     test_nm: "relation_esnb_dual"
   - slurm_id: [895004]
+    cache: false
     experiment_nm: bongard_logo_hoi_scoring_esnb_vit
     test_nm: "relation_esnb_dual"
 
 # Single analogy
   - slurm_id: [893997]
+    cache: false
     experiment_nm: vaec_scoring_esnb
     based_on:
       slurm_id: 871049
       strategy: "best_all"
     test_nm: "relation_esnb_single"
   - slurm_id: [894015]
+    cache: false
     experiment_nm: vaec_scoring_esnb
     based_on:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "relation_esnb_single"
   - slurm_id: [893854,894020,894021]
+    cache: false
     experiment_nm: vasr_scoring_esnb
     based_on:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "relation_esnb_single"
   - slurm_id: [895003]
+    cache: false
     experiment_nm: vaec_scoring_esnb_vit
     test_nm: "relation_esnb_single"
 
 # Dual analogy
   - slurm_id: [894883]
+    cache: false
     experiment_nm: vaec_scoring_esnb
     based_on:
       slurm_id: 871049
       strategy: "best_all"
     test_nm: "relation_esnb_dual"
   - slurm_id: [894884]
+    cache: false
     experiment_nm: vaec_scoring_esnb
     based_on:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "relation_esnb_dual"
   - slurm_id: [895005]
+    cache: false
     experiment_nm: vaec_vasr_scoring_esnb_vit
     test_nm: "relation_esnb_dual"
 
 # Longer runs, on embedding dataset
-  - slurm_id: [895005]
-    experiment_nm: vaec_vasr_scoring_esnb_vit
-    test_nm: "relation_esnb_dual"
   - slurm_id: [895077]
+    cache: false
     experiment_nm: bongard_logo_scoring_esnb_vit-2
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895083]
+    cache: false
     experiment_nm: bongard_hoi_scoring_esnb-2
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895084]
+    cache: false
     experiment_nm: vaec_scoring_esnb_vit-2
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895151]
+    cache: false
     experiment_nm: vasr_scoring_esnb-2
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895095]
+    cache: false
     experiment_nm: bongard_logo_scoring_esnb_vit-2_larger
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895096]
+    cache: false
     experiment_nm: bongard_hoi_scoring_esnb-2_larger
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895155]
+    cache: false
     experiment_nm: vaec_scoring_esnb_vit-2_larger
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895156]
+    cache: false
     experiment_nm: vasr_scoring_esnb-2_larger
     test_nm: "relation_esnb_single_2"
   - slurm_id: [895081]
+    cache: false
     experiment_nm: bongard_logo_hoi_scoring_esnb_vit-2
     test_nm: "relation_esnb_dual_2"
   - slurm_id: [895152]
+    cache: false
     experiment_nm: vaec_vasr_scoring_esnb_vit-2
     test_nm: "relation_esnb_dual_2"
   - slurm_id: [895099]
+    cache: false
     experiment_nm: bongard_logo_hoi_scoring_esnb_vit-2_larger
     test_nm: "relation_esnb_dual_2"
   - slurm_id: [895157]
-  experiment_nm: vaec_vasr_scoring_esnb_vit-2_larger
+    cache: false
+    experiment_nm: vaec_vasr_scoring_esnb_vit-2_larger
     test_nm: "relation_esnb_dual_2"
+  - slurm_id: [896909]
+    cache: false
+    experiment_nm: bongard_logo_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_single
+  - slurm_id: [896910]
+    cache: false
+    experiment_nm: bongard_hoi_scoring_esnb-2
+    test_nm: relation_esnbv2_single
+  - slurm_id: [896918]
+    cache: false
+    experiment_nm: vaec_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_single
+  - slurm_id: [896919]
+    cache: false
+    experiment_nm: vasr_scoring_esnb-2
+    test_nm: relation_esnbv2_single
+    cache: False
+  - slurm_id: [896913]
+    cache: false
+    experiment_nm: bongard_logo_hoi_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_dual
+  - slurm_id: [896920]
+    cache: false
+    experiment_nm: vaec_vasr_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_dual
+    cache: False
+
+  - slurm_id: [896949]
+    cache: false
+    experiment_nm: bongard_logo_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_single-lower_lr
+  - slurm_id: [896950]
+    cache: false
+    experiment_nm: bongard_hoi_scoring_esnb-2
+    test_nm: relation_esnbv2_single-lower_lr
+  - slurm_id: [896951]
+    cache: false
+    experiment_nm: vaec_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_single-lower_lr
+  - slurm_id: [896952]
+    cache: false
+    experiment_nm: vasr_scoring_esnb-2
+    test_nm: relation_esnbv2_single-lower_lr
+  - slurm_id: [896953]
+    cache: false
+    experiment_nm: bongard_logo_hoi_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_dual-lower_lr
+  - slurm_id: [896954]
+    cache: false
+    experiment_nm: vaec_vasr_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_dual-lower_lr
+  - slurm_id: [896955]
+    cache: false
+    experiment_nm: bongard_logo_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_single-smaller_scoring
+  - slurm_id: [896956]
+    cache: false
+    experiment_nm: bongard_hoi_scoring_esnb-2
+    test_nm: relation_esnbv2_single-smaller_scoring
+  - slurm_id: [896957]
+    cache: false
+    experiment_nm: vaec_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_single-smaller_scoring
+  - slurm_id: [896958]
+    cache: false
+    experiment_nm: vasr_scoring_esnb-2
+    test_nm: relation_esnbv2_single-smaller_scoring
+  - slurm_id: [896959]
+    cache: false
+    experiment_nm: bongard_logo_hoi_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_dual-smaller_scoring
+  - slurm_id: [896960]
+    cache: false
+    experiment_nm: vaec_vasr_scoring_esnb_vit-2
+    test_nm: relation_esnbv2_dual-smaller_scoring
