@@ -1,0 +1,34 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [vasr_vit_2]
+  - override /model: scoring_model_feature_transformer_v2
+  - override /data/datamodule: single_module
+
+img_size: 256
+max_epochs: 200
+batch_size: 16
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 20
+
+# slots_every_n_steps: null # depricated - better to check on validation set
+# slots_every_n_epochs: null # depricated - better to check on validation set
+# slots_save_path: /app/out/slots
+model:
+  num_correct: 1 # depends on dataset
+  in_dim: 1024
+  use_detection: false
+  pos_emb:
+    _target_: model.models.pos_emb.PositionalEmbedding
+    out_dim: 1024 # same as in_dim
+    nrows: 2
+    ncols: 2
+    # ndim: null
+    row_wise: true # Process row by row top to bottom (row 1 col 1 -> row 1 col2 -> ... row n col 1 -> .. row n col n) (last images - answers)
+    feature_pooling: false
+  additional_metrics:
+    accuracy:
+      _target_: torchmetrics.classification.MulticlassAccuracy
+      num_classes: 4
+      average: macro
