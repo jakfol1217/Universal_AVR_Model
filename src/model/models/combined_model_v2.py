@@ -63,8 +63,11 @@ class CombinedModel(ScoringModel):
             self.pooling = nn.AdaptiveMaxPool2d((1, relational_module_abstract.object_size))
             self.relational_module_abstract = relational_module_abstract
 
+        new_real_idxes = kwargs.get("new_real_idxes")
 
         self.real_idxes = real_idxes # indexes of datasets with real-life images for training
+        if new_real_idxes is not None:
+            self.real_idxes = new_real_idxes
 
         self.limit_to_groups = limit_to_groups # whether to limit relational computations to groups (e.g. computing realtions for only 1st group in bongard problems)
 
@@ -73,6 +76,8 @@ class CombinedModel(ScoringModel):
             for _it in kwargs.keys()
             if _it.startswith("task_metric_")
         ]
+
+        self.dataloader_idx = kwargs.get("dataloader_idx")
 
         def create_module_dict(metrics_dict):
             return nn.ModuleDict(
@@ -133,6 +138,7 @@ class CombinedModel(ScoringModel):
         if relational_module_abstract is not None:
             self.freeze_module(self.relational_module_abstract, cfg.model.relational_module_abstract.freeze_module)
 
+
         if cfg.model.relational_scoring_module.freeze_module:
             if cfg.model.relational_scoring_module.transformer is None:
                 self.partial_freeze_module_mlp(self.relational_scoring_module, layers=cfg.model.relational_scoring_module.layers_to_train)
@@ -178,7 +184,7 @@ class CombinedModel(ScoringModel):
             param.requires_grad = False
         for layer in layers:
             for name, param in module.named_parameters():
-                layer_name = f"scoring_mlp.{layer}"
+                layer_name = f"scoring_mlp.mlp.{layer}"
                 if name.startswith(layer_name):
                     param.requires_grad=True
 
@@ -232,7 +238,10 @@ class CombinedModel(ScoringModel):
         pred = scores.argmax(1)
 
         ce_loss = self.loss(scores, target)  # cross entropy loss for slot image reconstruction
-        current_metrics = self.additional_metrics[dataloader_idx] # computing and reporting metrics
+        if self.dataloader_idx is not None:
+            current_metrics = self.additional_metrics[self.dataloader_idx]
+        else:
+            current_metrics = self.additional_metrics[dataloader_idx] # computing and reporting metrics
         for metric_nm, metric_func in current_metrics.items():
             value = metric_func(pred, target)
             self.log(

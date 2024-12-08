@@ -33,6 +33,7 @@ class CombinedModel(ScoringModel):
             limit_to_groups: bool = False,
             auxiliary_loss_ratio: float = 0.0,
             in_dim: int = 1024,
+            use_separate_aggregators: bool = False,
             **kwargs,
     ):
         
@@ -92,9 +93,13 @@ class CombinedModel(ScoringModel):
             self.additional_metrics = self.task_metrics
 
 
+        self.separate_aggregators = nn.ParameterList([nn.Parameter(data=torch.rand(2, requires_grad=True)) 
+                                                          for _ in range(max(len(self.task_names), self.dataloader_idx+1))])
+        
+        
+        
+        self.use_separate_aggregators = use_separate_aggregators
 
-
-        cfg_dict = OmegaConf.to_container(cfg, resolve=True, throw_on_missing=True)
 
         # loading modules from checkpoints
         self.relational_module = self.load_module_from_checkpoint(
@@ -180,9 +185,14 @@ class CombinedModel(ScoringModel):
     def is_task_abstract(self, image): # todo: how to detect if task real or abstract? for now it's hard-coded
         return image not in self.real_idxes
 
-    def forward(self, given_panels, answer_panels, isAbstract):
+    def forward(self, given_panels, answer_panels, isAbstract, idx):
         # computing scores from realtional matrices
-        rel_matrix = self.relational_module(given_panels, answer_panels)
+        if self.use_separate_aggregators:
+            rel_matrix = self.relational_module(given_panels, answer_panels, self.separate_aggregators[idx])
+        else:
+            rel_matrix = self.relational_module(given_panels, answer_panels)
+
+            
         if not isAbstract:
             scores = self.relational_scoring_module_1(rel_matrix)
         else:
@@ -216,9 +226,9 @@ class CombinedModel(ScoringModel):
             ].context_groups
         
         if self.limit_to_groups: # whether to limit relational computing to groups (e.g. computing realtions for only 1st group in bongard problems)
-            scores = self(given_panels[:, context_groups[0], :], answer_panels, isAbstract=isAbstract)
+            scores = self(given_panels[:, context_groups[0], :], answer_panels, isAbstract=isAbstract, idx=dataloader_idx)
         else:
-            scores = self(given_panels, answer_panels, isAbstract=isAbstract)
+            scores = self(given_panels, answer_panels, isAbstract=isAbstract, idx=dataloader_idx)
         
         softmax = nn.Softmax(dim=1)
         scores = softmax(scores)

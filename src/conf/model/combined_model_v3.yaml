@@ -36,7 +36,7 @@ relational_scoring_module_2:
   layers_to_train: [1]
 
 real_idxes: [0]
-
+use_separate_aggregators: false
 save_hyperparameters: true
 
 limit_to_groups: false

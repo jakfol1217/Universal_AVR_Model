@@ -29,7 +29,7 @@ relational_module_abstract:
 relational_scoring_module:
   _target_: model.models.relational_module.RelationalScoringModule
   in_dim: 80
-  hidden_dim: 128
+  hidden_dim: [128]
   pooling: 'max'
   transformer: null
   ckpt_path: null

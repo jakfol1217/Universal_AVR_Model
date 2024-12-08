@@ -1,7 +1,8 @@
 import pytorch_lightning as pl
 import torch
 import torch.nn as nn
-
+from hydra.utils import instantiate
+from omegaconf import DictConfig, OmegaConf
 
 class RelationalModule(pl.LightningModule):
     def __init__(self,
@@ -56,17 +57,26 @@ class RelationalModule(pl.LightningModule):
         return z_seq
 
 
-    def forward(self, context: torch.Tensor, answers: torch.Tensor) -> torch.Tensor:
+    def forward(self, context: torch.Tensor, answers: torch.Tensor, *args) -> torch.Tensor:
 
         relational_matrices = []
         for ans_i in range(answers.shape[1]):
             context_choice = torch.cat([context, answers[:, ans_i, :].unsqueeze(1)], dim=1) # appending answer to context
             if self.context_norm:
                 context_choice = self.apply_context_norm(context_choice)
+            
+            if torch.any(context_choice.isinf() or context_choice.isnan()):
+                print("after normalization")
+                print(context_choice)
 
             keys = self.k_trans(context_choice) # creating keys
             queries = self.q_trans(context_choice) # creating queries
-
+            if torch.any(keys.isinf() or keys.isnan()):
+                print("keys")
+                print(keys)
+            if torch.any(queries.isinf() or queries.isnan()):
+                print("queries")
+                print(queries)
             rel_matrix_1, rel_matrix_2 = self.create_relational(keys, queries)
 
             rel_matrix = torch.cat([rel_matrix_1.unsqueeze(1), rel_matrix_2.unsqueeze(1)], dim=1)
@@ -175,23 +185,84 @@ def relationalModelConstructor(use_answers_only,
                                     hierarchical)
 
 
+class RelationalModuleSymAsym(pl.LightningModule):
+    def __init__(self,
+                 cfg,
+                 object_size: int,
+                 rel_activation_func: str = "none",
+                 aggregate: bool = True,
+                 context_norm: bool = False,
+                 hierarchical: bool = False,
+                 **kwargs
+                 ):
+        super(RelationalModuleSymAsym, self).__init__()
+
+        self.aggregator = None
+        self.object_size = object_size
+        if aggregate:
+            self.aggregator = nn.Parameter(data=torch.rand(2, requires_grad=True))
+        self.rel_sym = RelationalModule(cfg=cfg,
+                                        object_size=object_size,
+                                        asymetrical=False,
+                                        rel_activation_func=rel_activation_func,
+                                        context_norm=context_norm,
+                                        hierarchical=hierarchical)
+        self.rel_asym = RelationalModule(cfg=cfg,
+                                        object_size=object_size,
+                                        asymetrical=True,
+                                        rel_activation_func=rel_activation_func,
+                                        context_norm=context_norm,
+                                        hierarchical=hierarchical)
+        
+
+    def forward(self, context: torch.Tensor, answers: torch.Tensor) -> torch.Tensor:
+
+        rel_matrix = self.rel_sym(context, answers)
+
+        rel_matrix_asym = self.rel_asym(context, answers)
+
+    
+        if self.aggregator is not None:
+            aggregator = self.aggregator.softmax(-1)
+            rel_mat_comb = torch.cat([rel_matrix.unsqueeze(2), rel_matrix_asym.unsqueeze(2)], dim=2)
+            rel_mat_comb = torch.einsum('btdch,m->btch', rel_mat_comb, aggregator)
+
+        else:
+            rel_mat_comb = torch.cat([rel_matrix, rel_matrix_asym], dim=2)
+
+        return rel_mat_comb
+
 
 class RelationalScoringModule(pl.LightningModule):
     def __init__(self,
                  cfg,
                  in_dim:int,
-                 hidden_dim: int = 256,
+                 hidden_dim: int = [256],
                  pooling: str = "max",
                  transformer: pl.LightningModule = None,
                  *args,
                  **kwargs
                  ):
         super(RelationalScoringModule, self).__init__()
-        self.scoring_mlp = nn.Sequential(
-                nn.Linear(in_dim, hidden_dim),
-                nn.ReLU(),
-                nn.Linear(hidden_dim, 1)
+
+     #   self.scoring_mlp = nn.Sequential(
+     #           nn.Linear(in_dim, hidden_dim),
+     ##           nn.ReLU(),
+     #           nn.Linear(hidden_dim, 1)
+     #   )
+        try:
+            len(hidden_dim)
+        except:
+            hidden_dim = [hidden_dim]
+            
+        self.scoring_mlp = LinearModule(
+                    cfg=None,
+                    in_dim=in_dim,
+                    hidden_dims  = hidden_dim,
+                    out_dim = 1,
         )
+
+
         if pooling == "max":
             self.pooling = nn.AdaptiveMaxPool2d((1, in_dim))
         elif pooling == "avg":
@@ -201,7 +272,23 @@ class RelationalScoringModule(pl.LightningModule):
 
         self.softmax = nn.Softmax(dim=1)
 
-        self.transformer = transformer
+
+        if isinstance(transformer, (dict, DictConfig)):
+            self.transformer=instantiate(transformer, cfg=None)
+        else:
+            self.transformer=transformer
+    #    self.transformer = ViT(
+    #        cfg= None,
+    #  dim= 13, # hidden dimension size
+    #  depth= 4 ,# transformer number of layers
+    #  heads= 2 ,# transformer number of heads
+    #  mlp_dim= 128 ,# transformer mlp dimension
+    #  pool= cls,
+    #  dim_head= 32,
+    #  dropout= 0.1,
+    #  emb_dropout= 0.0,
+    #  save_hyperparameters= False
+    #    )
 
     def forward(self, rel_matrix: torch.Tensor) -> torch.Tensor:
         answer_scores = []
@@ -255,3 +342,25 @@ class SemiDummyRelationalClassifier(pl.LightningModule):
                 return torch.Tensor(0)
             else:
                 return torch.Tensor(1)
+            
+
+class LinearModule(pl.LightningModule):
+    def __init__(
+        self,
+        cfg,
+        in_dim:int,
+        hidden_dims  = [256],
+        out_dim: int = 32,
+        *args,
+        **kwargs
+    ):
+        super().__init__()
+        dims = [in_dim, *hidden_dims, out_dim]
+        self.mlp = nn.Sequential(nn.Linear(dims[0], dims[1]))
+        for i in range(1, len(dims[:-1])):
+            self.mlp.append(nn.ReLU())
+            self.mlp.append(nn.Linear(dims[i], dims[i+1]))
+
+
+    def forward(self, input: torch.Tensor) -> torch.Tensor:
+        return self.mlp(input)
