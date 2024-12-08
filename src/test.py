@@ -77,6 +77,7 @@ def main(cfg: DictConfig) -> None:
     run_config = run.config
     run_config.update(cfg)
     run_config = DictConfig(run_config)
+
     data_module = instantiate(run_config.data.datamodule, run_config)
 
     module_kwargs = {}
@@ -85,6 +86,7 @@ def main(cfg: DictConfig) -> None:
             isinstance(run_config.model[k], (dict, DictConfig))
             and run_config.model.get(k).get("_target_") is not None
         ):
+            print(run_config.model[k])
             module_kwargs[k] = instantiate(
                 run_config.model[k], cfg=run_config, _recursive_=False
             )  # cfg/run_config, **cfg
@@ -106,10 +108,19 @@ def main(cfg: DictConfig) -> None:
     print("additional kwargs")
     print(additional_kwargs)
 
+
+
     module_class = hydra.utils.get_class(run_config.model._target_)
+
     module = module_class.load_from_checkpoint(
-        cfg.checkpoint_path, cfg=run_config, **module_kwargs, **additional_kwargs, _recursive_=False, dataloader_idx=cfg.get("dataloader_idx")
+        cfg.checkpoint_path, cfg=run_config, **module_kwargs, **additional_kwargs, _recursive_=False,
+        dataloader_idx=cfg.get("dataloader_idx"), new_real_idxes=cfg.get("new_real_idxes")
     )
+
+
+
+
+
 
     print(module)
 

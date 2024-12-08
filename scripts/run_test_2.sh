@@ -40,9 +40,36 @@ test_bongard_hoi () {
 }
 
 
-
 test_vasr () {
     test_prepare $1 $2 $3
     
     test_run vasr_vit_2
 }
+
+test_iraven () {
+    test_prepare $1 $2 $3
+    
+    test_run iraven_vit_2
+}
+
+
+test_svrt () {
+    test_prepare $1 $2 $3
+    
+    test_run svrt_vit_2
+}
+
+
+test_dsprites () {
+    test_prepare $1 $2 $3
+    
+    test_run dsprites_vit_2
+}
+
+
+test_labc () {
+    test_prepare $1 $2 $3
+    
+    test_run labc_vit_2
+}
+
