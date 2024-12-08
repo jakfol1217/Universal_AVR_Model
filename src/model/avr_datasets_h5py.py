@@ -5,8 +5,10 @@ import h5py
 import numpy as np
 import torch
 import ujson as json
+import timm
 from PIL import Image
 from torch.utils.data import DataLoader, Dataset
+from timm.data.transforms_factory import create_transform
 from torchvision.transforms import transforms
 
 
@@ -329,10 +331,26 @@ class SVRTdataset_h5py(Dataset):
 
         images = np.concatenate([context, answers])
 
-        images = [self.transforms(im) for im in images]
+        images = [self.transforms(Image.fromarray(im).convert('RGB')) for im in images]
         img = torch.stack(images)
 
         return img, target
+
+
+class SVRTdataset_h5py_vit(SVRTdataset_h5py):
+    def __init__(
+        self,
+        data_path: str,
+        dataset_type: str,
+        model_name: str,
+    ):
+        self.data_files = os.path.join(data_path, f"svrt_{dataset_type}.hy")
+        with h5py.File(self.data_files) as f:
+            self.file_length = len(f)
+
+        model = timm.create_model(model_name)
+        model_conf = timm.data.resolve_data_config({}, model=model)
+        self.transforms = create_transform(**model_conf)
 
 
 class LABCdataset_h5py(Dataset):
