@@ -841,292 +841,454 @@ experiments:
     # cache: false
     experiment_nm: vaec_vasr_scoring_esnb_vit-2
     test_nm: relation_esnbv2_dual-smaller_scoring
-## COMBINED MODEL
-# MLP
-  - slurm_id: [898869]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_MLP_scoring_none_activation
-  - slurm_id: [898870]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_MLP_scoring_none_activation
-  - slurm_id: [898871, 901275]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_MLP_scoring_none_activation
-  - slurm_id: [908290, 907094]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_MLP_scoring_none_activation_no_asymetrical
-  - slurm_id: [898878, 906268]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_MLP_scoring_none_activation
-  - slurm_id: [901271]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_MLP_scoring_none_activation
-  - slurm_id: [901272, 906270]
-    experiment_nm: vaec_vasr_combined_v2
-    test_nm: combined_MLP_scoring_none_activation
-# TRANSFORMER
-  - slurm_id: [898879]
-    experiment_nm: bongard_hoi_combined_transformer_v2
-    test_nm: transformer_scoring_none_activation
-  - slurm_id: [898870]
-    experiment_nm: bongard_logo_combined_transformer_v2
-    test_nm: transformer_scoring_none_activation
-  - slurm_id: [898871]
-    experiment_nm: bongard_hoi_bongard_logo_transformer_combined_v2
-    test_nm: transformer_scoring_none_activation
-  - slurm_id: [898878]
-    experiment_nm: vasr_combined_transformer_v2
-    test_nm: transformer_scoring_none_activation
-  - slurm_id: [901271]
-    experiment_nm: vaec_combined_transformer_v2
-    test_nm: transformer_scoring_none_activation
-  - slurm_id: [901272]
-    experiment_nm: vaec_vasr_transformer_combined_v2
-    test_nm: transformer_scoring_none_activation
-  - slurm_id: [901198]
-    experiment_nm: bongard_hoi_combined_transformer_v2
-    test_nm: transformer_larger_scoring_none_activation
-  - slurm_id: [901199]
-    experiment_nm: bongard_logo_combined_transformer_v2
-    test_nm: transformer_larger_scoring_none_activation
-  - slurm_id: [901200]
-    experiment_nm: bongard_hoi_bongard_logo_combined_transformer_v2
-    test_nm: transformer_larger_scoring_none_activation
-  - slurm_id: [901201]
-    experiment_nm: vasr_combined_transformer_v2
-    test_nm: transformer_larger_scoring_none_activation
-# PARAMETER SEARCH
-  - slurm_id: [900965, 905888]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical
-  - slurm_id: [905890]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical
-  - slurm_id: [906705]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical
-  - slurm_id: [906707]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical
-  - slurm_id: [905896]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical_no_context_norm
-  - slurm_id: [905898]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical_no_context_norm
-  - slurm_id: [906713]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical_context_norm
-  - slurm_id: [906715]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_parameter_search_asymetrical_no_context_norm
-  - slurm_id: [900966, 905892]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_parameter_search_no_context_norm
-  - slurm_id: [905894]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_parameter_search_no_context_norm
-  - slurm_id: [906705]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_parameter_search_no_context_norm
-  - slurm_id: [906707]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_parameter_search_no_context_norm
-  - slurm_id: [900967]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_parameter_search_hierarchical
-  - slurm_id: [901073]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_parameter_search_limit_to_groups
-  - slurm_id: [901263]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_parameter_search_no_asymetrical
-  - slurm_id: [901264]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_parameter_search_no_context_norm
-  - slurm_id: [901265]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_parameter_search_hierarchical
-  - slurm_id: [901266]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_parameter_search_limit_to_groups
-# FROZEN MODULES
-  - slurm_id: [901276, 908290]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_comparing_same_relationals
-  - slurm_id: [907094]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_comparing_same_relationals_no_asymetric
-  - slurm_id: [901015]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_mlp_scoring_frozen_2_hoi
-  - slurm_id: [901016]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_hoi
-  - slurm_id: [901018]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_2_hoi
-  - slurm_id: [903528]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_mlp_scoring_frozen_2_logo
-  - slurm_id: [903529]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_logo
-  - slurm_id: [903530]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_2_logo
-  - slurm_id: [903582]
-    experiment_nm: bongard_hoi_bongard_logo_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_hoi
-  - slurm_id: [906255]
-    experiment_nm: bongard_hoi_bongard_logo_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_1_hoi
-  - slurm_id: [906256]
-    experiment_nm: bongard_hoi_bongard_logo_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_1_hoi
-  - slurm_id: [905842]
-    experiment_nm: bongard_hoi_bongard_logo_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_logo
-  - slurm_id: [906257]
-    experiment_nm: bongard_hoi_bongard_logo_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_1_logo
-  - slurm_id: [906258]
-    experiment_nm: bongard_hoi_bongard_logo_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_1_logo
-  - slurm_id: [903528]
-    experiment_nm: vaec_vasr_combined_v2
-    test_nm: combined_mlp_scoring_frozen_2_vaec
-  - slurm_id: [903529]
-    experiment_nm: vaec_vasr_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_vaec
-  - slurm_id: [903530]
-    experiment_nm: vaec_vasr_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_2_vaec
-  - slurm_id: [903582]
-    experiment_nm: vaec_vasr_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_vasr
-  - slurm_id: [906255]
-    experiment_nm: vaec_vasr_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_1_vasr
-  - slurm_id: [906256]
-    experiment_nm: vaec_vasr_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_1_vasr
-  - slurm_id: [905842]
-    experiment_nm: vaec_vasr_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_vaec
-  - slurm_id: [906257]
-    experiment_nm: vaec_vasr_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_1_vaec
-  - slurm_id: [906258]
-    experiment_nm: vaec_vasr_transformer_combined_v2
-    test_nm: combined_mlp_scoring_frozen_0_1_vaec
-  - slurm_id: [905885]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_logo_frozen_relational
-  - slurm_id: [905887]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_hoi_frozen_relational
-  - slurm_id: [905889]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_logo_frozen_relational_no_asymetrical
-  - slurm_id: [905891]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_hoi_frozen_relational_no_asymetrical
-  - slurm_id: [905893]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_logo_frozen_relational_no_context_norm
-  - slurm_id: [905895]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_hoi_frozen_relational_no_context_norm
-  - slurm_id: [905897]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_logo_frozen_relational_no_asymetrical_no_context_norm
-  - slurm_id: [905899]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_hoi_frozen_relational_no_asymetrical_no_context_norm
-  - slurm_id: [906282]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_vasr_frozen_relational
-  - slurm_id: [906283]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_vaec_frozen_relational
-# SEPARATE SCORING
-  - slurm_id: [908630]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v3
-    test_nm: combined_separate_scoring
-  - slurm_id: [908632]
-    experiment_nm: bongard_hoi_vasr_combined_v3
-    test_nm: combined_separate_scoring
-  - slurm_id: [908633]
-    experiment_nm: bongard_hoi_vaec_combined_v3
-    test_nm: combined_separate_scoring
-  - slurm_id: [908972]
-    experiment_nm: vasr_vaec_combined_v3
-    test_nm: combined_separate_scoring
-  - slurm_id: [908631]
-    experiment_nm: bongard_hoi_bongard_logo_combined_v3
-    test_nm: combined_separate_scoring_no_asymetric
-  - slurm_id: [908634]
-    experiment_nm: bongard_hoi_vasr_combined_v3
-    test_nm: combined_separate_scoring_no_asymetric
-  - slurm_id: [908635]
-    experiment_nm: bongard_hoi_vaec_combined_v3
-    test_nm: combined_separate_scoring_no_asymetric
-  - slurm_id: [908973]
-    experiment_nm: vasr_vaec_combined_v3
-    test_nm: combined_separate_scoring_no_asymetric
-# FINE TUNING
-  - slurm_id: [907386]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune
-  - slurm_id: [908532]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune
-  - slurm_id: [908257]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune
-  - slurm_id: [908533]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune
-  - slurm_id: [907390]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune_no_asymetric
-  - slurm_id: [908534]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune_no_asymetric
-  - slurm_id: [908260]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune_no_asymetric
-  - slurm_id: [908535]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_bongard_hoi_bongard_logo_fine_tune_no_asymetric
-  - slurm_id: [908263]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune
-  - slurm_id: [908536]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune
-  - slurm_id: [907396]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune
-  - slurm_id: [908537]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune
-  - slurm_id: [908265]
-    experiment_nm: bongard_hoi_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
-  - slurm_id: [908538]
-    experiment_nm: bongard_logo_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
-  - slurm_id: [907400]
-    experiment_nm: vasr_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
-  - slurm_id: [908539]
-    experiment_nm: vaec_combined_v2
-    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
 # BASELINES
   - slurm_id: [907107]
     experiment_nm: bongard_hoi_baseline_v2
   - slurm_id: [907383]
     experiment_nm: vasr_baseline_v2
+# VASR TABLE
+  - slurm_id: [910528]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring
+  - slurm_id: [911632]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: small_transformer_scoring
+  - slurm_id: [910530]
+    experiment_nm: vasr_wren_scoring_trans_v2
+    test_nm: wren_scoring
+  - slurm_id: [914468]
+    experiment_nm: vasr_wren_scoring_trans
+    test_nm: wren_unpooled_scoring
+  - slurm_id: [910497]
+    experiment_nm: vasr_scoring_trans
+    test_nm: transformer_detection
+  - slurm_id: [912503]
+    experiment_nm: vasr_scoring_trans
+    test_nm: small_transformer_detection
+  - slurm_id: [910499]
+    experiment_nm: vasr_wren_scoring_trans
+    test_nm: wren_detection
+  - slurm_id: [910501]
+    experiment_nm: vasr_scoring_trans_captions
+    test_nm: transformer_detection_caption
+  - slurm_id: [912505]
+    experiment_nm: vasr_scoring_trans_captions
+    test_nm: small_transformer_detection_caption
+  - slurm_id: [910503]
+    experiment_nm: vasr_wren_scoring_trans_captions
+    test_nm: wren_detection_caption
+  - slurm_id: [910505]
+    experiment_nm: vasr_scoring_trans_captions
+    test_nm: transformer_caption
+  - slurm_id: [912507]
+    experiment_nm: vasr_scoring_trans_captions
+    test_nm: small_transformer_caption
+  - slurm_id: [910507]
+    experiment_nm: vasr_wren_scoring_trans_captions
+    test_nm: wren_caption
+  - slurm_id: [910513]
+    experiment_nm: vasr_wren_scoring_trans_v2
+    test_nm: wren_scoring_lr_higher
+  - slurm_id: [910515]
+    experiment_nm: vasr_wren_scoring_trans_v2
+    test_nm: wren_scoring_lr_lower
+  - slurm_id: [910687]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_lower_mlp
+  - slurm_id: [910689]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_higher_mlp
+  - slurm_id: [910691]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_lower_depth
+  - slurm_id: [910693]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_higher_depth
+  - slurm_id: [910695]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_higher_higher_depth
+  - slurm_id: [910697]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_lower_heads
+  - slurm_id: [910699]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_higher_heads
+  - slurm_id: [910701]
+    experiment_nm: vasr_scoring_trans_v2
+    test_nm: transformer_scoring_higher_higher_heads
+  - slurm_id: [912341]
+    experiment_nm: vasr_baseline_v2
+    test_nm: simple_scoring
+# HOI TABLE
+  - slurm_id: [910667]
+    experiment_nm: bongard_hoi_scoring_trans_v2
+    test_nm: transformer_scoring
+  - slurm_id: [911638]
+    experiment_nm: bongard_hoi_scoring_trans_v2
+    test_nm: small_transformer_scoring
+  - slurm_id: [910669]
+    experiment_nm: bongard_hoi_wren_scoring_trans_v2
+    test_nm: wren_scoring
+  - slurm_id: [912328]
+    experiment_nm: bongard_hoi_wren_scoring_trans
+    test_nm: wren_unpooled_scoring
+  - slurm_id: [910673]
+    experiment_nm: bongard_hoi_scoring_trans
+    test_nm: transformer_detection
+  - slurm_id: [912509]
+    experiment_nm: bongard_hoi_scoring_trans
+    test_nm: small_transformer_detection
+  - slurm_id: [912326]
+    experiment_nm: bongard_hoi_wren_scoring_trans
+    test_nm: wren_detection
+  - slurm_id: [910677]
+    experiment_nm: bongard_hoi_scoring_trans_captions
+    test_nm: transformer_detection_caption
+  - slurm_id: [912511]
+    experiment_nm: bongard_hoi_scoring_trans_captions
+    test_nm: small_transformer_detection_caption
+  - slurm_id: [910679]
+    experiment_nm: bongard_hoi_wren_scoring_trans_captions
+    test_nm: wren_detection_caption
+  - slurm_id: [912501]
+    experiment_nm: bongard_hoi_baseline_v2
+    test_nm: simple_scoring
+# COMBINED
+  - slurm_id: [912331]
+    experiment_nm: bongard_hoi_vasr_baseline_v2
+    test_nm: baseline_hoi_vasr_combined
+  - slurm_id: [912333]
+    experiment_nm: bongard_hoi_vasr_scoring_trans_v2
+    test_nm: transformer_hoi_vasr_combined
+  - slurm_id: [912335]
+    experiment_nm: bongard_hoi_vasr_scoring_trans_v2
+    test_nm: small_transformer_hoi_vasr_combined
+## SIMPLE RELATIONAL MODEL
+# BASELINE
+  - slurm_id: [914969]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: baseline
+  - slurm_id: [916399]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: baseline
+  - slurm_id: [914986]
+    experiment_nm: vasr_combined_v4
+    test_nm: baseline
+  - slurm_id: [914987]
+    experiment_nm: vaec_combined_v4
+    test_nm: baseline
+  - slurm_id: [916187]
+    experiment_nm: svrt_combined_v4
+    test_nm: baseline
+  - slurm_id: [916188]
+    experiment_nm: iraven_combined_v4
+    test_nm: baseline
+# PARAMETER SEARCH
+## SYMMETRIC
+  - slurm_id: [916440]
+    experiment_nm: bongard_hoi_combined_v2
+    test_nm: symmetric_only_parameter_search
+  - slurm_id: [916441]
+    experiment_nm: bongard_logo_combined_v2
+    test_nm: symmetric_only_parameter_search
+  - slurm_id: [916442]
+    experiment_nm: vasr_combined_v2
+    test_nm: symmetric_only_parameter_search
+  - slurm_id: [916443]
+    experiment_nm: vaec_combined_v2
+    test_nm: symmetric_only_parameter_search
+## ASYMMETRIC
+  - slurm_id: [916444]
+    experiment_nm: bongard_hoi_combined_v2
+    test_nm: asymmetric_only_parameter_search
+  - slurm_id: [916445]
+    experiment_nm: bongard_logo_combined_v2
+    test_nm: asymmetric_only_parameter_search
+  - slurm_id: [916446]
+    experiment_nm: vasr_combined_v2
+    test_nm: asymmetric_only_parameter_search
+  - slurm_id: [916447]
+    experiment_nm: vaec_combined_v2
+    test_nm: asymmetric_only_parameter_search
+## SOFTMAX ACTIVATION
+  - slurm_id: [914981]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: softmax_parameter_search
+  - slurm_id: [914982]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: softmax_parameter_search
+  - slurm_id: [914983]
+    experiment_nm: vasr_combined_v4
+    test_nm: softmax_parameter_search
+  - slurm_id: [914984]
+    experiment_nm: vaec_combined_v4
+    test_nm: softmax_parameter_search
+## HIERARCHICAL
+  - slurm_id: [914988]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: hierarchical_parameter_search
+  - slurm_id: [914989]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: hierarchical_parameter_search
+  - slurm_id: [914990]
+    experiment_nm: vasr_combined_v4
+    test_nm: hierarchical_parameter_search
+  - slurm_id: [914991]
+    experiment_nm: vaec_combined_v4
+    test_nm: hierarchical_parameter_search
+## DIFFERENT AGGREGATION
+  - slurm_id: [914992]
+    experiment_nm: bongard_hoi_combined_v4
+    test_nm: diff_aggregation_parameter_search
+  - slurm_id: [914993]
+    experiment_nm: bongard_logo_combined_v4
+    test_nm: diff_aggregation_parameter_search
+  - slurm_id: [914994]
+    experiment_nm: vasr_combined_v4
+    test_nm: diff_aggregation_parameter_search
+  - slurm_id: [914995]
+    experiment_nm: vaec_combined_v4
+    test_nm: diff_aggregation_parameter_search
+## NO CONTEXT
+  - slurm_id: [914996]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: no_context_parameter_search
+  - slurm_id: [914997]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: no_context_parameter_search
+  - slurm_id: [914998]
+    experiment_nm: vasr_combined_v4
+    test_nm: no_context_parameter_search
+  - slurm_id: [914999]
+    experiment_nm: vaec_combined_v4
+    test_nm: no_context_parameter_search
+## MLP HIDDEN DIM CHANGE
+  - slurm_id: [915905]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: mlp_hidden_dim_256
+  - slurm_id: [915906]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: mlp_hidden_dim_64
+  - slurm_id: [915907]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: mlp_hidden_dim_256_128
+  - slurm_id: [915908]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: mlp_hidden_dim_256_128_64
+  - slurm_id: [915909]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: mlp_hidden_dim_
+  - slurm_id: [915910]
+    experiment_nm: vasr_combined_v4
+    test_nm: mlp_hidden_dim_256
+  - slurm_id: [915911]
+    experiment_nm: vasr_combined_v4
+    test_nm: mlp_hidden_dim_64
+  - slurm_id: [915912]
+    experiment_nm: vasr_combined_v4
+    test_nm: mlp_hidden_dim_256_128
+  - slurm_id: [915913]
+    experiment_nm: vasr_combined_v4
+    test_nm: mlp_hidden_dim_256_128_64
+  - slurm_id: [915914]
+    experiment_nm: vasr_combined_v4
+    test_nm: mlp_hidden_dim_
 
+## SMALLER TRANSFORMER SCORING MODULE
+  - slurm_id: [915915]
+    experiment_nm: bongard_hoi_combined_transformer_v4
+    test_nm: small_transformer_scoring
+  - slurm_id: [915916]
+    experiment_nm: bongard_logo_combined_transformer_v4
+    test_nm: small_transformer_scoring
+  - slurm_id: [915917]
+    experiment_nm: vasr_combined_transformer_v4
+    test_nm: small_transformer_scoring
+  - slurm_id: [915918]
+    experiment_nm: vaec_combined_transformer_v4
+    test_nm: small_transformer_scoring
+## LARGER TRANSFORMER SCORING MODULE
+  - slurm_id: [915919]
+    experiment_nm: bongard_hoi_combined_transformer_v4
+    test_nm: transformer_scoring
+  - slurm_id: [915920]
+    experiment_nm: bongard_logo_combined_transformer_v4
+    test_nm: transformer_scoring
+  - slurm_id: [915921]
+    experiment_nm: vasr_combined_transformer_v4
+    test_nm: transformer_scoring
+  - slurm_id: [915922]
+    experiment_nm: vaec_combined_transformer_v4
+    test_nm: transformer_scoring
+# LIMIT TO GROUPS
+  - slurm_id: [915000]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: limit_to_group_parameter_search
+  - slurm_id: [915001]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: limit_to_group_parameter_search
+  - slurm_id: [915002]
+    experiment_nm: vasr_combined_v4
+    test_nm: limit_to_group_parameter_search
+  - slurm_id: [915003]
+    experiment_nm: vaec_combined_v4
+    test_nm: limit_to_group_parameter_search
+# FINE-TUNING
+  - slurm_id: [916409]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: bongard_hoi_logo_fine_tune
+  - slurm_id: [916432]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: bongard_hoi_logo_fine_tune
+  - slurm_id: [916427]
+    experiment_nm: vasr_combined_v4
+    test_nm: bongard_hoi_logo_fine_tune
+  - slurm_id: [916433]
+    experiment_nm: vaec_combined_v4
+    test_nm: bongard_hoi_logo_fine_tune
+  - slurm_id: [916450]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: vasr_vaec_fine_tune
+  - slurm_id: [916449]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: vasr_vaec_fine_tune
+  - slurm_id: [916448]
+    experiment_nm: vasr_combined_v4
+    test_nm: vasr_vaec_fine_tune
+  - slurm_id: [916434]
+    experiment_nm: vaec_combined_v4
+    test_nm: vasr_vaec_fine_tune
+# COMBINED RUNS
+## SEPARATE RELATIONALS COMMON SCORING
+  - slurm_id: [915004]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: separate_relationals_common_scoring
+  - slurm_id: [915006]
+    experiment_nm: bongard_hoi_vaec_combined_v4
+    test_nm: separate_relationals_common_scoring
+  - slurm_id: [915007]
+    experiment_nm: bongard_hoi_vasr_combined_v4
+    test_nm: separate_relationals_common_scoring
+  - slurm_id: [915008]
+    experiment_nm: vasr_bongard_logo_combined_v4
+    test_nm: separate_relationals_common_scoring
+  - slurm_id: [915009]
+    experiment_nm: vaec_bongard_logo_combined_v4
+    test_nm: separate_relationals_common_scoring
+  - slurm_id: [915005]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: separate_relationals_common_scoring
+## COMMON RELATIONALS COMMON SCORING
+  - slurm_id: [916166]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: common_relationals_common_scoring
+  - slurm_id: [916182]
+    experiment_nm: bongard_hoi_vaec_combined_v4
+    test_nm: common_relationals_common_scoring
+  - slurm_id: [916189]
+    experiment_nm: bongard_hoi_vasr_combined_v4
+    test_nm: common_relationals_common_scoring
+  - slurm_id: [916184]
+    experiment_nm: vasr_bongard_logo_combined_v4
+    test_nm: common_relationals_common_scoring
+  - slurm_id: [916185]
+    experiment_nm: vaec_bongard_logo_combined_v4
+    test_nm: common_relationals_common_scoring
+  - slurm_id: [916181]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: common_relationals_common_scoring
+## COMMON RELATIONALS SEPARATE SCORING
+  - slurm_id: [915019]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v5
+    test_nm: common_relationals_separate_scoring
+  - slurm_id: [915017]
+    experiment_nm: bongard_hoi_vaec_combined_v5
+    test_nm: common_relationals_separate_scoring
+  - slurm_id: [915021]
+    experiment_nm: bongard_hoi_vasr_combined_v5
+    test_nm: common_relationals_separate_scoring
+  - slurm_id: [915016]
+    experiment_nm: vasr_bongard_logo_combined_v5
+    test_nm: common_relationals_separate_scoring
+  - slurm_id: [915020]
+    experiment_nm: vaec_bongard_logo_combined_v5
+    test_nm: common_relationals_separate_scoring
+  - slurm_id: [915018]
+    experiment_nm: vasr_vaec_combined_v5
+    test_nm: common_relationals_separate_scoring
+# PARTIAL FREEZING
+  - slurm_id: [916422]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: partial_freezing_hoi_0
+  - slurm_id: [916435]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: partial_freezing_hoi_1
+  - slurm_id: [916436]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: partial_freezing_hoi_0_1
+  - slurm_id: [916437]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: partial_freezing_logo_0
+  - slurm_id: [916438]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: partial_freezing_logo_1
+  - slurm_id: [916439]
+    experiment_nm: bongard_hoi_bongard_logo_combined_v4_agg
+    test_nm: partial_freezing_logo_0_1
+  - slurm_id: [916403]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: partial_freezing_vasr_0
+  - slurm_id: [916404]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: partial_freezing_vasr_1
+  - slurm_id: [916405]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: partial_freezing_vasr_0_1
+  - slurm_id: [916406]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: partial_freezing_vaec_0
+  - slurm_id: [916407]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: partial_freezing_vaec_1
+  - slurm_id: [916408]
+    experiment_nm: vasr_vaec_combined_v4
+    test_nm: partial_freezing_vaec_0_1
+# MODULE SUBSTITUTION
+## BASELINE
+  - slurm_id: [915935]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: hoi_module_substitute
+  - slurm_id: [915936]
+    experiment_nm: vasr_combined_v4
+    test_nm: hoi_module_substitute
+  - slurm_id: [915937]
+    experiment_nm: vaec_combined_v4
+    test_nm: hoi_module_substitute
+  - slurm_id: [915938]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: vasr_module_substitute
+  - slurm_id: [915939]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: vasr_module_substitute
+  - slurm_id: [915940]
+    experiment_nm: vaec_combined_v4
+    test_nm: vasr_module_substitute
+## NO CONTEXT
+  - slurm_id: [917054]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: hoi_module_substitute_no_context
+  - slurm_id: [917055]
+    experiment_nm: vasr_combined_v4
+    test_nm: hoi_module_substitute_no_context
+  - slurm_id: [917056]
+    experiment_nm: vaec_combined_v4
+    test_nm: hoi_module_substitute_no_context
+  - slurm_id: [917057]
+    experiment_nm: bongard_hoi_combined_v4_agg
+    test_nm: vasr_module_substitute_no_context
+  - slurm_id: [917058]
+    experiment_nm: bongard_logo_combined_v4_agg
+    test_nm: vasr_module_substitute_no_context
+  - slurm_id: [917059]
+    experiment_nm: vaec_combined_v4
+    test_nm: vasr_module_substitute_no_context
