@@ -8,14 +8,9 @@ from torch import autocast
 import timm 
 import numpy as np
 from hydra.utils import instantiate
-from omegaconf import DictConfig, OmegaConf
+from omegaconf import DictConfig
 from torch import nn
 from torch.utils.checkpoint import checkpoint
-import spacy 
-from numpy import dot
-from numpy.linalg import norm 
-from transformers import pipeline
-from sentence_transformers import SentenceTransformer
 
 from .scoring_model_v1 import ScoringModel
 from .WReN_average import WReN_average
@@ -105,6 +100,15 @@ class ScoringModelWReN(ScoringModel):
         self.detection_model = None
         if use_detection:
             self.detection_model = [self.init_detection_model()]
+
+        multi_corrects = [
+            int(_it.removeprefix("num_correct_"))
+            for _it in kwargs.keys()
+            if _it.startswith("num_correct_")
+        ]
+        self.num_correct = [num_correct] + [
+            kwargs.get(f"num_correct_{_ix}") for _ix in multi_corrects
+        ]
         
         task_metrics_idxs = [ # loading additional metrics for different tasks from configuration files
             int(_it.removeprefix("task_metric_"))

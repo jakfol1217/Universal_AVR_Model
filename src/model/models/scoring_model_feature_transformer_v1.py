@@ -203,8 +203,6 @@ class ScoringModelFeatureTransformer(AVRModule):
 
                 x_seq = self.apply_context_norm(x_seq)
             if self.use_disc_pos_emb:
-                print(x_seq.shape)
-                print(disc_pos_embed.shape)
                 x_seq = torch.cat([x_seq, disc_pos_embed], dim=-1)
             else:
                 x_seq = x_seq + pos_emb_score  # TODO: add positional embeddings
