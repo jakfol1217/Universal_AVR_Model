@@ -1,0 +1,13 @@
+# @package _global_
+defaults:
+  - override /data/tasks: [bongard_logo_h5_images, vaec_images]
+  - override /data/datamodule: multi_module
+  - override /model: resnet_ae
+
+img_size: 64
+max_epochs: 500
+batch_size: 64
+lr: 0.0001
+every_n_epochs: 1
+every_n_train_steps: null
+early_stopping_patience: 500

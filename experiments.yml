@@ -5,9 +5,9 @@ experiments:
   - slurm_id: [832506]
     experiment_nm: bongard_hoi_vasr_images
     test_nm: lr_check
-  - slurm_id: [832509]
-    experiment_nm: bongard_hoi_vasr_images
-    test_nm: lr_check
+  # - slurm_id: [832509]
+  #   experiment_nm: bongard_hoi_vasr_images
+  #   test_nm: lr_check
   - slurm_id: [832509]
     experiment_nm: bongard_hoi_vasr_images
     test_nm: lr_check
@@ -267,7 +267,7 @@ experiments:
       slurm_id: 870731
       strategy: "last_ckpt"
     test_nm: "trained_slot_aux_test"
-    cache: true
+    # cache: true
   - slurm_id: [871036, 871037, 871038]
     experiment_nm: bongard_logo_vaec_images
     test_nm: "number_of_slots"
@@ -317,7 +317,7 @@ experiments:
       slurm_id: 871045
       strategy: "best_all"
     test_nm: "frozen_slot"
-    cache: true
+    # cache: true
   - slurm_id: [872979, 872980, 874335, 874336]
     experiment_nm: bongard_logo_scoring
     based_on:
@@ -373,7 +373,7 @@ experiments:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "train_slot_no_aux"
-    cache: true
+    # cache: true
 
   - slurm_id: [873751, 873752, 873753, 874360, 874361]
     experiment_nm: bongard_logo_scoring
@@ -399,7 +399,7 @@ experiments:
       slurm_id: 871052
       strategy: "best_all"
     test_nm: "train_slot_no_aux"
-    cache: true
+    # cache: true
 
   - slurm_id: [873763, 873764 ]
     experiment_nm: bongard_logo_vaec_scoring
@@ -413,7 +413,7 @@ experiments:
       slurm_id: 871037
       strategy: "best_all"
     test_nm: "train_slot_no_aux"
-    cache: true # true (defualt) - use cache, false download history information and overwrite current cached values
+    # cache: true # true (defualt) - use cache, false download history information and overwrite current cached values
 # TODO: train slot model on best with AUX learning (mse of reconstructions) and check if helps
 # verify if id match to experiment
   - slurm_id: [883848] #er, 883849, 883850, 883851]
@@ -700,14 +700,14 @@ experiments:
 # Dual analogy
   - slurm_id: [894883]
     # cache: false
-    experiment_nm: vaec_scoring_esnb
+    experiment_nm: vaec_vasr_scoring_esnb
     based_on:
       slurm_id: 871049
       strategy: "best_all"
     test_nm: "relation_esnb_dual"
   - slurm_id: [894884]
     # cache: false
-    experiment_nm: vaec_scoring_esnb
+    experiment_nm: vaec_vasr_scoring_esnb
     based_on:
       slurm_id: 871052
       strategy: "best_all"
@@ -1292,3 +1292,219 @@ experiments:
   - slurm_id: [917059]
     experiment_nm: vaec_combined_v4
     test_nm: vasr_module_substitute_no_context
+# FINE TUNING
+  - slurm_id: [907386]
+    experiment_nm: bongard_hoi_combined_v2
+    test_nm: symmetric_only_parameter_search
+  - slurm_id: [916441]
+    experiment_nm: bongard_logo_combined_v2
+    test_nm: symmetric_only_parameter_search
+  - slurm_id: [916442]
+    experiment_nm: vasr_combined_v2
+    test_nm: symmetric_only_parameter_search
+  - slurm_id: [916443]
+    experiment_nm: vaec_combined_v2
+    test_nm: symmetric_only_parameter_search
+## ASYMMETRIC
+  - slurm_id: [916444]
+    experiment_nm: bongard_hoi_combined_v2
+    test_nm: asymmetric_only_parameter_search
+  - slurm_id: [916445]
+    experiment_nm: bongard_logo_combined_v2
+    test_nm: asymmetric_only_parameter_search
+  - slurm_id: [916446]
+    experiment_nm: vasr_combined_v2
+    test_nm: asymmetric_only_parameter_search
+  - slurm_id: [916447]
+    experiment_nm: vaec_combined_v2
+    test_nm: combined_bongard_hoi_bongard_logo_fine_tune_no_asymetric
+  - slurm_id: [908263]
+    experiment_nm: bongard_hoi_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune
+  - slurm_id: [908536]
+    experiment_nm: bongard_logo_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune
+  - slurm_id: [907396]
+    experiment_nm: vasr_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune
+  - slurm_id: [908537]
+    experiment_nm: vaec_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune
+  - slurm_id: [908265]
+    experiment_nm: bongard_hoi_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
+  - slurm_id: [908538]
+    experiment_nm: bongard_logo_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
+  - slurm_id: [907400]
+    experiment_nm: vasr_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
+  - slurm_id: [908539]
+    experiment_nm: vaec_combined_v2
+    test_nm: combined_vasr_vaec_fine_tune_no_asymetric
+# BASELINES
+  - slurm_id: [907107]
+    experiment_nm: bongard_hoi_baseline_v2
+  - slurm_id: [907383]
+    experiment_nm: vasr_baseline_v2
+# # Finetune
+  - slurm_id: [910896]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910897]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910898]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910899]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910900]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910901]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910902]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910903]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910904]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910905]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910906]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910907]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910908]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910909]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910910]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910911]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910912]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910913]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910914]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910915]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910916]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910917]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910918]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910919]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910920]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910921]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910922]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910923]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910924]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910925]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910926]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910927]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910928]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910929]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910930]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910931]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910932]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [910933]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [912343]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false
+  - slurm_id: [912344]
+    experiment_nm: "finetune"
+    test_nm: "finetune_on_single_task_based_on_dual"
+    # cache: false

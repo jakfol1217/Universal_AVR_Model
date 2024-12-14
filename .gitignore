@@ -11,3 +11,4 @@ model_checkpoints/
 logs/
 slurm-*.out
 history/
+archive/

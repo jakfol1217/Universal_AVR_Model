@@ -1,0 +1,34 @@
+defaults:
+  - vaec_test3_vit/dataloader: ../../../../dataloader/default
+  - vaec_test3_vit/optimizer: ../../../../optimizer/adam
+
+vaec_test3_vit:
+  num_context_panels: 3
+  dataset:
+    target: model.avr_datasets.VAECdataset_vit
+    data_path: ${data.root}/vaec/datasets/
+    model_name: ${transformer_name}
+    train:
+      _target_: ${data.tasks.vaec_test3_vit.dataset.target}
+      dataset_type: analogy_train.hy
+      data_path: ${data.tasks.vaec_test3_vit.dataset.data_path}
+      # TODO: allow multiple or treat as separate datasets?
+      # - analogy_scale_train.hy
+      model_name: ${data.tasks.vaec_test3_vit.dataset.model_name}
+    val:
+      _target_: ${data.tasks.vaec_test3_vit.dataset.target}
+      dataset_type: analogy_test3.hy
+        # TODO: allow multiple or treat as separate datasets?
+        # TODO: split into val and test?
+        # - analogy_scale_test3.hy
+      data_path: ${data.tasks.vaec_test3_vit.dataset.data_path}
+      model_name: ${data.tasks.vaec_test3_vit.dataset.model_name}
+    test:
+      _target_: ${data.tasks.vaec_test3_vit.dataset.target}
+      dataset_type: analogy_test3.hy
+        # TODO: allow multiple or treat as separate datasets?
+        # TODO: split into val and test?
+        # - analogy_scale_test3.hy
+      data_path: ${data.tasks.vaec_test3_vit.dataset.data_path}
+      model_name: ${data.tasks.vaec_test3_vit.dataset.model_name}
+  target_loss_ratio: ${target_loss_ratio}

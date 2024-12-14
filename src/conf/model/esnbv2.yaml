@@ -1,0 +1,9 @@
+# @package model.relation_module
+_target_: model.models.ESNBv2.ESNB
+norm_type: tasksegmented_contextnorm
+# task_seg: [[0, 1],[2, 3],[2, 4],[2, 5],[2, 6]] # VAEC/VASR
+task_seg: [[0, 1, 2, 3],[0, 1, 2, 4],[0, 1, 2, 5],[0, 1, 2, 6]]
+# task_seg: [[0,1,2,3,4,5,12],[6,7,8,9,10,11,13],[0,1,2,3,4,5,13],[6,7,8,9,10,11,12]] # HOI/LOGO
+z_size: 1024
+key_size: 512
+hidden_size: 512

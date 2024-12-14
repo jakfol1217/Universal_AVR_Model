@@ -198,13 +198,23 @@ common_info = [
     lambda r, val_data, *_: {"max_epoch": int(val_data["epoch"].max())},
     extract_best_loss_model_with_accuracy,
     # datasets not working very well - config is overwritten by tests (only tasks should change)
-    lambda r, *_: {"datasets": list(next(iter(r.values())).config["data"]["tasks"].keys())}
+    lambda r, *_: {"datasets": list(next(iter(r.values())).config["data"]["tasks"].keys())},
+    lambda r, *_: {"lr": next(iter(r.values())).config["lr"]},
+    lambda r, *_: {"img_size": next(iter(r.values())).config["img_size"]},
+    lambda r, *_: {"batch_size": next(iter(r.values())).config["batch_size"]},
+    lambda r, *_: {"model/auxiliary_loss_ratio": next(iter(r.values())).config.get("model", {}).get("auxiliary_loss_ratio")},
+    lambda r, *_: {"model/num_slots": next(iter(r.values())).config.get("model", {}).get("num_slots")},
+    lambda r, *_: {"model/num_iterations": next(iter(r.values())).config.get("model", {}).get("num_iterations")},
+    lambda r, *_: {"model/hid_dim": next(iter(r.values())).config.get("model", {}).get("hid_dim")},
+    lambda r, *_: {"model/class": next(iter(r.values())).config.get("model", {}).get("_target_")},
+    lambda r, *_: {"relation-model/class": next(iter(r.values())).config.get("model", {}).get("relation_module", {}).get("_target_")},
 ]
 
 additional_info_config = {
     # based on experiment_nm and/or test_nm define lambda expressions of fields to calculate
     # lambda dict[slurm_id, wanbdb.run], valid_history, train -> dict
     "experiment_nm": {
+        "finetune": [lambda r,  *_: dict(finetuned_from=next(iter(r.values())).config["finetuned_from"]),]
         # "": lambda ...
     },
     "test_nm": {"lr_check": [lambda r, *_: dict(lr=next(iter(r.values())).config["lr"])]},

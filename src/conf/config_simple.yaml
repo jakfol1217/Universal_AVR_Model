@@ -4,7 +4,7 @@ defaults:
   # - optimizer: adam
   - data/datamodule: single_module
   # - model: stsn
-  - trainer: simple
+  - trainer: base
   - metrics: [mse, cross_entropy]
   - _self_
 data:
@@ -18,10 +18,11 @@ transformer_name: vit_large_patch32_384
 # img_size: 32
 # num_workers: 8
 # lr: 0.001
-# max_epochs: null
-# monitor: null
-# early_stopping_patience: null
-# log_every_n_steps: null
+max_epochs: 500
+monitor: val/loss
+early_stopping_patience: 500
+log_every_n_steps: 50
 # target_loss_ratio: 0.3
-# every_n_epochs: null
-# every_n_train_steps: null
+every_n_epochs: 1  # to be changed
+every_n_train_steps: null
+

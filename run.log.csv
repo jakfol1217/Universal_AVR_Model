@@ -1493,3 +1493,700 @@ vaec_vasr_scoring_esnb_vit-2_larger
 
 
 
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883848/epoch=0-step=146.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883852/epoch=119-step=17520.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883856/epoch=137-step=20148.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883860/epoch=0-step=291.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883864/epoch=134-step=39285.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883868/epoch=114-step=33465.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883873/epoch=71-step=10728.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883877/epoch=14-step=2235.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883881/epoch=42-step=6407.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883885/epoch=5-step=1788.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883889/epoch=27-step=8344.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883893/epoch=59-step=17880.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883774/epoch=12-step=1898.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883779/epoch=213-step=31244.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883783/epoch=157-step=23068.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883787/epoch=11-step=3492.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883791/epoch=67-step=19788.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883795/epoch=125-step=36666.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883799/epoch=32-step=4917.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883803/epoch=5-step=894.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883807/epoch=102-step=15347.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883811/epoch=102-step=30694.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883815/epoch=75-step=22648.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883819/epoch=92-step=27714.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883823/epoch=65-step=19668.ckpt vaec, bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883827/epoch=64-step=19370.ckpt vaec, bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883831/epoch=49-step=14900.ckpt vaec, bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883835/epoch=20-step=12495.ckpt vaec, bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883839/epoch=30-step=18445.ckpt vaec, bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/883843/epoch=21-step=13090.ckpt vaec, bongard_logo
+# TODO: Experiment below may require different dataset
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894867/epoch=88-step=12994.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894011/epoch=6-step=4074.ckpt bongard_logo
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894995/epoch=169-step=244970.ckpt bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894996/epoch=229-step=133860.ckpt bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894880/epoch=7-step=23048.ckpt bongard_logo, bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894882/epoch=7-step=23048.ckpt bongard_logo, bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895004/epoch=12-step=74893.ckpt bongard_hoi_vit, bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/893997/epoch=8-step=1341.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894015/epoch=41-step=12516.ckpt vaec
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894020/epoch=19-step=240840.ckpt vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895003/epoch=107-step=64260.ckpt vaec_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894883/epoch=1-step=96336.ckpt vaec, vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/894884/epoch=1-step=96336.ckpt vaec, vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895005/epoch=4-step=240840.ckpt vaec_vit, vasr_vit
+
+### TODO: this experiments will definitely require different datasets for test sets -2 run on embedding dataset
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895077/epoch=35-step=2628.ckpt bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895083/epoch=33-step=3094.ckpt bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895084/epoch=22-step=1725.ckpt vaec_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895151/epoch=70-step=106926.ckpt vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895095/epoch=58-step=4307.ckpt bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895096/epoch=17-step=3258.ckpt bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895155/epoch=8-step=1341.ckpt vaec_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895156/epoch=29-step=90330.ckpt vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895081/epoch=25-step=2366.ckpt bongard_hoi_vit, bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895152/epoch=1-step=3012.ckpt vaec_vit, vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895099/epoch=8-step=1629.ckpt bongard_hoi_vit, bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/895157/epoch=0-step=3011.ckpt vaec_vit, vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896909/epoch=60-step=4453.ckpt bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896910/epoch=22-step=2093.ckpt bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896918/epoch=39-step=3000.ckpt vaec_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896919/epoch=52-step=79818.ckpt vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896913/epoch=42-step=3913.ckpt bongard_hoi_vit, bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896920/epoch=1-step=3012.ckpt vaec_vit, vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896949/epoch=61-step=4526.ckpt bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896950/epoch=62-step=5733.ckpt bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896951/epoch=49-step=3750.ckpt vaec_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896952/epoch=136-step=206322.ckpt vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896953/epoch=42-step=3913.ckpt bongard_hoi_vit, bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896954/epoch=3-step=6024.ckpt vaec_vit, vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896955/epoch=39-step=2920.ckpt bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896956/epoch=23-step=2184.ckpt bongard_hoi_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896957/epoch=55-step=4200.ckpt vaec_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896958/epoch=56-step=85842.ckpt vasr_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896959/epoch=25-step=2366.ckpt bongard_hoi_vit, bongard_logo_vit
+/mnt/evafs/groups/mandziuk-lab/akaminski/model_checkpoints/896960/epoch=1-step=3012.ckpt vaec_vit
+
+test_prepare () {
+    CHECKPOINT_PATH=$1
+    LAST_ID=${2:-1}
+    ADDITIONAL_PARAMS=${3}
+    echo "Params:"
+    echo $CHECKPOINT_PATH
+    echo $LAST_ID
+    echo $ADDITIONAL_PARAMS
+}
+
+# arugments - any number of tasks to run
+test_run () {
+    echo "Slurm ids:"
+    for task_nm in ${@}; do
+        LAST_ID=$(sbatch --parsable --time=0-00:30:00 --dependency=afterany:${LAST_ID} scripts/run.sh src/test.py "checkpoint_path='${CHECKPOINT_PATH}'" data/tasks=[${task_nm}] ${ADDITIONAL_PARAMS})
+        echo -n "${LAST_ID} "
+    done
+    echo
+}
+
+test_bongard_logo () {
+    test_prepare $1 $2 $3
+
+    test_run bongard_logo_test_bd bongard_logo_test_ff bongard_logo_test_hd_comb bongard_logo_test_hd_novel
+}
+
+test_vaec () {
+    test_prepare $1 $2 $3
+
+    test_run vaec_test1 vaec_test2 vaec_test3 vaec_test4 vaec_test5
+}
+
+test_bongard_hoi () {
+    test_prepare $1 $2 $3
+
+    test_run bongard_hoi_seen-seen bongard_hoi_seen-unseen bongard_hoi_unseen-seen bongard_hoi_unseen-unseen
+}
+
+test_vasr () {
+    test_prepare $1 $2 $3
+
+    test_run vasr
+}
+
+
+test_bongard_logo /app/model_checkpoints/883848/epoch=0-step=146.ckpt
+# 906735 906736 906737 906738
+test_bongard_logo /app/model_checkpoints/883852/epoch=119-step=17520.ckpt
+# 906739 906740 906741 906742
+test_bongard_logo /app/model_checkpoints/883856/epoch=137-step=20148.ckpt
+# 906743 906744 906745 906746
+test_bongard_logo /app/model_checkpoints/883860/epoch=0-step=291.ckpt
+# 906747 906748 906749 906750
+test_bongard_logo /app/model_checkpoints/883864/epoch=134-step=39285.ckpt
+# 906751 906752 906753 906754
+test_bongard_logo /app/model_checkpoints/883868/epoch=114-step=33465.ckpt
+# 906755 906756 906757 906758
+test_vaec /app/model_checkpoints/883873/epoch=71-step=10728.ckpt
+# 906759 906760 906761 906762 906763
+test_vaec /app/model_checkpoints/883877/epoch=14-step=2235.ckpt
+# 906764 906765 906766 906767 906768
+test_vaec /app/model_checkpoints/883881/epoch=42-step=6407.ckpt
+# 906769 906770 906771 906772 906773
+test_vaec /app/model_checkpoints/883885/epoch=5-step=1788.ckpt
+# 906774 906775 906776 906777 906778
+test_vaec /app/model_checkpoints/883889/epoch=27-step=8344.ckpt
+# 906779 906780 906781 906782 906783
+test_vaec /app/model_checkpoints/883893/epoch=59-step=17880.ckpt
+# 906784 906785 906786 906787 906788
+test_bongard_logo /app/model_checkpoints/883774/epoch=12-step=1898.ckpt
+# 906789 906790 906791 906792
+test_bongard_logo /app/model_checkpoints/883779/epoch=213-step=31244.ckpt
+# 906793 906794 906795 906796
+test_bongard_logo /app/model_checkpoints/883783/epoch=157-step=23068.ckpt
+# 906797 906798 906799 906800
+test_bongard_logo /app/model_checkpoints/883787/epoch=11-step=3492.ckpt
+# 906801 906802 906803 906804
+test_bongard_logo /app/model_checkpoints/883791/epoch=67-step=19788.ckpt
+# 906805 906806 906807 906808
+test_bongard_logo /app/model_checkpoints/883795/epoch=125-step=36666.ckpt
+# 906809 906810 906811 906812
+test_vaec /app/model_checkpoints/883799/epoch=32-step=4917.ckpt
+# 906813 906814 906815 906816 906817
+test_vaec /app/model_checkpoints/883803/epoch=5-step=894.ckpt
+# 906818 906819 906820 906821 906822
+test_vaec /app/model_checkpoints/883807/epoch=102-step=15347.ckpt
+# 906823 906824 906825 906826 906827
+test_vaec /app/model_checkpoints/883811/epoch=102-step=30694.ckpt
+# 906828 906829 906830 906831 906832
+test_vaec /app/model_checkpoints/883815/epoch=75-step=22648.ckpt
+# 906833 906834 906835 906836 906837
+test_vaec /app/model_checkpoints/883819/epoch=92-step=27714.ckpt
+# 906838 906839 906840 906841 906842
+
+#### REPEAT - partially done
+#test_bongard_logo /app/model_checkpoints/894867/epoch=88-step=12994.ckpt
+## 906843 906844 906845 906846
+#test_bongard_logo /app/model_checkpoints/894011/epoch=6-step=4074.ckpt
+## 906847 906848 906849 906850
+#test_bongard_hoi /app/model_checkpoints/894995/epoch=169-step=244970.ckpt
+## 906851 906852 906853 906854
+#test_bongard_logo /app/model_checkpoints/894996/epoch=229-step=133860.ckpt #TODO REPEAT - done
+## 906855 906856 906857 906858
+#test_vaec /app/model_checkpoints/893997/epoch=8-step=1341.ckpt
+## 906859 906860 906861 906862 906863
+#test_vaec /app/model_checkpoints/894015/epoch=41-step=12516.ckpt
+## 906864 906865 906866 906867 906868
+#test_vasr /app/model_checkpoints/894020/epoch=19-step=240840.ckpt
+## 906869
+#test_vaec /app/model_checkpoints/895003/epoch=107-step=64260.ckpt #TODO REPEAT - done
+## 906870 906871 906872 906873 906874
+####
+
+test_bongard_logo /app/model_checkpoints/894867/epoch=88-step=12994.ckpt
+# 907962 907963 907964 907965
+test_bongard_logo /app/model_checkpoints/894011/epoch=6-step=4074.ckpt
+# 907966 907967 907968 907969
+test_bongard_hoi_vit /app/model_checkpoints/894995/epoch=169-step=244970.ckpt
+# 907970 907971 907972 907973
+test_bongard_logo_vit /app/model_checkpoints/894996/epoch=229-step=133860.ckpt
+# 919011 919012 919013 919014
+test_vaec /app/model_checkpoints/893997/epoch=8-step=1341.ckpt
+# 907974 907975 907976 907977 907978
+test_vaec /app/model_checkpoints/894015/epoch=41-step=12516.ckpt
+# 907979 907980 907981 907982 907983
+test_vasr_vit /app/model_checkpoints/894020/epoch=19-step=240840.ckpt
+# 907984
+test_vaec_vit /app/model_checkpoints/895003/epoch=107-step=64260.ckpt
+# 908032 908033 908034 908035 908036
+
+
+### REPEAT the same -- done
+## test_vaec /app/model_checkpoints/883823/epoch=65-step=19668.ckpt
+## # 906875 906876 906877 906878 906879
+## test_bongard_logo /app/model_checkpoints/883823/epoch=65-step=19668.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## # 906880 906881 906882 906883
+## test_vaec /app/model_checkpoints/883827/epoch=64-step=19370.ckpt
+## # 906884 906885 906886 906887 906888
+## test_bongard_logo /app/model_checkpoints/883827/epoch=64-step=19370.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## # 906889 906890 906891 906892
+## test_vaec /app/model_checkpoints/883831/epoch=49-step=14900.ckpt
+## # 906893 906894 906895 906896 906897
+## test_bongard_logo /app/model_checkpoints/883831/epoch=49-step=14900.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## # 906898 906899 906900 906901
+## test_vaec /app/model_checkpoints/883835/epoch=20-step=12495.ckpt
+## # 906902 906903 906904 906905 906906
+## test_bongard_logo /app/model_checkpoints/883835/epoch=20-step=12495.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## # 906907 906908 906909 906910
+## test_vaec /app/model_checkpoints/883839/epoch=30-step=18445.ckpt
+## # 906911 906912 906913 906914 906915
+## test_bongard_logo /app/model_checkpoints/883839/epoch=30-step=18445.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## # 906916 906917 906918 906919
+## test_vaec /app/model_checkpoints/883843/epoch=21-step=13090.ckpt
+## # 906920 906921 906922 906923 906924
+## test_bongard_logo /app/model_checkpoints/883843/epoch=21-step=13090.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## # 906925 906926 906927 906928
+
+test_vaec /app/model_checkpoints/883823/epoch=65-step=19668.ckpt
+# 907451 907452 907453 907454 907455
+test_bongard_logo /app/model_checkpoints/883823/epoch=65-step=19668.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907456 907457 907458 907459
+test_vaec /app/model_checkpoints/883827/epoch=64-step=19370.ckpt
+# 907460 907461 907462 907463 907464
+test_bongard_logo /app/model_checkpoints/883827/epoch=64-step=19370.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907465 907466 907467 907468
+test_vaec /app/model_checkpoints/883831/epoch=49-step=14900.ckpt
+# 907469 907470 907471 907472 907473
+test_bongard_logo /app/model_checkpoints/883831/epoch=49-step=14900.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907474 907475 907476 907477
+test_vaec /app/model_checkpoints/883835/epoch=20-step=12495.ckpt
+# 907478 907479 907480 907481 907482
+test_bongard_logo /app/model_checkpoints/883835/epoch=20-step=12495.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907483 907484 907485 907486
+test_vaec /app/model_checkpoints/883839/epoch=30-step=18445.ckpt
+# 907487 907488 907489 907490 907491
+test_bongard_logo /app/model_checkpoints/883839/epoch=30-step=18445.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907492 907493 907494 907495
+test_vaec /app/model_checkpoints/883843/epoch=21-step=13090.ckpt
+# 907496 907497 907498 907499 907500
+test_bongard_logo /app/model_checkpoints/883843/epoch=21-step=13090.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907501 907502 907503 907504
+
+
+####REPEAT - partially done
+#test_bongard_logo /app/model_checkpoints/894880/epoch=7-step=23048.ckpt
+## 906929 906930 906931 906932
+#test_bongard_hoi /app/model_checkpoints/894880/epoch=7-step=23048.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## 906933 906934 906935 906936
+#test_bongard_logo /app/model_checkpoints/894882/epoch=7-step=23048.ckpt
+## 906937 906938 906939 906940
+#test_bongard_hoi /app/model_checkpoints/894882/epoch=7-step=23048.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## 906941 906942 906943 906944
+#test_bongard_hoi /app/model_checkpoints/895004/epoch=12-step=74893.ckpt #TODO REPEAT - done
+## 906945 906946 906947 906948
+#test_bongard_logo /app/model_checkpoints/895004/epoch=12-step=74893.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## 906949 906950 906951 906952
+#test_vaec /app/model_checkpoints/894883/epoch=1-step=96336.ckpt
+## 906953 906954 906955 906956 906957
+#test_vasr /app/model_checkpoints/894883/epoch=1-step=96336.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## 906958
+#test_vaec /app/model_checkpoints/894884/epoch=1-step=96336.ckpt
+## 906959 906960 906961 906962 906963
+#test_vasr /app/model_checkpoints/894884/epoch=1-step=96336.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## 906964
+#test_vaec /app/model_checkpoints/895005/epoch=4-step=240840.ckpt #TODO REPEAT - done
+## 906965 906966 906967 906968 906969
+#test_vasr /app/model_checkpoints/895005/epoch=4-step=240840.ckpt $LAST_ID "+increment_dataloader_idx=1"
+## 906970
+
+test_bongard_logo /app/model_checkpoints/894880/epoch=7-step=23048.ckpt
+# 907985 907986 907987 907988
+test_bongard_hoi_vit /app/model_checkpoints/894880/epoch=7-step=23048.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907989 907990 907991 907992
+test_bongard_logo /app/model_checkpoints/894882/epoch=7-step=23048.ckpt
+# 907993 907994 907995 907996
+test_bongard_hoi_vit /app/model_checkpoints/894882/epoch=7-step=23048.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 907997 907998 907999 908000
+test_bongard_logo_vit /app/model_checkpoints/895004/epoch=12-step=74893.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908037 908038 908039 908040
+test_bongard_hoi_vit /app/model_checkpoints/895004/epoch=12-step=74893.ckpt
+# 908001 908002 908003 908004
+test_vaec /app/model_checkpoints/894883/epoch=1-step=96336.ckpt
+# 908005 908006 908007 908008 908009
+test_vasr_vit /app/model_checkpoints/894883/epoch=1-step=96336.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908010
+test_vaec /app/model_checkpoints/894884/epoch=1-step=96336.ckpt
+# 908011 908012 908013 908014 908015
+test_vasr_vit /app/model_checkpoints/894884/epoch=1-step=96336.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908016
+test_vaec_vit /app/model_checkpoints/895005/epoch=4-step=240840.ckpt
+# 908041 908042 908043 908044 908045
+test_vasr_vit /app/model_checkpoints/895005/epoch=4-step=240840.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908017
+
+test_bongard_logo_vit_2 /app/model_checkpoints/895077/epoch=35-step=2628.ckpt
+# 908046 908047 908048 908049
+test_bongard_hoi_vit_2 /app/model_checkpoints/895083/epoch=33-step=3094.ckpt
+# 908050 908051 908052 908053
+test_vaec_vit_2 /app/model_checkpoints/895084/epoch=22-step=1725.ckpt
+# 908054 908055 908056 908057 908058
+test_vasr_vit_2 /app/model_checkpoints/895151/epoch=70-step=106926.ckpt
+# 908059
+test_bongard_logo_vit_2 /app/model_checkpoints/895095/epoch=58-step=4307.ckpt
+# 908060 908061 908062 908063
+test_bongard_hoi_vit_2 /app/model_checkpoints/895096/epoch=17-step=3258.ckpt
+# 908064 908065 908066 908067
+test_vaec_vit_2 /app/model_checkpoints/895155/epoch=8-step=1341.ckpt
+# 908068 908069 908070 908071 908072
+test_vasr_vit_2 /app/model_checkpoints/895156/epoch=29-step=90330.ckpt
+# 908073
+test_bongard_logo_vit_2 /app/model_checkpoints/896909/epoch=60-step=4453.ckpt
+# 908074 908075 908076 908077
+test_bongard_hoi_vit_2 /app/model_checkpoints/896910/epoch=22-step=2093.ckpt
+# 908078 908079 908080 908081
+test_vaec_vit_2 /app/model_checkpoints/896918/epoch=39-step=3000.ckpt
+# 908082 908083 908084 908085 908086
+test_vasr_vit_2 /app/model_checkpoints/896919/epoch=52-step=79818.ckpt
+# 908087
+test_bongard_logo_vit_2 /app/model_checkpoints/896949/epoch=61-step=4526.ckpt
+# 908088 908089 908090 908091
+test_bongard_hoi_vit_2 /app/model_checkpoints/896950/epoch=62-step=5733.ckpt
+# 908092 908093 908094 908095
+test_vaec_vit_2 /app/model_checkpoints/896951/epoch=49-step=3750.ckpt
+# 908096 908097 908098 908099 908100
+test_vasr_vit_2 /app/model_checkpoints/896952/epoch=136-step=206322.ckpt
+# 908101
+test_bongard_logo_vit_2 /app/model_checkpoints/896955/epoch=39-step=2920.ckpt
+# 908102 908103 908104 908105
+test_bongard_hoi_vit_2 /app/model_checkpoints/896956/epoch=23-step=2184.ckpt
+# 908106 908107 908108 908109
+test_vaec_vit_2 /app/model_checkpoints/896957/epoch=55-step=4200.ckpt
+# 908110 908111 908112 908113 908114
+test_vasr_vit_2 /app/model_checkpoints/896958/epoch=56-step=85842.ckpt
+# 908115
+test_vaec_vit_2 /app/model_checkpoints/896960/epoch=1-step=3012.ckpt
+# 908116 908117 908118 908119 908120
+
+test_vasr_vit_2 /app/model_checkpoints/896960/epoch=1-step=3012.ckpt 896960 "+increment_dataloader_idx=1"
+# 919010
+
+test_bongard_hoi_vit_2 /app/model_checkpoints/895081/epoch=25-step=2366.ckpt
+# 908121 908122 908123 908124
+test_bongard_logo_vit_2 /app/model_checkpoints/895081/epoch=25-step=2366.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908125 908126 908127 908128
+test_vaec_vit_2 /app/model_checkpoints/895152/epoch=1-step=3012.ckpt
+# 908129 908130 908131 908132 908133
+test_vasr_vit_2 /app/model_checkpoints/895152/epoch=1-step=3012.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908134
+test_bongard_hoi_vit_2 /app/model_checkpoints/895099/epoch=8-step=1629.ckpt
+# 908135 908136 908137 908138
+test_bongard_logo_vit_2 /app/model_checkpoints/895099/epoch=8-step=1629.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908139 908140 908141 908142
+test_vaec_vit_2 /app/model_checkpoints/895157/epoch=0-step=3011.ckpt
+# 908143 908144 908145 908146 908147
+test_vasr_vit_2 /app/model_checkpoints/895157/epoch=0-step=3011.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908148
+test_bongard_hoi_vit_2 /app/model_checkpoints/896913/epoch=42-step=3913.ckpt
+# 908149 908150 908151 908152
+test_bongard_logo_vit_2 /app/model_checkpoints/896913/epoch=42-step=3913.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908153 908154 908155 908156
+test_vaec_vit_2 /app/model_checkpoints/896920/epoch=1-step=3012.ckpt
+# 908157 908158 908159 908160 908161
+test_vasr_vit_2 /app/model_checkpoints/896920/epoch=1-step=3012.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908162
+test_bongard_hoi_vit_2 /app/model_checkpoints/896953/epoch=42-step=3913.ckpt
+# 908163 908164 908165 908166
+test_bongard_logo_vit_2 /app/model_checkpoints/896953/epoch=42-step=3913.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908167 908168 908169 908170
+test_vaec_vit_2 /app/model_checkpoints/896954/epoch=3-step=6024.ckpt
+# 908171 908172 908173 908174 908175
+test_vasr_vit_2 /app/model_checkpoints/896954/epoch=3-step=6024.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908176
+test_bongard_hoi_vit_2 /app/model_checkpoints/896959/epoch=25-step=2366.ckpt
+# 908177 908178 908179 908180
+test_bongard_logo_vit_2 /app/model_checkpoints/896959/epoch=25-step=2366.ckpt $LAST_ID "+increment_dataloader_idx=1"
+# 908181 908182 908183 908184
+
+
+### finetune models trained on multiple datasets to a single specific problem
+# test.py alternative with new wandb id forcing, basing on previous - adjust data/tasks
+
+
+
+
+
+# Finetune test
+sbatch --parsable --time=0-00:05:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873670/epoch=18-step=2831.ckpt'" data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910845 # 910847 # 910848 # 910850 # 910851
+sbatch --parsable --time=0-00:02:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873670/epoch=18-step=2831.ckpt'" data/tasks=[vaec] +increment_dataloader_idx=1
+# 910846 # 910854
+
+# Finetune - based on training on >1 datasets - run on single -- lower lr (freeze embedding model?)
+
+slurm_id=874345,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=874347,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=873764,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=874369,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=883823,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=883827,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=883831,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=883835,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=883839,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=883843,experiment_nm=bongard_logo_vaec_scoring
+slurm_id=894880,experiment_nm=bongard_logo_hoi_scoring_esnb
+slurm_id=894882,experiment_nm=bongard_logo_hoi_scoring_esnb
+slurm_id=895004,experiment_nm=bongard_logo_hoi_scoring_esnb_vit
+slurm_id=895005,experiment_nm=vaec_vasr_scoring_esnb_vit
+slurm_id=895081,experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2
+slurm_id=895152,experiment_nm=vaec_vasr_scoring_esnb_vit-2
+slurm_id=895099,experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2_larger
+slurm_id=895157,experiment_nm=vaec_vasr_scoring_esnb_vit-2_larger
+slurm_id=896913,experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2
+slurm_id=896920,experiment_nm=vaec_vasr_scoring_esnb_vit-2
+slurm_id=896953,experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2
+slurm_id=896954,experiment_nm=vaec_vasr_scoring_esnb_vit-2
+slurm_id=896959,experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2
+slurm_id=896960,experiment_nm=vaec_vasr_scoring_esnb_vit-2
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873670/epoch=18-step=2831.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910896
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873670/epoch=18-step=2831.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910897
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873687/epoch=45-step=27370.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910898
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873687/epoch=45-step=27370.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910899
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873763/epoch=63-step=19072.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910900
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873763/epoch=63-step=19072.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910901
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873767/epoch=1-step=1190.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910902
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/873767/epoch=1-step=1190.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910903
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883823/epoch=65-step=19668.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910904
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883823/epoch=65-step=19668.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910905
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883827/epoch=64-step=19370.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910906
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883827/epoch=64-step=19370.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910907
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883831/epoch=49-step=14900.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910908
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883831/epoch=49-step=14900.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910909
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883835/epoch=20-step=12495.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910910
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883835/epoch=20-step=12495.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910911
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883839/epoch=30-step=18445.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910912
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883839/epoch=30-step=18445.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910913
+
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883843/epoch=21-step=13090.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_h5] +increment_dataloader_idx=0
+# 910914
+sbatch --parsable --time=1-00:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/883843/epoch=21-step=13090.ckpt'" ++lr=0.0001 data/tasks=[vaec] +increment_dataloader_idx=1
+# 910915
+
+
+874345:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/873670/epoch=18-step=2831.ckpt
+874347:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/873687/epoch=45-step=27370.ckpt
+873764:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/873763/epoch=63-step=19072.ckpt
+874369:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/873767/epoch=1-step=1190.ckpt
+883823:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/883823/epoch=65-step=19668.ckpt
+883827:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/883827/epoch=64-step=19370.ckpt
+883831:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/883831/epoch=49-step=14900.ckpt
+883835:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/883835/epoch=20-step=12495.ckpt
+883839:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/883839/epoch=30-step=18445.ckpt
+883843:experiment_nm=bongard_logo_vaec_scoring:/app/model_checkpoints/883843/epoch=21-step=13090.ckpt
+
+### skipped - same as -2 version but slower
+894880:experiment_nm=bongard_logo_hoi_scoring_esnb:/app/model_checkpoints/894880/epoch=7-step=23048.ckpt
+894882:experiment_nm=bongard_logo_hoi_scoring_esnb:/app/model_checkpoints/894882/epoch=7-step=23048.ckpt
+895004:experiment_nm=bongard_logo_hoi_scoring_esnb_vit:/app/model_checkpoints/895004/epoch=12-step=74893.ckpt
+895005:experiment_nm=vaec_vasr_scoring_esnb_vit:/app/model_checkpoints/895005/epoch=4-step=240840.ckpt
+### skipped - same as -2 version but slower
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895081/epoch=25-step=2366.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_vit_2] +increment_dataloader_idx=0
+# 910916
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895081/epoch=25-step=2366.ckpt'" ++lr=0.0001 data/tasks=[bongard_hoi_vit_2] +increment_dataloader_idx=1
+# 910917
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895099/epoch=8-step=1629.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_vit_2] +increment_dataloader_idx=0
+# 910918
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895099/epoch=8-step=1629.ckpt'" ++lr=0.0001 data/tasks=[bongard_hoi_vit_2] +increment_dataloader_idx=1
+# 910919
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896913/epoch=42-step=3913.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_vit_2] +increment_dataloader_idx=0
+# 910920
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896913/epoch=42-step=3913.ckpt'" ++lr=0.0001 data/tasks=[bongard_hoi_vit_2] +increment_dataloader_idx=1
+# 910921
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896953/epoch=42-step=3913.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_vit_2] +increment_dataloader_idx=0
+# 910922
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896953/epoch=42-step=3913.ckpt'" ++lr=0.0001 data/tasks=[bongard_hoi_vit_2] +increment_dataloader_idx=1
+# 910923
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896959/epoch=25-step=2366.ckpt'" ++lr=0.0001 data/tasks=[bongard_logo_vit_2] +increment_dataloader_idx=0
+# 910924
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896959/epoch=25-step=2366.ckpt'" ++lr=0.0001 data/tasks=[bongard_hoi_vit_2] +increment_dataloader_idx=1
+# 910925
+
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895152/epoch=1-step=3012.ckpt'" ++lr=0.0001 data/tasks=[vaec_vit_2] +increment_dataloader_idx=0
+# 910926
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895152/epoch=1-step=3012.ckpt'" ++lr=0.0001 data/tasks=[vasr_vit_2] +increment_dataloader_idx=1
+# 910927
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895157/epoch=0-step=3011.ckpt'" ++lr=0.0001 data/tasks=[vaec_vit_2] +increment_dataloader_idx=0
+# 910928
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/895157/epoch=0-step=3011.ckpt'" ++lr=0.0001 data/tasks=[vasr_vit_2] +increment_dataloader_idx=1
+# 910929
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896920/epoch=1-step=3012.ckpt'" ++lr=0.0001 data/tasks=[vaec_vit_2] +increment_dataloader_idx=0
+# 910930
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896920/epoch=1-step=3012.ckpt'" ++lr=0.0001 data/tasks=[vasr_vit_2] +increment_dataloader_idx=1
+# 910931
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896954/epoch=3-step=6024.ckpt'" ++lr=0.0001 data/tasks=[vaec_vit_2] +increment_dataloader_idx=0
+# 910932
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896954/epoch=3-step=6024.ckpt'" ++lr=0.0001 data/tasks=[vasr_vit_2] +increment_dataloader_idx=1
+# 910933
+
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896960/epoch=1-step=3012.ckpt'" ++lr=0.0001 data/tasks=[vaec_vit_2] +increment_dataloader_idx=0
+# 912343
+sbatch --parsable --time=0-03:00:00 scripts/run.sh src/main_finetune.py "checkpoint_path='/app/model_checkpoints/896960/epoch=1-step=3012.ckpt'" ++lr=0.0001 data/tasks=[vasr_vit_2] +increment_dataloader_idx=1
+# 912344
+
+
+
+895081:experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2:/app/model_checkpoints/895081/epoch=25-step=2366.ckpt
+895099:experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2_larger:/app/model_checkpoints/895099/epoch=8-step=1629.ckpt
+896913:experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2:/app/model_checkpoints/896913/epoch=42-step=3913.ckpt
+896953:experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2:/app/model_checkpoints/896953/epoch=42-step=3913.ckpt
+896959:experiment_nm=bongard_logo_hoi_scoring_esnb_vit-2:/app/model_checkpoints/896959/epoch=25-step=2366.ckpt
+
+
+895152:experiment_nm=vaec_vasr_scoring_esnb_vit-2:/app/model_checkpoints/895152/epoch=1-step=3012.ckpt
+895157:experiment_nm=vaec_vasr_scoring_esnb_vit-2_larger:/app/model_checkpoints/895157/epoch=0-step=3011.ckpt
+896920:experiment_nm=vaec_vasr_scoring_esnb_vit-2:/app/model_checkpoints/896920/epoch=1-step=3012.ckpt
+896954:experiment_nm=vaec_vasr_scoring_esnb_vit-2:/app/model_checkpoints/896954/epoch=3-step=6024.ckpt
+896960:experiment_nm=vaec_vasr_scoring_esnb_vit-2:/app/model_checkpoints/896960/epoch=1-step=3012.ckp
+
+
+## Resnet encoder model training on abstract Images
+
+
+./scripts/run_bulk.sh 1 "--time=0-00:05:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_resnet_images batch_size=256
+# TEST - 910941
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=16GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_resnet_images batch_size=64
+# 910942
+./scripts/run_bulk_2_0.sh 1 910942 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_resnet_images batch_size=64
+# 912330 # corrupted checkpoint ...
+
+./scripts/run_bulk.sh 1 "--time=1-00:00:00 --mem=32GB --gpus=1" scripts/run.sh src/main.py +experiment=bongard_logo_vaec_resnet_images batch_size=64
+# 912500
+
+
+test_bongard_logo /app/model_checkpoints/910896/epoch=286-step=41902.ckpt 910896 "+increment_dataloader_idx=0"
+# 912345 912346 912347 912348
+test_vaec /app/model_checkpoints/910897/epoch=5-step=1788.ckpt 910897 "+increment_dataloader_idx=1"
+# 912349 912350 912351 912352 912353
+test_bongard_logo /app/model_checkpoints/910898/epoch=176-step=51507.ckpt 910898 "+increment_dataloader_idx=0"
+# 912354 912355 912356 912357
+test_vaec /app/model_checkpoints/910899/epoch=2-step=1785.ckpt 910899 "+increment_dataloader_idx=1"
+# 912358 912359 912360 912361 912362
+test_bongard_logo /app/model_checkpoints/910900/epoch=36-step=5402.ckpt 910900 "+increment_dataloader_idx=0"
+# 912363 912364 912365 912366
+test_vaec /app/model_checkpoints/910901/epoch=11-step=3576.ckpt 910901 "+increment_dataloader_idx=1"
+# 912367 912368 912369 912370 912371
+test_bongard_logo /app/model_checkpoints/910902/epoch=64-step=18915.ckpt 910902 "+increment_dataloader_idx=0"
+# 912372 912373 912374 912375
+test_vaec /app/model_checkpoints/910903/epoch=4-step=2975.ckpt 910903 "+increment_dataloader_idx=1"
+# 912376 912377 912378 912379 912380
+test_bongard_logo /app/model_checkpoints/910904/epoch=193-step=28324.ckpt 910904 "+increment_dataloader_idx=0"
+# 912381 912382 912383 912384
+test_vaec /app/model_checkpoints/910905/epoch=16-step=5066.ckpt 910905 "+increment_dataloader_idx=1"
+# 912385 912386 912387 912388 912389
+test_bongard_logo /app/model_checkpoints/910906/epoch=249-step=36500.ckpt 910906 "+increment_dataloader_idx=0"
+# 912390 912391 912392 912393
+test_vaec /app/model_checkpoints/910907/epoch=51-step=15496.ckpt 910907 "+increment_dataloader_idx=1"
+# 912394 912395 912396 912397 912398
+test_bongard_logo /app/model_checkpoints/910908/epoch=237-step=34748.ckpt 910908 "+increment_dataloader_idx=0"
+# 912399 912400 912401 912402
+test_vaec /app/model_checkpoints/910909/epoch=119-step=35760.ckpt 910909 "+increment_dataloader_idx=1"
+# 912403 912404 912405 912406 912407
+test_bongard_logo /app/model_checkpoints/910910/epoch=8-step=2619.ckpt 910910 "+increment_dataloader_idx=0"
+# 912408 912409 912410 912411
+test_vaec /app/model_checkpoints/910911/epoch=11-step=7140.ckpt 910911 "+increment_dataloader_idx=1"
+# 912412 912413 912414 912415 912416
+test_bongard_logo /app/model_checkpoints/910912/epoch=139-step=40740.ckpt 910912 "+increment_dataloader_idx=0"
+# 912417 912418 912419 912420
+test_vaec /app/model_checkpoints/910913/epoch=4-step=2975.ckpt 910913 "+increment_dataloader_idx=1"
+# 912421 912422 912423 912424 912425
+test_bongard_logo /app/model_checkpoints/910914/epoch=35-step=10476.ckpt 910914 "+increment_dataloader_idx=0"
+# 912426 912427 912428 912429
+test_vaec /app/model_checkpoints/910915/epoch=62-step=37485.ckpt 910915 "+increment_dataloader_idx=1"
+# 912430 912431 912432 912433 912434
+test_bongard_logo_vit_2 /app/model_checkpoints/910916/epoch=0-step=37.ckpt 910916 "+increment_dataloader_idx=0"
+# 912513 912514 912515 912516
+test_bongard_hoi_vit_2 /app/model_checkpoints/910917/epoch=1-step=182.ckpt 910917 "+increment_dataloader_idx=1"
+# 912517 912518 912519 912520
+test_bongard_logo_vit_2 /app/model_checkpoints/910918/epoch=19-step=1460.ckpt 910918 "+increment_dataloader_idx=0"
+# 912521 912522 912523 912524
+test_bongard_hoi_vit_2 /app/model_checkpoints/910919/epoch=7-step=1448.ckpt 910919 "+increment_dataloader_idx=1"
+# 912525 912526 912527 912528
+test_bongard_logo_vit_2 /app/model_checkpoints/910920/epoch=9-step=370.ckpt 910920 "+increment_dataloader_idx=0"
+# 912529 912530 912531 912532
+test_bongard_hoi_vit_2 /app/model_checkpoints/910921/epoch=8-step=819.ckpt 910921 "+increment_dataloader_idx=1"
+# 912533 912534 912535 912536
+test_bongard_logo_vit_2 /app/model_checkpoints/910922/epoch=4-step=185.ckpt 910922 "+increment_dataloader_idx=0"
+# 912537 912538 912539 912540
+test_bongard_hoi_vit_2 /app/model_checkpoints/910923/epoch=3-step=364.ckpt 910923 "+increment_dataloader_idx=1"
+# 912541 912542 912543 912544
+test_bongard_logo_vit_2 /app/model_checkpoints/910924/epoch=2-step=111.ckpt 910924 "+increment_dataloader_idx=0"
+# 912545 912546 912547 912548
+test_bongard_hoi_vit_2 /app/model_checkpoints/910925/epoch=13-step=1274.ckpt 910925 "+increment_dataloader_idx=1"
+# 912549 912550 912551 912552
+test_vaec_vit_2 /app/model_checkpoints/910926/epoch=6-step=525.ckpt 910926 "+increment_dataloader_idx=0"
+# 912553 912554 912555 912556 912557
+test_vasr_vit_2 /app/model_checkpoints/910927/epoch=55-step=84336.ckpt 910927 "+increment_dataloader_idx=1"
+# 912558
+test_vaec_vit_2 /app/model_checkpoints/910928/epoch=4-step=745.ckpt 910928 "+increment_dataloader_idx=0"
+# 912559 912560 912561 912562 912563
+test_vasr_vit_2 /app/model_checkpoints/910929/epoch=30-step=93341.ckpt 910929 "+increment_dataloader_idx=1"
+# 912564
+test_vaec_vit_2 /app/model_checkpoints/910930/epoch=6-step=525.ckpt 910930 "+increment_dataloader_idx=0"
+# 912565 912566 912567 912568 912569
+test_vasr_vit_2 /app/model_checkpoints/910931/epoch=27-step=42168.ckpt 910931 "+increment_dataloader_idx=1"
+# 912570
+test_vaec_vit_2 /app/model_checkpoints/910932/epoch=2-step=225.ckpt 910932 "+increment_dataloader_idx=0"
+# 912571 912572 912573 912574 912575
+test_vasr_vit_2 /app/model_checkpoints/910933/epoch=27-step=42168.ckpt 910933 "+increment_dataloader_idx=1"
+# 912576
+test_vaec_vit_2 /app/model_checkpoints/912343/epoch=10-step=825.ckpt 912343 "+increment_dataloader_idx=0"
+# 913473 913474 913475 913476 913477
+test_vasr_vit_2 /app/model_checkpoints/912344/epoch=29-step=45180.ckpt 912344 "+increment_dataloader_idx=1"
+# 913478
+
+### Rerun of simple relation module with resnet model as encoder for abstract tasks
+
+#sbatch --time=0-03:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_combined_v2 batch_size=8 model.relational_module_abstract.rel_activation_func='none'
+#sbatch --time=0-05:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vaec_combined_v2 batch_size=8 model.relational_module_abstract.rel_activation_func='none'
+
+#create dataset with embeddings (this sucks)
+
+sbatch --time=0-03:00:00 --mem=40GB --gpus=1 scripts/run.sh src/create_embeddings_datasets.py --data_root=/app/data --out_root=/app/out --model_name=none --custom_model --chunk_size=32 --run_logo
+# 913589
+sbatch --time=0-03:00:00 --mem=40GB --gpus=1 scripts/run.sh src/create_embeddings_datasets.py --data_root=/app/data --out_root=/app/out --model_name=none --custom_model --chunk_size=32 --run_vaec
+# 913658
+
+#/app/model_checkpoints/912500/epoch=0-step=2083.ckpt
+
+#sbatch --time=0-03:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_combined_v2 batch_size=8 model.relational_module_abstract.rel_activation_func='none'
+
+
+# this will run only with this ``data_path = data_path.replace("vit_large_patch32_384", "resnet18_custom") # just to run without creating 20 new yamls`` added to avr_datasets.py:931
+sbatch --time=0-03:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=bongard_logo_combined_v2 batch_size=128 model.relational_module_abstract.rel_activation_func='none' model.in_dim=512 model.relational_module_abstract.object_size=512 early_stopping_patience=500
+# 913896
+sbatch --time=0-05:00:00 --mem=40GB --gpus=1 scripts/run.sh src/main.py +experiment=vaec_combined_v2 batch_size=128 model.relational_module_abstract.rel_activation_func='none' model.in_dim=512 model.relational_module_abstract.object_size=512 early_stopping_patience=500
+# 913897
+
+
+# add tests
+test_bongard_logo_vit_2 /app/model_checkpoints/913896/epoch=7-step=584.ckpt
+# 913903 913904 913905 913906
+
+test_vaec_vit_2 /app/model_checkpoints/913897/epoch=11-step=1788.ckpt
+# 914382 914383 914384 914385 914386

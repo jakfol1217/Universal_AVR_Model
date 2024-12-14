@@ -1,0 +1,3 @@
+_target_: model.models.resnet18.AE
+num_layers: 18
+save_hyperparameters: true
