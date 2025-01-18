@@ -940,6 +940,40 @@ class LABC_VITdataset(LABCdataset):
 
 
 
+class CLEVR_VITdataset(Dataset):
+    def __init__(
+            self,
+            data_path: str,
+            regimes: list[str],
+            dataset_type: str,
+            model_name: str,
+        ):
+            self.data_files = []
+            for regime in regimes:
+                files = [f for f in glob.glob(os.path.join(data_path, regime, "*.npz")) if dataset_type in f]
+                self.data_files += files
+
+
+            model = timm.create_model(model_name)
+            model_conf = timm.data.resolve_data_config({}, model=model)
+            self.transforms = create_transform(**model_conf)
+
+
+    def __len__(self):
+        return len(self.data_files)
+
+    def __getitem__(self, item):
+        data = np.load(self.data_files[item], mmap_mode='r')
+        images = data['image']
+        target = np.asarray(data['target'])
+
+        img = torch.stack([self.transforms(Image.fromarray(im.astype('uint')).convert("RGB")) for im in images])
+
+        return img, target
+
+
+
+
 class VAECSamplesDataset(Dataset):
     def __init__(
         self,
